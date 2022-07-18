@@ -63,6 +63,7 @@ endfunction()
 
 add_pxcompiler_dep(utf8proc https://github.com/JuliaStrings/utf8proc.git v2.6.1)
 add_pxcompiler_dep(fmt https://github.com/fmtlib/fmt.git 8.0.1)
+add_pxcompiler_dep(gtest https://github.com/google/googletest.git release-1.10.0)
 
 set(CMAKE_BUILD_TYPE Debug)
 
