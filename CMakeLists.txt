@@ -16,6 +16,54 @@ endif ()
 
 project(llvmtest)
 
+include(FetchContent)                   # FetchContent_ functions.
+# find_package(PkgConfig REQUIRED)        # pkg_search_module function.
+
+function(add_pxcompiler_dep NAME GIT_URL GIT_TAG)
+    string(TOLOWER "${NAME}" NAME_LOWER)    # The automatically created variables are lowercase. Footgun!
+    FetchContent_Declare(${NAME})           # Declare the resource to be fetched.
+    if (NOT ${NAME}_POPULATED)
+        # The long form of FetchContent_Populate is used since pxtidb requires control of the source folder name.
+        # This is to enable includes like #include "NAME/their_files.h".
+        FetchContent_Populate(${NAME}
+                # QUIET                                                   # Don't print verbose output while populating.
+                SOURCE_DIR ${CMAKE_BINARY_DIR}/_deps/src/${NAME}        # Source files go here.
+                BINARY_DIR ${CMAKE_BINARY_DIR}/_deps/build/${NAME}      # Build files go here.
+                SUBBUILD_DIR ${CMAKE_BINARY_DIR}/_deps/sub/${NAME}      # Sub-build files go here.
+                GIT_REPOSITORY ${GIT_URL}                               # Download from GIT_URL.
+                GIT_TAG ${GIT_TAG}                                      # Checkout the specific GIT_TAG version.
+                )
+
+        # set(MESSAGE_QUIET ON)                                                           # Silence third party includes.
+        add_subdirectory(${${NAME_LOWER}_SOURCE_DIR} ${${NAME_LOWER}_BINARY_DIR})       # Include the dependency.
+        unset(MESSAGE_QUIET)                                                            # Undo silence.
+    endif ()
+
+    # Get the date of the last git commit for the GIT_TAG branch.
+    execute_process(COMMAND git log -1 --format=%cd --date=short                        # Get the last commit's date.
+            WORKING_DIRECTORY ${${NAME_LOWER}_SOURCE_DIR}                               # From the specified git dir.
+            OUTPUT_VARIABLE GIT_LAST_COMMIT)                                            # Save to GIT_LAST_COMMIT.
+    string(STRIP "${GIT_LAST_COMMIT}" GIT_LAST_COMMIT)                                  # Remove any trailing newlines.
+
+    message(STATUS "[FOUND] ${NAME} (${GIT_URL} ${GIT_TAG} ${GIT_LAST_COMMIT})")        # Print a success message.
+endfunction()
+
+function(add_pxcompiler_dep_singlefile NAME FILE_URL)
+    string(TOLOWER "${NAME}" NAME_LOWER)    # For consistency with add_pxtidb_dep above, also use lowercase.
+    get_filename_component(FILE_NAME ${FILE_URL} NAME)                                  # Get the filename.
+    set(DOWNLOAD_FOLDER ${CMAKE_BINARY_DIR}/_deps/src/${NAME})                          # Set download folder.
+    if (EXISTS ${DOWNLOAD_FOLDER}/${FILE_NAME})                                         # Only download if required.
+        message(STATUS "[FOUND] ${NAME} (already in ${DOWNLOAD_FOLDER}, skipping download)")
+    else ()
+        file(DOWNLOAD ${FILE_URL} ${DOWNLOAD_FOLDER}/${FILE_NAME})                      # Download the file.
+        message(STATUS "[FOUND] ${NAME} (${FILE_URL})")                                 # Print a success message.
+    endif ()
+    set(${NAME_LOWER}_SOURCE_DIR ${DOWNLOAD_FOLDER} PARENT_SCOPE)                       # Set SOURCE_DIR in parent.
+endfunction()
+
+add_pxcompiler_dep(utf8proc https://github.com/JuliaStrings/utf8proc.git v2.6.1)
+add_pxcompiler_dep(fmt https://github.com/fmtlib/fmt.git 8.0.1)
+
 set(CMAKE_BUILD_TYPE Debug)
 
 
@@ -52,7 +100,11 @@ link_directories(${LLVM_BUILD_LIBRARY_DIR})
 include_directories(${MLIR_INCLUDE_DIRS})
 
 include_directories(include/)
+include_directories(src/include/)
+# include_directories(src/include/)
+# include_directories()
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
+include_directories(${CMAKE_CURRENT_BINARY_DIR}/_deps/src/fmt/include)
 
 set(LLVM_COMPONENTS Support)
 
@@ -63,10 +115,19 @@ set(LIBS
     LLVMLinker
 )
 
+# Get the list of all pxtidb sources.
+file(GLOB_RECURSE
+        PXCOMPILER_SRCS                  # Store the list of files into the variable ${PXTIDB_SRCS}.
+        CONFIGURE_DEPENDS               # See above. Ask CMake to regenerate the build system if these files change.
+        ${PROJECT_SOURCE_DIR}/src/*.cc
+        ${PROJECT_SOURCE_DIR}/src/include/*.h
+        )
+
 add_llvm_executable(llvmtest
-  main.cpp
-  ir_test.cpp
-  lexer.cpp
+  main.cc
+  ir_test.cc
+  llvmtest.cc
+  ${PXCOMPILER_SRCS}
 )
 
 llvm_update_compile_flags(llvmtest)
@@ -85,6 +146,12 @@ target_link_libraries(llvmtest
     LLVMX86AsmParser
     # MLIRFunc
     MLIRFuncToLLVM
+)
+
+target_link_libraries(llvmtest
+  PRIVATE
+  utf8proc
+  ${CMAKE_CURRENT_BINARY_DIR}/_deps/build/fmt/libfmt.a
 )
 
 # add generated grammar to demo binary target
