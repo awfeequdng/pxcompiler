@@ -82,6 +82,7 @@ target_link_libraries(llvmtest
     MLIRSideEffectInterfaces
     MLIRTransforms
     MLIRDialect
+    LLVMX86AsmParser
     # MLIRFunc
     MLIRFuncToLLVM
 )
