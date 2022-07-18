@@ -49,9 +49,12 @@ public:
 
     void updatePos(const Pos &pos) { seek(pos._offset); }
 
-    inline bool is_newline(size_t index) const;
-    inline bool is_dot(size_t index) const;
-    inline bool is_doble_quote(size_t index) const;
+    bool is_newline(size_t index) const;
+    bool is_dot(size_t index) const;
+    bool is_doble_quote(size_t index) const;
+    // inline bool is_newline(size_t index) const;
+    // inline bool is_dot(size_t index) const;
+    // inline bool is_doble_quote(size_t index) const;
 
 private:
     rune_t read(uint32_t &width) const;

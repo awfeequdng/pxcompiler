@@ -62,10 +62,13 @@ function(add_pxcompiler_dep_singlefile NAME FILE_URL)
 endfunction()
 
 add_pxcompiler_dep(utf8proc https://github.com/JuliaStrings/utf8proc.git v2.6.1)
-add_pxcompiler_dep(fmt https://github.com/fmtlib/fmt.git 8.0.1)
+# add_pxcompiler_dep(fmt https://github.com/fmtlib/fmt.git 9.0.0)
 add_pxcompiler_dep(gtest https://github.com/google/googletest.git release-1.10.0)
 
-set(CMAKE_BUILD_TYPE Debug)
+add_subdirectory(third_party/fmt)
+# find_package(fmt)
+
+# set(CMAKE_BUILD_TYPE Debug)
 
 
 SET (CMAKE_CXX_STANDARD 17)
@@ -102,10 +105,7 @@ include_directories(${MLIR_INCLUDE_DIRS})
 
 include_directories(include/)
 include_directories(src/include/)
-# include_directories(src/include/)
-# include_directories()
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
-include_directories(${CMAKE_CURRENT_BINARY_DIR}/_deps/src/fmt/include)
 
 set(LLVM_COMPONENTS Support)
 
@@ -152,7 +152,7 @@ target_link_libraries(llvmtest
 target_link_libraries(llvmtest
   PRIVATE
   utf8proc
-  ${CMAKE_CURRENT_BINARY_DIR}/_deps/build/fmt/libfmt.a
+  fmt::fmt
 )
 
 # add generated grammar to demo binary target
