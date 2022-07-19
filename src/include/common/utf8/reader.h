@@ -6,6 +6,7 @@
 #include <functional>
 
 #include "common/utf8/rune.h"
+#include "common/pos.h"
 
 namespace common::utf8 {
 

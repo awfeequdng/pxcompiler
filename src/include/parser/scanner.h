@@ -17,12 +17,12 @@ public:
     void reset(std::string text);
     // std::string stmtText();
     int getNextToken();
-    std::tuple<int, common::utf8::Pos, std::string> scan();
+    std::tuple<int, common::Pos, std::string> scan();
     common::utf8::rune_t skipWhitespace();
     int isTokenIdentifier(std::string lit, int offset);
     std::shared_ptr<common::utf8::reader_t> reader() { return _reader; }
 
-    std::tuple<int, common::utf8::Pos, std::string> scanString();
+    std::tuple<int, common::Pos, std::string> scanString();
 
     // InheritScanner returns a new scanner object which inherits configurations from the parent scanner.
     ScannerPtr InheritScanner(std::string text) {
@@ -36,7 +36,7 @@ public:
     void scanOct();
     void scanHex();
     void scanBit();
-    std::tuple<int, common::utf8::Pos, std::string> scanFloat(const common::utf8::Pos &beg);
+    std::tuple<int, common::Pos, std::string> scanFloat(const common::Pos &beg);
     std::string scanDigits();
 
     std::string stmtText();

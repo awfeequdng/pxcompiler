@@ -17,7 +17,7 @@ struct lazyBuf {
     bool _useBuf;
     std::shared_ptr<common::utf8::reader_t> _reader;
     std::stringbuf &_buf;
-    const common::utf8::Pos &_pos;
+    const common::Pos &_pos;
 
     void setUseBuf(std::string str) {
         if (!_useBuf) {
@@ -76,7 +76,7 @@ int Scanner::getNextToken() {
     return tok;
 }
 
-std::tuple<int, common::utf8::Pos, std::string> Scanner::scan() {
+std::tuple<int, common::Pos, std::string> Scanner::scan() {
     auto ch0 = _reader->peek();
     if (ch0.is_space()) {
         ch0 = skipWhitespace();
@@ -148,7 +148,7 @@ common::utf8::rune_t handleEscape(Scanner &scanner) {
     return ch0;
 }
 
-std::tuple<int, common::utf8::Pos, std::string> Scanner::scanString() {
+std::tuple<int, common::Pos, std::string> Scanner::scanString() {
     auto tok = tok_stringLit;
     auto pos = _reader->pos();
     auto ending = _reader->next();
@@ -196,7 +196,7 @@ void Scanner::scanBit() {
     _reader->incAsLongAs([](common::utf8::rune_t ch) { return ch == '0' || ch == '1'; });
 }
 
-std::tuple<int, common::utf8::Pos, std::string> Scanner::scanFloat(const common::utf8::Pos &beg) {
+std::tuple<int, common::Pos, std::string> Scanner::scanFloat(const common::Pos &beg) {
     _reader->updatePos(beg);
     // float = D1 . D2 e D3
     scanDigits();

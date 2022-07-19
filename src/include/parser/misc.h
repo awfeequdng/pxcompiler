@@ -20,7 +20,7 @@ inline bool isUserVarChar(common::utf8::rune_t ch) {
 
 inline bool isSpace(common::utf8::rune_t ch) { return ch.is_space(); }
 
-typedef std::function<std::tuple<int, common::utf8::Pos, std::string>(parser::Scanner &)> trieFunc;
+typedef std::function<std::tuple<int, common::Pos, std::string>(parser::Scanner &)> trieFunc;
 struct trieNode {
 #define BYTE_MAX 255
     std::shared_ptr<trieNode> childs[BYTE_MAX + 1];

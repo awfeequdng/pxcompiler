@@ -2,6 +2,8 @@
 #include <string>
 #include <iostream>
 
+#include "common/pos.h"
+
 using namespace std;
 
 namespace ast {
@@ -47,18 +49,6 @@ struct Node : public std::enable_shared_from_this<Node> {
 // ExprNode is a node that can be evaluated.
 // Name of implementations should have 'Expr' suffix.
 struct ExprNode : Node {
-    uint64 flag;
-    // SetFlag sets flag to the expression.
-    // Flag indicates whether the expression contains
-    // parameter marker, reference, aggregate function...
-    virtual void SetFlag(uint64 flg) {
-        this->flag = flg;
-    }
-    // GetFlag returns the flag of the expression.
-    virtual uint64 GetFlag() {
-        return flag;
-    }
-
     // Format formats the AST into a writer.
     virtual void Format(std::iostream &writer) = 0;
 };
@@ -90,4 +80,37 @@ struct Visitor {
     virtual bool Leave(NodePtr n, NodePtr node) = 0;
 };
 using VisitorPtr = std::shared_ptr<Visitor>;
-}
+
+// All expression nodes implement the Expr interface.
+class Expr : public Node {
+public:
+    virtual void exprNode() = 0;
+};
+
+// All statement nodes implement the Stmt interface.
+class Stmt : public Node {
+public:
+    virtual void stmtNode() = 0;
+};
+
+// All declaration nodes implement the Decl interface.
+class Decl : public Node {
+public:
+    virtual void declNode() = 0;
+};
+
+// ----------------------------------------------------------------------------
+// Comments
+
+// A Comment node represents a single //-style or /*-style comment.
+//
+// The Text field contains the comment text without carriage returns (\r) that
+// may have been present in the source. Because a comment's end position is
+// computed using len(Text), the position reported by End() does not match the
+// true source end position for comments containing carriage returns.
+class Comment : public Node {
+	common::Pos slash; // position of "/" starting the comment
+	std::string text; // comment text (excluding '\n' for //-style comments)
+};
+
+} // namespace ast
