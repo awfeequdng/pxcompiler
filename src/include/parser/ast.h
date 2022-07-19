@@ -1,12 +1,15 @@
 #pragma once
 #include <string>
 #include <iostream>
+#include <memory>
+#include <vector>
 
 #include "common/pos.h"
+#include "parser/token.h"
 
 using namespace std;
 
-namespace ast {
+namespace   {
 
 typedef uint64_t uint64;
 typedef int64_t int64;
@@ -27,7 +30,7 @@ struct Node : public std::enable_shared_from_this<Node> {
     // assign the returned node to its method receiver, if skipChildren returns true,
     // children should be skipped. Otherwise, call its children in particular order that
     // later elements depends on former elements. Finally, return visitor.Leave.
-    virtual bool Accept(Visitor *v, Node *node) = 0;
+    virtual bool Accept(Visitor *v, Node *node) {};
     // Text returns the original text of the element.
     virtual std::string Text() { return text; }
     // SetText sets original text to the Node.
@@ -35,7 +38,6 @@ struct Node : public std::enable_shared_from_this<Node> {
 
     virtual ~Node() = default;
 };
-
 
 // Flags indicates whether an expression contains certain types of expression.
 
@@ -84,19 +86,19 @@ using VisitorPtr = std::shared_ptr<Visitor>;
 // All expression nodes implement the Expr interface.
 class Expr : public Node {
 public:
-    virtual void exprNode() = 0;
+    virtual void exprNode() {};
 };
 
 // All statement nodes implement the Stmt interface.
 class Stmt : public Node {
 public:
-    virtual void stmtNode() = 0;
+    virtual void stmtNode() {};
 };
 
 // All declaration nodes implement the Decl interface.
 class Decl : public Node {
 public:
-    virtual void declNode() = 0;
+    virtual void declNode() {};
 };
 
 // ----------------------------------------------------------------------------
@@ -109,8 +111,109 @@ public:
 // computed using len(Text), the position reported by End() does not match the
 // true source end position for comments containing carriage returns.
 class Comment : public Node {
+public:
+    inline common::Pos pos() { return slash; }
+
 	common::Pos slash; // position of "/" starting the comment
 	std::string text; // comment text (excluding '\n' for //-style comments)
 };
 
-} // namespace ast
+using CommentPtr = std::shared_ptr<Comment>;
+
+// A CommentGroup represents a sequence of comments
+// with no other tokens and no empty lines between.
+//
+class CommentGroup : public Node {
+public:
+    std::vector<CommentPtr> list; // list.size() > 0
+};
+using CommentGroupPtr = std::shared_ptr<CommentGroup>;
+
+// An Ident node represents an identifier.
+class Ident : public Node {
+public:
+	common::Pos namePos;    // identifier position
+	std::string name;       // identifier name
+};
+using IdentPtr = std::shared_ptr<Ident>;
+
+
+// An Ellipsis node stands for the "..." type in a
+// parameter list or the "..." length in an array type.
+//
+class Ellipsis {
+public:
+    common::Pos ellipsis;   // position of "..."
+    Expr elt;               // ellipsis element type (parameter lists only); or nil
+};
+
+// A BasicLit node represents a literal of basic type.
+//
+// Note that for the CHAR and STRING kinds, the literal is stored
+// with its quotes. For example, for a double-quoted STRING, the
+// first and the last rune in the Value field will be ". The
+// Unquote and UnquoteChar functions in the strconv package can be
+// used to unquote STRING and CHAR values, respectively.
+class BasicLit : public Node {
+public:
+	common::Pos valuePos;   // literal position
+	Token       kind;       // Token.tok_intLit, Token.tok_floatLit, Token.IMAG, Token.tok_charLit, or Token.tok_stringLit
+	std::string value;      // literal string; e.g. 42, 0x7f, 3.14, 1e-9, 2.4i, 'a', '\x7f', "foo" or `\m\n\o`
+};
+using BasicLitPtr = std::shared_ptr<BasicLit>;
+
+// ----------------------------------------------------------------------------
+// Expressions and types
+// A Field represents a Field declaration list in a struct type,
+// a method list in an interface type, or a parameter/result declaration
+// in a signature.
+// Field.Names is nil for unnamed parameters (parameter lists which only contain types)
+// and embedded struct fields. In the latter case, the field name is the type name.
+//
+class Field : public Node {
+public:
+	CommentGroupPtr Doc;            // associated documentation; or nil
+	std::vector<IdentPtr> names;    // field/method/parameter names; or nil
+	Expr    Type;                   // field/method/parameter type
+	BasicLitPtr Tag;               // field tag; or nil
+	CommentGroupPtr Comment;         // line comments; or nil
+};
+using FieldPtr = std::shared_ptr<Field>;
+using FieldList = std::vector<Field>;
+
+// An ArrayType node represents an array or slice type.
+class ArrayType {
+public:
+	common::Pos lbrackPos; // position of "["
+	Expr len;           // Ellipsis node for [...]T array types, nil for slice types
+	Expr elt;           // element type
+};
+
+// A StructType node represents a struct type.
+class StructType {
+public:
+	common::Pos structPos;          // position of "struct" keyword
+	FieldList fields;               // list of field declarations
+	bool incomplete;                // true if (source) fields are missing in the Fields list
+};
+
+// Pointer types are represented via StarExpr nodes.
+
+// A FuncType node represents a function type.
+class FuncType {
+public:
+	common::Pos funcPos;   // position of "func" keyword (token.NoPos if there is no "func")
+	FieldList params;   // (incoming) parameters; non-nil
+	FieldList results;  // (outgoing) results; or nil
+};
+
+// A MapType node represents a map type.
+class MapType {
+public:
+	common::Pos mapPos;   // position of "map" keyword
+	Expr key;
+	Expr value;
+};
+
+
+} // namespace parser
