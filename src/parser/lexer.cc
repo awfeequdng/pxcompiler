@@ -6,6 +6,7 @@
 namespace parser {
 
 std::tuple<int, common::Pos, std::string> startWithAt(Scanner &s) {
+
     return {};
 }
 

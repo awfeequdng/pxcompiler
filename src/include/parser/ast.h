@@ -9,15 +9,117 @@
 
 using namespace std;
 
-namespace   {
+namespace parser {
 
 typedef uint64_t uint64;
 typedef int64_t int64;
 
 struct Visitor;
 struct Node;
-
 using NodePtr = std::shared_ptr<Node>;
+
+struct BlockStmt;
+struct BranchStmt;
+struct ExprStmt;
+struct CommClause;
+
+using BlockStmtPtr = std::shared_ptr<BlockStmt>;
+using BranchStmtPtr = std::shared_ptr<BranchStmt>;
+using ExprStmtPtr = std::shared_ptr<ExprStmt>;
+using CommClausePtr = std::shared_ptr<CommClause>;
+
+struct Ellipsis;
+struct BasicLit;
+struct Field;
+struct ArrayType;
+struct StructType;
+struct FuncType;
+struct MapType;
+struct FuncLit;
+struct CompositeLit;
+struct DeclStmt;
+struct EmptyStmt;
+struct SwitchStmt;
+struct RangeStmt;
+struct SendStmt;
+struct AssignStmt;
+struct ReturnStmt;
+struct IfStmt;
+struct SelectStmt;
+struct LabeledStmt;
+struct DeferStmt;
+struct ForStmt;
+struct IncDecStmt;
+struct CaseClause;
+struct TypeSwitchStmt;
+struct GoStmt;
+using EllipsisPtr = std::shared_ptr<Ellipsis>;
+using BasicLitPtr = std::shared_ptr<BasicLit>;
+using FieldList = std::vector<Field>;
+using ArrayTypePtr = std::shared_ptr<ArrayType>;
+using StructTypePtr = std::shared_ptr<StructType>;
+using FuncTypePtr = std::shared_ptr<FuncType>;
+using MapTypePtr = std::shared_ptr<MapType>;
+using FuncLitPtr = std::shared_ptr<FuncLit>;
+using CompositeLitPtr = std::shared_ptr<CompositeLit>;
+using DeclStmtPtr = std::shared_ptr<DeclStmt>;
+using EmptyStmtPtr = std::shared_ptr<EmptyStmt>;
+using SwitchStmtPtr = std::shared_ptr<SwitchStmt>;
+using RangeStmtPtr = std::shared_ptr<RangeStmt>;
+using SendStmtPtr = std::shared_ptr<SendStmt>;
+using AssignStmtPtr = std::shared_ptr<AssignStmt>;
+using ReturnStmtPtr = std::shared_ptr<ReturnStmt>;
+using IfStmtPtr = std::shared_ptr<IfStmt>;
+using SelectStmtPtr = std::shared_ptr<SelectStmt>;
+using LabeledStmtPtr = std::shared_ptr<LabeledStmt>;
+using DeferStmtPtr = std::shared_ptr<DeferStmt>;
+using ForStmtPtr = std::shared_ptr<ForStmt>;
+using IncDecStmtPtr = std::shared_ptr<IncDecStmt>;
+using CaseClausePtr = std::shared_ptr<CaseClause>;
+using TypeSwitchStmtPtr = std::shared_ptr<TypeSwitchStmt>;
+using GoStmtPtr = std::shared_ptr<GoStmt>;
+
+
+struct FuncNode;
+struct Visitor;
+struct Expr;
+struct Stmt;
+struct Decl;
+struct Comment;
+struct CommentGroup;
+struct Ident;
+struct Field;
+using FuncNodePtr = std::shared_ptr<FuncNode>;
+using VisitorPtr = std::shared_ptr<Visitor>;
+using ExprPtr = std::shared_ptr<Expr>;
+using StmtPtr = std::shared_ptr<Stmt>;
+using DeclPtr = std::shared_ptr<Decl>;
+using CommentPtr = std::shared_ptr<Comment>;
+using CommentGroupPtr = std::shared_ptr<CommentGroup>;
+using IdentPtr = std::shared_ptr<Ident>;
+using FieldPtr = std::shared_ptr<Field>;
+
+struct SliceExpr;
+struct CallExpr;
+struct KeyValueExpr;
+struct KeyValueExpr;
+struct StarExpr;
+struct UnaryExpr;
+struct BinaryExpr;
+struct ParenExpr;
+struct SelectorExpr;
+struct IndexExpr;
+struct TypeAssertExpr;
+using SliceExprPtr = std::shared_ptr<SliceExpr>;
+using CallExprPtr = std::shared_ptr<CallExpr>;
+using KeyValueExprPtr = std::shared_ptr<KeyValueExpr>;
+using StarExprPtr = std::shared_ptr<StarExpr>;
+using UnaryExprPtr = std::shared_ptr<UnaryExpr>;
+using BinaryExprPtr = std::shared_ptr<BinaryExpr>;
+using ParenExprPtr = std::shared_ptr<ParenExpr>;
+using SelectorExprPtr = std::shared_ptr<SelectorExpr>;
+using IndexExprPtr = std::shared_ptr<IndexExpr>;
+using TypeAssertExprPtr = std::shared_ptr<TypeAssertExpr>;
 // Node is the basic element of the AST.
 // Interfaces embed Node should have 'Node' name suffix.
 struct Node : public std::enable_shared_from_this<Node> {
@@ -30,7 +132,7 @@ struct Node : public std::enable_shared_from_this<Node> {
     // assign the returned node to its method receiver, if skipChildren returns true,
     // children should be skipped. Otherwise, call its children in particular order that
     // later elements depends on former elements. Finally, return visitor.Leave.
-    virtual bool Accept(Visitor *v, Node *node) {};
+    virtual bool Accept(Visitor *v, Node *node) = 0;
     // Text returns the original text of the element.
     virtual std::string Text() { return text; }
     // SetText sets original text to the Node.
@@ -57,16 +159,15 @@ struct ExprNode : Node {
 using ExprNodePtr = std::shared_ptr<ExprNode>;
 
 // OptBinary is used for parser.
-struct OptBinary {
+struct OptBinary : Node {
     bool IsBinary;
     std::string Charset;
 };
 
 // FuncNode represents function call expression node.
-struct FuncNode : ExprNode {
+struct FuncNode : public ExprNode {
     virtual void functionExpression() {};
 };
-using FuncNodePtr = std::shared_ptr<FuncNode>;
 
 // Visitor visits a Node.
 struct Visitor {
@@ -81,24 +182,23 @@ struct Visitor {
     // ok returns false to stop visiting.
     virtual bool Leave(NodePtr n, NodePtr node) = 0;
 };
-using VisitorPtr = std::shared_ptr<Visitor>;
 
 // All expression nodes implement the Expr interface.
 class Expr : public Node {
 public:
-    virtual void exprNode() {};
+    virtual void exprNode() = 0;
 };
 
 // All statement nodes implement the Stmt interface.
 class Stmt : public Node {
 public:
-    virtual void stmtNode() {};
+    virtual void stmtNode() = 0;
 };
 
 // All declaration nodes implement the Decl interface.
 class Decl : public Node {
 public:
-    virtual void declNode() {};
+    virtual void declNode() = 0;
 };
 
 // ----------------------------------------------------------------------------
@@ -118,8 +218,6 @@ public:
 	std::string text; // comment text (excluding '\n' for //-style comments)
 };
 
-using CommentPtr = std::shared_ptr<Comment>;
-
 // A CommentGroup represents a sequence of comments
 // with no other tokens and no empty lines between.
 //
@@ -127,7 +225,6 @@ class CommentGroup : public Node {
 public:
     std::vector<CommentPtr> list; // list.size() > 0
 };
-using CommentGroupPtr = std::shared_ptr<CommentGroup>;
 
 // An Ident node represents an identifier.
 class Ident : public Node {
@@ -135,16 +232,14 @@ public:
 	common::Pos namePos;    // identifier position
 	std::string name;       // identifier name
 };
-using IdentPtr = std::shared_ptr<Ident>;
-
 
 // An Ellipsis node stands for the "..." type in a
 // parameter list or the "..." length in an array type.
 //
-class Ellipsis {
+class Ellipsis : public Node {
 public:
     common::Pos ellipsis;   // position of "..."
-    Expr elt;               // ellipsis element type (parameter lists only); or nil
+    ExprPtr elt;               // ellipsis element type (parameter lists only); or nil
 };
 
 // A BasicLit node represents a literal of basic type.
@@ -160,7 +255,6 @@ public:
 	Token       kind;       // Token.tok_intLit, Token.tok_floatLit, Token.IMAG, Token.tok_charLit, or Token.tok_stringLit
 	std::string value;      // literal string; e.g. 42, 0x7f, 3.14, 1e-9, 2.4i, 'a', '\x7f', "foo" or `\m\n\o`
 };
-using BasicLitPtr = std::shared_ptr<BasicLit>;
 
 // ----------------------------------------------------------------------------
 // Expressions and types
@@ -174,23 +268,21 @@ class Field : public Node {
 public:
 	CommentGroupPtr Doc;            // associated documentation; or nil
 	std::vector<IdentPtr> names;    // field/method/parameter names; or nil
-	Expr    Type;                   // field/method/parameter type
+	ExprPtr    Type;                   // field/method/parameter type
 	BasicLitPtr Tag;               // field tag; or nil
 	CommentGroupPtr Comment;         // line comments; or nil
 };
-using FieldPtr = std::shared_ptr<Field>;
-using FieldList = std::vector<Field>;
 
 // An ArrayType node represents an array or slice type.
-class ArrayType {
+class ArrayType : public Node {
 public:
 	common::Pos lbrackPos; // position of "["
-	Expr len;           // Ellipsis node for [...]T array types, nil for slice types
-	Expr elt;           // element type
+	ExprPtr len;           // Ellipsis node for [...]T array types, nil for slice types
+	ExprPtr elt;           // element type
 };
 
 // A StructType node represents a struct type.
-class StructType {
+class StructType : public Node {
 public:
 	common::Pos structPos;          // position of "struct" keyword
 	FieldList fields;               // list of field declarations
@@ -200,7 +292,7 @@ public:
 // Pointer types are represented via StarExpr nodes.
 
 // A FuncType node represents a function type.
-class FuncType {
+class FuncType : public Node {
 public:
 	common::Pos funcPos;   // position of "func" keyword (token.NoPos if there is no "func")
 	FieldList params;   // (incoming) parameters; non-nil
@@ -208,12 +300,221 @@ public:
 };
 
 // A MapType node represents a map type.
-class MapType {
+class MapType : public Node {
 public:
 	common::Pos mapPos;   // position of "map" keyword
-	Expr key;
-	Expr value;
+	ExprPtr key;
+	ExprPtr value;
 };
 
+// A FuncLit node represents a function literal.
+class FuncLit : public Node {
+public:
+    FuncTypePtr type;   // function type
+    BlockStmtPtr body;  // function body
+};
+
+// A CompositeLit node represents a composite literal.
+struct CompositeLit : public Node {
+	ExprPtr type;              // literal type; or nil
+	common::Pos lbrace;     // position of "{"
+	std::vector<ExprPtr> elts; // list of composite elements; or nil
+	common::Pos rbrace;     // position of "}"
+	bool incomplete;        // true if (source) expressions are missing in the Elts list
+};
+
+struct IndexExpr : public Node {
+    ExprPtr X;
+    common::Pos Lbrack;
+    ExprPtr Index;
+    common::Pos Rbrack;
+};
+struct TypeAssertExpr : public Node {
+    ExprPtr X;
+    common::Pos Lparen;
+    ExprPtr Type;
+    common::Pos Rparen;
+};
+
+struct CallExpr : public Node {
+    ExprPtr Fun;
+    common::Pos Lparen;
+    std::vector<ExprPtr> Args;
+    common::Pos Ellipsis;
+    common::Pos Rparen;
+};
+
+struct BinaryExpr : public Node {
+    ExprPtr X;
+    common::Pos OpPos;
+    Token Op;
+    ExprPtr Y;
+};
+struct KeyValueExpr : public Node {
+    ExprPtr Key;
+    common::Pos Colon;
+    ExprPtr Value;
+};
+
+struct ParenExpr : public Node {
+    common::Pos Lparen;
+    ExprPtr X;
+    common::Pos Rparen;
+};
+struct SliceExpr : public Node {
+    ExprPtr X;
+    common::Pos Lbrack;
+    ExprPtr Low;
+    ExprPtr High;
+    ExprPtr Max;
+    bool Slice3;
+    common::Pos Rbrack;
+};
+
+struct StarExpr : public Node {
+    common::Pos Star;
+    ExprPtr X;
+};
+
+struct UnaryExpr : public Node {
+    common::Pos OpPos;
+    Token Op;
+    ExprPtr X;
+};
+
+struct SelectorExpr : public Node {
+    ExprPtr X;
+    IdentPtr Sel;
+};
+
+// A DeclStmt node represents a declaration in a statement list.
+struct DeclStmt : Node {
+	DeclPtr decl; // *GenDecl with CONST, TYPE, or VAR token
+};
+
+// An EmptyStmt node represents an empty statement.
+// The "position" of the empty statement is the position
+// of the immediately following (explicit or implicit) semicolon.
+//
+struct EmptyStmt : public Node {
+	common::Pos semicolon;      // position of following ";"
+	bool Implicit;              // if set, ";" was omitted in the source
+};
+
+struct BlockStmt: public Node {
+    common::Pos Lbrace;
+    std::vector<StmtPtr> List;
+    common::Pos Rbrace;
+};
+
+struct SwitchStmt : public Node {
+    common::Pos Switch;
+    StmtPtr Init;
+    ExprPtr Tag;
+    BlockStmtPtr Body;
+};
+
+struct RangeStmt: public Node {
+    common::Pos For;
+    ExprPtr Key;
+    ExprPtr Value;
+    common::Pos TokPos;
+    Token Tok;
+    ExprPtr X;
+    BlockStmtPtr Body;
+};
+
+struct SendStmt : public Node {
+    ExprPtr Chan;
+    common::Pos Arrow;
+    ExprPtr Value;
+};
+
+struct AssignStmt : public Node {
+    std::vector<ExprPtr> Lhs;
+    common::Pos TokPos;
+    Token Tok;
+    std::vector<ExprPtr> Rhs;
+};
+
+struct ReturnStmt: public Node {
+    common::Pos Return;
+    std::vector<ExprPtr> Results;
+};
+
+struct BranchStmt : public Node {
+    common::Pos TokPos;
+    Token Tok;
+    Ident* Label;
+};
+
+struct IfStmt : public Node {
+    common::Pos If;
+    StmtPtr Init;
+    ExprPtr Cond;
+    BlockStmtPtr Body;
+    StmtPtr Else;
+};
+
+struct SelectStmt : public Node {
+    common::Pos Select;
+    BlockStmtPtr Body;
+};
+
+struct LabeledStmt : public Node {
+    IdentPtr Label;
+    common::Pos Colon;
+    StmtPtr Stmt;
+};
+
+struct ExprStmt : public Node {
+    ExprPtr X;
+};
+
+
+struct DeferStmt : public Node {
+    common::Pos Defer;
+    CallExprPtr Call;
+};
+
+struct ForStmt : public Node {
+    common::Pos For;
+    StmtPtr Init;
+    ExprPtr Cond;
+    StmtPtr Post;
+    BlockStmtPtr Body;
+};
+
+struct IncDecStmt : public Node {
+    ExprPtr X;
+    common::Pos TokPos;
+    Token Tok;
+};
+
+struct GoStmt : public Node {
+    common::Pos Go;
+    CallExprPtr Call;
+};
+
+struct CaseClause : public Node {
+    common::Pos Case;
+    std::vector<ExprPtr> List;
+    common::Pos Colon;
+    std::vector<StmtPtr> Body;
+};
+
+struct TypeSwitchStmt : public Node {
+    common::Pos Switch;
+    StmtPtr Init;
+    StmtPtr Assign;
+    BlockStmtPtr Body;
+};
+
+struct CommClause : public Node {
+    common::Pos Case;
+    StmtPtr Comm;
+    common::Pos Colon;
+    std::vector<StmtPtr> Body;
+};
 
 } // namespace parser

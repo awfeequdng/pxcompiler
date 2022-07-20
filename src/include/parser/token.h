@@ -3,7 +3,7 @@
 namespace parser {
 
 // todo: just for temporary use
-enum Token : int {
+enum Token {
     tok_invalid = 1111,
     tok_def,     // def
     tok_identifier,

@@ -6,6 +6,7 @@
 #include "parser/lexer.h"
 #include "parser/misc.h"
 #include "parser/token.h"
+#include "parser/ast.h"
 
 namespace parser {
 
@@ -18,7 +19,6 @@ struct lazyBuf {
     std::shared_ptr<common::utf8::reader_t> _reader;
     std::stringbuf &_buf;
     const common::Pos &_pos;
-
     void setUseBuf(std::string str) {
         if (!_useBuf) {
             _useBuf = true;
