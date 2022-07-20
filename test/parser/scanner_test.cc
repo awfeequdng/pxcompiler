@@ -356,3 +356,14 @@ TEST(TestScanner, TestStartWithBb) {
         ASSERT_EQ(lit, test.expect);
     }
 }
+
+
+TEST(TestScanner, TestPrintTokens) {
+    auto scanner = NewScanner("def main(argc, argv) { print('hello world') }");
+    auto [tok, pos, lit] = scanner->scan();
+    while (tok != 0 && tok != tok_invalid) {
+        std::cout << "[ " << tok << ", " << pos._offset << ", " << lit << "]" << std::endl;
+        std::tie(tok, pos, lit) = scanner->scan();
+    }
+    std::cout << "invalid tok = " << tok << std::endl;
+}

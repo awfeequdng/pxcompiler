@@ -9,5 +9,6 @@ int main() {
     genir();
 
     lexer_main();
+
     return 0;
 }

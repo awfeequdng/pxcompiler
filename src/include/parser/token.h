@@ -2,8 +2,7 @@
 
 namespace parser {
 
-// todo: just for temporary use
-enum Token {
+enum TokenTag {
     tok_invalid = 1111,
     tok_def,     // def
     tok_identifier,
@@ -30,6 +29,20 @@ enum Token {
     tok_lsh,    // <<
     tok_rsh,    // >>
     tok_null,   // \\N
+};
+
+class Token {
+public:
+    Token newToken(TokenTag tag, common::Pos pos, std::string lit) {
+        return {tag, pos, lit};
+    }
+private:
+    Token(TokenTag t, common::Pos p, std::string l)
+        : tag(t), pos(p), lit(l) {}
+
+    TokenTag tag;
+    common::Pos pos;
+    std::string lit;
 };
 
 } // namespace parser
