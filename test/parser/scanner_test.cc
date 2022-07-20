@@ -88,6 +88,13 @@ TEST(TestScanner, TestCommonComment) {
     ASSERT_EQ(lit, "SELECT");
     auto expect_pos = common::Pos{1, 4, 20};
     ASSERT_EQ(pos, expect_pos);
+
+    l->reset("//xxxxxx   \nselect 2");
+    std::tie(tok, pos, lit) = l->scan();
+    ASSERT_EQ(tok, tok_identifier);
+    expect_pos = common::Pos{1, 0, 12};
+    ASSERT_EQ(pos, expect_pos);
+    ASSERT_EQ(lit, "select");
 }
 
 TEST(TestScanner, TestSpecialComment) {
