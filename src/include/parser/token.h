@@ -36,7 +36,7 @@ public:
     Token newToken(TokenTag tag, common::Pos pos, std::string lit) {
         return {tag, pos, lit};
     }
-private:
+// private:
     Token(TokenTag t, common::Pos p, std::string l)
         : tag(t), pos(p), lit(l) {}
 

@@ -102,7 +102,8 @@ std::tuple<int, common::Pos, std::string> Scanner::scan() {
         if (node->fn != nullptr) {
             return node->fn(*this);
         }
-        ch0 = _reader->next();
+        _reader->next();
+        ch0 = _reader->peek();
     }
 
     return {node->token, pos, _reader->data(pos)};

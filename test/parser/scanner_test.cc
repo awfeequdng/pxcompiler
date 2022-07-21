@@ -357,7 +357,6 @@ TEST(TestScanner, TestStartWithBb) {
     }
 }
 
-
 TEST(TestScanner, TestPrintTokens) {
     auto scanner = NewScanner("def main(argc, argv) { print('hello world') }");
     auto [tok, pos, lit] = scanner->scan();
@@ -366,4 +365,36 @@ TEST(TestScanner, TestPrintTokens) {
         std::tie(tok, pos, lit) = scanner->scan();
     }
     std::cout << "invalid tok = " << tok << std::endl;
+}
+
+TEST(TestScanner, TestString) {
+    struct {
+        std::string str;
+        std::string expect;
+        int tok;
+    } tests[] = {
+        {
+            .str = "<=>dd",
+            .expect = "<=>",
+            .tok = tok_nulleq,
+        },
+        {
+            .str = "<=xx",
+            .expect = "<=",
+            .tok = tok_le,
+        },
+        {
+            .str = ":=xx",
+            .expect = ":=",
+            .tok = tok_assignmentEq,
+        },
+
+    };
+    auto scanner = NewScanner("");
+    for (auto test : tests) {
+        scanner->reset(test.str);
+        auto [tok, pos, lit] = scanner->scan();
+        ASSERT_EQ(lit, test.expect);
+        ASSERT_EQ(tok, test.tok);
+    }
 }
