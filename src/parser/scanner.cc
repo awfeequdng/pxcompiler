@@ -70,10 +70,26 @@ std::string Scanner::stmtText() {
     return text;
 }
 
-int Scanner::getNextToken() {
-    auto [tok, pos, lit] = scan();
+int Scanner::isKeywordIdentifier(std::string lit) {
+    auto keywordMap = Token::getKeywordMap();
+    auto curKeyword = keywordMap.find(lit);
+    auto endKeyword = keywordMap.end();
+    if (curKeyword != endKeyword) {
+        return curKeyword->second;
+    }
+    return 0;
+}
 
-    return tok;
+Token Scanner::getNextToken() {
+    auto [tok, pos, lit] = scan();
+    if (tok == tok_identifier) {
+        auto tok1 = isKeywordIdentifier(lit);
+        if (tok1 != 0) {
+            tok = tok1;
+            _lastKeyword = tok1;
+        }
+    }
+    return Token::newToken((TokenTag)tok, pos, lit);
 }
 
 std::tuple<int, common::Pos, std::string> Scanner::scan() {

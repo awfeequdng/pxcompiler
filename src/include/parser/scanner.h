@@ -16,10 +16,10 @@ class Scanner : public std::enable_shared_from_this<Scanner> {
 public:
     void reset(std::string text);
     // std::string stmtText();
-    int getNextToken();
+    Token getNextToken();
     std::tuple<int, common::Pos, std::string> scan();
     common::utf8::rune_t skipWhitespace();
-    int isTokenIdentifier(std::string lit, int offset);
+    int isKeywordIdentifier(std::string lit);
     std::shared_ptr<common::utf8::reader_t> reader() { return _reader; }
 
     std::tuple<int, common::Pos, std::string> scanString();

@@ -1,10 +1,47 @@
 #pragma once
 
+#include "common/pos.h"
+#include <string>
+#include <unordered_map>
 namespace parser {
 
-enum TokenTag {
+enum TokenTag : int {
     tok_invalid = 1111,
-    tok_def,     // def
+    // Keywords
+    tok_False,
+    tok_None,
+    tok_True,
+    tok_and,
+    tok_as,
+    tok_assert,
+    tok_break,
+    tok_class,
+    tok_continue,
+    tok_def,
+    tok_del,
+    tok_elif,
+    tok_else,
+    tok_except,
+    tok_finally,
+    tok_for,
+    tok_from,
+    tok_global,
+    tok_if,
+    tok_import,
+    tok_in,
+    tok_is,
+    tok_lambda,
+    tok_nonlocal,
+    tok_not,
+    tok_or,
+    tok_pass,
+    tok_raise,
+    tok_return,
+    tok_try,
+    tok_while,
+    tok_with,
+    tok_yield,
+
     tok_identifier,
     tok_intLit,
     tok_charLit,
@@ -33,9 +70,11 @@ enum TokenTag {
 
 class Token {
 public:
-    Token newToken(TokenTag tag, common::Pos pos, std::string lit) {
+    static Token newToken(TokenTag tag, common::Pos pos, std::string lit) {
         return {tag, pos, lit};
     }
+    static std::unordered_map<std::string, int> getKeywordMap();
+    static std::unordered_map<std::string, int> keywordMap;
 // private:
     Token(TokenTag t, common::Pos p, std::string l)
         : tag(t), pos(p), lit(l) {}
@@ -44,5 +83,6 @@ public:
     common::Pos pos;
     std::string lit;
 };
+
 
 } // namespace parser

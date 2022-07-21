@@ -398,3 +398,36 @@ TEST(TestScanner, TestString) {
         ASSERT_EQ(tok, test.tok);
     }
 }
+
+
+TEST(TestScanner, TestKeyword) {
+    struct {
+        std::string str;
+        std::string expect;
+        int tok;
+    } tests[] = {
+        {
+            .str = "definition",
+            .expect = "definition",
+            .tok = tok_identifier,
+        },
+        {
+            .str = "defi",
+            .expect = "defi",
+            .tok = tok_identifier,
+        },
+        {
+            .str = "def",
+            .expect = "def",
+            .tok = tok_def,
+        },
+
+    };
+    auto scanner = NewScanner("");
+    for (auto test : tests) {
+        scanner->reset(test.str);
+        auto token = scanner->getNextToken();
+        ASSERT_EQ(token.lit, test.expect);
+        ASSERT_EQ(token.tag, test.tok);
+    }
+}
