@@ -1,0 +1,139 @@
+// PEG grammar for Python
+
+// -----------------------------------------------------------------------------
+// Bison Configuration
+// -----------------------------------------------------------------------------
+
+%require "3.2"
+%language "c++"
+
+// We don't need a separate header for Bison locations.
+// %define api.location.file none
+
+
+// Use a type-safe C++ variant for semantic values
+%define api.value.type variant
+
+// Have Bison generate the functions ‘make_TEXT’ and ‘make_NUMBER’, but also
+// ‘make_YYEOF’, for the end of input.
+%define api.token.constructor
+
+// Generate the parser as `::pxc::Parser`.
+%define api.namespace { pxc }
+%define api.parser.class { Parser }
+
+// Make parse error messages more detailed
+%define parse.error verbose
+
+// Enable support for parser debugging
+%define parse.trace true
+
+// Generate location structs.
+%locations
+
+
+%code top {
+
+} // %code top
+
+%code requires {
+    #include <optional>
+
+    typedef void* yyscan_t;
+} // %code requires
+
+%code {
+
+} // %code
+
+%token <int> integer_literal
+%token <std::string> identifier
+%token <std::string> string_literal
+
+%type <std::string> binding_lhs
+%type <std::string> input
+%type <std::string> import_directives
+%type <std::string> import_directive
+
+
+
+%token
+  // Most tokens have their spelling defined in lexer.lpp.
+  // table-begin
+  AMPERSAND
+  AND
+  ARROW
+  AS
+  AWAIT
+  BREAK
+  CLASS
+  COLON
+  COLON_BANG
+  COMMA
+  CONTINUE
+  DOUBLE_ARROW
+  ELSE
+  EQUAL
+  EQUAL_EQUAL
+  FALSE
+  FOR
+  IF
+  IMPORT
+  IS
+  LEFT_CURLY_BRACE
+  LEFT_PARENTHESIS
+  LEFT_SQUARE_BRACKET
+  MINUS
+  NOT
+  OR
+  PERIOD
+  PLUS
+  RETURN
+  RIGHT_CURLY_BRACE
+  RIGHT_PARENTHESIS
+  RIGHT_SQUARE_BRACKET
+  SELF
+  SEMICOLON
+  SLASH
+  STRING
+  TRUE
+  UNDERSCORE
+  WHILE
+  // table-end
+  // Used to track EOF.
+  END_OF_FILE 0
+;
+
+%start input
+
+%%
+input: import_directives
+    { std::cout << "import_directives" << std::endl; }
+;
+import_directives:
+    // empty
+    {
+        std::cout << "empty import_directives" << std::endl;
+    }
+| import_directives import_directive
+    {
+        std::cout << "import_dirctive" << std::endl;
+        $$ = "";
+    }
+;
+import_directive:
+  IMPORT identifier SEMICOLON binding_lhs
+    {
+        std::cout << "id:" << std::endl;
+        // std::cout << "id:" << $0 << std::endl;
+        $$ = std::string("identifier");
+    }
+;
+binding_lhs:
+    EQUAL
+    {
+        $$ = std::string("equal");
+    }
+;
+%%
+
