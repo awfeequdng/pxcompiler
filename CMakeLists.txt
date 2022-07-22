@@ -157,6 +157,20 @@ target_link_libraries(llvmtest
     # MLIRFunc
     MLIRFuncToLLVM
 )
+target_link_libraries(pxcompiler
+    PRIVATE
+    ${LIBS}
+    MLIRAnalysis
+    MLIRCallInterfaces
+    MLIRIR
+    MLIRParser
+    MLIRPass
+    MLIRSideEffectInterfaces
+    MLIRTransforms
+    MLIRDialect
+    LLVMX86AsmParser
+    MLIRFuncToLLVM
+)
 
 target_link_libraries(llvmtest
   PRIVATE
