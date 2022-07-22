@@ -2,6 +2,10 @@
 %{
   #include <cstdlib>
 
+  #include "lex_helper.h"
+  #include "lex_scan_helper.h"
+  #include "parse_and_lex_context.h"
+  #include "parser.h"
 %}
 
 /* Turn off legacy bits we don't need. */
@@ -85,6 +89,7 @@ integer_literal       [0-9]+
 horizontal_whitespace [ \t\r]
 whitespace            [ \t\r\n]
 one_line_comment      \/\/[^\n]*\n
+operand_start         [(A-Za-z0-9_\"]
 
 %%
 
@@ -92,7 +97,7 @@ one_line_comment      \/\/[^\n]*\n
   // Code run each time yylex is called.
 
   // Begin with an empty token span starting where its previous end was.
-  // context.current_token_position.step();
+  context.current_token_position.step();
 %}
 
  /* table-begin */
@@ -203,10 +208,10 @@ one_line_comment      \/\/[^\n]*\n
  /* `*` operator case 4: */
 <INITIAL,AFTER_OPERAND>"*"{whitespace}+ {
   BEGIN(AFTER_WHITESPACE);
-  return PXC_TOKEN(STAR);
+  return PXC_TOKEN(POSTFIX_STAR);
 }
  /* `*` operator case 5: */
-<INITIAL,AFTER_OPERAND>"*" { return PXC_TOKEN(STAR); }
+<INITIAL,AFTER_OPERAND>"*" { return PXC_TOKEN(UNARY_STAR); }
 
 
 {identifier} {
@@ -221,15 +226,14 @@ one_line_comment      \/\/[^\n]*\n
     return context.RecordSyntaxError(
         llvm::formatv("Invalid integer literal: {0}", yytext));
   }
-  return CARBON_ARG_TOKEN(integer_literal, val);
+  return pxc_ARG_TOKEN(integer_literal, val);
 }
 
-/************************************************************
 #*(\"\"\"|\") {
   // Raw string literal.
   // yytext (the token that matches the above regex) and chars scanned by
   // str_lex_helper hold the source text, not the string the source represents.
-  Carbon::StringLexHelper str_lex_helper(yytext, yyscanner, context);
+  pxc::StringLexHelper str_lex_helper(yytext, yyscanner, context);
   const std::string& s = str_lex_helper.str();
   const int hashtag_num = s.find_first_of('"');
   const int leading_quotes = s.size() - hashtag_num;
@@ -237,8 +241,8 @@ one_line_comment      \/\/[^\n]*\n
     // Check if it's a single-line string, like #"""#.
     // TODO: Extend with other single-line string cases, like #""""#, based on
     // the definition of block string in the design doc.
-    if (Carbon::ReadHashTags(str_lex_helper, hashtag_num)) {
-      return Carbon::ProcessSingleLineString(str_lex_helper.str(), context,
+    if (pxc::ReadHashTags(str_lex_helper, hashtag_num)) {
+      return pxc::ProcessSingleLineString(str_lex_helper.str(), context,
                                              hashtag_num);
     } else if (str_lex_helper.is_eof()) {
       return PXC_TOKEN(END_OF_FILE);
@@ -276,19 +280,19 @@ one_line_comment      \/\/[^\n]*\n
           // Now we are at the last " of """.
         }
 
-        if (Carbon::ReadHashTags(str_lex_helper, hashtag_num)) {
+        if (pxc::ReadHashTags(str_lex_helper, hashtag_num)) {
           // Reach closing quotes, break out of the loop.
           if (leading_quotes == 3) {
-            return Carbon::ProcessMultiLineString(str_lex_helper.str(), context,
+            return pxc::ProcessMultiLineString(str_lex_helper.str(), context,
                                                   hashtag_num);
           } else {
-            return Carbon::ProcessSingleLineString(str_lex_helper.str(),
+            return pxc::ProcessSingleLineString(str_lex_helper.str(),
                                                    context, hashtag_num);
           }
         }
         break;
       case '\\':
-        if (Carbon::ReadHashTags(str_lex_helper, hashtag_num)) {
+        if (pxc::ReadHashTags(str_lex_helper, hashtag_num)) {
           // Read the escaped char.
           if (!str_lex_helper.Advance()) {
             continue;
@@ -303,7 +307,6 @@ one_line_comment      \/\/[^\n]*\n
   }
   return PXC_TOKEN(END_OF_FILE);
 }
-*************************************/
 
 {one_line_comment} {
   // Advance end by 1 line, resetting the column to zero.

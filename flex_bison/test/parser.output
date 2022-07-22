@@ -46,7 +46,7 @@ Grammar
 
     1 input: import_directives
 
-    2 import_directives: %empty
+    2 import_directives: ε
     3                  | import_directives import_directive
 
     4 import_directive: IMPORT identifier SEMICOLON binding_lhs

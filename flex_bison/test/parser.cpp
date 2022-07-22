@@ -1,4 +1,4 @@
-// A Bison parser, made by GNU Bison 3.7.6.
+// A Bison parser, made by GNU Bison 3.8.
 
 // Skeleton implementation for Bison LALR(1) parsers in C++
 
@@ -626,8 +626,8 @@ namespace  pxc  {
   case 5: // import_directive: IMPORT identifier SEMICOLON binding_lhs
 #line 126 "parser.ypp"
     {
-        std::cout << "id:" << std::endl;
-        // std::cout << "id:" << $0 << std::endl;
+        std::cout << "id:" << yystack_[2].value.as < std::string > () << std::endl;
+        std::cout << "id:" << yystack_[0].value.as < std::string > () << std::endl;
         yylhs.value.as < std::string > () = std::string("identifier");
     }
 #line 634 "./test/parser.cpp"
@@ -880,16 +880,16 @@ namespace  pxc  {
     // Actual number of expected tokens
     int yycount = 0;
 
-    int yyn = yypact_[+yyparser_.yystack_[0].state];
+    const int yyn = yypact_[+yyparser_.yystack_[0].state];
     if (!yy_pact_value_is_default_ (yyn))
       {
         /* Start YYX at -YYN if negative to avoid negative indexes in
            YYCHECK.  In other words, skip the first -YYN actions for
            this state because they are default actions.  */
-        int yyxbegin = yyn < 0 ? -yyn : 0;
+        const int yyxbegin = yyn < 0 ? -yyn : 0;
         // Stay within bounds of both yycheck and yytname.
-        int yychecklim = yylast_ - yyn + 1;
-        int yyxend = yychecklim < YYNTOKENS ? yychecklim : YYNTOKENS;
+        const int yychecklim = yylast_ - yyn + 1;
+        const int yyxend = yychecklim < YYNTOKENS ? yychecklim : YYNTOKENS;
         for (int yyx = yyxbegin; yyx < yyxend; ++yyx)
           if (yycheck_[yyx + yyn] == yyx && yyx != symbol_kind::S_YYerror
               && !yy_table_value_is_error_ (yytable_[yyx + yyn]))
@@ -907,6 +907,9 @@ namespace  pxc  {
       yyarg[0] = symbol_kind::S_YYEMPTY;
     return yycount;
   }
+
+
+
 
 
 
@@ -1106,7 +1109,7 @@ namespace  pxc  {
 
 #line 22 "parser.ypp"
 } //  pxc 
-#line 1110 "./test/parser.cpp"
+#line 1113 "./test/parser.cpp"
 
 #line 138 "parser.ypp"
 
