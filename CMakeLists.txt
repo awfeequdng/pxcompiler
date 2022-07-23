@@ -262,6 +262,7 @@ endfunction()
 file(GLOB_RECURSE PX_TEST_SOURCES
         "test/common/*.cc"
         "test/parser/*.cc"
+        "test/llvm/*.cc"
         )
 
 foreach (PX_TEST_CC ${PX_TEST_SOURCES})
