@@ -2,13 +2,14 @@
 
 void genir();
 int lexer_main();
+auto pxc_main(int argc, char **argv) -> int;
 
-int main() {
+int main(int argc, char **argv) {
     llvm::errs() << "hello llvm!";
 
     genir();
 
-    lexer_main();
+    // lexer_main();
 
-    return 0;
+    return pxc_main(argc, argv);
 }

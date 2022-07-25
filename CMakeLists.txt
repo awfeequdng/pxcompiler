@@ -1,5 +1,6 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.5)
-
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 if (POLICY CMP0068)
 	cmake_policy(SET CMP0068 NEW)
@@ -134,15 +135,16 @@ target_link_libraries(pxcompiler
   fmt::fmt
 )
 
-add_llvm_executable(llvmtest
+add_llvm_executable(pxc
   main.cc
   ir_test.cc
   llvmtest.cc
+  pxc_main.cc
 )
 
-llvm_update_compile_flags(llvmtest)
+llvm_update_compile_flags(pxc)
 
-target_link_libraries(llvmtest
+target_link_libraries(pxc
    PRIVATE
  	${LIBS}
     MLIRAnalysis
@@ -172,7 +174,7 @@ target_link_libraries(pxcompiler
     MLIRFuncToLLVM
 )
 
-target_link_libraries(llvmtest
+target_link_libraries(pxc
   PRIVATE
   # utf8proc
   # fmt::fmt

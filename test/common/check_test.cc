@@ -3,7 +3,7 @@
 
 #include <gtest/gtest.h>
 
-namespace pxc::Testing {
+namespace common::Testing {
 namespace {
 
 TEST(CheckTest, CheckTrue) { PXC_CHECK(true); }

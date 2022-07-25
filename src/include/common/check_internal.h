@@ -1,6 +1,5 @@
 
-#ifndef PXC_COMMON_CHECK_INTERNAL_H_
-#define PXC_COMMON_CHECK_INTERNAL_H_
+#pragma once
 
 #include <unistd.h>
 
@@ -8,7 +7,7 @@
 #include "llvm/Support/Signals.h"
 #include "llvm/Support/raw_ostream.h"
 
-namespace pxc::Internal {
+namespace common::Internal {
 
 // Wraps a stream and exiting for fatal errors. Should only be used by check.h
 // macros.
@@ -81,6 +80,5 @@ class ExitingStream {
   bool separator_ = false;
 };
 
-}  // namespace pxc::Internal
+}  // namespace common::Internal
 
-#endif  // PXC_COMMON_CHECK_INTERNAL_H_
