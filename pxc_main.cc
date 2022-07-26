@@ -7,6 +7,7 @@
 
 #include "common/error.h"
 #include "common/nonnull.h"
+#include "common/arena.h"
 
 #include <cstdlib>
 

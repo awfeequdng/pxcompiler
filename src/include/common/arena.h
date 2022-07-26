@@ -13,7 +13,7 @@ public:
     // Allocates an object in the arena, returning a pointer to it.
     template <typename T, typename... Args, typename std::enable_if_t<std::is_constructible_v<T, Args...>>* = nullptr>
     auto New(Args&&... args) -> Nonnull<T*> {
-        auto smart_ptr = std::make_unique<ArenaEntryTpyed<T>>(std::forward<Args>(args)...);
+        auto smart_ptr = std::make_unique<ArenaEntryTyped<T>>(std::forward<Args>(args)...);
         Nonnull<T*> ptr = smart_ptr->Instance();
         arena_.push_back(std::move(smart_ptr));
     }
