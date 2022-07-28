@@ -1,0 +1,111 @@
+// PEG grammar for Python
+
+// -----------------------------------------------------------------------------
+// Bison Configuration
+// -----------------------------------------------------------------------------
+
+%require "3.2"
+%language "c++"
+
+// We don't need a separate header for Bison locations.
+%define api.location.file none
+
+// Use a type-safe C++ variant for semantic values
+%define api.value.type variant
+
+// Have Bison generate the functions ‘make_TEXT’ and ‘make_NUMBER’, but also
+// ‘make_YYEOF’, for the end of input.
+%define api.token.constructor
+
+// Generate the parser as `::parser::flex_bison::Parser`.
+%define api.namespace { parser::flex_bison }
+%define api.parser.class { Parser }
+
+// Enable support for parser debugging
+%define parse.trace true
+
+// Generate location structs.
+%locations
+
+
+// Parameters to the parser and lexer.
+//
+// Parameters to the parser are stored therein as protected data members, and
+// thus available to its methods.
+
+// "inout" parameters passed to both the parser and the lexer.
+%param {common::Nonnull<common::Arena*> arena}
+%param {yyscan_t yyscanner}
+%param {ParseAndLexContext& context}
+
+// "out" parameter passed to the parser, where the AST is written.
+%parse-param {std::optional<ast::AST>* ast}
+
+%code top {
+  #include <algorithm>
+  #include <cstdarg>
+  #include <cstdio>
+  #include <cstdlib>
+  #include <vector>
+
+  #include "common/check.h"
+  #include "parser/flex_bison/parse_and_lex_context.h"
+  #include "llvm/ADT/StringExtras.h"
+  #include "llvm/Support/raw_ostream.h"
+}  // %code top
+
+
+%code requires {
+  #include <optional>
+
+  #include "ast/ast.h"
+  #include "common/arena.h"
+  #include "common/nonnull.h"
+
+  namespace parser::flex_bison {
+  class ParseAndLexContext;
+  }  // namespace flex_bison
+
+  typedef void* yyscan_t;
+}  // %code requires
+
+
+%code {
+  void parser::flex_bison::Parser::error(const location_type&, const std::string& message) {
+    context.RecordSyntaxError(message);
+  }
+}  // %code
+
+%token <int> integer_literal
+%token <std::string> identifier
+%token <std::string> sized_type_literal
+%token <std::string> string_literal
+
+%token
+  // Most tokens have their spelling defined in lexer.lpp.
+  // table-begin
+  LEFT_CURLY_BRACE
+  LEFT_PARENTHESIS
+  LEFT_SQUARE_BRACKET
+  RIGHT_CURLY_BRACE
+  RIGHT_PARENTHESIS
+  RIGHT_SQUARE_BRACKET
+
+  // Used to track EOF.
+  END_OF_FILE 0
+
+  // The lexer determines the arity and fixity of each `*` based on whitespace
+  // and adjacent tokens. UNARY_STAR indicates that the operator is unary but
+  // could be either prefix or postfix.
+  UNARY_STAR "unary *"
+  PREFIX_STAR "prefix *"
+  POSTFIX_STAR "postfix *"
+  BINARY_STAR "binary *"
+;
+
+%start input
+%%
+input:
+;
+
+%%

@@ -6,7 +6,6 @@
 #include "parser/lexer.h"
 #include "parser/misc.h"
 #include "parser/token.h"
-#include "parser/ast.h"
 
 namespace parser {
 

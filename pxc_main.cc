@@ -47,6 +47,8 @@ static auto Main(llvm::StringRef default_prelude_file, int argc, char **argv)
         }
     }
 
+    common::Arena arena;
+    // PXC_ASSIGN_OR_RETURN()
 
     return common::Success();
 }

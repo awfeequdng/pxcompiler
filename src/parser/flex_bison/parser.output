@@ -1,0 +1,75 @@
+Terminals unused in grammar
+
+    integer_literal
+    identifier
+    sized_type_literal
+    string_literal
+    LEFT_CURLY_BRACE
+    LEFT_PARENTHESIS
+    LEFT_SQUARE_BRACKET
+    RIGHT_CURLY_BRACE
+    RIGHT_PARENTHESIS
+    RIGHT_SQUARE_BRACKET
+    "unary *"
+    "prefix *"
+    "postfix *"
+    "binary *"
+
+
+Grammar
+
+    0 $accept: input END_OF_FILE
+
+    1 input: ε
+
+
+Terminals, with rules where they appear
+
+    END_OF_FILE (0) 0
+    error (256)
+    integer_literal <int> (258)
+    identifier <std::string> (259)
+    sized_type_literal <std::string> (260)
+    string_literal <std::string> (261)
+    LEFT_CURLY_BRACE (262)
+    LEFT_PARENTHESIS (263)
+    LEFT_SQUARE_BRACKET (264)
+    RIGHT_CURLY_BRACE (265)
+    RIGHT_PARENTHESIS (266)
+    RIGHT_SQUARE_BRACKET (267)
+    "unary *" (268)
+    "prefix *" (269)
+    "postfix *" (270)
+    "binary *" (271)
+
+
+Nonterminals, with rules where they appear
+
+    $accept (17)
+        on left: 0
+    input (18)
+        on left: 1
+        on right: 0
+
+
+State 0
+
+    0 $accept: • input END_OF_FILE
+
+    $default  reduce using rule 1 (input)
+
+    input  go to state 1
+
+
+State 1
+
+    0 $accept: input • END_OF_FILE
+
+    END_OF_FILE  shift, and go to state 2
+
+
+State 2
+
+    0 $accept: input END_OF_FILE •
+
+    $default  accept

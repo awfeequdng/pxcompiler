@@ -1,0 +1,236 @@
+%{
+#include <cstdlib>
+#include "common/check.h"
+#include "common/error.h"
+
+#include "parser/flex_bison/parser.h"
+#include "parser/flex_bison/lexer.h"
+#include "parser/flex_bison/lex_helper.h"
+#include "parser/flex_bison/lex_scan_helper.h"
+#include "parser/flex_bison/parse_and_lex_context.h"
+#include "llvm/ADT/StringExtras.h"
+#include "llvm/Support/FormatVariadic.h"
+%}
+
+/* 在flex文件中添加%option noyywrap，加入该语句之后，g++指令就不需要添加-lfl参数 */
+%option noyywrap nodefault
+
+%option reentrant
+
+%s AFTER_WHITESPACE
+
+%s AFTER_OPERAND
+
+/* table-begin */
+FALSE                "False"
+TRUE                 "True"
+NONE                 "None"
+AND                  "and"
+AS                   "as"
+ASSERT               "assert"
+ASYNC                "async"
+AWAIT                "await"
+BREAK                "break"
+CLASS                "class"
+CONTINUE             "continue"
+DEF                  "def"
+DEL                  "del"
+ELIF                 "elif"
+ELSE                 "else"
+EXCEPT               "except"
+FINALLY              "finally"
+FOR                  "for"
+FROM                 "from"
+GLOBAL               "global"
+IF                   "if"
+IMPORT               "import"
+IN                   "in"
+IS                   "is"
+LAMBDA               "lambda"
+NONLOCAL             "nonlocal"
+NOT                  "not"
+OR                   "or"
+PASS                 "pass"
+RETURN               "return"
+TRY                  "try"
+WHILE                "while"
+WITH                 "with"
+YIELD                "yield"
+
+ARROW                "->"
+AMPERSAND            "&"
+COLON                ":"
+COLON_BANG           ":!"
+COMMA                ","
+DOUBLE_ARROW         "=>"
+EQUAL                "="
+EQUAL_EQUAL          "=="
+LEFT_CURLY_BRACE     "{"
+LEFT_PARENTHESIS     "("
+LEFT_SQUARE_BRACKET  "["
+
+MINUS                "-"
+PERIOD               "."
+PLUS                 "+"
+RIGHT_CURLY_BRACE    "}"
+RIGHT_PARENTHESIS    ")"
+RIGHT_SQUARE_BRACKET "]"
+SELF                 "self"
+SEMICOLON            ";"
+SLASH                "/"
+UNDERSCORE           "_"
+
+/* table-end */
+
+identifier            [A-Za-z_][A-Za-z0-9_]*
+integer_literal       [0-9]+
+horizontal_whitespace [ \t\r]
+whitespace            [ \t\r\n]
+one_line_comment      \/\/[^\n]*\n
+operand_start         [(A-Za-z0-9_\"]
+
+%%
+%{
+  // Code run each time yylex is called.
+  // Begin with an empty token span starting where its previous end was.
+  context.current_token_position.step();
+%}
+
+ /* table-begin */
+
+{FALSE}                     { return PXC_TOKEN(FALSE);                }
+{TRUE}                      { return PXC_TOKEN(TRUE);                 }
+{NONE}                      { return PXC_TOKEN(NONE);                 }
+{AND}                       { return PXC_TOKEN(AND);                  }
+{AS}                        { return PXC_TOKEN(AS);                   }
+{ASSERT}                    { return PXC_TOKEN(ASSERT);               }
+{ASYNC}                     { return PXC_TOKEN(ASYNC);                }
+{AWAIT}                     { return PXC_TOKEN(AWAIT);                }
+{BREAK}                     { return PXC_TOKEN(BREAK);                }
+{CLASS}                     { return PXC_TOKEN(CLASS);                }
+{CONTINUE}                  { return PXC_TOKEN(CONTINUE);             }
+{DEF}                       { return PXC_TOKEN(DEF);                  }
+{DEL}                       { return PXC_TOKEN(DEL);                  }
+{ELIF}                      { return PXC_TOKEN(ELIF);                 }
+{ELSE}                      { return PXC_TOKEN(ELSE);                 }
+{EXCEPT}                    { return PXC_TOKEN(EXCEPT);               }
+{FINALLY}                   { return PXC_TOKEN(FINALLY);              }
+{FOR}                       { return PXC_TOKEN(FOR);                  }
+{FROM}                      { return PXC_TOKEN(FROM);                 }
+{GLOBAL}                    { return PXC_TOKEN(GLOBAL);               }
+{IF}                        { return PXC_TOKEN(IF);                   }
+{IMPORT}                    { return PXC_TOKEN(IMPORT);               }
+{IN}                        { return PXC_TOKEN(IN);                   }
+{IS}                        { return PXC_TOKEN(IS);                   }
+{LAMBDA}                    { return PXC_TOKEN(LAMBDA);               }
+{NONLOCAL}                  { return PXC_TOKEN(NONLOCAL);             }
+{NOT}                       { return PXC_TOKEN(NOT);                  }
+{OR}                        { return PXC_TOKEN(OR);                   }
+{PASS}                      { return PXC_TOKEN(PASS);                 }
+{RETURN}                    { return PXC_TOKEN(RETURN);               }
+{TRY}                       { return PXC_TOKEN(TRY);                  }
+{WHILE}                     { return PXC_TOKEN(WHILE);                }
+{WITH}                      { return PXC_TOKEN(WITH);                 }
+{YIELD}                     { return PXC_TOKEN(YIELD);                }
+
+{ARROW}                     { return PXC_TOKEN(ARROW);                }
+{AMPERSAND}                 { return PXC_TOKEN(AMPERSAND);            }
+{COLON}                     { return PXC_TOKEN(COLON);                }
+{COLON_BANG}                { return PXC_TOKEN(COLON_BANG);           }
+{COMMA}                     { return PXC_TOKEN(COMMA);                }
+{DOUBLE_ARROW}              { return PXC_TOKEN(DOUBLE_ARROW);         }
+{EQUAL}                     { return PXC_TOKEN(EQUAL);                }
+{EQUAL_EQUAL}               { return PXC_TOKEN(EQUAL_EQUAL);          }
+{LEFT_CURLY_BRACE}          { return PXC_TOKEN(LEFT_CURLY_BRACE);     }
+{LEFT_PARENTHESIS}          { return PXC_TOKEN(LEFT_PARENTHESIS);     }
+{LEFT_SQUARE_BRACKET}       { return PXC_TOKEN(LEFT_SQUARE_BRACKET);  }
+
+{MINUS}                     { return PXC_TOKEN(MINUS);                }
+{PERIOD}                    { return PXC_TOKEN(PERIOD);               }
+{PLUS}                      { return PXC_TOKEN(PLUS);                 }
+{SELF}                      { return PXC_TOKEN(SELF);                 }
+{SEMICOLON}                 { return PXC_TOKEN(SEMICOLON);            }
+{SLASH}                     { return PXC_TOKEN(SLASH);                }
+{UNDERSCORE}                { return PXC_TOKEN(UNDERSCORE);           }
+ /* table-end */
+
+ /* More modern Bisons provide make_EOF. */
+<<EOF>>               { return PXC_TOKEN(END_OF_FILE); }
+
+
+{RIGHT_PARENTHESIS} {
+  BEGIN(AFTER_OPERAND);
+  return PXC_TOKEN(RIGHT_PARENTHESIS);
+}
+{RIGHT_CURLY_BRACE} {
+  BEGIN(AFTER_OPERAND);
+  return PXC_TOKEN(RIGHT_CURLY_BRACE);
+}
+{RIGHT_SQUARE_BRACKET} {
+  BEGIN(AFTER_OPERAND);
+  return PXC_TOKEN(RIGHT_SQUARE_BRACKET);
+}
+
+ /* `*` operator case 1: */
+<AFTER_WHITESPACE>"*"{whitespace}+ {
+  BEGIN(AFTER_WHITESPACE);
+  return PXC_TOKEN(BINARY_STAR);
+}
+ /* `*` operator case 2: */
+<AFTER_OPERAND>"*"/{operand_start} { return PXC_TOKEN(BINARY_STAR); }
+ /* `*` operator case 3: */
+ /*<AFTER_WHITESPACE>"*" { return PXC_TOKEN(PREFIX_STAR); } */
+ /* `*` operator case 4: */
+<INITIAL,AFTER_OPERAND>"*"{whitespace}+ {
+  BEGIN(AFTER_WHITESPACE);
+  return PXC_TOKEN(POSTFIX_STAR);
+}
+ /* `*` operator case 5: */
+ /* <INITIAL,AFTER_OPERAND>"*" { return PXC_TOKEN(UNARY_STAR); } */
+
+{identifier} {
+  BEGIN(AFTER_OPERAND);
+  return PXC_ARG_TOKEN(identifier, yytext);
+}
+
+{integer_literal} {
+  BEGIN(AFTER_OPERAND);
+  int val = 0;
+  if (!llvm::to_integer(yytext, val)) {
+    return context.RecordSyntaxError(
+        llvm::formatv("Invalid integer literal: {0}", yytext));
+  }
+  return PXC_ARG_TOKEN(integer_literal, val);
+}
+
+
+{one_line_comment} {
+  // Advance end by 1 line, resetting the column to zero.
+  context.current_token_position.lines(1);
+  // Make the span empty by setting start to end.
+  context.current_token_position.step();
+}
+
+{horizontal_whitespace}+ {
+  // Make the span empty by setting start to end.
+  context.current_token_position.step();
+  BEGIN(AFTER_WHITESPACE);
+}
+
+\n+ {
+  // Advance end by yyleng lines, resetting the column to zero.
+  context.current_token_position.lines(yyleng);
+  // Make the span empty by setting start to end.
+  context.current_token_position.step();
+  BEGIN(AFTER_WHITESPACE);
+}
+
+. {
+  return context.RecordSyntaxError(
+      llvm::formatv("invalid character '\\x{0}' in source file.",
+                    llvm::toHex(llvm::StringRef(yytext, 1))));
+}
+
+%%
+
+auto YyinputWrapper(yyscan_t yyscanner) -> int { return yyinput(yyscanner); }
