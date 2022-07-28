@@ -837,13 +837,13 @@ namespace  parser { namespace flex_bison  {
   const signed char
    Parser ::yystos_[] =
   {
-       0,    18,     0
+       0,    67,     0
   };
 
   const signed char
    Parser ::yyr1_[] =
   {
-       0,    17,    18
+       0,    66,    67
   };
 
   const signed char
@@ -860,19 +860,26 @@ namespace  parser { namespace flex_bison  {
   const  Parser ::yytname_[] =
   {
   "END_OF_FILE", "error", "\"invalid token\"", "integer_literal",
-  "identifier", "sized_type_literal", "string_literal", "LEFT_CURLY_BRACE",
-  "LEFT_PARENTHESIS", "LEFT_SQUARE_BRACKET", "RIGHT_CURLY_BRACE",
-  "RIGHT_PARENTHESIS", "RIGHT_SQUARE_BRACKET", "\"unary *\"",
-  "\"prefix *\"", "\"postfix *\"", "\"binary *\"", "$accept", "input", YY_NULLPTR
+  "identifier", "sized_type_literal", "string_literal", "FALSE", "TRUE",
+  "NONE", "AND", "AS", "ASSERT", "ASYNC", "AWAIT", "BREAK", "CLASS",
+  "CONTINUE", "DEF", "DEL", "ELIF", "ELSE", "EXCEPT", "FINALLY", "FOR",
+  "FROM", "GLOBAL", "IF", "IMPORT", "IN", "IS", "LAMBDA", "NONLOCAL",
+  "NOT", "OR", "PASS", "RETURN", "TRY", "WHILE", "WITH", "YIELD", "ARROW",
+  "AMPERSAND", "COLON", "COLON_BANG", "COMMA", "DOUBLE_ARROW", "EQUAL",
+  "EQUAL_EQUAL", "LEFT_CURLY_BRACE", "LEFT_PARENTHESIS",
+  "LEFT_SQUARE_BRACKET", "MINUS", "PERIOD", "PLUS", "RIGHT_CURLY_BRACE",
+  "RIGHT_PARENTHESIS", "RIGHT_SQUARE_BRACKET", "SELF", "SEMICOLON",
+  "SLASH", "UNDERSCORE", "\"unary *\"", "\"prefix *\"", "\"postfix *\"",
+  "\"binary *\"", "$accept", "input", YY_NULLPTR
   };
 #endif
 
 
 #if YYDEBUG
-  const signed char
+  const unsigned char
    Parser ::yyrline_[] =
   {
-       0,   108,   108
+       0,   156,   156
   };
 
   void
@@ -905,6 +912,6 @@ namespace  parser { namespace flex_bison  {
 
 #line 21 "parser.ypp"
 } } //  parser::flex_bison
-#line 909 "./parser.cc"
+#line 916 "./parser.cc"
 
-#line 111 "parser.ypp"
+#line 159 "parser.ypp"

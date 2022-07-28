@@ -4,12 +4,61 @@ Terminals unused in grammar
     identifier
     sized_type_literal
     string_literal
+    FALSE
+    TRUE
+    NONE
+    AND
+    AS
+    ASSERT
+    ASYNC
+    AWAIT
+    BREAK
+    CLASS
+    CONTINUE
+    DEF
+    DEL
+    ELIF
+    ELSE
+    EXCEPT
+    FINALLY
+    FOR
+    FROM
+    GLOBAL
+    IF
+    IMPORT
+    IN
+    IS
+    LAMBDA
+    NONLOCAL
+    NOT
+    OR
+    PASS
+    RETURN
+    TRY
+    WHILE
+    WITH
+    YIELD
+    ARROW
+    AMPERSAND
+    COLON
+    COLON_BANG
+    COMMA
+    DOUBLE_ARROW
+    EQUAL
+    EQUAL_EQUAL
     LEFT_CURLY_BRACE
     LEFT_PARENTHESIS
     LEFT_SQUARE_BRACKET
+    MINUS
+    PERIOD
+    PLUS
     RIGHT_CURLY_BRACE
     RIGHT_PARENTHESIS
     RIGHT_SQUARE_BRACKET
+    SELF
+    SEMICOLON
+    SLASH
+    UNDERSCORE
     "unary *"
     "prefix *"
     "postfix *"
@@ -31,23 +80,72 @@ Terminals, with rules where they appear
     identifier <std::string> (259)
     sized_type_literal <std::string> (260)
     string_literal <std::string> (261)
-    LEFT_CURLY_BRACE (262)
-    LEFT_PARENTHESIS (263)
-    LEFT_SQUARE_BRACKET (264)
-    RIGHT_CURLY_BRACE (265)
-    RIGHT_PARENTHESIS (266)
-    RIGHT_SQUARE_BRACKET (267)
-    "unary *" (268)
-    "prefix *" (269)
-    "postfix *" (270)
-    "binary *" (271)
+    FALSE (262)
+    TRUE (263)
+    NONE (264)
+    AND (265)
+    AS (266)
+    ASSERT (267)
+    ASYNC (268)
+    AWAIT (269)
+    BREAK (270)
+    CLASS (271)
+    CONTINUE (272)
+    DEF (273)
+    DEL (274)
+    ELIF (275)
+    ELSE (276)
+    EXCEPT (277)
+    FINALLY (278)
+    FOR (279)
+    FROM (280)
+    GLOBAL (281)
+    IF (282)
+    IMPORT (283)
+    IN (284)
+    IS (285)
+    LAMBDA (286)
+    NONLOCAL (287)
+    NOT (288)
+    OR (289)
+    PASS (290)
+    RETURN (291)
+    TRY (292)
+    WHILE (293)
+    WITH (294)
+    YIELD (295)
+    ARROW (296)
+    AMPERSAND (297)
+    COLON (298)
+    COLON_BANG (299)
+    COMMA (300)
+    DOUBLE_ARROW (301)
+    EQUAL (302)
+    EQUAL_EQUAL (303)
+    LEFT_CURLY_BRACE (304)
+    LEFT_PARENTHESIS (305)
+    LEFT_SQUARE_BRACKET (306)
+    MINUS (307)
+    PERIOD (308)
+    PLUS (309)
+    RIGHT_CURLY_BRACE (310)
+    RIGHT_PARENTHESIS (311)
+    RIGHT_SQUARE_BRACKET (312)
+    SELF (313)
+    SEMICOLON (314)
+    SLASH (315)
+    UNDERSCORE (316)
+    "unary *" (317)
+    "prefix *" (318)
+    "postfix *" (319)
+    "binary *" (320)
 
 
 Nonterminals, with rules where they appear
 
-    $accept (17)
+    $accept (66)
         on left: 0
-    input (18)
+    input (67)
         on left: 1
         on right: 0
 

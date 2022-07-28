@@ -16,6 +16,7 @@ public:
         auto smart_ptr = std::make_unique<ArenaEntryTyped<T>>(std::forward<Args>(args)...);
         Nonnull<T*> ptr = smart_ptr->Instance();
         arena_.push_back(std::move(smart_ptr));
+        return ptr;
     }
 private:
     class ArenaEntry {
