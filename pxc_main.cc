@@ -8,6 +8,10 @@
 #include "common/error.h"
 #include "common/nonnull.h"
 #include "common/arena.h"
+#include "parser/flex_bison/parse.h"
+#include "ast/ast.h"
+
+#include "vm/run_ast.h"
 
 #include <cstdlib>
 
@@ -48,7 +52,18 @@ static auto Main(llvm::StringRef default_prelude_file, int argc, char **argv)
     }
 
     common::Arena arena;
-    // PXC_ASSIGN_OR_RETURN()
+    PXC_ASSIGN_OR_RETURN(ast::AST ast,
+                         parser::flex_bison::Parse(&arena,
+                                                   input_file_name,
+                                                   parser_debug));
+    PXC_ASSIGN_OR_RETURN(int return_code,
+                         vm::RunAst(&arena, ast, trace_stream));
+    llvm::outs() << "build ast return code: " << return_code << "\n";
+
+    // When there's dedicated trace file, print the return code to it too.
+    if (scoped_trace_stream) {
+        **trace_stream << "build ast return code: " << return_code << "\n";
+    }
 
     return common::Success();
 }

@@ -123,7 +123,7 @@ rune_t reader_t::read(uint32_t &width) const {
     if (ch == 0) {
         return rune_invalid;
     } else if (ch >= 0x80) {
-        auto cp = decode((char *)(_slice.data() + _index), _slice.size() - _index);
+        auto cp = decode((const char *)(_slice.data() + _index), _slice.size() - _index);
         width = cp.width;
         rune = cp.value;
         if (rune == rune_invalid && width == 1) {

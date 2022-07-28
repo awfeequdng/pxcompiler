@@ -6,7 +6,7 @@
 
 namespace common {
 std::string HexFormatter::dump_to_string(const void *data, size_t size) {
-    auto *buf = (unsigned char *)data;
+    auto *buf = (const unsigned char *)data;
     std::stringstream stream;
     for (size_t i = 0; i < size; i += 16) {
         stream << fmt::format("{:06x}: ", (unsigned long)(data) + i);
