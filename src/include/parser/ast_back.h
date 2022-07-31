@@ -55,7 +55,6 @@ struct TypeSwitchStmt;
 struct GoStmt;
 using EllipsisPtr = std::shared_ptr<Ellipsis>;
 using BasicLitPtr = std::shared_ptr<BasicLit>;
-using FieldList = std::vector<Field>;
 using ArrayTypePtr = std::shared_ptr<ArrayType>;
 using StructTypePtr = std::shared_ptr<StructType>;
 using FuncTypePtr = std::shared_ptr<FuncType>;
@@ -98,6 +97,7 @@ using CommentPtr = std::shared_ptr<Comment>;
 using CommentGroupPtr = std::shared_ptr<CommentGroup>;
 using IdentPtr = std::shared_ptr<Ident>;
 using FieldPtr = std::shared_ptr<Field>;
+using FieldList = std::vector<FieldPtr>;
 
 struct SliceExpr;
 struct CallExpr;
@@ -268,9 +268,9 @@ class Field : public Node {
 public:
 	CommentGroupPtr Doc;            // associated documentation; or nil
 	std::vector<IdentPtr> names;    // field/method/parameter names; or nil
-	ExprPtr    Type;                   // field/method/parameter type
-	BasicLitPtr Tag;               // field tag; or nil
-	CommentGroupPtr Comment;         // line comments; or nil
+	ExprPtr    Type;                // field/method/parameter type
+	BasicLitPtr Tag;                // field tag; or nil
+	CommentGroupPtr Comment;        // line comments; or nil
 };
 
 // An ArrayType node represents an array or slice type.
@@ -515,6 +515,89 @@ struct CommClause : public Node {
     StmtPtr Comm;
     common::Pos Colon;
     std::vector<StmtPtr> Body;
+};
+
+struct Spec : public Node {
+
+};
+struct Spec;
+using SpecPtr = std::shared_ptr<Spec>;
+
+// An ImportSpec node represents a single package import.
+struct ImportSpec : public Spec {
+	CommentGroupPtr Doc;        // associated documentation; or nil
+	IdentPtr Name;              // local package name (including "."); or nil
+	BasicLitPtr Path;           // import path
+	CommentGroupPtr Comment;    // line comments; or nil
+	common::Pos EndPos;         // end of spec (overrides Path.Pos if nonzero)
+};
+struct ImportSpec;
+using ImportSpecPtr = std::shared_ptr<ImportSpec>;
+
+// A ValueSpec node represents a constant or variable declaration
+// (ConstSpec or VarSpec production).
+//
+struct ValueSpec : public Spec {
+	CommentGroupPtr Doc;            // associated documentation; or nil
+	std::vector<IdentPtr> Names;    // value names (len(Names) > 0)
+	ExprPtr Type;                   // value type; or nil
+	std::vector<ExprPtr> Values;    // initial values; or nil
+	CommentGroupPtr Comment;        // line comments; or nil
+};
+struct ValueSpec;
+using ValueSpecPtr = std::shared_ptr<ValueSpec>;
+
+// A TypeSpec node represents a type declaration (TypeSpec production).
+struct TypeSpec : public Spec {
+		CommentGroupPtr Doc; // associated documentation; or nil
+		IdentPtr Name;          // type name
+		common::Pos Assign      // position of '=', if any
+		ExprPtr Type;           // *Ident, *ParenExpr, *SelectorExpr, *StarExpr, or any of the *XxxTypes
+		CommentGroupPtr Comment; // line comments; or nil
+};
+struct TypeSpec;
+using TypeSpecPtr = std::shared_ptr<TypeSpec>;
+
+// A BadDecl node is a placeholder for a declaration containing
+// syntax errors for which a correct declaration node cannot be
+// created.
+//
+struct BadDecl : public Node {
+	common::Pos From, To; // position range of bad declaration
+};
+struct BadDecl;
+using BadDeclPtr = std::shared_ptr<BadDecl>;
+
+
+// A GenDecl node (generic declaration node) represents an import,
+// constant, type or variable declaration. A valid Lparen position
+// (Lparen.IsValid()) indicates a parenthesized declaration.
+//
+// Relationship between Tok value and Specs element type:
+//
+//	token.IMPORT  *ImportSpec
+//	token.CONST   *ValueSpec
+//	token.TYPE    *TypeSpec
+//	token.VAR     *ValueSpec
+//
+struct GenDecl : public Node {
+	CommentGroupPtr Doc; // associated documentation; or nil
+	common::Pos TokPos;  // position of Tok
+	Token Tok;   // IMPORT, CONST, TYPE, VAR
+	common::Pos Lparen;     // position of '(', if any
+	std::vector<SpecPtr>Specs;
+	common::Pos Rparen;     // position of ')', if any
+};
+struct GenDecl;
+using GenDeclPtr = std::shared_ptr<GenDecl>;
+
+// A FuncDecl node represents a function declaration.
+struct FuncDecl : public Node {
+	CommentGroupPtr Doc; // associated documentation; or nil
+	FieldList Recv;     // receiver (methods); or nil (functions)
+	IdentPtr Name;      // function/method name
+	FuncTypePtr Type;      // function signature: parameters, results, and position of "func" keyword
+	BlockStmtPtr Body;     // function body; or nil for external (non-Go) function
 };
 
 } // namespace parser
