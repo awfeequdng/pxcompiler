@@ -33,7 +33,7 @@
 
 /**
  ** \file ../../include/parser/flex_bison/parser.h
- ** Define the  parser::flex_bison ::parser class.
+ ** Define the  pxcompiler ::parser class.
  */
 
 // C++ LALR(1) parser skeleton written by Akim Demaille.
@@ -52,14 +52,15 @@
   #include "ast/ast.h"
   #include "common/arena.h"
   #include "common/nonnull.h"
+  #include "parser/flex_bison/semantics.h"
 
-  namespace parser::flex_bison {
+  namespace pxcompiler {
   class ParseAndLexContext;
   }  // namespace flex_bison
 
   typedef void* yyscan_t;
 
-#line 63 "../../include/parser/flex_bison/parser.h"
+#line 64 "../../include/parser/flex_bison/parser.h"
 
 
 # include <cstdlib> // std::abort
@@ -194,8 +195,8 @@
 #endif
 
 #line 21 "parser.ypp"
-namespace  parser { namespace flex_bison  {
-#line 199 "../../include/parser/flex_bison/parser.h"
+namespace  pxcompiler  {
+#line 200 "../../include/parser/flex_bison/parser.h"
 
 
   /// A point in a source file.
@@ -635,10 +636,22 @@ namespace  parser { namespace flex_bison  {
       // integer_literal
       char dummy1[sizeof (int)];
 
+      // expr
+      char dummy2[sizeof (pxcompiler::Nonnull<pxcompiler::Expression*>)];
+
+      // id
+      char dummy3[sizeof (pxcompiler::Nonnull<pxcompiler::Name*>)];
+
+      // script_unit
+      // statement
+      // single_line_statement
+      // expression_statment
+      char dummy4[sizeof (pxcompiler::Nonnull<pxcompiler::Statement*>)];
+
       // identifier
       // sized_type_literal
       // string_literal
-      char dummy2[sizeof (std::string)];
+      char dummy5[sizeof (std::string)];
     };
 
     /// The size of the largest semantic type.
@@ -766,7 +779,7 @@ namespace  parser { namespace flex_bison  {
     {
       enum symbol_kind_type
       {
-        YYNTOKENS = 66, ///< Number of tokens.
+        YYNTOKENS = 67, ///< Number of tokens.
         S_YYEMPTY = -2,
         S_YYEOF = 0,                             // END_OF_FILE
         S_YYerror = 1,                           // error
@@ -834,8 +847,16 @@ namespace  parser { namespace flex_bison  {
         S_PREFIX_STAR = 63,                      // "prefix *"
         S_POSTFIX_STAR = 64,                     // "postfix *"
         S_BINARY_STAR = 65,                      // "binary *"
-        S_YYACCEPT = 66,                         // $accept
-        S_input = 67                             // input
+        S_66_ = 66,                              // ";"
+        S_YYACCEPT = 67,                         // $accept
+        S_units = 68,                            // units
+        S_script_unit = 69,                      // script_unit
+        S_statement = 70,                        // statement
+        S_single_line_statement = 71,            // single_line_statement
+        S_expression_statment = 72,              // expression_statment
+        S_expr = 73,                             // expr
+        S_id = 74,                               // id
+        S_sep = 75                               // sep
       };
     };
 
@@ -874,6 +895,21 @@ namespace  parser { namespace flex_bison  {
     {
       case symbol_kind::S_integer_literal: // integer_literal
         value.move< int > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_expr: // expr
+        value.move< pxcompiler::Nonnull<pxcompiler::Expression*> > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_id: // id
+        value.move< pxcompiler::Nonnull<pxcompiler::Name*> > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_script_unit: // script_unit
+      case symbol_kind::S_statement: // statement
+      case symbol_kind::S_single_line_statement: // single_line_statement
+      case symbol_kind::S_expression_statment: // expression_statment
+        value.move< pxcompiler::Nonnull<pxcompiler::Statement*> > (std::move (that.value));
         break;
 
       case symbol_kind::S_identifier: // identifier
@@ -920,6 +956,48 @@ namespace  parser { namespace flex_bison  {
 #endif
 
 #if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, pxcompiler::Nonnull<pxcompiler::Expression*>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const pxcompiler::Nonnull<pxcompiler::Expression*>& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, pxcompiler::Nonnull<pxcompiler::Name*>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const pxcompiler::Nonnull<pxcompiler::Name*>& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, pxcompiler::Nonnull<pxcompiler::Statement*>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const pxcompiler::Nonnull<pxcompiler::Statement*>& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
       basic_symbol (typename Base::kind_type t, std::string&& v, location_type&& l)
         : Base (t)
         , value (std::move (v))
@@ -957,6 +1035,21 @@ switch (yykind)
     {
       case symbol_kind::S_integer_literal: // integer_literal
         value.template destroy< int > ();
+        break;
+
+      case symbol_kind::S_expr: // expr
+        value.template destroy< pxcompiler::Nonnull<pxcompiler::Expression*> > ();
+        break;
+
+      case symbol_kind::S_id: // id
+        value.template destroy< pxcompiler::Nonnull<pxcompiler::Name*> > ();
+        break;
+
+      case symbol_kind::S_script_unit: // script_unit
+      case symbol_kind::S_statement: // statement
+      case symbol_kind::S_single_line_statement: // single_line_statement
+      case symbol_kind::S_expression_statment: // expression_statment
+        value.template destroy< pxcompiler::Nonnull<pxcompiler::Statement*> > ();
         break;
 
       case symbol_kind::S_identifier: // identifier
@@ -1081,7 +1174,7 @@ switch (yykind)
     };
 
     /// Build a parser object.
-     Parser  (common::Nonnull<common::Arena*> arena_yyarg, yyscan_t yyscanner_yyarg, ParseAndLexContext& context_yyarg, std::optional<ast::AST>* ast_yyarg);
+     Parser  (pxcompiler::Nonnull<pxcompiler::Arena*> arena_yyarg, yyscan_t yyscanner_yyarg, ParseAndLexContext& context_yyarg, std::optional<pxcompiler::ASTPtr>* ast_yyarg);
     virtual ~ Parser  ();
 
 #if 201103L <= YY_CPLUSPLUS
@@ -2196,7 +2289,7 @@ switch (yykind)
 
 #if YYDEBUG
     // YYRLINE[YYN] -- Source line where rule number YYN was defined.
-    static const unsigned char yyrline_[];
+    static const short yyrline_[];
     /// Report on the debug stream that the rule \a r is going to be reduced.
     virtual void yy_reduce_print_ (int r) const;
     /// Print the state stack on the debug stream.
@@ -2423,17 +2516,17 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 0,     ///< Last index in yytable_.
-      yynnts_ = 2,  ///< Number of nonterminal symbols.
-      yyfinal_ = 2 ///< Termination state number.
+      yylast_ = 62,     ///< Last index in yytable_.
+      yynnts_ = 9,  ///< Number of nonterminal symbols.
+      yyfinal_ = 11 ///< Termination state number.
     };
 
 
     // User arguments.
-    common::Nonnull<common::Arena*> arena;
+    pxcompiler::Nonnull<pxcompiler::Arena*> arena;
     yyscan_t yyscanner;
     ParseAndLexContext& context;
-    std::optional<ast::AST>* ast;
+    std::optional<pxcompiler::ASTPtr>* ast;
 
   };
 
@@ -2479,10 +2572,10 @@ switch (yykind)
       35,    36,    37,    38,    39,    40,    41,    42,    43,    44,
       45,    46,    47,    48,    49,    50,    51,    52,    53,    54,
       55,    56,    57,    58,    59,    60,    61,    62,    63,    64,
-      65
+      65,    66
     };
     // Last valid token kind.
-    const int code_max = 320;
+    const int code_max = 321;
 
     if (t <= 0)
       return symbol_kind::S_YYEOF;
@@ -2503,6 +2596,21 @@ switch (yykind)
     {
       case symbol_kind::S_integer_literal: // integer_literal
         value.copy< int > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_expr: // expr
+        value.copy< pxcompiler::Nonnull<pxcompiler::Expression*> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_id: // id
+        value.copy< pxcompiler::Nonnull<pxcompiler::Name*> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_script_unit: // script_unit
+      case symbol_kind::S_statement: // statement
+      case symbol_kind::S_single_line_statement: // single_line_statement
+      case symbol_kind::S_expression_statment: // expression_statment
+        value.copy< pxcompiler::Nonnull<pxcompiler::Statement*> > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_identifier: // identifier
@@ -2542,6 +2650,21 @@ switch (yykind)
     {
       case symbol_kind::S_integer_literal: // integer_literal
         value.move< int > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_expr: // expr
+        value.move< pxcompiler::Nonnull<pxcompiler::Expression*> > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_id: // id
+        value.move< pxcompiler::Nonnull<pxcompiler::Name*> > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_script_unit: // script_unit
+      case symbol_kind::S_statement: // statement
+      case symbol_kind::S_single_line_statement: // single_line_statement
+      case symbol_kind::S_expression_statment: // expression_statment
+        value.move< pxcompiler::Nonnull<pxcompiler::Statement*> > (YY_MOVE (s.value));
         break;
 
       case symbol_kind::S_identifier: // identifier
@@ -2612,8 +2735,8 @@ switch (yykind)
   }
 
 #line 21 "parser.ypp"
-} } //  parser::flex_bison 
-#line 2617 "../../include/parser/flex_bison/parser.h"
+} //  pxcompiler 
+#line 2740 "../../include/parser/flex_bison/parser.h"
 
 
 

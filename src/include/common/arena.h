@@ -6,7 +6,7 @@
 
 #include "common/nonnull.h"
 
-namespace common
+namespace pxcompiler
 {
 class Arena {
 public:
@@ -38,4 +38,4 @@ private:
     std::vector<std::unique_ptr<ArenaEntry>> arena_;
 };
 
-} // namespace common
+} // namespace pxcompiler

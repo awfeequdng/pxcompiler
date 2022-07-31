@@ -8,6 +8,7 @@ abstract class ModuleBase : AstNode;
   class Interactive : ModuleBase;
   class ModExpression : ModuleBase;
   class FunctionType : ModuleBase;
+abstract class Declaration : AstNode;
 abstract class Statement : AstNode;
   class FunctionDef : Statement;
   class AsyncFunctionDef : Statement;

@@ -57,9 +57,9 @@
 
 
 // Unqualified %code blocks.
-#line 73 "parser.ypp"
+#line 74 "parser.ypp"
 
-  void parser::flex_bison::Parser::error(const location_type&, const std::string& message) {
+  void pxcompiler::Parser::error(const location_type&, const std::string& message) {
     context.RecordSyntaxError(message);
   }
 
@@ -155,11 +155,11 @@
 #define YYRECOVERING()  (!!yyerrstatus_)
 
 #line 21 "parser.ypp"
-namespace  parser { namespace flex_bison  {
+namespace  pxcompiler  {
 #line 160 "./parser.cc"
 
   /// Build a parser object.
-   Parser :: Parser  (common::Nonnull<common::Arena*> arena_yyarg, yyscan_t yyscanner_yyarg, ParseAndLexContext& context_yyarg, std::optional<ast::AST>* ast_yyarg)
+   Parser :: Parser  (pxcompiler::Nonnull<pxcompiler::Arena*> arena_yyarg, yyscan_t yyscanner_yyarg, ParseAndLexContext& context_yyarg, std::optional<pxcompiler::ASTPtr>* ast_yyarg)
 #if YYDEBUG
     : yydebug_ (false),
       yycdebug_ (&std::cerr),
@@ -231,6 +231,21 @@ namespace  parser { namespace flex_bison  {
         value.YY_MOVE_OR_COPY< int > (YY_MOVE (that.value));
         break;
 
+      case symbol_kind::S_expr: // expr
+        value.YY_MOVE_OR_COPY< pxcompiler::Nonnull<pxcompiler::Expression*> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_id: // id
+        value.YY_MOVE_OR_COPY< pxcompiler::Nonnull<pxcompiler::Name*> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_script_unit: // script_unit
+      case symbol_kind::S_statement: // statement
+      case symbol_kind::S_single_line_statement: // single_line_statement
+      case symbol_kind::S_expression_statment: // expression_statment
+        value.YY_MOVE_OR_COPY< pxcompiler::Nonnull<pxcompiler::Statement*> > (YY_MOVE (that.value));
+        break;
+
       case symbol_kind::S_identifier: // identifier
       case symbol_kind::S_sized_type_literal: // sized_type_literal
       case symbol_kind::S_string_literal: // string_literal
@@ -254,6 +269,21 @@ namespace  parser { namespace flex_bison  {
     {
       case symbol_kind::S_integer_literal: // integer_literal
         value.move< int > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_expr: // expr
+        value.move< pxcompiler::Nonnull<pxcompiler::Expression*> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_id: // id
+        value.move< pxcompiler::Nonnull<pxcompiler::Name*> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_script_unit: // script_unit
+      case symbol_kind::S_statement: // statement
+      case symbol_kind::S_single_line_statement: // single_line_statement
+      case symbol_kind::S_expression_statment: // expression_statment
+        value.move< pxcompiler::Nonnull<pxcompiler::Statement*> > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_identifier: // identifier
@@ -281,6 +311,21 @@ namespace  parser { namespace flex_bison  {
         value.copy< int > (that.value);
         break;
 
+      case symbol_kind::S_expr: // expr
+        value.copy< pxcompiler::Nonnull<pxcompiler::Expression*> > (that.value);
+        break;
+
+      case symbol_kind::S_id: // id
+        value.copy< pxcompiler::Nonnull<pxcompiler::Name*> > (that.value);
+        break;
+
+      case symbol_kind::S_script_unit: // script_unit
+      case symbol_kind::S_statement: // statement
+      case symbol_kind::S_single_line_statement: // single_line_statement
+      case symbol_kind::S_expression_statment: // expression_statment
+        value.copy< pxcompiler::Nonnull<pxcompiler::Statement*> > (that.value);
+        break;
+
       case symbol_kind::S_identifier: // identifier
       case symbol_kind::S_sized_type_literal: // sized_type_literal
       case symbol_kind::S_string_literal: // string_literal
@@ -303,6 +348,21 @@ namespace  parser { namespace flex_bison  {
     {
       case symbol_kind::S_integer_literal: // integer_literal
         value.move< int > (that.value);
+        break;
+
+      case symbol_kind::S_expr: // expr
+        value.move< pxcompiler::Nonnull<pxcompiler::Expression*> > (that.value);
+        break;
+
+      case symbol_kind::S_id: // id
+        value.move< pxcompiler::Nonnull<pxcompiler::Name*> > (that.value);
+        break;
+
+      case symbol_kind::S_script_unit: // script_unit
+      case symbol_kind::S_statement: // statement
+      case symbol_kind::S_single_line_statement: // single_line_statement
+      case symbol_kind::S_expression_statment: // expression_statment
+        value.move< pxcompiler::Nonnull<pxcompiler::Statement*> > (that.value);
         break;
 
       case symbol_kind::S_identifier: // identifier
@@ -574,6 +634,21 @@ namespace  parser { namespace flex_bison  {
         yylhs.value.emplace< int > ();
         break;
 
+      case symbol_kind::S_expr: // expr
+        yylhs.value.emplace< pxcompiler::Nonnull<pxcompiler::Expression*> > ();
+        break;
+
+      case symbol_kind::S_id: // id
+        yylhs.value.emplace< pxcompiler::Nonnull<pxcompiler::Name*> > ();
+        break;
+
+      case symbol_kind::S_script_unit: // script_unit
+      case symbol_kind::S_statement: // statement
+      case symbol_kind::S_single_line_statement: // single_line_statement
+      case symbol_kind::S_expression_statment: // expression_statment
+        yylhs.value.emplace< pxcompiler::Nonnull<pxcompiler::Statement*> > ();
+        break;
+
       case symbol_kind::S_identifier: // identifier
       case symbol_kind::S_sized_type_literal: // sized_type_literal
       case symbol_kind::S_string_literal: // string_literal
@@ -600,8 +675,56 @@ namespace  parser { namespace flex_bison  {
         {
           switch (yyn)
             {
+  case 2: // units: units script_unit
+#line 174 "parser.ypp"
+                          { RESULT(yystack_[0].value.as < pxcompiler::Nonnull<pxcompiler::Statement*> > ()); }
+#line 682 "./parser.cc"
+    break;
 
-#line 605 "./parser.cc"
+  case 3: // units: script_unit
+#line 175 "parser.ypp"
+                          { RESULT(yystack_[0].value.as < pxcompiler::Nonnull<pxcompiler::Statement*> > ()); }
+#line 688 "./parser.cc"
+    break;
+
+  case 5: // script_unit: statement
+#line 180 "parser.ypp"
+      { yylhs.value.as < pxcompiler::Nonnull<pxcompiler::Statement*> > () = yystack_[0].value.as < pxcompiler::Nonnull<pxcompiler::Statement*> > (); }
+#line 694 "./parser.cc"
+    break;
+
+  case 6: // statement: single_line_statement sep
+#line 184 "parser.ypp"
+                                { yylhs.value.as < pxcompiler::Nonnull<pxcompiler::Statement*> > () = yystack_[1].value.as < pxcompiler::Nonnull<pxcompiler::Statement*> > (); }
+#line 700 "./parser.cc"
+    break;
+
+  case 7: // single_line_statement: expression_statment
+#line 191 "parser.ypp"
+      { yylhs.value.as < pxcompiler::Nonnull<pxcompiler::Statement*> > () = yystack_[0].value.as < pxcompiler::Nonnull<pxcompiler::Statement*> > (); }
+#line 706 "./parser.cc"
+    break;
+
+  case 8: // expression_statment: expr
+#line 209 "parser.ypp"
+           { yylhs.value.as < pxcompiler::Nonnull<pxcompiler::Statement*> > () = EXPR_01(yystack_[0].value.as < pxcompiler::Nonnull<pxcompiler::Expression*> > (), context.source_loc()); }
+#line 712 "./parser.cc"
+    break;
+
+  case 9: // expr: id
+#line 213 "parser.ypp"
+         { yylhs.value.as < pxcompiler::Nonnull<pxcompiler::Expression*> > () = yystack_[0].value.as < pxcompiler::Nonnull<pxcompiler::Name*> > (); }
+#line 718 "./parser.cc"
+    break;
+
+  case 10: // id: identifier
+#line 283 "parser.ypp"
+                 { yylhs.value.as < pxcompiler::Nonnull<pxcompiler::Name*> > () = SYMBOL(yystack_[0].value.as < std::string > (), context.source_loc()); }
+#line 724 "./parser.cc"
+    break;
+
+
+#line 728 "./parser.cc"
 
             default:
               break;
@@ -794,62 +917,79 @@ namespace  parser { namespace flex_bison  {
 
 
 
-  const signed char  Parser ::yypact_ninf_ = -1;
+  const signed char  Parser ::yypact_ninf_ = -65;
 
   const signed char  Parser ::yytable_ninf_ = -1;
 
   const signed char
    Parser ::yypact_[] =
   {
-      -1,     0,    -1
+      -4,   -65,   -65,     1,   -65,   -65,   -64,   -65,   -65,   -65,
+     -65,   -65,   -65,   -65
   };
 
   const signed char
    Parser ::yydefact_[] =
   {
-       2,     0,     1
+       0,    10,    11,     0,     3,     5,     0,     7,     8,     9,
+       4,     1,     2,     6
   };
 
   const signed char
    Parser ::yypgoto_[] =
   {
-      -1,    -1
+     -65,   -65,     0,   -65,   -65,   -65,   -65,   -65,    -2
   };
 
   const signed char
    Parser ::yydefgoto_[] =
   {
-       0,     1
+       0,     3,     4,     5,     6,     7,     8,     9,    10
   };
 
   const signed char
    Parser ::yytable_[] =
   {
-       2
+       1,    11,     2,    12,    13,     1,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     2
   };
 
   const signed char
    Parser ::yycheck_[] =
   {
-       0
+       4,     0,    66,     3,     6,     4,    -1,    -1,    -1,    -1,
+      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
+      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
+      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
+      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
+      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
+      -1,    -1,    66
   };
 
   const signed char
    Parser ::yystos_[] =
   {
-       0,    67,     0
+       0,     4,    66,    68,    69,    70,    71,    72,    73,    74,
+      75,     0,    69,    75
   };
 
   const signed char
    Parser ::yyr1_[] =
   {
-       0,    66,    67
+       0,    67,    68,    68,    68,    69,    70,    71,    72,    73,
+      74,    75
   };
 
   const signed char
    Parser ::yyr2_[] =
   {
-       0,     2,     0
+       0,     2,     2,     1,     1,     1,     2,     1,     1,     1,
+       1,     1
   };
 
 
@@ -870,16 +1010,18 @@ namespace  parser { namespace flex_bison  {
   "LEFT_SQUARE_BRACKET", "MINUS", "PERIOD", "PLUS", "RIGHT_CURLY_BRACE",
   "RIGHT_PARENTHESIS", "RIGHT_SQUARE_BRACKET", "SELF", "SEMICOLON",
   "SLASH", "UNDERSCORE", "\"unary *\"", "\"prefix *\"", "\"postfix *\"",
-  "\"binary *\"", "$accept", "input", YY_NULLPTR
+  "\"binary *\"", "\";\"", "$accept", "units", "script_unit", "statement",
+  "single_line_statement", "expression_statment", "expr", "id", "sep", YY_NULLPTR
   };
 #endif
 
 
 #if YYDEBUG
-  const unsigned char
+  const short
    Parser ::yyrline_[] =
   {
-       0,   156,   156
+       0,   174,   174,   175,   176,   180,   184,   191,   209,   213,
+     283,   287
   };
 
   void
@@ -911,7 +1053,7 @@ namespace  parser { namespace flex_bison  {
 
 
 #line 21 "parser.ypp"
-} } //  parser::flex_bison
-#line 916 "./parser.cc"
+} //  pxcompiler
+#line 1058 "./parser.cc"
 
-#line 159 "parser.ypp"
+#line 289 "parser.ypp"

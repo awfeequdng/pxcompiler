@@ -4,7 +4,7 @@
 
 #include <sstream>
 
-namespace common {
+namespace pxcompiler {
 std::string HexFormatter::dump_to_string(const void *data, size_t size) {
     auto *buf = (const unsigned char *)data;
     std::stringstream stream;
@@ -22,4 +22,4 @@ std::string HexFormatter::dump_to_string(const void *data, size_t size) {
     }
     return stream.str();
 }
-}  // namespace common
+}  // namespace pxcompiler

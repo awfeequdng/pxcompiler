@@ -5,12 +5,12 @@
 
 namespace parser {
 
-std::tuple<int, common::Pos, std::string> startWithAt(Scanner &s) {
+std::tuple<int, pxcompiler::Pos, std::string> startWithAt(Scanner &s) {
 
     return {};
 }
 
-std::tuple<int, common::Pos, std::string> startWithSlash(Scanner &s) {
+std::tuple<int, pxcompiler::Pos, std::string> startWithSlash(Scanner &s) {
     auto pos = s.reader()->pos();
     s.reader()->next();
     if (s.reader()->peek() != '*' && s.reader()->peek() != '/') {
@@ -19,7 +19,7 @@ std::tuple<int, common::Pos, std::string> startWithSlash(Scanner &s) {
         return {tok, pos, lit};
     }
     if (s.reader()->peek() == '/') {
-        s.reader()->incAsLongAs([](common::utf8::rune_t ch) { return ch != '\n'; });
+        s.reader()->incAsLongAs([](pxcompiler::utf8::rune_t ch) { return ch != '\n'; });
         return s.scan();
     }
 
@@ -35,7 +35,7 @@ std::tuple<int, common::Pos, std::string> startWithSlash(Scanner &s) {
 
     // standard C-like comment. read until we see '*/' then drop it.
     while (true) {
-        auto fn = [](common::utf8::rune_t ch) -> bool { return ch != '*'; };
+        auto fn = [](pxcompiler::utf8::rune_t ch) -> bool { return ch != '*'; };
         if (currentCharIsStar || s.reader()->incAsLongAs(fn) == '*') {
             switch ((int)s.reader()->next()) {
                 case '/':
@@ -55,21 +55,21 @@ std::tuple<int, common::Pos, std::string> startWithSlash(Scanner &s) {
     }
 }
 
-std::tuple<int, common::Pos, std::string> startWithStar(Scanner &s) {
+std::tuple<int, pxcompiler::Pos, std::string> startWithStar(Scanner &s) {
     auto pos = s.reader()->pos();
     s.reader()->next();
 
     return {'*', pos, "*"};
 }
 
-std::tuple<int, common::Pos, std::string> startWithDash(Scanner &s) { return {}; }
+std::tuple<int, pxcompiler::Pos, std::string> startWithDash(Scanner &s) { return {}; }
 
-std::tuple<int, common::Pos, std::string> startWithSharp(Scanner &s) {
-    s.reader()->incAsLongAs([](common::utf8::rune_t ch) { return ch != '\n'; });
+std::tuple<int, pxcompiler::Pos, std::string> startWithSharp(Scanner &s) {
+    s.reader()->incAsLongAs([](pxcompiler::utf8::rune_t ch) { return ch != '\n'; });
     return s.scan();
 }
 
-std::tuple<int, common::Pos, std::string> startWithXx(Scanner &s) {
+std::tuple<int, pxcompiler::Pos, std::string> startWithXx(Scanner &s) {
     int tok;
     std::string lit;
     auto pos = s.reader()->pos();
@@ -82,7 +82,7 @@ std::tuple<int, common::Pos, std::string> startWithXx(Scanner &s) {
             tok = tok_hexLit;
             lit = s.reader()->data(pos);
         } else {
-            tok = (int)common::utf8::rune_invalid;
+            tok = (int)pxcompiler::utf8::rune_invalid;
         }
         return {tok, pos, lit};
     }
@@ -90,12 +90,12 @@ std::tuple<int, common::Pos, std::string> startWithXx(Scanner &s) {
     return scanIdentifier(s);
 }
 
-std::tuple<int, common::Pos, std::string> startWithNn(Scanner &s) {
+std::tuple<int, pxcompiler::Pos, std::string> startWithNn(Scanner &s) {
     auto [tok, pos, lit] = scanIdentifier(s);
     return {tok, pos, lit};
 }
 
-std::tuple<int, common::Pos, std::string> startWithBb(Scanner &s) {
+std::tuple<int, pxcompiler::Pos, std::string> startWithBb(Scanner &s) {
     int tok;
     std::string lit;
     auto pos = s.reader()->pos();
@@ -108,7 +108,7 @@ std::tuple<int, common::Pos, std::string> startWithBb(Scanner &s) {
             tok = tok_bitLit;
             lit = s.reader()->data(pos);
         } else {
-            tok = (int)common::utf8::rune_invalid;
+            tok = (int)pxcompiler::utf8::rune_invalid;
         }
         return {tok, pos, lit};
     }
@@ -116,15 +116,15 @@ std::tuple<int, common::Pos, std::string> startWithBb(Scanner &s) {
     return scanIdentifier(s);
 }
 
-std::tuple<int, common::Pos, std::string> startWithDot(Scanner &s) { return {}; }
+std::tuple<int, pxcompiler::Pos, std::string> startWithDot(Scanner &s) { return {}; }
 
-std::tuple<int, common::Pos, std::string> scanIdentifier(Scanner &scanner) {
+std::tuple<int, pxcompiler::Pos, std::string> scanIdentifier(Scanner &scanner) {
     auto pos = scanner.reader()->pos();
     scanner.reader()->incAsLongAs(isIdentChar);
     return {tok_identifier, pos, scanner.reader()->data(pos)};
 }
 
-std::tuple<int, common::Pos, std::string> scanQuotedIdent(Scanner &s) {
+std::tuple<int, pxcompiler::Pos, std::string> scanQuotedIdent(Scanner &s) {
     int tok;
     std::string lit;
     auto pos = s.reader()->pos();
@@ -133,8 +133,8 @@ std::tuple<int, common::Pos, std::string> scanQuotedIdent(Scanner &s) {
     s.buf().str(std::string());
     while (true) {
         auto ch = s.reader()->next();
-        if (ch == common::utf8::rune_invalid && s.reader()->eof()) {
-            tok = (int)common::utf8::rune_invalid;
+        if (ch == pxcompiler::utf8::rune_invalid && s.reader()->eof()) {
+            tok = (int)pxcompiler::utf8::rune_invalid;
             return {tok, pos, lit};
         }
         if (ch == '`') {
@@ -150,7 +150,7 @@ std::tuple<int, common::Pos, std::string> scanQuotedIdent(Scanner &s) {
     }
 }
 
-std::tuple<int, common::Pos, std::string> startWithNumber(Scanner &s) {
+std::tuple<int, pxcompiler::Pos, std::string> startWithNumber(Scanner &s) {
     auto pos = s.reader()->pos();
     auto tok = tok_intLit;
     auto ch0 = s.reader()->next();
@@ -206,14 +206,14 @@ std::tuple<int, common::Pos, std::string> startWithNumber(Scanner &s) {
     return {tok, pos, lit};
 }
 
-std::tuple<int, common::Pos, std::string> startString(Scanner &s) { return s.scanString(); }
+std::tuple<int, pxcompiler::Pos, std::string> startString(Scanner &s) { return s.scanString(); }
 
 std::pair<int, std::string> scanIdentifierOrString(Scanner &s) {
     //    ch1 := s.r.peek()
     auto ch1 = s.reader()->peek();
     int tok;
     std::string lit;
-    common::Pos pos;
+    pxcompiler::Pos pos;
 
     switch ((int)ch1) {
         case '\'':

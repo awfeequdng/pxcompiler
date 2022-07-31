@@ -3,13 +3,13 @@
 
 #include "common/check_internal.h"
 
-namespace common {
+namespace pxcompiler {
 
 // Raw exiting stream. This should be used when building other forms of exiting
 // macros like those below. It evaluates to a temporary `ExitingStream` object
 // that can be manipulated, streamed into, and then will exit the program.
 #define PXC_RAW_EXITING_STREAM() \
-  common::Internal::ExitingStream::Helper() | common::Internal::ExitingStream()
+  pxcompiler::Internal::ExitingStream::Helper() | pxcompiler::Internal::ExitingStream()
 
 // Checks the given condition, and if it's false, prints a stack, streams the
 // error message, then exits. This should be used for unexpected errors, such as
@@ -22,7 +22,7 @@ namespace common {
               : PXC_RAW_EXITING_STREAM()                               \
                     << "CHECK failure at " << __FILE__ << ":" << __LINE__ \
                     << ": " #condition                                    \
-                    << common::Internal::ExitingStream::AddSeparator()
+                    << pxcompiler::Internal::ExitingStream::AddSeparator()
 
 // DCHECK calls CHECK in debug mode, and does nothing otherwise.
 #ifndef NDEBUG
@@ -41,5 +41,5 @@ namespace common {
   PXC_RAW_EXITING_STREAM() \
       << "FATAL failure at " << __FILE__ << ":" << __LINE__ << ": "
 
-}  // namespace common
+}  // namespace pxcompiler
 

@@ -4,36 +4,36 @@
 #include "common/nonnull.h"
 
 
-namespace ast
+namespace pxcompiler
 {
 class Expression;
 
 struct Arg {
-    // common::SourceLocation loc;
+    // pxcompiler::SourceLocation loc;
     std::string arg;
 };
 
 struct Arguments {
-    // common::SourceLocation loc;
-    std::vector<common::Nonnull<Arg*>> posonlyargs;
-    std::vector<common::Nonnull<Arg*>> args;
-    std::vector<common::Nonnull<Arg*>> varargs;
-    std::vector<common::Nonnull<Arg*>> kwonlyargs;
-    std::vector<common::Nonnull<Arg*>> kw_defaults;
-    std::vector<common::Nonnull<Arg*>> kwarg;
-    std::vector<common::Nonnull<Arg*>> defaults;
+    // pxcompiler::SourceLocation loc;
+    std::vector<pxcompiler::Nonnull<Arg*>> posonlyargs;
+    std::vector<pxcompiler::Nonnull<Arg*>> args;
+    std::vector<pxcompiler::Nonnull<Arg*>> varargs;
+    std::vector<pxcompiler::Nonnull<Arg*>> kwonlyargs;
+    std::vector<pxcompiler::Nonnull<Arg*>> kw_defaults;
+    std::vector<pxcompiler::Nonnull<Arg*>> kwarg;
+    std::vector<pxcompiler::Nonnull<Arg*>> defaults;
 };
 
 struct Keyword {
-    // common::SourceLocation loc;
+    // pxcompiler::SourceLocation loc;
     std::string arg;
-    common::Nonnull<Expression*> value;
+    pxcompiler::Nonnull<Expression*> value;
 };
 
 struct WithItem {
-    // common::SourceLocation loc;
-    common::Nonnull<Expression*> context_expr;
-    common::Nonnull<Expression*> optional_vars;
+    // pxcompiler::SourceLocation loc;
+    pxcompiler::Nonnull<Expression*> context_expr;
+    pxcompiler::Nonnull<Expression*> optional_vars;
 };
 
-} // namespace ast
+} // namespace pxcompiler

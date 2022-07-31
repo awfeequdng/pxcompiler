@@ -70,17 +70,17 @@ enum TokenTag : int {
 
 class Token {
 public:
-    static Token newToken(TokenTag tag, common::Pos pos, std::string lit) {
+    static Token newToken(TokenTag tag, pxcompiler::Pos pos, std::string lit) {
         return {tag, pos, lit};
     }
     static std::unordered_map<std::string, int> getKeywordMap();
     static std::unordered_map<std::string, int> keywordMap;
 // private:
-    Token(TokenTag t, common::Pos p, std::string l)
+    Token(TokenTag t, pxcompiler::Pos p, std::string l)
         : tag(t), pos(p), lit(l) {}
 
     TokenTag tag;
-    common::Pos pos;
+    pxcompiler::Pos pos;
     std::string lit;
 };
 

@@ -4,23 +4,23 @@
 #include "parser/scanner.h"
 
 namespace parser {
-inline bool isLetter(common::utf8::rune_t ch) { return (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z'); }
+inline bool isLetter(pxcompiler::utf8::rune_t ch) { return (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z'); }
 
-inline bool isIdentExtend(common::utf8::rune_t ch) { return ch >= 0x80 && ch <= 0xffffu; }
+inline bool isIdentExtend(pxcompiler::utf8::rune_t ch) { return ch >= 0x80 && ch <= 0xffffu; }
 
-inline bool isDigit(common::utf8::rune_t ch) { return ch >= '0' && ch <= '9'; }
+inline bool isDigit(pxcompiler::utf8::rune_t ch) { return ch >= '0' && ch <= '9'; }
 
-inline bool isIdentChar(common::utf8::rune_t ch) {
+inline bool isIdentChar(pxcompiler::utf8::rune_t ch) {
     return isLetter(ch) || isDigit(ch) || ch == '_' || ch == '$' || isIdentExtend(ch);
 }
 
-inline bool isUserVarChar(common::utf8::rune_t ch) {
+inline bool isUserVarChar(pxcompiler::utf8::rune_t ch) {
     return isLetter(ch) || isDigit(ch) || ch == '_' || ch == '$' || ch == '.' || isIdentExtend(ch);
 }
 
-inline bool isSpace(common::utf8::rune_t ch) { return ch.is_space(); }
+inline bool isSpace(pxcompiler::utf8::rune_t ch) { return ch.is_space(); }
 
-typedef std::function<std::tuple<int, common::Pos, std::string>(parser::Scanner &)> trieFunc;
+typedef std::function<std::tuple<int, pxcompiler::Pos, std::string>(parser::Scanner &)> trieFunc;
 struct trieNode {
 #define BYTE_MAX 255
     std::shared_ptr<trieNode> childs[BYTE_MAX + 1];

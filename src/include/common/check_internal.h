@@ -7,7 +7,7 @@
 #include "llvm/Support/Signals.h"
 #include "llvm/Support/raw_ostream.h"
 
-namespace common::Internal {
+namespace pxcompiler::Internal {
 
 // Wraps a stream and exiting for fatal errors. Should only be used by check.h
 // macros.
@@ -80,5 +80,5 @@ class ExitingStream {
   bool separator_ = false;
 };
 
-}  // namespace common::Internal
+}  // namespace pxcompiler::Internal
 

@@ -2,7 +2,7 @@
 
 #include <type_traits>
 
-namespace common {
+namespace pxcompiler {
 
 // A non-nullable pointer. Written as `Nonnull<T*>` instead of `T*`.
 //
@@ -13,4 +13,4 @@ template <typename T,
 using Nonnull = T;
 // using Nonnull = T _Nonnull;
 
-}  // namespace common
+}  // namespace pxcompiler

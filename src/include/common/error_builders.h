@@ -3,7 +3,7 @@
 #include "common/error.h"
 #include "common/source_location.h"
 
-namespace common {
+namespace pxcompiler {
 
 // Builds an Error instance with the specified message. This should be used for
 // non-recoverable errors with user input.
@@ -34,4 +34,4 @@ inline auto RuntimeError(SourceLocation loc) -> ErrorBuilder {
   return builder;
 }
 
-}  // namespace common
+}  // namespace pxcompiler

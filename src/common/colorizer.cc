@@ -4,7 +4,7 @@
 
 #include "fmt/format.h"
 
-namespace common {
+namespace pxcompiler {
 bool g_color_enabled = true;
 
 std::string colorizer::colorize(const std::string &text, term_colors_t fg_color, term_colors_t bg_color) {
@@ -41,4 +41,4 @@ constexpr term_colors_t colorizer::make_bg_color(term_colors_t color) {
     return static_cast<term_colors_t>(static_cast<uint8_t>(color) + 10);
 }
 
-}  // namespace common
+}  // namespace pxcompiler

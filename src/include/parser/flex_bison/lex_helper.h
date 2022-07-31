@@ -7,7 +7,7 @@
     }
 
 #define PXC_TOKEN(name) \
-    parser::flex_bison::Parser::make_##name(context.current_token_position);
+    pxcompiler::Parser::make_##name(context.current_token_position);
 
 #define PXC_ARG_TOKEN(name, arg) \
-    parser::flex_bison::Parser::make_##name(arg, context.current_token_position);
+    pxcompiler::Parser::make_##name(arg, context.current_token_position);

@@ -9,7 +9,7 @@
 // Exposes yyinput; defined in lexer.lpp.
 extern auto YyinputWrapper(yyscan_t yyscanner) -> int;
 
-namespace parser::flex_bison {
+namespace pxcompiler {
 
 class StringLexHelper {
  public:
@@ -49,5 +49,5 @@ auto ProcessMultiLineString(llvm::StringRef str,
                             ParseAndLexContext& context,
                             size_t hashtag_num) -> Parser::symbol_type;
 
-}  // namespace parser::flex_bison
+}  // namespace pxcompiler
 

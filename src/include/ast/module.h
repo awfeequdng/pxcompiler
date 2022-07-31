@@ -2,7 +2,7 @@
 
 #include "ast/ast.h"
 
-namespace ast
+namespace pxcompiler
 {
 
-} // namespace ast
+} // namespace pxcompiler

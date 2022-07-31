@@ -1,8 +1,8 @@
 
 #include "ast/ast_node.h"
 
-namespace ast {
+namespace pxcompiler {
 
 AstNode::~AstNode() = default;
 
-}  // namespace ast
+}  // namespace pxcompiler

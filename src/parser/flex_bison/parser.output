@@ -1,7 +1,6 @@
 Terminals unused in grammar
 
     integer_literal
-    identifier
     sized_type_literal
     string_literal
     FALSE
@@ -67,9 +66,25 @@ Terminals unused in grammar
 
 Grammar
 
-    0 $accept: input END_OF_FILE
+    0 $accept: units END_OF_FILE
 
-    1 input: ε
+    1 units: units script_unit
+    2      | script_unit
+    3      | sep
+
+    4 script_unit: statement
+
+    5 statement: single_line_statement sep
+
+    6 single_line_statement: expression_statment
+
+    7 expression_statment: expr
+
+    8 expr: id
+
+    9 id: identifier
+
+   10 sep: ";"
 
 
 Terminals, with rules where they appear
@@ -77,7 +92,7 @@ Terminals, with rules where they appear
     END_OF_FILE (0) 0
     error (256)
     integer_literal <int> (258)
-    identifier <std::string> (259)
+    identifier <std::string> (259) 9
     sized_type_literal <std::string> (260)
     string_literal <std::string> (261)
     FALSE (262)
@@ -139,35 +154,153 @@ Terminals, with rules where they appear
     "prefix *" (318)
     "postfix *" (319)
     "binary *" (320)
+    ";" (321) 10
 
 
 Nonterminals, with rules where they appear
 
-    $accept (66)
+    $accept (67)
         on left: 0
-    input (67)
-        on left: 1
-        on right: 0
+    units (68)
+        on left: 1 2 3
+        on right: 0 1
+    script_unit <pxcompiler::Nonnull<pxcompiler::Statement*>> (69)
+        on left: 4
+        on right: 1 2
+    statement <pxcompiler::Nonnull<pxcompiler::Statement*>> (70)
+        on left: 5
+        on right: 4
+    single_line_statement <pxcompiler::Nonnull<pxcompiler::Statement*>> (71)
+        on left: 6
+        on right: 5
+    expression_statment <pxcompiler::Nonnull<pxcompiler::Statement*>> (72)
+        on left: 7
+        on right: 6
+    expr <pxcompiler::Nonnull<pxcompiler::Expression*>> (73)
+        on left: 8
+        on right: 7
+    id <pxcompiler::Nonnull<pxcompiler::Name*>> (74)
+        on left: 9
+        on right: 8
+    sep (75)
+        on left: 10
+        on right: 3 5
 
 
 State 0
 
-    0 $accept: • input END_OF_FILE
+    0 $accept: • units END_OF_FILE
 
-    $default  reduce using rule 1 (input)
+    identifier  shift, and go to state 1
+    ";"         shift, and go to state 2
 
-    input  go to state 1
+    units                  go to state 3
+    script_unit            go to state 4
+    statement              go to state 5
+    single_line_statement  go to state 6
+    expression_statment    go to state 7
+    expr                   go to state 8
+    id                     go to state 9
+    sep                    go to state 10
 
 
 State 1
 
-    0 $accept: input • END_OF_FILE
+    9 id: identifier •
 
-    END_OF_FILE  shift, and go to state 2
+    $default  reduce using rule 9 (id)
 
 
 State 2
 
-    0 $accept: input END_OF_FILE •
+   10 sep: ";" •
+
+    $default  reduce using rule 10 (sep)
+
+
+State 3
+
+    0 $accept: units • END_OF_FILE
+    1 units: units • script_unit
+
+    END_OF_FILE  shift, and go to state 11
+    identifier   shift, and go to state 1
+
+    script_unit            go to state 12
+    statement              go to state 5
+    single_line_statement  go to state 6
+    expression_statment    go to state 7
+    expr                   go to state 8
+    id                     go to state 9
+
+
+State 4
+
+    2 units: script_unit •
+
+    $default  reduce using rule 2 (units)
+
+
+State 5
+
+    4 script_unit: statement •
+
+    $default  reduce using rule 4 (script_unit)
+
+
+State 6
+
+    5 statement: single_line_statement • sep
+
+    ";"  shift, and go to state 2
+
+    sep  go to state 13
+
+
+State 7
+
+    6 single_line_statement: expression_statment •
+
+    $default  reduce using rule 6 (single_line_statement)
+
+
+State 8
+
+    7 expression_statment: expr •
+
+    $default  reduce using rule 7 (expression_statment)
+
+
+State 9
+
+    8 expr: id •
+
+    $default  reduce using rule 8 (expr)
+
+
+State 10
+
+    3 units: sep •
+
+    $default  reduce using rule 3 (units)
+
+
+State 11
+
+    0 $accept: units END_OF_FILE •
 
     $default  accept
+
+
+State 12
+
+    1 units: units script_unit •
+
+    $default  reduce using rule 1 (units)
+
+
+State 13
+
+    5 statement: single_line_statement sep •
+
+    $default  reduce using rule 5 (statement)

@@ -7,8 +7,8 @@
 
 namespace vm
 {
-auto RunAst(common::Nonnull<common::Arena*> arena, ast::AST ast,
-            std::optional<common::Nonnull<llvm::raw_ostream*>> trace_stream)
-    -> common::ErrorOr<int>;
+auto RunAst(pxcompiler::Nonnull<pxcompiler::Arena*> arena, pxcompiler::ASTPtr ast,
+            std::optional<pxcompiler::Nonnull<llvm::raw_ostream*>> trace_stream)
+    -> pxcompiler::ErrorOr<int>;
 
 } // namespace vm

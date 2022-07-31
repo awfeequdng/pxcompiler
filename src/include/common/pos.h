@@ -1,6 +1,6 @@
 #pragma once
 
-namespace common {
+namespace pxcompiler {
 
 struct Pos {
     int _line;
@@ -9,4 +9,4 @@ struct Pos {
     bool operator==(const Pos &pos) const { return _line == pos._line && _col == pos._col && _offset == pos._offset; }
 };
 
-} // namespace common
+} // namespace pxcompiler

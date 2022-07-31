@@ -2,7 +2,7 @@
 
 #include <ostream>
 
-namespace common::utf8 {
+namespace pxcompiler::utf8 {
 
 bool rune_t::is_eof() const { return _value == rune_eof._value; }
 
@@ -277,4 +277,4 @@ codepoint_t decode(const char *str, size_t length) {
     return cp;
 }
 
-}  // namespace common::utf8
+}  // namespace pxcompiler::utf8

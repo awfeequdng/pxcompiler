@@ -278,7 +278,7 @@ def main() -> None:
                 )
             print("}\n")
 
-    print("}  // namespace ast\n")
+    print("}  // namespace pxcompiler\n")
     print(f"#endif  // {guard_macro}")
 
     header_file.close()
@@ -304,7 +304,7 @@ def main() -> None:
             print("  }")
             print("}\n")
 
-    print("}  // namespace ast\n")
+    print("}  // namespace pxcompiler\n")
     cpp_file.close()
 
 

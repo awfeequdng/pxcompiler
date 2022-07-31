@@ -6,8 +6,7 @@
 #include "common/ostream.h"
 #include "common/nonnull.h"
 
-namespace common {
-
+namespace pxcompiler {
 class SourceLocation {
  public:
   // The filename should be eternal or arena-allocated to eliminate copies.
@@ -35,4 +34,4 @@ class SourceLocation {
   int line_num_;
 };
 
-}  // namespace common
+}  // namespace pxcompiler

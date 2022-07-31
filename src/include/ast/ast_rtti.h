@@ -5,7 +5,7 @@
 
 #include <string_view>
 
-namespace ast {
+namespace pxcompiler {
 
 enum class AstNodeKind {
   Module = 0,
@@ -486,6 +486,6 @@ inline bool InheritsFromTypeIgnore(AstNodeKind kind) {
     return kind == AstNodeKind::TypeIgnore;
 }
 
-}  // namespace ast
+}  // namespace pxcompiler
 
 #endif  // AST_RTTI_TXT_

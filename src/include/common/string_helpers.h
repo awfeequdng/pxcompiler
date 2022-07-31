@@ -6,7 +6,7 @@
 #include "common/error.h"
 #include "llvm/ADT/StringRef.h"
 
-namespace common {
+namespace pxcompiler {
 
 // Note llvm StringExtras has significant functionality which is intended to be
 // complementary to this.
@@ -27,5 +27,5 @@ auto ParseBlockStringLiteral(llvm::StringRef source, int hashtag_num = 0)
 // correctness.
 auto StringRefContainsPointer(llvm::StringRef ref, const char* ptr) -> bool;
 
-}  // namespace common
+}  // namespace pxcompiler
 

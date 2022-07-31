@@ -4,7 +4,7 @@
 #include <type_traits>
 #include <utility>
 
-namespace common {
+namespace pxcompiler {
 
 template <typename T>
 class IndirectValue;
@@ -99,5 +99,5 @@ auto CreateIndirectValue(Callable callable)
   return IndirectValue<T>(std::unique_ptr<T>(new T(callable())));
 }
 
-}  // namespace common
+}  // namespace pxcompiler
 

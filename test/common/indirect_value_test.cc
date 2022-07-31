@@ -5,7 +5,7 @@
 
 #include <string>
 
-namespace common::Testing {
+namespace pxcompiler::Testing {
 namespace {
 
 TEST(IndirectValueTest, ConstAccess) {
@@ -123,4 +123,4 @@ TEST(IndirectValueTest, IncompleteType) {
 }
 
 }  // namespace
-}  // namespace common::Testing
+}  // namespace pxcompiler::Testing

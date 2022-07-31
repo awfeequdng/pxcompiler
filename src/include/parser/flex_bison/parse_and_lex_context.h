@@ -7,14 +7,14 @@
 #include "ast/ast.h"
 #include "parser/flex_bison/parser.h"  // from parser.ypp
 
-namespace parser::flex_bison {
+namespace pxcompiler {
 
 // The state and functionality that is threaded "globally" through the
 // lexing/parsing process.
 class ParseAndLexContext {
  public:
   // Creates an instance analyzing the given input file.
-  ParseAndLexContext(common::Nonnull<const std::string*> input_file_name,
+  ParseAndLexContext(pxcompiler::Nonnull<const std::string*> input_file_name,
                      bool parser_debug)
       : input_file_name_(input_file_name), parser_debug_(parser_debug) {}
 
@@ -24,8 +24,8 @@ class ParseAndLexContext {
                          bool prefix_with_newline = false)
       -> Parser::symbol_type;
 
-  auto source_loc() const -> common::SourceLocation {
-    return common::SourceLocation(input_file_name_,
+  auto source_loc() const -> pxcompiler::SourceLocation {
+    return pxcompiler::SourceLocation(input_file_name_,
                           static_cast<int>(current_token_position.begin.line));
   }
 
@@ -41,19 +41,19 @@ class ParseAndLexContext {
  private:
   // A path to the file processed, relative to the current working directory
   // when *this is called.
-  common::Nonnull<const std::string*> input_file_name_;
+  pxcompiler::Nonnull<const std::string*> input_file_name_;
 
   bool parser_debug_;
 
   std::vector<std::string> error_messages_;
 };
 
-}  // namespace parser::flex_bison
+}  // namespace pxcompiler
 
 // Gives flex the yylex prototype we want.
 #define YY_DECL                                                         \
-  parser::flex_bison::Parser::symbol_type yylex(common::Nonnull<common::Arena*> arena, yyscan_t yyscanner, \
-             parser::flex_bison::ParseAndLexContext& context)
+  pxcompiler::Parser::symbol_type yylex(pxcompiler::Nonnull<pxcompiler::Arena*> arena, yyscan_t yyscanner, \
+             pxcompiler::ParseAndLexContext& context)
 
 // Declares yylex for the parser's sake.
 YY_DECL;

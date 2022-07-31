@@ -15,9 +15,9 @@ namespace parser {
 // make a copy of data and cause allocation.
 struct lazyBuf {
     bool _useBuf;
-    std::shared_ptr<common::utf8::reader_t> _reader;
+    std::shared_ptr<pxcompiler::utf8::reader_t> _reader;
     std::stringbuf &_buf;
-    const common::Pos &_pos;
+    const pxcompiler::Pos &_pos;
     void setUseBuf(std::string str) {
         if (!_useBuf) {
             _useBuf = true;
@@ -26,7 +26,7 @@ struct lazyBuf {
             _buf.pubseekoff(0, std::ios_base::end);
         }
     }
-    void writeRune(common::utf8::rune_t rune, int w) {
+    void writeRune(pxcompiler::utf8::rune_t rune, int w) {
         if (_useBuf) {
             if (w > 1) {
                 std::string str = (std::string)rune;
@@ -50,7 +50,7 @@ struct lazyBuf {
 };
 
 void Scanner::reset(std::string text) {
-    _reader = std::make_shared<common::utf8::reader_t>(text);
+    _reader = std::make_shared<pxcompiler::utf8::reader_t>(text);
     _stmtStartPos = 0;
     _lastKeyword = 0;
 }
@@ -91,7 +91,7 @@ Token Scanner::getNextToken() {
     return Token::newToken((TokenTag)tok, pos, lit);
 }
 
-std::tuple<int, common::Pos, std::string> Scanner::scan() {
+std::tuple<int, pxcompiler::Pos, std::string> Scanner::scan() {
     auto ch0 = _reader->peek();
     if (ch0.is_space()) {
         ch0 = skipWhitespace();
@@ -124,12 +124,12 @@ std::tuple<int, common::Pos, std::string> Scanner::scan() {
     return {node->token, pos, _reader->data(pos)};
 }
 
-common::utf8::rune_t Scanner::skipWhitespace() { return _reader->incAsLongAs(isSpace); }
+pxcompiler::utf8::rune_t Scanner::skipWhitespace() { return _reader->incAsLongAs(isSpace); }
 
 // handleEscape handles the case in scanString when previous char is '\'.
-common::utf8::rune_t handleEscape(Scanner &scanner) {
+pxcompiler::utf8::rune_t handleEscape(Scanner &scanner) {
     scanner.reader()->next();
-    common::utf8::rune_t ch0 = scanner.reader()->peek();
+    pxcompiler::utf8::rune_t ch0 = scanner.reader()->peek();
 
     /*
         \" \' \\ \n \0 \b \Z \r \t ==> escape to one char
@@ -164,7 +164,7 @@ common::utf8::rune_t handleEscape(Scanner &scanner) {
     return ch0;
 }
 
-std::tuple<int, common::Pos, std::string> Scanner::scanString() {
+std::tuple<int, pxcompiler::Pos, std::string> Scanner::scanString() {
     auto tok = tok_stringLit;
     auto pos = _reader->pos();
     auto ending = _reader->next();
@@ -195,24 +195,24 @@ std::tuple<int, common::Pos, std::string> Scanner::scanString() {
         }
     }
 
-    return {(int)common::utf8::rune_invalid, pos, lit};
+    return {(int)pxcompiler::utf8::rune_invalid, pos, lit};
 }
 
 void Scanner::scanOct() {
-    _reader->incAsLongAs([](common::utf8::rune_t ch) { return ch >= '0' && ch <= '7'; });
+    _reader->incAsLongAs([](pxcompiler::utf8::rune_t ch) { return ch >= '0' && ch <= '7'; });
 }
 
 void Scanner::scanHex() {
-    _reader->incAsLongAs([](common::utf8::rune_t ch) {
+    _reader->incAsLongAs([](pxcompiler::utf8::rune_t ch) {
         return (ch >= '0' && ch <= '9') || (ch >= 'a' && ch <= 'f') || (ch >= 'A' && ch <= 'F');
     });
 }
 
 void Scanner::scanBit() {
-    _reader->incAsLongAs([](common::utf8::rune_t ch) { return ch == '0' || ch == '1'; });
+    _reader->incAsLongAs([](pxcompiler::utf8::rune_t ch) { return ch == '0' || ch == '1'; });
 }
 
-std::tuple<int, common::Pos, std::string> Scanner::scanFloat(const common::Pos &beg) {
+std::tuple<int, pxcompiler::Pos, std::string> Scanner::scanFloat(const pxcompiler::Pos &beg) {
     _reader->updatePos(beg);
     // float = D1 . D2 e D3
     scanDigits();

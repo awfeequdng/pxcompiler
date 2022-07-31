@@ -2,7 +2,7 @@
 
 #include "ast/ast_rtti.h"
 
-namespace ast {
+namespace pxcompiler {
 
 std::string_view AstNodeKindName(AstNodeKind k) {
   switch(k) {
@@ -171,5 +171,5 @@ std::string_view PatternKindName(PatternKind k) {
   }
 }
 
-}  // namespace ast
+}  // namespace pxcompiler
 

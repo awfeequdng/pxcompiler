@@ -12,15 +12,15 @@
 
 #include "llvm/Support/Error.h"
 
-namespace parser::flex_bison {
+namespace pxcompiler {
 
-using namespace common;
-using namespace ast;
+using namespace pxcompiler;
+using namespace pxcompiler;
 static auto ParseImpl(yyscan_t scanner, Nonnull<Arena*> arena,
                       std::string_view input_file_name, bool parser_debug)
-    -> ErrorOr<AST> {
+    -> ErrorOr<ASTPtr> {
   // Prepare other parser arguments.
-  std::optional<AST> ast = std::nullopt;
+  std::optional<ASTPtr> ast = std::nullopt;
   ParseAndLexContext context(arena->New<std::string>(input_file_name),
                              parser_debug);
 
@@ -44,7 +44,7 @@ static auto ParseImpl(yyscan_t scanner, Nonnull<Arena*> arena,
 }
 
 auto Parse(Nonnull<Arena*> arena, std::string_view input_file_name,
-           bool parser_debug) -> ErrorOr<AST> {
+           bool parser_debug) -> ErrorOr<ASTPtr> {
   std::string name_str(input_file_name);
   FILE* input_file = fopen(name_str.c_str(), "r");
   if (input_file == nullptr) {
@@ -58,7 +58,7 @@ auto Parse(Nonnull<Arena*> arena, std::string_view input_file_name,
   auto buffer = yy_create_buffer(input_file, YY_BUF_SIZE, scanner);
   yy_switch_to_buffer(buffer, scanner);
 
-  ErrorOr<AST> result =
+  ErrorOr<ASTPtr> result =
       ParseImpl(scanner, arena, input_file_name, parser_debug);
 
   // Clean up the lexer.
@@ -71,7 +71,7 @@ auto Parse(Nonnull<Arena*> arena, std::string_view input_file_name,
 
 auto ParseFromString(Nonnull<Arena*> arena, std::string_view input_file_name,
                      std::string_view file_contents, bool parser_debug)
-    -> ErrorOr<AST> {
+    -> ErrorOr<ASTPtr> {
   // Prepare the lexer.
   yyscan_t scanner;
   yylex_init(&scanner);
@@ -79,7 +79,7 @@ auto ParseFromString(Nonnull<Arena*> arena, std::string_view input_file_name,
       yy_scan_bytes(file_contents.data(), file_contents.size(), scanner);
   yy_switch_to_buffer(buffer, scanner);
 
-  ErrorOr<AST> result =
+  ErrorOr<ASTPtr> result =
       ParseImpl(scanner, arena, input_file_name, parser_debug);
 
   // Clean up the lexer.
@@ -88,4 +88,4 @@ auto ParseFromString(Nonnull<Arena*> arena, std::string_view input_file_name,
 
   return result;
 }
-}  // namespace parser::flex_bison
+}  // namespace pxcompiler

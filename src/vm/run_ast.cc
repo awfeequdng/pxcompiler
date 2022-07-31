@@ -1,12 +1,18 @@
 #include "vm/run_ast.h"
 
-using namespace common;
+using namespace pxcompiler;
 namespace vm
 {
-auto RunAst(common::Nonnull<common::Arena*> arena, ast::AST ast,
-            std::optional<common::Nonnull<llvm::raw_ostream*>> trace_stream)
-    -> common::ErrorOr<int> {
-
+auto RunAst(pxcompiler::Nonnull<pxcompiler::Arena*> arena, pxcompiler::ASTPtr ast,
+            std::optional<pxcompiler::Nonnull<llvm::raw_ostream*>> trace_stream)
+    -> pxcompiler::ErrorOr<int> {
+    if (trace_stream) {
+        **trace_stream << "********** source program **********\n";
+        for (const auto stmt : ast->statements) {
+            **trace_stream << *stmt;
+        }
+    }
     return 0;
 }
+
 } // namespace vm

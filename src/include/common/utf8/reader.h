@@ -8,7 +8,7 @@
 #include "common/utf8/rune.h"
 #include "common/pos.h"
 
-namespace common::utf8 {
+namespace pxcompiler::utf8 {
 
 class reader_t final {
 public:
@@ -71,4 +71,4 @@ private:
 
 using ReaderPtr = std::shared_ptr<reader_t>;
 
-}  // namespace common::utf8
+}  // namespace pxcompiler::utf8

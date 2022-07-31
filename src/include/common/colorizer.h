@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <string>
 
-namespace common {
+namespace pxcompiler {
 enum class term_colors_t : uint8_t {
     black = 30,
     red,
@@ -40,4 +40,4 @@ public:
 
     static constexpr term_colors_t make_bg_color(term_colors_t color);
 };
-}  // namespace common
+}  // namespace pxcompiler

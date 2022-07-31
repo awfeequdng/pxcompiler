@@ -1,6 +1,6 @@
 #include "common/utf8/reader.h"
 
-namespace common::utf8 {
+namespace pxcompiler::utf8 {
 
 reader_t::reader_t(const std::string &slice) : _slice(slice), _width_stack() { _idx2pos[0] = {}; }
 
@@ -171,4 +171,4 @@ rune_t reader_t::incAsLongAs(std::function<bool(rune_t)> fn) {
     }
 }
 
-}  // namespace common::utf8
+}  // namespace pxcompiler::utf8

@@ -8,7 +8,7 @@
 #include "llvm/ADT/StringExtras.h"
 #include "llvm/ADT/StringRef.h"
 
-namespace common {
+namespace pxcompiler {
 
 static constexpr llvm::StringRef TripleQuotes = R"(""")";
 static constexpr llvm::StringRef HorizontalWhitespaceChars = " \t";

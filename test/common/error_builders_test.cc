@@ -5,7 +5,7 @@
 
 #include "common/source_location.h"
 
-namespace common::Testing {
+namespace pxcompiler::Testing {
 namespace {
 
 TEST(ErrorBuildersTest, CompilationError) {

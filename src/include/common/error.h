@@ -7,7 +7,7 @@
 #include "common/ostream.h"
 #include "llvm/ADT/Twine.h"
 
-namespace common {
+namespace pxcompiler {
 
 // Success values should be represented as the presence of a value in ErrorOr,
 // using `ErrorOr<Success>` and `return Success();` if no value needs to be
@@ -128,7 +128,7 @@ class ErrorBuilder {
   std::unique_ptr<llvm::raw_string_ostream> out_;
 };
 
-}  // namespace common
+}  // namespace pxcompiler
 
 // Macro hackery to get a unique variable name.
 #define PXC_MAKE_UNIQUE_NAME_IMPL(a, b, c) a##b##c

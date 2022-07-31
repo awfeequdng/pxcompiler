@@ -4,7 +4,7 @@
 #include "common/source_location.h"
 #include "llvm/Support/Casting.h"
 
-namespace ast {
+namespace pxcompiler {
 
 // Base class for all nodes in the AST.
 //
@@ -51,13 +51,13 @@ class AstNode {
   auto kind() const -> AstNodeKind { return kind_; }
 
   // The location of the code described by this node.
-  auto source_loc() const -> common::SourceLocation { return source_loc_; }
+  auto source_loc() const -> pxcompiler::SourceLocation { return source_loc_; }
 
  protected:
   // Constructs an AstNode representing code at the given location. `kind`
   // must be the enumerator that exactly matches the concrete type being
   // constructed.
-  explicit AstNode(AstNodeKind kind, common::SourceLocation source_loc)
+  explicit AstNode(AstNodeKind kind, pxcompiler::SourceLocation source_loc)
       : kind_(kind), source_loc_(source_loc) {}
 
   // Equivalent to kind(), but will not be hidden by `kind()` methods of
@@ -66,8 +66,8 @@ class AstNode {
 
  private:
   AstNodeKind kind_;
-  common::SourceLocation source_loc_;
+  pxcompiler::SourceLocation source_loc_;
 };
 
-}  // namespace ast
+}  // namespace pxcompiler
 

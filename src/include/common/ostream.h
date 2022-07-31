@@ -6,7 +6,7 @@
 #include "llvm/Support/raw_os_ostream.h"
 #include "llvm/Support/raw_ostream.h"
 
-namespace common {
+namespace pxcompiler {
 
 // True if T has a method `void Print(llvm::raw_ostream& out) const`.
 template <typename T>
@@ -56,7 +56,7 @@ void PrintTo(T* p, std::ostream* out) {
   }
 }
 
-}  // namespace common
+}  // namespace pxcompiler
 
 namespace llvm {
 

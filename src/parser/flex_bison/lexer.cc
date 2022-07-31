@@ -1284,7 +1284,7 @@ YY_RULE_SETUP
   // Raw string literal.
   // yytext (the token that matches the above regex) and chars scanned by
   // str_lex_helper hold the source text, not the string the source represents.
-  parser::flex_bison::StringLexHelper str_lex_helper(yytext, yyscanner, context);
+  pxcompiler::StringLexHelper str_lex_helper(yytext, yyscanner, context);
   const std::string& s = str_lex_helper.str();
   const int hashtag_num = s.find_first_of('"');
   const int leading_quotes = s.size() - hashtag_num;
@@ -1292,8 +1292,8 @@ YY_RULE_SETUP
     // Check if it's a single-line string, like #"""#.
     // TODO: Extend with other single-line string cases, like #""""#, based on
     // the definition of block string in the design doc.
-    if (parser::flex_bison::ReadHashTags(str_lex_helper, hashtag_num)) {
-      return parser::flex_bison::ProcessSingleLineString(str_lex_helper.str(), context,
+    if (pxcompiler::ReadHashTags(str_lex_helper, hashtag_num)) {
+      return pxcompiler::ProcessSingleLineString(str_lex_helper.str(), context,
                                              hashtag_num);
     } else if (str_lex_helper.is_eof()) {
       return PXC_TOKEN(END_OF_FILE);
@@ -1331,19 +1331,19 @@ YY_RULE_SETUP
           // Now we are at the last " of """.
         }
 
-        if (parser::flex_bison::ReadHashTags(str_lex_helper, hashtag_num)) {
+        if (pxcompiler::ReadHashTags(str_lex_helper, hashtag_num)) {
           // Reach closing quotes, break out of the loop.
           if (leading_quotes == 3) {
-            return parser::flex_bison::ProcessMultiLineString(str_lex_helper.str(), context,
+            return pxcompiler::ProcessMultiLineString(str_lex_helper.str(), context,
                                                   hashtag_num);
           } else {
-            return parser::flex_bison::ProcessSingleLineString(str_lex_helper.str(),
+            return pxcompiler::ProcessSingleLineString(str_lex_helper.str(),
                                                    context, hashtag_num);
           }
         }
         break;
       case '\\':
-        if (parser::flex_bison::ReadHashTags(str_lex_helper, hashtag_num)) {
+        if (pxcompiler::ReadHashTags(str_lex_helper, hashtag_num)) {
           // Read the escaped char.
           if (!str_lex_helper.Advance()) {
             continue;

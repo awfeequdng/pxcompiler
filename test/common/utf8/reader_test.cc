@@ -2,7 +2,7 @@
 
 #include <gtest/gtest.h>
 
-using namespace common::utf8;
+using namespace pxcompiler::utf8;
 
 TEST(Utf8ReaderTest, test_read) {
     std::string str = "中国x";

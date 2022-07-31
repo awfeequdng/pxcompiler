@@ -212,9 +212,9 @@ public:
 // true source end position for comments containing carriage returns.
 class Comment : public Node {
 public:
-    inline common::Pos pos() { return slash; }
+    inline pxcompiler::Pos pos() { return slash; }
 
-	common::Pos slash; // position of "/" starting the comment
+	pxcompiler::Pos slash; // position of "/" starting the comment
 	std::string text; // comment text (excluding '\n' for //-style comments)
 };
 
@@ -229,7 +229,7 @@ public:
 // An Ident node represents an identifier.
 class Ident : public Node {
 public:
-	common::Pos namePos;    // identifier position
+	pxcompiler::Pos namePos;    // identifier position
 	std::string name;       // identifier name
 };
 
@@ -238,7 +238,7 @@ public:
 //
 class Ellipsis : public Node {
 public:
-    common::Pos ellipsis;   // position of "..."
+    pxcompiler::Pos ellipsis;   // position of "..."
     ExprPtr elt;               // ellipsis element type (parameter lists only); or nil
 };
 
@@ -251,7 +251,7 @@ public:
 // used to unquote STRING and CHAR values, respectively.
 class BasicLit : public Node {
 public:
-	common::Pos valuePos;   // literal position
+	pxcompiler::Pos valuePos;   // literal position
 	Token       kind;       // Token.tok_intLit, Token.tok_floatLit, Token.IMAG, Token.tok_charLit, or Token.tok_stringLit
 	std::string value;      // literal string; e.g. 42, 0x7f, 3.14, 1e-9, 2.4i, 'a', '\x7f', "foo" or `\m\n\o`
 };
@@ -276,7 +276,7 @@ public:
 // An ArrayType node represents an array or slice type.
 class ArrayType : public Node {
 public:
-	common::Pos lbrackPos; // position of "["
+	pxcompiler::Pos lbrackPos; // position of "["
 	ExprPtr len;           // Ellipsis node for [...]T array types, nil for slice types
 	ExprPtr elt;           // element type
 };
@@ -284,7 +284,7 @@ public:
 // A StructType node represents a struct type.
 class StructType : public Node {
 public:
-	common::Pos structPos;          // position of "struct" keyword
+	pxcompiler::Pos structPos;          // position of "struct" keyword
 	FieldList fields;               // list of field declarations
 	bool incomplete;                // true if (source) fields are missing in the Fields list
 };
@@ -294,7 +294,7 @@ public:
 // A FuncType node represents a function type.
 class FuncType : public Node {
 public:
-	common::Pos funcPos;   // position of "func" keyword (token.NoPos if there is no "func")
+	pxcompiler::Pos funcPos;   // position of "func" keyword (token.NoPos if there is no "func")
 	FieldList params;   // (incoming) parameters; non-nil
 	FieldList results;  // (outgoing) results; or nil
 };
@@ -302,7 +302,7 @@ public:
 // A MapType node represents a map type.
 class MapType : public Node {
 public:
-	common::Pos mapPos;   // position of "map" keyword
+	pxcompiler::Pos mapPos;   // position of "map" keyword
 	ExprPtr key;
 	ExprPtr value;
 };
@@ -317,67 +317,67 @@ public:
 // A CompositeLit node represents a composite literal.
 struct CompositeLit : public Node {
 	ExprPtr type;              // literal type; or nil
-	common::Pos lbrace;     // position of "{"
+	pxcompiler::Pos lbrace;     // position of "{"
 	std::vector<ExprPtr> elts; // list of composite elements; or nil
-	common::Pos rbrace;     // position of "}"
+	pxcompiler::Pos rbrace;     // position of "}"
 	bool incomplete;        // true if (source) expressions are missing in the Elts list
 };
 
 struct IndexExpr : public Node {
     ExprPtr X;
-    common::Pos Lbrack;
+    pxcompiler::Pos Lbrack;
     ExprPtr Index;
-    common::Pos Rbrack;
+    pxcompiler::Pos Rbrack;
 };
 struct TypeAssertExpr : public Node {
     ExprPtr X;
-    common::Pos Lparen;
+    pxcompiler::Pos Lparen;
     ExprPtr Type;
-    common::Pos Rparen;
+    pxcompiler::Pos Rparen;
 };
 
 struct CallExpr : public Node {
     ExprPtr Fun;
-    common::Pos Lparen;
+    pxcompiler::Pos Lparen;
     std::vector<ExprPtr> Args;
-    common::Pos Ellipsis;
-    common::Pos Rparen;
+    pxcompiler::Pos Ellipsis;
+    pxcompiler::Pos Rparen;
 };
 
 struct BinaryExpr : public Node {
     ExprPtr X;
-    common::Pos OpPos;
+    pxcompiler::Pos OpPos;
     Token Op;
     ExprPtr Y;
 };
 struct KeyValueExpr : public Node {
     ExprPtr Key;
-    common::Pos Colon;
+    pxcompiler::Pos Colon;
     ExprPtr Value;
 };
 
 struct ParenExpr : public Node {
-    common::Pos Lparen;
+    pxcompiler::Pos Lparen;
     ExprPtr X;
-    common::Pos Rparen;
+    pxcompiler::Pos Rparen;
 };
 struct SliceExpr : public Node {
     ExprPtr X;
-    common::Pos Lbrack;
+    pxcompiler::Pos Lbrack;
     ExprPtr Low;
     ExprPtr High;
     ExprPtr Max;
     bool Slice3;
-    common::Pos Rbrack;
+    pxcompiler::Pos Rbrack;
 };
 
 struct StarExpr : public Node {
-    common::Pos Star;
+    pxcompiler::Pos Star;
     ExprPtr X;
 };
 
 struct UnaryExpr : public Node {
-    common::Pos OpPos;
+    pxcompiler::Pos OpPos;
     Token Op;
     ExprPtr X;
 };
@@ -397,28 +397,28 @@ struct DeclStmt : Node {
 // of the immediately following (explicit or implicit) semicolon.
 //
 struct EmptyStmt : public Node {
-	common::Pos semicolon;      // position of following ";"
+	pxcompiler::Pos semicolon;      // position of following ";"
 	bool Implicit;              // if set, ";" was omitted in the source
 };
 
 struct BlockStmt: public Node {
-    common::Pos Lbrace;
+    pxcompiler::Pos Lbrace;
     std::vector<StmtPtr> List;
-    common::Pos Rbrace;
+    pxcompiler::Pos Rbrace;
 };
 
 struct SwitchStmt : public Node {
-    common::Pos Switch;
+    pxcompiler::Pos Switch;
     StmtPtr Init;
     ExprPtr Tag;
     BlockStmtPtr Body;
 };
 
 struct RangeStmt: public Node {
-    common::Pos For;
+    pxcompiler::Pos For;
     ExprPtr Key;
     ExprPtr Value;
-    common::Pos TokPos;
+    pxcompiler::Pos TokPos;
     Token Tok;
     ExprPtr X;
     BlockStmtPtr Body;
@@ -426,30 +426,30 @@ struct RangeStmt: public Node {
 
 struct SendStmt : public Node {
     ExprPtr Chan;
-    common::Pos Arrow;
+    pxcompiler::Pos Arrow;
     ExprPtr Value;
 };
 
 struct AssignStmt : public Node {
     std::vector<ExprPtr> Lhs;
-    common::Pos TokPos;
+    pxcompiler::Pos TokPos;
     Token Tok;
     std::vector<ExprPtr> Rhs;
 };
 
 struct ReturnStmt: public Node {
-    common::Pos Return;
+    pxcompiler::Pos Return;
     std::vector<ExprPtr> Results;
 };
 
 struct BranchStmt : public Node {
-    common::Pos TokPos;
+    pxcompiler::Pos TokPos;
     Token Tok;
     Ident* Label;
 };
 
 struct IfStmt : public Node {
-    common::Pos If;
+    pxcompiler::Pos If;
     StmtPtr Init;
     ExprPtr Cond;
     BlockStmtPtr Body;
@@ -457,13 +457,13 @@ struct IfStmt : public Node {
 };
 
 struct SelectStmt : public Node {
-    common::Pos Select;
+    pxcompiler::Pos Select;
     BlockStmtPtr Body;
 };
 
 struct LabeledStmt : public Node {
     IdentPtr Label;
-    common::Pos Colon;
+    pxcompiler::Pos Colon;
     StmtPtr Stmt;
 };
 
@@ -473,12 +473,12 @@ struct ExprStmt : public Node {
 
 
 struct DeferStmt : public Node {
-    common::Pos Defer;
+    pxcompiler::Pos Defer;
     CallExprPtr Call;
 };
 
 struct ForStmt : public Node {
-    common::Pos For;
+    pxcompiler::Pos For;
     StmtPtr Init;
     ExprPtr Cond;
     StmtPtr Post;
@@ -487,33 +487,33 @@ struct ForStmt : public Node {
 
 struct IncDecStmt : public Node {
     ExprPtr X;
-    common::Pos TokPos;
+    pxcompiler::Pos TokPos;
     Token Tok;
 };
 
 struct GoStmt : public Node {
-    common::Pos Go;
+    pxcompiler::Pos Go;
     CallExprPtr Call;
 };
 
 struct CaseClause : public Node {
-    common::Pos Case;
+    pxcompiler::Pos Case;
     std::vector<ExprPtr> List;
-    common::Pos Colon;
+    pxcompiler::Pos Colon;
     std::vector<StmtPtr> Body;
 };
 
 struct TypeSwitchStmt : public Node {
-    common::Pos Switch;
+    pxcompiler::Pos Switch;
     StmtPtr Init;
     StmtPtr Assign;
     BlockStmtPtr Body;
 };
 
 struct CommClause : public Node {
-    common::Pos Case;
+    pxcompiler::Pos Case;
     StmtPtr Comm;
-    common::Pos Colon;
+    pxcompiler::Pos Colon;
     std::vector<StmtPtr> Body;
 };
 
@@ -529,7 +529,7 @@ struct ImportSpec : public Spec {
 	IdentPtr Name;              // local package name (including "."); or nil
 	BasicLitPtr Path;           // import path
 	CommentGroupPtr Comment;    // line comments; or nil
-	common::Pos EndPos;         // end of spec (overrides Path.Pos if nonzero)
+	pxcompiler::Pos EndPos;         // end of spec (overrides Path.Pos if nonzero)
 };
 struct ImportSpec;
 using ImportSpecPtr = std::shared_ptr<ImportSpec>;
@@ -551,7 +551,7 @@ using ValueSpecPtr = std::shared_ptr<ValueSpec>;
 struct TypeSpec : public Spec {
 		CommentGroupPtr Doc; // associated documentation; or nil
 		IdentPtr Name;          // type name
-		common::Pos Assign      // position of '=', if any
+		pxcompiler::Pos Assign      // position of '=', if any
 		ExprPtr Type;           // *Ident, *ParenExpr, *SelectorExpr, *StarExpr, or any of the *XxxTypes
 		CommentGroupPtr Comment; // line comments; or nil
 };
@@ -563,7 +563,7 @@ using TypeSpecPtr = std::shared_ptr<TypeSpec>;
 // created.
 //
 struct BadDecl : public Node {
-	common::Pos From, To; // position range of bad declaration
+	pxcompiler::Pos From, To; // position range of bad declaration
 };
 struct BadDecl;
 using BadDeclPtr = std::shared_ptr<BadDecl>;
@@ -582,11 +582,11 @@ using BadDeclPtr = std::shared_ptr<BadDecl>;
 //
 struct GenDecl : public Node {
 	CommentGroupPtr Doc; // associated documentation; or nil
-	common::Pos TokPos;  // position of Tok
+	pxcompiler::Pos TokPos;  // position of Tok
 	Token Tok;   // IMPORT, CONST, TYPE, VAR
-	common::Pos Lparen;     // position of '(', if any
+	pxcompiler::Pos Lparen;     // position of '(', if any
 	std::vector<SpecPtr>Specs;
-	common::Pos Rparen;     // position of ')', if any
+	pxcompiler::Pos Rparen;     // position of ')', if any
 };
 struct GenDecl;
 using GenDeclPtr = std::shared_ptr<GenDecl>;

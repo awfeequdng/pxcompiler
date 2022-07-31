@@ -5,7 +5,7 @@
 #include "parser/flex_bison/lex_helper.h"
 #include <fmt/format.h>
 
-namespace parser::flex_bison {
+namespace pxcompiler {
 
 auto StringLexHelper::Advance() -> bool {
   PXC_CHECK(is_eof_ == false);
@@ -39,7 +39,7 @@ auto ProcessSingleLineString(llvm::StringRef str,
                str.consume_back("\"" + hashtags));
 
   std::optional<std::string> unescaped =
-      common::UnescapeStringLiteral(str, hashtag_num);
+      pxcompiler::UnescapeStringLiteral(str, hashtag_num);
   if (unescaped == std::nullopt) {
     return context.RecordSyntaxError(
         fmt::format("Invalid escaping in string:{0}: ", str_with_quote));
@@ -53,8 +53,8 @@ auto ProcessMultiLineString(llvm::StringRef str,
     -> Parser::symbol_type {
   std::string hashtags(hashtag_num, '#');
   PXC_CHECK(str.consume_front(hashtags) && str.consume_back(hashtags));
-  common::ErrorOr<std::string> block_string =
-        common::ParseBlockStringLiteral(str, hashtag_num);
+  pxcompiler::ErrorOr<std::string> block_string =
+        pxcompiler::ParseBlockStringLiteral(str, hashtag_num);
   if (!block_string.ok()) {
       return context.RecordSyntaxError(fmt::format(
         "Invalid block string: {0}", block_string.error().message()
@@ -63,4 +63,4 @@ auto ProcessMultiLineString(llvm::StringRef str,
   return PXC_ARG_TOKEN(string_literal, *block_string);
 }
 
-}  // namespace parser::flex_bison
+}  // namespace pxcompiler

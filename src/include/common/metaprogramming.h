@@ -2,7 +2,7 @@
 
 #include <type_traits>
 
-namespace common {
+// namespace pxcompiler {
 
 // C++17-compatible emulation of a C++20 `requires` expression, which queries
 // whether a given expression is well-formed. The syntax is best explained
@@ -24,4 +24,4 @@ constexpr auto Requires(F /* f */) -> bool {
   return std::is_invocable_v<F, T...>;
 }
 
-}  // namespace common
+// }  // namespace pxcompiler

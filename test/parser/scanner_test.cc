@@ -70,7 +70,7 @@ TEST(TestScanner, TestscanString) {
         {"' \\n\\t'", " \n\t"},
     };
     int tok;
-    common::Pos pos;
+    pxcompiler::Pos pos;
     std::string lit;
     for (auto &[str, expect] : table) {
         auto scanner = NewScanner(str);
@@ -86,13 +86,13 @@ TEST(TestScanner, TestCommonComment) {
     auto [tok, pos, lit] = l->scan();
     ASSERT_EQ(tok, tok_identifier);
     ASSERT_EQ(lit, "SELECT");
-    auto expect_pos = common::Pos{1, 4, 20};
+    auto expect_pos = pxcompiler::Pos{1, 4, 20};
     ASSERT_EQ(pos, expect_pos);
 
     l->reset("//xxxxxx   \nselect 2");
     std::tie(tok, pos, lit) = l->scan();
     ASSERT_EQ(tok, tok_identifier);
-    expect_pos = common::Pos{1, 0, 12};
+    expect_pos = pxcompiler::Pos{1, 0, 12};
     ASSERT_EQ(pos, expect_pos);
     ASSERT_EQ(lit, "select");
 }
@@ -102,21 +102,21 @@ TEST(TestScanner, TestSpecialComment) {
     auto [tok, pos, lit] = l->scan();
     ASSERT_EQ(tok, tok_identifier);
     ASSERT_EQ(lit, "SELECT");
-    common::Pos expect_pos = common::Pos{1, 4, 17};
+    pxcompiler::Pos expect_pos = pxcompiler::Pos{1, 4, 17};
     ASSERT_EQ(pos, expect_pos);
 
     // std::tie(tok, pos, lit) = l->scan();
 
     // ASSERT_EQ(tok, tok_intLit);
     // ASSERT_EQ(lit, "5");
-    // expect_pos = common::Pos{1, 0, 16};
+    // expect_pos = pxcompiler::Pos{1, 0, 16};
     // ASSERT_EQ(pos, expect_pos);
 
     // // it will skip '*/' because inBangComment is true
     // std::tie(tok, pos, lit) = l->scan();
     // ASSERT_EQ(tok, tok_identifier);
     // ASSERT_EQ(lit, "SELECT");
-    // expect_pos = common::Pos{1, 4, 20};
+    // expect_pos = pxcompiler::Pos{1, 4, 20};
     // ASSERT_EQ(pos, expect_pos);
 }
 
@@ -205,7 +205,7 @@ TEST(TestScanner, TestStartWithXx) {
         },
         {
             .str = "x'123456x' f",
-            .tok = (int)common::utf8::rune_invalid,
+            .tok = (int)pxcompiler::utf8::rune_invalid,
         },
         {
             .str = "X'123456' f",
@@ -214,7 +214,7 @@ TEST(TestScanner, TestStartWithXx) {
         },
         {
             .str = "X'123456x' f",
-            .tok = (int)common::utf8::rune_invalid,
+            .tok = (int)pxcompiler::utf8::rune_invalid,
         },
         {
             .str = "XSTART'123456' f",
@@ -321,7 +321,7 @@ TEST(TestScanner, TestStartWithBb) {
         },
         {
             .str = "b'1010x' f",
-            .tok = (int)common::utf8::rune_invalid,
+            .tok = (int)pxcompiler::utf8::rune_invalid,
         },
         {
             .str = "B'1010' f",
@@ -330,7 +330,7 @@ TEST(TestScanner, TestStartWithBb) {
         },
         {
             .str = "b'1010x' f",
-            .tok = (int)common::utf8::rune_invalid,
+            .tok = (int)pxcompiler::utf8::rune_invalid,
         },
         {
             .str = "BSTART'1010' f",

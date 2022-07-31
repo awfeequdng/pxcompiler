@@ -16,7 +16,7 @@
 #include <cstdlib>
 
 static auto Main(llvm::StringRef default_prelude_file, int argc, char **argv)
-    -> common::ErrorOr<common::Success> {
+    -> pxcompiler::ErrorOr<pxcompiler::Success> {
     llvm::setBugReportMsg(
         "Please report issues to "
         "https://github.com/awfeequdng/pxcompiler/issues and include the "
@@ -37,7 +37,7 @@ static auto Main(llvm::StringRef default_prelude_file, int argc, char **argv)
 
     // Set up a stream for trace output.
     std::unique_ptr<llvm::raw_ostream> scoped_trace_stream;
-    std::optional<common::Nonnull<llvm::raw_ostream*>> trace_stream;
+    std::optional<pxcompiler::Nonnull<llvm::raw_ostream*>> trace_stream;
     if (!trace_file_name.empty()) {
         if (trace_file_name == "-") {
             trace_stream = &llvm::outs();
@@ -45,15 +45,15 @@ static auto Main(llvm::StringRef default_prelude_file, int argc, char **argv)
             std::error_code err;
             scoped_trace_stream = std::make_unique<llvm::raw_fd_ostream>(trace_file_name, err);
             if (err) {
-                return common::Error(err.message());
+                return pxcompiler::Error(err.message());
             }
             trace_stream = scoped_trace_stream.get();
         }
     }
 
-    common::Arena arena;
-    PXC_ASSIGN_OR_RETURN(ast::AST ast,
-                         parser::flex_bison::Parse(&arena,
+    pxcompiler::Arena arena;
+    PXC_ASSIGN_OR_RETURN(pxcompiler::ASTPtr ast,
+                         pxcompiler::Parse(&arena,
                                                    input_file_name,
                                                    parser_debug));
     PXC_ASSIGN_OR_RETURN(int return_code,
@@ -65,7 +65,7 @@ static auto Main(llvm::StringRef default_prelude_file, int argc, char **argv)
         **trace_stream << "build ast return code: " << return_code << "\n";
     }
 
-    return common::Success();
+    return pxcompiler::Success();
 }
 
 auto pxc_main(int argc, char **argv) -> int {

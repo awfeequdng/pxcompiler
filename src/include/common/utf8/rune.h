@@ -6,7 +6,7 @@
 
 #include "utf8proc.h"
 
-namespace common::utf8 {
+namespace pxcompiler::utf8 {
 
 struct rune_t final {
     constexpr rune_t() = default;
@@ -137,4 +137,4 @@ encoded_rune_t encode(const rune_t &r);
 
 codepoint_t decode(const char *str, size_t length);
 
-}  // namespace common::utf8
+}  // namespace pxcompiler::utf8
