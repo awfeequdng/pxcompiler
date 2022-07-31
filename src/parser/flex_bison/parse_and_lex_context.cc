@@ -12,7 +12,6 @@ auto ParseAndLexContext::RecordSyntaxError(const std::string& message,
   // TODO: support formatting of `SourceLocation` instances with formatv().
   std::string full_message;
   llvm::raw_string_ostream(full_message)
-
       << (prefix_with_newline && parser_debug() ? "\n" : "")
       << "COMPILATION ERROR: " << source_loc() << ": " << message;
   error_messages_.push_back(full_message);

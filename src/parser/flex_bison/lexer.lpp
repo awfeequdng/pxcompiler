@@ -96,7 +96,8 @@ sized_type_literal    [iuf][1-9][0-9]*
 integer_literal       [0-9]+
 horizontal_whitespace [ \t\r]
 whitespace            [ \t\r\n]
-one_line_comment      \/\/[^\n]*\n
+ // one_line_comment      \/\/[^\n]*\n
+one_line_comment      \#[^\n]*\n
 operand_start         [(A-Za-z0-9_\"]
 
 %%

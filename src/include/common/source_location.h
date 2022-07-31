@@ -10,10 +10,10 @@ namespace pxcompiler {
 class SourceLocation {
  public:
   // The filename should be eternal or arena-allocated to eliminate copies.
-  constexpr SourceLocation(const char* filename, int line_num)
-      : filename_(filename), line_num_(line_num) {}
-  SourceLocation(Nonnull<const std::string*> filename, int line_num)
-      : filename_(filename->c_str()), line_num_(line_num) {}
+  constexpr SourceLocation(const char* filename, int line_num, int col=0)
+      : filename_(filename), line_num_(line_num), column_(col) {}
+  SourceLocation(Nonnull<const std::string*> filename, int line_num, int col=0)
+      : filename_(filename->c_str()), line_num_(line_num), column_(col) {}
 
   SourceLocation(const SourceLocation&) = default;
   SourceLocation(SourceLocation&&) = default;
@@ -25,13 +25,14 @@ class SourceLocation {
   }
 
   void Print(llvm::raw_ostream& out) const {
-    out << filename_ << ":" << line_num_;
+    out << filename_ << ":" << line_num_ << ":" << column_;
   }
   LLVM_DUMP_METHOD void Dump() const { Print(llvm::errs()); }
 
  private:
   std::string_view filename_;
-  int line_num_;
+  int line_num_ {};
+  int column_ {};
 };
 
 }  // namespace pxcompiler

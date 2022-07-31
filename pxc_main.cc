@@ -58,11 +58,11 @@ static auto Main(llvm::StringRef default_prelude_file, int argc, char **argv)
                                                    parser_debug));
     PXC_ASSIGN_OR_RETURN(int return_code,
                          vm::RunAst(&arena, ast, trace_stream));
-    llvm::outs() << "build ast return code: " << return_code << "\n";
+    llvm::outs() << "run ast return code: " << return_code << "\n";
 
     // When there's dedicated trace file, print the return code to it too.
     if (scoped_trace_stream) {
-        **trace_stream << "build ast return code: " << return_code << "\n";
+        **trace_stream << "run ast return code: " << return_code << "\n";
     }
 
     return pxcompiler::Success();

@@ -693,9 +693,9 @@ namespace  pxcompiler  {
 #line 694 "./parser.cc"
     break;
 
-  case 6: // statement: single_line_statement sep
+  case 6: // statement: single_line_statement
 #line 184 "parser.ypp"
-                                { yylhs.value.as < pxcompiler::Nonnull<pxcompiler::Statement*> > () = yystack_[1].value.as < pxcompiler::Nonnull<pxcompiler::Statement*> > (); }
+      { yylhs.value.as < pxcompiler::Nonnull<pxcompiler::Statement*> > () = yystack_[0].value.as < pxcompiler::Nonnull<pxcompiler::Statement*> > (); }
 #line 700 "./parser.cc"
     break;
 
@@ -917,28 +917,28 @@ namespace  pxcompiler  {
 
 
 
-  const signed char  Parser ::yypact_ninf_ = -65;
+  const signed char  Parser ::yypact_ninf_ = -5;
 
   const signed char  Parser ::yytable_ninf_ = -1;
 
   const signed char
    Parser ::yypact_[] =
   {
-      -4,   -65,   -65,     1,   -65,   -65,   -64,   -65,   -65,   -65,
-     -65,   -65,   -65,   -65
+      -4,    -5,    -5,     1,    -5,    -5,    -5,    -5,    -5,    -5,
+      -5,    -5,    -5
   };
 
   const signed char
    Parser ::yydefact_[] =
   {
-       0,    10,    11,     0,     3,     5,     0,     7,     8,     9,
-       4,     1,     2,     6
+       0,    10,    11,     0,     3,     5,     6,     7,     8,     9,
+       4,     1,     2
   };
 
   const signed char
    Parser ::yypgoto_[] =
   {
-     -65,   -65,     0,   -65,   -65,   -65,   -65,   -65,    -2
+      -5,    -5,    -1,    -5,    -5,    -5,    -5,    -5,    -5
   };
 
   const signed char
@@ -950,7 +950,7 @@ namespace  pxcompiler  {
   const signed char
    Parser ::yytable_[] =
   {
-       1,    11,     2,    12,    13,     1,     0,     0,     0,     0,
+       1,    11,    12,     0,     0,     1,     0,     0,     0,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
@@ -962,7 +962,7 @@ namespace  pxcompiler  {
   const signed char
    Parser ::yycheck_[] =
   {
-       4,     0,    66,     3,     6,     4,    -1,    -1,    -1,    -1,
+       4,     0,     3,    -1,    -1,     4,    -1,    -1,    -1,    -1,
       -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
       -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
       -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
@@ -975,7 +975,7 @@ namespace  pxcompiler  {
    Parser ::yystos_[] =
   {
        0,     4,    66,    68,    69,    70,    71,    72,    73,    74,
-      75,     0,    69,    75
+      75,     0,    69
   };
 
   const signed char
@@ -988,7 +988,7 @@ namespace  pxcompiler  {
   const signed char
    Parser ::yyr2_[] =
   {
-       0,     2,     2,     1,     1,     1,     2,     1,     1,     1,
+       0,     2,     2,     1,     1,     1,     1,     1,     1,     1,
        1,     1
   };
 

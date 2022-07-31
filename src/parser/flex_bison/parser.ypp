@@ -65,7 +65,7 @@
 
   namespace pxcompiler {
   class ParseAndLexContext;
-  }  // namespace flex_bison
+  }  // namespace pxcompiler
 
   typedef void* yyscan_t;
 }  // %code requires
@@ -181,7 +181,7 @@ script_unit
     ;
 
 statement
-    : single_line_statement sep { $$ = $1; }
+    : single_line_statement
 //    | multi_line_statement
 //    | multi_line_statement sep { $$ = $1; }
     ;

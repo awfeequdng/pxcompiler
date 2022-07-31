@@ -74,7 +74,7 @@ Grammar
 
     4 script_unit: statement
 
-    5 statement: single_line_statement sep
+    5 statement: single_line_statement
 
     6 single_line_statement: expression_statment
 
@@ -184,7 +184,7 @@ Nonterminals, with rules where they appear
         on right: 8
     sep (75)
         on left: 10
-        on right: 3 5
+        on right: 3
 
 
 State 0
@@ -250,11 +250,9 @@ State 5
 
 State 6
 
-    5 statement: single_line_statement • sep
+    5 statement: single_line_statement •
 
-    ";"  shift, and go to state 2
-
-    sep  go to state 13
+    $default  reduce using rule 5 (statement)
 
 
 State 7
@@ -297,10 +295,3 @@ State 12
     1 units: units script_unit •
 
     $default  reduce using rule 1 (units)
-
-
-State 13
-
-    5 statement: single_line_statement sep •
-
-    $default  reduce using rule 5 (statement)

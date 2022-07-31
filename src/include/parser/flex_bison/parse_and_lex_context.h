@@ -26,7 +26,9 @@ class ParseAndLexContext {
 
   auto source_loc() const -> pxcompiler::SourceLocation {
     return pxcompiler::SourceLocation(input_file_name_,
-                          static_cast<int>(current_token_position.begin.line));
+                          static_cast<int>(current_token_position.begin.line),
+                          static_cast<int>(current_token_position.begin.column)
+                          );
   }
 
   auto parser_debug() const -> bool { return parser_debug_; }

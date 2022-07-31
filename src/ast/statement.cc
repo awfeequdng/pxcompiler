@@ -24,7 +24,7 @@ void Statement::PrintDepth(int depth, llvm::raw_ostream& out) const {
     switch (kind()) {
       case StatementKind::ExprStmt:
         auto &expr = cast<ExprStmt>(*this).expression();
-        out << expr << ";";
+        out << expr << "\n";
         break;
       // default:
       //   out << "unknown kind: ";
