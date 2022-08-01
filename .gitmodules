@@ -9,3 +9,6 @@
 [submodule "third_party/llvm_c1interpreter"]
 	path = third_party/llvm_c1interpreter
 	url = https://gitee.com/s4plus/llvm-c1interpreter.git
+[submodule "third_party/flex-bison-examples"]
+	path = third_party/flex-bison-examples
+	url = https://github.com/sunxfancy/flex-bison-examples.git
