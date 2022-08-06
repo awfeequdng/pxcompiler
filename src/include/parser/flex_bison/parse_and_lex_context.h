@@ -1,6 +1,7 @@
 #pragma once
 
 #include <variant>
+#include <stack>
 
 #include "common/nonnull.h"
 #include "common/source_location.h"
@@ -35,6 +36,12 @@ class ParseAndLexContext {
 
   // The source range of the token being (or just) lex'd.
   location current_token_position;
+
+  // 记录当前为止的各个缩进值
+  std::stack<size_t> indent_stk;
+
+  // 当前的缩进空格数
+  size_t current_line_indent = 0;
 
   auto error_messages() const -> const std::vector<std::string> {
     return error_messages_;

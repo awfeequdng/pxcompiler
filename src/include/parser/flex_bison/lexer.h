@@ -223,8 +223,7 @@ void yyfree ( void * , yyscan_t yyscanner );
 
 #ifdef YY_HEADER_EXPORT_START_CONDITIONS
 #define INITIAL 0
-#define AFTER_WHITESPACE 1
-#define AFTER_OPERAND 2
+#define NORMAL 1
 
 #endif
 
@@ -486,9 +485,9 @@ extern int yylex (yyscan_t yyscanner);
 #undef yyTABLES_NAME
 #endif
 
-#line 351 "lexer.lpp"
+#line 309 "lexer.lpp"
 
 
-#line 492 "../../include/parser/flex_bison/lexer.h"
+#line 491 "../../include/parser/flex_bison/lexer.h"
 #undef yyIN_HEADER
 #endif /* yyHEADER_H */

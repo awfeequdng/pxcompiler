@@ -267,21 +267,26 @@ file(GLOB_RECURSE PX_TEST_SOURCES
         "test/llvm/*.cc"
         )
 
-foreach (PX_TEST_CC ${PX_TEST_SOURCES})
-    file(RELATIVE_PATH PX_TEST_CC_REL "${PROJECT_SOURCE_DIR}/test" ${PX_TEST_CC})
-    get_filename_component(PX_TEST_DIR ${PX_TEST_CC_REL} DIRECTORY)
-    get_filename_component(PX_TEST ${PX_TEST_CC} NAME_WE)
+option (MAKE_TESTS
+        "whether make test" OFF)
 
-    if (NOT ${PX_BUILD_TESTS})
-        set(EXCLUDE_OR_NOT "EXCLUDE_ALL")
-    elseif (${PX_USE_JUMBOTESTS})
-        set(EXCLUDE_OR_NOT "EXCLUDE_ALL")
-    else ()
-        set(EXCLUDE_OR_NOT "NO_EXCLUDE")
-    endif ()
+if (${MAKE_TESTS})
+    foreach (PX_TEST_CC ${PX_TEST_SOURCES})
+        file(RELATIVE_PATH PX_TEST_CC_REL "${PROJECT_SOURCE_DIR}/test" ${PX_TEST_CC})
+        get_filename_component(PX_TEST_DIR ${PX_TEST_CC_REL} DIRECTORY)
+        get_filename_component(PX_TEST ${PX_TEST_CC} NAME_WE)
 
-    add_px_test(${PX_TEST} ${PX_TEST_CC} unittest ${EXCLUDE_OR_NOT} NO_UNITY)
-endforeach ()
+        if (NOT ${PX_BUILD_TESTS})
+            set(EXCLUDE_OR_NOT "EXCLUDE_ALL")
+        elseif (${PX_USE_JUMBOTESTS})
+            set(EXCLUDE_OR_NOT "EXCLUDE_ALL")
+        else ()
+            set(EXCLUDE_OR_NOT "NO_EXCLUDE")
+        endif ()
+
+        add_px_test(${PX_TEST} ${PX_TEST_CC} unittest ${EXCLUDE_OR_NOT} NO_UNITY)
+    endforeach ()
+endif() # MAKE_TESTS
 
 # add generated grammar to demo binary target
 #add_dependencies(llvmtest)

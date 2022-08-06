@@ -12,4 +12,12 @@
 
 #define SYMBOL(x, l) pxcompiler::Name::make_Name(arena, l, x)
 
+#define LIST_NEW(l) l.reserve(4)
+#define LIST_ADD(l, x) l.push_back(x)
+
 #define EXPR_01(e, l) pxcompiler::ExprStmt::make_ExprStmt(arena, l, e)
+
+#define IF_STMT_01(e, stmt, l) pxcompiler::If::make_If(arena, l, \
+        e, stmt, {})
+#define IF_STMT_02(e, stmt, orelse, l) pxcompiler::If::make_If(arena, l, \
+        e, stmt, orelse)

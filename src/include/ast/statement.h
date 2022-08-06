@@ -82,7 +82,7 @@ class ExprStmt : public Statement {
 public:
     static pxcompiler::Nonnull<ExprStmt*> make_ExprStmt(
                 pxcompiler::Nonnull<pxcompiler::Arena*> arena,
-                const pxcompiler::SourceLocation loc,
+                const pxcompiler::SourceLocation& loc,
                 pxcompiler::Nonnull<Expression*> expr) {
         return arena->New<ExprStmt>(loc, expr);
     }
@@ -96,10 +96,49 @@ public:
       : Statement(AstNodeKind::ExprStmt, loc),
         expr_(expr) {}
     auto expression() const -> const Expression& { return *expr_; }
-    auto expression() -> Expression& { return *expr_; }
+    // auto expression() -> Expression& { return *expr_; }
 
 protected:
     pxcompiler::Nonnull<Expression*> expr_;
+};
+
+class If : public Statement {
+public:
+    static Nonnull<If*> make_If (
+                Nonnull<pxcompiler::Arena*> arena,
+                const pxcompiler::SourceLocation& loc,
+                pxcompiler::Nonnull<Expression*> test,
+                std::vector<Nonnull<Statement*>> body,
+                std::vector<Nonnull<Statement*>> orelse) {
+        return arena->New<If>(loc, test, body, orelse);
+    }
+
+    static auto classof(const AstNode* node) -> bool {
+        return InheritsFromIf(node->kind());
+    }
+
+    If(const pxcompiler::SourceLocation& loc,
+       Nonnull<Expression*> test,
+       std::vector<Nonnull<Statement*>> body,
+       std::vector<Nonnull<Statement*>> orelse)
+      : Statement(AstNodeKind::If, loc),
+        test_(test),
+        body_(body),
+        orelse_(orelse) {}
+    auto test() const -> const Expression& { return *test_; }
+
+    auto body() const -> const std::vector<Nonnull<Statement*>>& {
+        return body_;
+    }
+
+    auto orelse() const -> const std::vector<Nonnull<Statement*>>& {
+        return orelse_;
+    }
+
+protected:
+    Nonnull<Expression*> test_;
+    std::vector<Nonnull<Statement*>> body_;
+    std::vector<Nonnull<Statement*>> orelse_;
 };
 
 } // namespace pxcompiler

@@ -49,6 +49,7 @@
   #include <vector>
 
   #include "common/check.h"
+  #include "parser/flex_bison/parser.h"
   #include "parser/flex_bison/parse_and_lex_context.h"
   #include "llvm/ADT/StringExtras.h"
   #include "llvm/Support/raw_ostream.h"
@@ -62,6 +63,7 @@
   #include "common/arena.h"
   #include "common/nonnull.h"
   #include "parser/flex_bison/semantics.h"
+  #include "parser/flex_bison/parser.h"
 
   namespace pxcompiler {
   class ParseAndLexContext;
@@ -140,24 +142,36 @@
   SEMICOLON
   SLASH
   UNDERSCORE
+
+  INDENT
+  DEDENT
+  NEWLINE
+  COMMENT
+  EOLCOMMENT
+  TYPE_COMMENT
+
   // Used to track EOF.
   END_OF_FILE 0
-
-  // The lexer determines the arity and fixity of each `*` based on whitespace
-  // and adjacent tokens. UNARY_STAR indicates that the operator is unary but
-  // could be either prefix or postfix.
-  UNARY_STAR "unary *"
-  PREFIX_STAR "prefix *"
-  POSTFIX_STAR "postfix *"
-  BINARY_STAR "binary *"
 ;
 
-%type <pxcompiler::Nonnull<pxcompiler::Statement*>> script_unit
-%type <pxcompiler::Nonnull<pxcompiler::Statement*>> statement
-%type <pxcompiler::Nonnull<pxcompiler::Statement*>> expression_statment
-%type <pxcompiler::Nonnull<pxcompiler::Statement*>> single_line_statement
-%type <pxcompiler::Nonnull<pxcompiler::Expression*>> expr
-%type <pxcompiler::Nonnull<pxcompiler::Name*>> id
+%type <Nonnull<Statement*>> script_unit
+%type <Nonnull<Statement*>> statement
+%type <Nonnull<Statement*>> expression_statment
+%type <Nonnull<Statement*>> single_line_statement
+%type <Nonnull<Statement*>> multi_line_statement
+%type <Nonnull<Statement*>> if_statement
+%type <std::vector<Nonnull<Statement*>>> body_stmts
+%type <std::vector<Nonnull<Statement*>>> statements1
+%type <std::vector<Nonnull<Statement*>>> statements
+%type <std::vector<Nonnull<Statement*>>> sep_statements
+%type <std::vector<Nonnull<Statement*>>> single_line_statements
+%type <std::vector<Nonnull<Statement*>>> single_line_multi_statements
+%type <std::vector<Nonnull<Statement*>>> single_line_multi_statements_opt
+%type <Nonnull<Expression*>> expr
+%type <Nonnull<Name*>> id
+
+%type <std::vector<std::string>> sep
+%type <std::string> sep_one
 
 %start units
 
@@ -180,12 +194,62 @@ script_unit
     : statement
     ;
 
-statement
-    : single_line_statement
-//    | multi_line_statement
-//    | multi_line_statement sep { $$ = $1; }
+statements
+    : INDENT statements1 DEDENT { $$ = $2; }
     ;
 
+sep_statements
+    : sep statements { $$ = $2; }
+    ;
+
+body_stmts
+    : single_line_statements { $$ = $1; }
+    | sep_statements { $$ = $1; }
+    ;
+
+statements1
+    : statements1 statement { $$ = $1; LIST_ADD($$, $2); }
+    | statement { LIST_NEW($$); LIST_ADD($$, $1); }
+    ;
+
+single_line_statements
+    : single_line_multi_statements NEWLINE { $$ = $1; }
+    | single_line_multi_statements COMMENT NEWLINE { $$ = $1; }
+    | single_line_statement NEWLINE { LIST_NEW($$); LIST_ADD($$, $1); }
+    | single_line_statement SEMICOLON NEWLINE {
+        LIST_NEW($$); LIST_ADD($$, $1);
+      }
+    | single_line_statement SEMICOLON COMMENT NEWLINE {
+        LIST_NEW($$); LIST_ADD($$, $1);
+      }
+    | single_line_statement COMMENT NEWLINE {
+        LIST_NEW($$); LIST_ADD($$, $1);
+      }
+    ;
+
+single_line_multi_statements
+    : single_line_multi_statements_opt single_line_statement {
+        $$ = $1; LIST_ADD($$, $2);
+      }
+    | single_line_multi_statements_opt single_line_statement SEMICOLON {
+        $$ = $1; LIST_ADD($$, $2);
+      }
+    ;
+
+single_line_multi_statements_opt
+    : single_line_multi_statements_opt single_line_statement SEMICOLON {
+        $$ = $1; LIST_ADD($$, $2);
+      }
+    | single_line_statement SEMICOLON {
+        LIST_NEW($$); LIST_ADD($$, $1);
+      }
+    ;
+
+statement
+    : single_line_statement sep { $$ = $1; }
+    | multi_line_statement
+    | multi_line_statement sep { $$ = $1; }
+    ;
 
 single_line_statement
     : expression_statment
@@ -203,6 +267,30 @@ single_line_statement
 //    | global_statement
 //    | if_statement_single
 //    | nonlocal_statement
+    ;
+
+multi_line_statement
+    : if_statement
+//    | for_statement
+//    | try_statement
+//    | with_statement
+//    | function_def
+//    | class_def
+//    | async_func_def
+//    | async_for_stmt
+//    | async_with_stmt
+//    | while_statement
+    ;
+
+if_statement
+    : IF expr COLON body_stmts {
+        $$ = IF_STMT_01($2, $4, context.source_loc());
+      }
+    | IF expr COLON body_stmts ELSE COLON body_stmts {
+        $$ = IF_STMT_02($2, $4, $7, context.source_loc());
+      }
+//    | KW_IF expr ":" body_stmts elif_statement {
+//        $$ = IF_STMT_03($2, $4, $5, @$); }
     ;
 
 expression_statment
@@ -284,6 +372,14 @@ id
     ;
 
 sep
-    : ";"
+    : sep sep_one { $$ = $1; LIST_ADD($$, $2); }
+    | sep_one { LIST_NEW($$); LIST_ADD($$, $1); }
     ;
+
+sep_one
+    : NEWLINE { $$ = std::string("newline"); }
+    | COMMENT { $$ = std::string("comment"); }
+    | SEMICOLON { $$ = std::string(";"); }
+    ;
+
 %%

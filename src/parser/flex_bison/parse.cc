@@ -24,6 +24,7 @@ static auto ParseImpl(yyscan_t scanner, Nonnull<Arena*> arena,
   ParseAndLexContext context(arena->New<std::string>(input_file_name),
                              parser_debug);
 
+  context.indent_stk.push(0);
   // Do the parse.
   auto parser = Parser(arena, scanner, context, &ast);
   if (parser_debug) {

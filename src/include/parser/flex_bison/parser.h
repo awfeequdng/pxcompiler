@@ -45,7 +45,7 @@
 #ifndef YY_YY_INCLUDE_PARSER_FLEX_BISON_PARSER_H_INCLUDED
 # define YY_YY_INCLUDE_PARSER_FLEX_BISON_PARSER_H_INCLUDED
 // "%code requires" blocks.
-#line 58 "parser.ypp"
+#line 59 "parser.ypp"
 
   #include <optional>
 
@@ -53,14 +53,15 @@
   #include "common/arena.h"
   #include "common/nonnull.h"
   #include "parser/flex_bison/semantics.h"
+  #include "parser/flex_bison/parser.h"
 
   namespace pxcompiler {
   class ParseAndLexContext;
-  }  // namespace flex_bison
+  }  // namespace pxcompiler
 
   typedef void* yyscan_t;
 
-#line 64 "../../include/parser/flex_bison/parser.h"
+#line 65 "../../include/parser/flex_bison/parser.h"
 
 
 # include <cstdlib> // std::abort
@@ -196,7 +197,7 @@
 
 #line 21 "parser.ypp"
 namespace  pxcompiler  {
-#line 200 "../../include/parser/flex_bison/parser.h"
+#line 201 "../../include/parser/flex_bison/parser.h"
 
 
   /// A point in a source file.
@@ -633,25 +634,40 @@ namespace  pxcompiler  {
     /// An auxiliary type to compute the largest semantic type.
     union union_type
     {
-      // integer_literal
-      char dummy1[sizeof (int)];
-
       // expr
-      char dummy2[sizeof (pxcompiler::Nonnull<pxcompiler::Expression*>)];
+      char dummy1[sizeof (Nonnull<Expression*>)];
 
       // id
-      char dummy3[sizeof (pxcompiler::Nonnull<pxcompiler::Name*>)];
+      char dummy2[sizeof (Nonnull<Name*>)];
 
       // script_unit
       // statement
       // single_line_statement
+      // multi_line_statement
+      // if_statement
       // expression_statment
-      char dummy4[sizeof (pxcompiler::Nonnull<pxcompiler::Statement*>)];
+      char dummy3[sizeof (Nonnull<Statement*>)];
+
+      // integer_literal
+      char dummy4[sizeof (int)];
 
       // identifier
       // sized_type_literal
       // string_literal
+      // sep_one
       char dummy5[sizeof (std::string)];
+
+      // statements
+      // sep_statements
+      // body_stmts
+      // statements1
+      // single_line_statements
+      // single_line_multi_statements
+      // single_line_multi_statements_opt
+      char dummy6[sizeof (std::vector<Nonnull<Statement*>>)];
+
+      // sep
+      char dummy7[sizeof (std::vector<std::string>)];
     };
 
     /// The size of the largest semantic type.
@@ -759,10 +775,12 @@ namespace  pxcompiler  {
     SEMICOLON = 314,               // SEMICOLON
     SLASH = 315,                   // SLASH
     UNDERSCORE = 316,              // UNDERSCORE
-    UNARY_STAR = 317,              // "unary *"
-    PREFIX_STAR = 318,             // "prefix *"
-    POSTFIX_STAR = 319,            // "postfix *"
-    BINARY_STAR = 320              // "binary *"
+    INDENT = 317,                  // INDENT
+    DEDENT = 318,                  // DEDENT
+    NEWLINE = 319,                 // NEWLINE
+    COMMENT = 320,                 // COMMENT
+    EOLCOMMENT = 321,              // EOLCOMMENT
+    TYPE_COMMENT = 322             // TYPE_COMMENT
       };
       /// Backward compatibility alias (Bison 3.6).
       typedef token_kind_type yytokentype;
@@ -779,7 +797,7 @@ namespace  pxcompiler  {
     {
       enum symbol_kind_type
       {
-        YYNTOKENS = 67, ///< Number of tokens.
+        YYNTOKENS = 68, ///< Number of tokens.
         S_YYEMPTY = -2,
         S_YYEOF = 0,                             // END_OF_FILE
         S_YYerror = 1,                           // error
@@ -843,20 +861,31 @@ namespace  pxcompiler  {
         S_SEMICOLON = 59,                        // SEMICOLON
         S_SLASH = 60,                            // SLASH
         S_UNDERSCORE = 61,                       // UNDERSCORE
-        S_UNARY_STAR = 62,                       // "unary *"
-        S_PREFIX_STAR = 63,                      // "prefix *"
-        S_POSTFIX_STAR = 64,                     // "postfix *"
-        S_BINARY_STAR = 65,                      // "binary *"
-        S_66_ = 66,                              // ";"
-        S_YYACCEPT = 67,                         // $accept
-        S_units = 68,                            // units
-        S_script_unit = 69,                      // script_unit
-        S_statement = 70,                        // statement
-        S_single_line_statement = 71,            // single_line_statement
-        S_expression_statment = 72,              // expression_statment
-        S_expr = 73,                             // expr
-        S_id = 74,                               // id
-        S_sep = 75                               // sep
+        S_INDENT = 62,                           // INDENT
+        S_DEDENT = 63,                           // DEDENT
+        S_NEWLINE = 64,                          // NEWLINE
+        S_COMMENT = 65,                          // COMMENT
+        S_EOLCOMMENT = 66,                       // EOLCOMMENT
+        S_TYPE_COMMENT = 67,                     // TYPE_COMMENT
+        S_YYACCEPT = 68,                         // $accept
+        S_units = 69,                            // units
+        S_script_unit = 70,                      // script_unit
+        S_statements = 71,                       // statements
+        S_sep_statements = 72,                   // sep_statements
+        S_body_stmts = 73,                       // body_stmts
+        S_statements1 = 74,                      // statements1
+        S_single_line_statements = 75,           // single_line_statements
+        S_single_line_multi_statements = 76,     // single_line_multi_statements
+        S_single_line_multi_statements_opt = 77, // single_line_multi_statements_opt
+        S_statement = 78,                        // statement
+        S_single_line_statement = 79,            // single_line_statement
+        S_multi_line_statement = 80,             // multi_line_statement
+        S_if_statement = 81,                     // if_statement
+        S_expression_statment = 82,              // expression_statment
+        S_expr = 83,                             // expr
+        S_id = 84,                               // id
+        S_sep = 85,                              // sep
+        S_sep_one = 86                           // sep_one
       };
     };
 
@@ -893,29 +922,46 @@ namespace  pxcompiler  {
       {
         switch (this->kind ())
     {
-      case symbol_kind::S_integer_literal: // integer_literal
-        value.move< int > (std::move (that.value));
-        break;
-
       case symbol_kind::S_expr: // expr
-        value.move< pxcompiler::Nonnull<pxcompiler::Expression*> > (std::move (that.value));
+        value.move< Nonnull<Expression*> > (std::move (that.value));
         break;
 
       case symbol_kind::S_id: // id
-        value.move< pxcompiler::Nonnull<pxcompiler::Name*> > (std::move (that.value));
+        value.move< Nonnull<Name*> > (std::move (that.value));
         break;
 
       case symbol_kind::S_script_unit: // script_unit
       case symbol_kind::S_statement: // statement
       case symbol_kind::S_single_line_statement: // single_line_statement
+      case symbol_kind::S_multi_line_statement: // multi_line_statement
+      case symbol_kind::S_if_statement: // if_statement
       case symbol_kind::S_expression_statment: // expression_statment
-        value.move< pxcompiler::Nonnull<pxcompiler::Statement*> > (std::move (that.value));
+        value.move< Nonnull<Statement*> > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_integer_literal: // integer_literal
+        value.move< int > (std::move (that.value));
         break;
 
       case symbol_kind::S_identifier: // identifier
       case symbol_kind::S_sized_type_literal: // sized_type_literal
       case symbol_kind::S_string_literal: // string_literal
+      case symbol_kind::S_sep_one: // sep_one
         value.move< std::string > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_statements: // statements
+      case symbol_kind::S_sep_statements: // sep_statements
+      case symbol_kind::S_body_stmts: // body_stmts
+      case symbol_kind::S_statements1: // statements1
+      case symbol_kind::S_single_line_statements: // single_line_statements
+      case symbol_kind::S_single_line_multi_statements: // single_line_multi_statements
+      case symbol_kind::S_single_line_multi_statements_opt: // single_line_multi_statements_opt
+        value.move< std::vector<Nonnull<Statement*>> > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_sep: // sep
+        value.move< std::vector<std::string> > (std::move (that.value));
         break;
 
       default:
@@ -942,6 +988,48 @@ namespace  pxcompiler  {
 #endif
 
 #if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, Nonnull<Expression*>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const Nonnull<Expression*>& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, Nonnull<Name*>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const Nonnull<Name*>& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, Nonnull<Statement*>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const Nonnull<Statement*>& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
       basic_symbol (typename Base::kind_type t, int&& v, location_type&& l)
         : Base (t)
         , value (std::move (v))
@@ -956,48 +1044,6 @@ namespace  pxcompiler  {
 #endif
 
 #if 201103L <= YY_CPLUSPLUS
-      basic_symbol (typename Base::kind_type t, pxcompiler::Nonnull<pxcompiler::Expression*>&& v, location_type&& l)
-        : Base (t)
-        , value (std::move (v))
-        , location (std::move (l))
-      {}
-#else
-      basic_symbol (typename Base::kind_type t, const pxcompiler::Nonnull<pxcompiler::Expression*>& v, const location_type& l)
-        : Base (t)
-        , value (v)
-        , location (l)
-      {}
-#endif
-
-#if 201103L <= YY_CPLUSPLUS
-      basic_symbol (typename Base::kind_type t, pxcompiler::Nonnull<pxcompiler::Name*>&& v, location_type&& l)
-        : Base (t)
-        , value (std::move (v))
-        , location (std::move (l))
-      {}
-#else
-      basic_symbol (typename Base::kind_type t, const pxcompiler::Nonnull<pxcompiler::Name*>& v, const location_type& l)
-        : Base (t)
-        , value (v)
-        , location (l)
-      {}
-#endif
-
-#if 201103L <= YY_CPLUSPLUS
-      basic_symbol (typename Base::kind_type t, pxcompiler::Nonnull<pxcompiler::Statement*>&& v, location_type&& l)
-        : Base (t)
-        , value (std::move (v))
-        , location (std::move (l))
-      {}
-#else
-      basic_symbol (typename Base::kind_type t, const pxcompiler::Nonnull<pxcompiler::Statement*>& v, const location_type& l)
-        : Base (t)
-        , value (v)
-        , location (l)
-      {}
-#endif
-
-#if 201103L <= YY_CPLUSPLUS
       basic_symbol (typename Base::kind_type t, std::string&& v, location_type&& l)
         : Base (t)
         , value (std::move (v))
@@ -1005,6 +1051,34 @@ namespace  pxcompiler  {
       {}
 #else
       basic_symbol (typename Base::kind_type t, const std::string& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, std::vector<Nonnull<Statement*>>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const std::vector<Nonnull<Statement*>>& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, std::vector<std::string>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const std::vector<std::string>& v, const location_type& l)
         : Base (t)
         , value (v)
         , location (l)
@@ -1033,29 +1107,46 @@ namespace  pxcompiler  {
         // Value type destructor.
 switch (yykind)
     {
-      case symbol_kind::S_integer_literal: // integer_literal
-        value.template destroy< int > ();
-        break;
-
       case symbol_kind::S_expr: // expr
-        value.template destroy< pxcompiler::Nonnull<pxcompiler::Expression*> > ();
+        value.template destroy< Nonnull<Expression*> > ();
         break;
 
       case symbol_kind::S_id: // id
-        value.template destroy< pxcompiler::Nonnull<pxcompiler::Name*> > ();
+        value.template destroy< Nonnull<Name*> > ();
         break;
 
       case symbol_kind::S_script_unit: // script_unit
       case symbol_kind::S_statement: // statement
       case symbol_kind::S_single_line_statement: // single_line_statement
+      case symbol_kind::S_multi_line_statement: // multi_line_statement
+      case symbol_kind::S_if_statement: // if_statement
       case symbol_kind::S_expression_statment: // expression_statment
-        value.template destroy< pxcompiler::Nonnull<pxcompiler::Statement*> > ();
+        value.template destroy< Nonnull<Statement*> > ();
+        break;
+
+      case symbol_kind::S_integer_literal: // integer_literal
+        value.template destroy< int > ();
         break;
 
       case symbol_kind::S_identifier: // identifier
       case symbol_kind::S_sized_type_literal: // sized_type_literal
       case symbol_kind::S_string_literal: // string_literal
+      case symbol_kind::S_sep_one: // sep_one
         value.template destroy< std::string > ();
+        break;
+
+      case symbol_kind::S_statements: // statements
+      case symbol_kind::S_sep_statements: // sep_statements
+      case symbol_kind::S_body_stmts: // body_stmts
+      case symbol_kind::S_statements1: // statements1
+      case symbol_kind::S_single_line_statements: // single_line_statements
+      case symbol_kind::S_single_line_multi_statements: // single_line_multi_statements
+      case symbol_kind::S_single_line_multi_statements_opt: // single_line_multi_statements_opt
+        value.template destroy< std::vector<Nonnull<Statement*>> > ();
+        break;
+
+      case symbol_kind::S_sep: // sep
+        value.template destroy< std::vector<std::string> > ();
         break;
 
       default:
@@ -2155,61 +2246,91 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
-      make_UNARY_STAR (location_type l)
+      make_INDENT (location_type l)
       {
-        return symbol_type (token::UNARY_STAR, std::move (l));
+        return symbol_type (token::INDENT, std::move (l));
       }
 #else
       static
       symbol_type
-      make_UNARY_STAR (const location_type& l)
+      make_INDENT (const location_type& l)
       {
-        return symbol_type (token::UNARY_STAR, l);
+        return symbol_type (token::INDENT, l);
       }
 #endif
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
-      make_PREFIX_STAR (location_type l)
+      make_DEDENT (location_type l)
       {
-        return symbol_type (token::PREFIX_STAR, std::move (l));
+        return symbol_type (token::DEDENT, std::move (l));
       }
 #else
       static
       symbol_type
-      make_PREFIX_STAR (const location_type& l)
+      make_DEDENT (const location_type& l)
       {
-        return symbol_type (token::PREFIX_STAR, l);
+        return symbol_type (token::DEDENT, l);
       }
 #endif
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
-      make_POSTFIX_STAR (location_type l)
+      make_NEWLINE (location_type l)
       {
-        return symbol_type (token::POSTFIX_STAR, std::move (l));
+        return symbol_type (token::NEWLINE, std::move (l));
       }
 #else
       static
       symbol_type
-      make_POSTFIX_STAR (const location_type& l)
+      make_NEWLINE (const location_type& l)
       {
-        return symbol_type (token::POSTFIX_STAR, l);
+        return symbol_type (token::NEWLINE, l);
       }
 #endif
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
-      make_BINARY_STAR (location_type l)
+      make_COMMENT (location_type l)
       {
-        return symbol_type (token::BINARY_STAR, std::move (l));
+        return symbol_type (token::COMMENT, std::move (l));
       }
 #else
       static
       symbol_type
-      make_BINARY_STAR (const location_type& l)
+      make_COMMENT (const location_type& l)
       {
-        return symbol_type (token::BINARY_STAR, l);
+        return symbol_type (token::COMMENT, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_EOLCOMMENT (location_type l)
+      {
+        return symbol_type (token::EOLCOMMENT, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_EOLCOMMENT (const location_type& l)
+      {
+        return symbol_type (token::EOLCOMMENT, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_TYPE_COMMENT (location_type l)
+      {
+        return symbol_type (token::TYPE_COMMENT, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_TYPE_COMMENT (const location_type& l)
+      {
+        return symbol_type (token::TYPE_COMMENT, l);
       }
 #endif
 
@@ -2516,9 +2637,9 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 62,     ///< Last index in yytable_.
-      yynnts_ = 9,  ///< Number of nonterminal symbols.
-      yyfinal_ = 11 ///< Termination state number.
+      yylast_ = 64,     ///< Last index in yytable_.
+      yynnts_ = 19,  ///< Number of nonterminal symbols.
+      yyfinal_ = 18 ///< Termination state number.
     };
 
 
@@ -2572,10 +2693,10 @@ switch (yykind)
       35,    36,    37,    38,    39,    40,    41,    42,    43,    44,
       45,    46,    47,    48,    49,    50,    51,    52,    53,    54,
       55,    56,    57,    58,    59,    60,    61,    62,    63,    64,
-      65,    66
+      65,    66,    67
     };
     // Last valid token kind.
-    const int code_max = 321;
+    const int code_max = 322;
 
     if (t <= 0)
       return symbol_kind::S_YYEOF;
@@ -2594,29 +2715,46 @@ switch (yykind)
   {
     switch (this->kind ())
     {
-      case symbol_kind::S_integer_literal: // integer_literal
-        value.copy< int > (YY_MOVE (that.value));
-        break;
-
       case symbol_kind::S_expr: // expr
-        value.copy< pxcompiler::Nonnull<pxcompiler::Expression*> > (YY_MOVE (that.value));
+        value.copy< Nonnull<Expression*> > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_id: // id
-        value.copy< pxcompiler::Nonnull<pxcompiler::Name*> > (YY_MOVE (that.value));
+        value.copy< Nonnull<Name*> > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_script_unit: // script_unit
       case symbol_kind::S_statement: // statement
       case symbol_kind::S_single_line_statement: // single_line_statement
+      case symbol_kind::S_multi_line_statement: // multi_line_statement
+      case symbol_kind::S_if_statement: // if_statement
       case symbol_kind::S_expression_statment: // expression_statment
-        value.copy< pxcompiler::Nonnull<pxcompiler::Statement*> > (YY_MOVE (that.value));
+        value.copy< Nonnull<Statement*> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_integer_literal: // integer_literal
+        value.copy< int > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_identifier: // identifier
       case symbol_kind::S_sized_type_literal: // sized_type_literal
       case symbol_kind::S_string_literal: // string_literal
+      case symbol_kind::S_sep_one: // sep_one
         value.copy< std::string > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_statements: // statements
+      case symbol_kind::S_sep_statements: // sep_statements
+      case symbol_kind::S_body_stmts: // body_stmts
+      case symbol_kind::S_statements1: // statements1
+      case symbol_kind::S_single_line_statements: // single_line_statements
+      case symbol_kind::S_single_line_multi_statements: // single_line_multi_statements
+      case symbol_kind::S_single_line_multi_statements_opt: // single_line_multi_statements_opt
+        value.copy< std::vector<Nonnull<Statement*>> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_sep: // sep
+        value.copy< std::vector<std::string> > (YY_MOVE (that.value));
         break;
 
       default:
@@ -2648,29 +2786,46 @@ switch (yykind)
     super_type::move (s);
     switch (this->kind ())
     {
-      case symbol_kind::S_integer_literal: // integer_literal
-        value.move< int > (YY_MOVE (s.value));
-        break;
-
       case symbol_kind::S_expr: // expr
-        value.move< pxcompiler::Nonnull<pxcompiler::Expression*> > (YY_MOVE (s.value));
+        value.move< Nonnull<Expression*> > (YY_MOVE (s.value));
         break;
 
       case symbol_kind::S_id: // id
-        value.move< pxcompiler::Nonnull<pxcompiler::Name*> > (YY_MOVE (s.value));
+        value.move< Nonnull<Name*> > (YY_MOVE (s.value));
         break;
 
       case symbol_kind::S_script_unit: // script_unit
       case symbol_kind::S_statement: // statement
       case symbol_kind::S_single_line_statement: // single_line_statement
+      case symbol_kind::S_multi_line_statement: // multi_line_statement
+      case symbol_kind::S_if_statement: // if_statement
       case symbol_kind::S_expression_statment: // expression_statment
-        value.move< pxcompiler::Nonnull<pxcompiler::Statement*> > (YY_MOVE (s.value));
+        value.move< Nonnull<Statement*> > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_integer_literal: // integer_literal
+        value.move< int > (YY_MOVE (s.value));
         break;
 
       case symbol_kind::S_identifier: // identifier
       case symbol_kind::S_sized_type_literal: // sized_type_literal
       case symbol_kind::S_string_literal: // string_literal
+      case symbol_kind::S_sep_one: // sep_one
         value.move< std::string > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_statements: // statements
+      case symbol_kind::S_sep_statements: // sep_statements
+      case symbol_kind::S_body_stmts: // body_stmts
+      case symbol_kind::S_statements1: // statements1
+      case symbol_kind::S_single_line_statements: // single_line_statements
+      case symbol_kind::S_single_line_multi_statements: // single_line_multi_statements
+      case symbol_kind::S_single_line_multi_statements_opt: // single_line_multi_statements_opt
+        value.move< std::vector<Nonnull<Statement*>> > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_sep: // sep
+        value.move< std::vector<std::string> > (YY_MOVE (s.value));
         break;
 
       default:
@@ -2736,7 +2891,7 @@ switch (yykind)
 
 #line 21 "parser.ypp"
 } //  pxcompiler 
-#line 2740 "../../include/parser/flex_bison/parser.h"
+#line 2895 "../../include/parser/flex_bison/parser.h"
 
 
 
