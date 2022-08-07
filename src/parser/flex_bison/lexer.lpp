@@ -2,6 +2,7 @@
 %{
   #include <cstdlib>
 
+  #include "common/colorizer.h"
   #include "common/check.h"
   #include "common/error.h"
   #include "parser/flex_bison/lex_helper.h"
@@ -64,17 +65,17 @@ DOUBLE_ARROW         "=>"
 EQUAL                "="
 EQUAL_EQUAL          "=="
 
-LEFT_CURLY_BRACE     "{"
-LEFT_PARENTHESIS     "("
-LEFT_SQUARE_BRACKET  "["
+LBRACE     "{"
+LPARENT     "("
+LBRACKET  "["
 
 MINUS                "-"
 PERIOD               "."
 PLUS                 "+"
 
-RIGHT_CURLY_BRACE    "}"
-RIGHT_PARENTHESIS    ")"
-RIGHT_SQUARE_BRACKET "]"
+RBRACE                "}"
+RPARENT               ")"
+RBRACKET              "]"
 
 SELF                 "self"
 SEMICOLON            ";"
@@ -100,18 +101,15 @@ operand_start         [(A-Za-z0-9_\"]
   context.current_token_position.step();
 %}
 " " {
-    std::cout << "1 space " << std::endl;
     context.current_token_position.step();
     context.current_line_indent++;
   }
 "\t" {
     // tab act as 4 space
-    std::cout << "1 tab " << std::endl;
     context.current_token_position.step();
     context.current_line_indent = (context.current_line_indent + 4) & ~3;
   }
 "\n" {
-    std::cout << "1 enter " << std::endl;
     auto tok = PXC_TOKEN(NEWLINE);
     context.current_token_position.lines(1);
     context.current_token_position.step();
@@ -120,7 +118,6 @@ operand_start         [(A-Za-z0-9_\"]
   }
 
 . {
-    std::cout << "1 dot " << std::endl;
     unput(*yytext);
     size_t indent_level = context.indent_stk.top();
     if (context.current_line_indent > indent_level) {
@@ -133,9 +130,9 @@ operand_start         [(A-Za-z0-9_\"]
       indent_level = context.indent_stk.top();
       if (context.current_line_indent > indent_level) {
           return context.RecordSyntaxError(
-            fmt::format("Error at line {0}:{1} : illegal indentation %d %d\n",
-                        context.current_token_position.begin.line,
-                        context.current_token_position.begin.column,
+            pxcompiler::colorizer::colorize("Error:",
+                                            pxcompiler::term_colors_t::red) +
+            fmt::format("illegal indentation:{0}, level:{1}\n",
                         context.current_line_indent,
                         indent_level));
       }
@@ -148,7 +145,6 @@ operand_start         [(A-Za-z0-9_\"]
   }
 
 <<EOF>> {
-    std::cout << "1 eof " << std::endl;
     size_t indent_level = context.indent_stk.top();
     auto warn = fmt::format("eof at line %d: indentation %d %d\n",
                   context.current_token_position.begin.line,
@@ -209,9 +205,9 @@ operand_start         [(A-Za-z0-9_\"]
   {DOUBLE_ARROW}              { return PXC_TOKEN(DOUBLE_ARROW);         }
   {EQUAL}                     { return PXC_TOKEN(EQUAL);                }
   {EQUAL_EQUAL}               { return PXC_TOKEN(EQUAL_EQUAL);          }
-  {LEFT_CURLY_BRACE}          { return PXC_TOKEN(LEFT_CURLY_BRACE);     }
-  {LEFT_PARENTHESIS}          { return PXC_TOKEN(LEFT_PARENTHESIS);     }
-  {LEFT_SQUARE_BRACKET}       { return PXC_TOKEN(LEFT_SQUARE_BRACKET);  }
+  {LBRACE}                    { return PXC_TOKEN(LBRACE);     }
+  {LPARENT}                   { return PXC_TOKEN(LPARENT);     }
+  {LBRACKET}                  { return PXC_TOKEN(LBRACKET);  }
 
   {MINUS}                     { return PXC_TOKEN(MINUS);                }
   {PERIOD}                    { return PXC_TOKEN(PERIOD);               }
@@ -222,14 +218,14 @@ operand_start         [(A-Za-z0-9_\"]
   {UNDERSCORE}                { return PXC_TOKEN(UNDERSCORE);           }
   /* table-end */
 
-  {RIGHT_PARENTHESIS} {
-    return PXC_TOKEN(RIGHT_PARENTHESIS);
+  {RPARENT} {
+    return PXC_TOKEN(RPARENT);
   }
-  {RIGHT_CURLY_BRACE} {
-    return PXC_TOKEN(RIGHT_CURLY_BRACE);
+  {RBRACE} {
+    return PXC_TOKEN(RBRACE);
   }
-  {RIGHT_SQUARE_BRACKET} {
-    return PXC_TOKEN(RIGHT_SQUARE_BRACKET);
+  {RBRACKET} {
+    return PXC_TOKEN(RBRACKET);
   }
 
   /*

@@ -22,9 +22,10 @@ class Statement : public AstNode {
  public:
   ~Statement() override = 0;
 
-  void Print(llvm::raw_ostream& out) const override { PrintDepth(-1, out); }
-  void PrintID(llvm::raw_ostream& out) const override { PrintDepth(1, out); }
+  void Print(llvm::raw_ostream& out) const override { PrintDepth(0, out); }
+  void PrintID(llvm::raw_ostream& out) const override { PrintDepth(0, out); }
   void PrintDepth(int depth, llvm::raw_ostream& out) const;
+  static llvm::raw_ostream& Space(int depth, llvm::raw_ostream& out);
 
   static auto classof(const AstNode* node) {
     return InheritsFromStatement(node->kind());

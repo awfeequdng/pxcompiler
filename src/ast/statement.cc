@@ -16,15 +16,19 @@ using llvm::cast;
 
 Statement::~Statement() = default;
 
+llvm::raw_ostream& Statement::Space(int depth, llvm::raw_ostream& out) {
+  if (depth == 0) return out;
+  std::string str(4 * depth, '.');
+  out << str;
+  return out;
+}
+
 void Statement::PrintDepth(int depth, llvm::raw_ostream& out) const {
-    if (depth == 0) {
-      out << " ... ";
-      return;
-    }
+
     switch (kind()) {
       case StatementKind::ExprStmt: {
           const auto &expr = cast<ExprStmt>(*this).expression();
-          out << expr << "\n";
+          Space(depth, out) << expr << "\n";
           break;
       }
       case StatementKind::If: {
@@ -32,15 +36,16 @@ void Statement::PrintDepth(int depth, llvm::raw_ostream& out) const {
           auto &test = if_stmt.test();
           auto &body = if_stmt.body();
           auto &orelse = if_stmt.orelse();
-          out << "if " << test << ":\n";
+
+          Space(depth, out) << "if " << test << ":\n";
           for (auto &b: body) {
-            out << "\t" << *b << "\n";
+            cast<Statement>(*b).PrintDepth(depth+1, out);
           }
           if (orelse.size()) {
-            out << "else:\n";
-          }
-          for (auto &o: orelse) {
-            out << "\t" << *o << "\n";
+            Space(depth, out) << "else:\n";
+            for (auto &o: orelse) {
+              cast<Statement>(*o).PrintDepth(depth + 1, out);
+            }
           }
           break;
       }

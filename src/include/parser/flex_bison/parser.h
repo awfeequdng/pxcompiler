@@ -762,15 +762,15 @@ namespace  pxcompiler  {
     DOUBLE_ARROW = 301,            // DOUBLE_ARROW
     EQUAL = 302,                   // EQUAL
     EQUAL_EQUAL = 303,             // EQUAL_EQUAL
-    LEFT_CURLY_BRACE = 304,        // LEFT_CURLY_BRACE
-    LEFT_PARENTHESIS = 305,        // LEFT_PARENTHESIS
-    LEFT_SQUARE_BRACKET = 306,     // LEFT_SQUARE_BRACKET
+    LBRACE = 304,                  // LBRACE
+    LPARENT = 305,                 // LPARENT
+    LBRACKET = 306,                // LBRACKET
     MINUS = 307,                   // MINUS
     PERIOD = 308,                  // PERIOD
     PLUS = 309,                    // PLUS
-    RIGHT_CURLY_BRACE = 310,       // RIGHT_CURLY_BRACE
-    RIGHT_PARENTHESIS = 311,       // RIGHT_PARENTHESIS
-    RIGHT_SQUARE_BRACKET = 312,    // RIGHT_SQUARE_BRACKET
+    RBRACE = 310,                  // RBRACE
+    RPARENT = 311,                 // RPARENT
+    RBRACKET = 312,                // RBRACKET
     SELF = 313,                    // SELF
     SEMICOLON = 314,               // SEMICOLON
     SLASH = 315,                   // SLASH
@@ -848,15 +848,15 @@ namespace  pxcompiler  {
         S_DOUBLE_ARROW = 46,                     // DOUBLE_ARROW
         S_EQUAL = 47,                            // EQUAL
         S_EQUAL_EQUAL = 48,                      // EQUAL_EQUAL
-        S_LEFT_CURLY_BRACE = 49,                 // LEFT_CURLY_BRACE
-        S_LEFT_PARENTHESIS = 50,                 // LEFT_PARENTHESIS
-        S_LEFT_SQUARE_BRACKET = 51,              // LEFT_SQUARE_BRACKET
+        S_LBRACE = 49,                           // LBRACE
+        S_LPARENT = 50,                          // LPARENT
+        S_LBRACKET = 51,                         // LBRACKET
         S_MINUS = 52,                            // MINUS
         S_PERIOD = 53,                           // PERIOD
         S_PLUS = 54,                             // PLUS
-        S_RIGHT_CURLY_BRACE = 55,                // RIGHT_CURLY_BRACE
-        S_RIGHT_PARENTHESIS = 56,                // RIGHT_PARENTHESIS
-        S_RIGHT_SQUARE_BRACKET = 57,             // RIGHT_SQUARE_BRACKET
+        S_RBRACE = 55,                           // RBRACE
+        S_RPARENT = 56,                          // RPARENT
+        S_RBRACKET = 57,                         // RBRACKET
         S_SELF = 58,                             // SELF
         S_SEMICOLON = 59,                        // SEMICOLON
         S_SLASH = 60,                            // SLASH
@@ -2051,46 +2051,46 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
-      make_LEFT_CURLY_BRACE (location_type l)
+      make_LBRACE (location_type l)
       {
-        return symbol_type (token::LEFT_CURLY_BRACE, std::move (l));
+        return symbol_type (token::LBRACE, std::move (l));
       }
 #else
       static
       symbol_type
-      make_LEFT_CURLY_BRACE (const location_type& l)
+      make_LBRACE (const location_type& l)
       {
-        return symbol_type (token::LEFT_CURLY_BRACE, l);
+        return symbol_type (token::LBRACE, l);
       }
 #endif
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
-      make_LEFT_PARENTHESIS (location_type l)
+      make_LPARENT (location_type l)
       {
-        return symbol_type (token::LEFT_PARENTHESIS, std::move (l));
+        return symbol_type (token::LPARENT, std::move (l));
       }
 #else
       static
       symbol_type
-      make_LEFT_PARENTHESIS (const location_type& l)
+      make_LPARENT (const location_type& l)
       {
-        return symbol_type (token::LEFT_PARENTHESIS, l);
+        return symbol_type (token::LPARENT, l);
       }
 #endif
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
-      make_LEFT_SQUARE_BRACKET (location_type l)
+      make_LBRACKET (location_type l)
       {
-        return symbol_type (token::LEFT_SQUARE_BRACKET, std::move (l));
+        return symbol_type (token::LBRACKET, std::move (l));
       }
 #else
       static
       symbol_type
-      make_LEFT_SQUARE_BRACKET (const location_type& l)
+      make_LBRACKET (const location_type& l)
       {
-        return symbol_type (token::LEFT_SQUARE_BRACKET, l);
+        return symbol_type (token::LBRACKET, l);
       }
 #endif
 #if 201103L <= YY_CPLUSPLUS
@@ -2141,46 +2141,46 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
-      make_RIGHT_CURLY_BRACE (location_type l)
+      make_RBRACE (location_type l)
       {
-        return symbol_type (token::RIGHT_CURLY_BRACE, std::move (l));
+        return symbol_type (token::RBRACE, std::move (l));
       }
 #else
       static
       symbol_type
-      make_RIGHT_CURLY_BRACE (const location_type& l)
+      make_RBRACE (const location_type& l)
       {
-        return symbol_type (token::RIGHT_CURLY_BRACE, l);
+        return symbol_type (token::RBRACE, l);
       }
 #endif
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
-      make_RIGHT_PARENTHESIS (location_type l)
+      make_RPARENT (location_type l)
       {
-        return symbol_type (token::RIGHT_PARENTHESIS, std::move (l));
+        return symbol_type (token::RPARENT, std::move (l));
       }
 #else
       static
       symbol_type
-      make_RIGHT_PARENTHESIS (const location_type& l)
+      make_RPARENT (const location_type& l)
       {
-        return symbol_type (token::RIGHT_PARENTHESIS, l);
+        return symbol_type (token::RPARENT, l);
       }
 #endif
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
-      make_RIGHT_SQUARE_BRACKET (location_type l)
+      make_RBRACKET (location_type l)
       {
-        return symbol_type (token::RIGHT_SQUARE_BRACKET, std::move (l));
+        return symbol_type (token::RBRACKET, std::move (l));
       }
 #else
       static
       symbol_type
-      make_RIGHT_SQUARE_BRACKET (const location_type& l)
+      make_RBRACKET (const location_type& l)
       {
-        return symbol_type (token::RIGHT_SQUARE_BRACKET, l);
+        return symbol_type (token::RBRACKET, l);
       }
 #endif
 #if 201103L <= YY_CPLUSPLUS

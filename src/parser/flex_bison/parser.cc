@@ -1284,16 +1284,14 @@ namespace  pxcompiler  {
   "FROM", "GLOBAL", "IF", "IMPORT", "IN", "IS", "LAMBDA", "NONLOCAL",
   "NOT", "OR", "PASS", "RETURN", "TRY", "WHILE", "WITH", "YIELD", "ARROW",
   "AMPERSAND", "COLON", "COLON_BANG", "COMMA", "DOUBLE_ARROW", "EQUAL",
-  "EQUAL_EQUAL", "LEFT_CURLY_BRACE", "LEFT_PARENTHESIS",
-  "LEFT_SQUARE_BRACKET", "MINUS", "PERIOD", "PLUS", "RIGHT_CURLY_BRACE",
-  "RIGHT_PARENTHESIS", "RIGHT_SQUARE_BRACKET", "SELF", "SEMICOLON",
-  "SLASH", "UNDERSCORE", "INDENT", "DEDENT", "NEWLINE", "COMMENT",
-  "EOLCOMMENT", "TYPE_COMMENT", "$accept", "units", "script_unit",
-  "statements", "sep_statements", "body_stmts", "statements1",
-  "single_line_statements", "single_line_multi_statements",
-  "single_line_multi_statements_opt", "statement", "single_line_statement",
-  "multi_line_statement", "if_statement", "expression_statment", "expr",
-  "id", "sep", "sep_one", YY_NULLPTR
+  "EQUAL_EQUAL", "LBRACE", "LPARENT", "LBRACKET", "MINUS", "PERIOD",
+  "PLUS", "RBRACE", "RPARENT", "RBRACKET", "SELF", "SEMICOLON", "SLASH",
+  "UNDERSCORE", "INDENT", "DEDENT", "NEWLINE", "COMMENT", "EOLCOMMENT",
+  "TYPE_COMMENT", "$accept", "units", "script_unit", "statements",
+  "sep_statements", "body_stmts", "statements1", "single_line_statements",
+  "single_line_multi_statements", "single_line_multi_statements_opt",
+  "statement", "single_line_statement", "multi_line_statement",
+  "if_statement", "expression_statment", "expr", "id", "sep", "sep_one", YY_NULLPTR
   };
 #endif
 
@@ -1338,6 +1336,6 @@ namespace  pxcompiler  {
 
 #line 21 "parser.ypp"
 } //  pxcompiler
-#line 1342 "./parser.cc"
+#line 1340 "./parser.cc"
 
 #line 385 "parser.ypp"
