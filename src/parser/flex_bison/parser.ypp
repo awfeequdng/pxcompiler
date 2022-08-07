@@ -314,7 +314,10 @@ string
 
 expr
     : id { $$ = $1; }
-    | integer_literal { $$ = INTEGER($1, context.source_loc()); }
+    | integer_literal {
+        std::cout << "integer lit: " << $1 << std::endl;
+        $$ = INTEGER($1, context.source_loc());
+      }
     | string { $$ = $1; }
     | real_literal { $$ = FLOAT($1, context.source_loc()); }
    // | TK_IMAG_NUM { $$ = COMPLEX($1, context.source_loc()); }

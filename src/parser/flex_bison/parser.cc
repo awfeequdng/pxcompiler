@@ -1004,60 +1004,63 @@ namespace  pxcompiler  {
 
   case 35: // expr: integer_literal
 #line 317 "parser.ypp"
-                      { yylhs.value.as < Nonnull<Expression*> > () = INTEGER(yystack_[0].value.as < long long > (), context.source_loc()); }
-#line 1009 "./parser.cc"
+                      {
+        std::cout << "integer lit: " << yystack_[0].value.as < long long > () << std::endl;
+        yylhs.value.as < Nonnull<Expression*> > () = INTEGER(yystack_[0].value.as < long long > (), context.source_loc());
+      }
+#line 1012 "./parser.cc"
     break;
 
   case 36: // expr: string
-#line 318 "parser.ypp"
+#line 321 "parser.ypp"
              { yylhs.value.as < Nonnull<Expression*> > () = yystack_[0].value.as < Nonnull<Expression*> > (); }
-#line 1015 "./parser.cc"
+#line 1018 "./parser.cc"
     break;
 
   case 37: // expr: real_literal
-#line 319 "parser.ypp"
+#line 322 "parser.ypp"
                    { yylhs.value.as < Nonnull<Expression*> > () = FLOAT(yystack_[0].value.as < double > (), context.source_loc()); }
-#line 1021 "./parser.cc"
+#line 1024 "./parser.cc"
     break;
 
   case 38: // id: identifier
-#line 386 "parser.ypp"
+#line 389 "parser.ypp"
                  { yylhs.value.as < Nonnull<Name*> > () = SYMBOL(yystack_[0].value.as < std::string > (), context.source_loc()); }
-#line 1027 "./parser.cc"
+#line 1030 "./parser.cc"
     break;
 
   case 39: // sep: sep sep_one
-#line 390 "parser.ypp"
+#line 393 "parser.ypp"
                   { yylhs.value.as < std::vector<std::string> > () = yystack_[1].value.as < std::vector<std::string> > (); LIST_ADD(yylhs.value.as < std::vector<std::string> > (), yystack_[0].value.as < std::string > ()); }
-#line 1033 "./parser.cc"
+#line 1036 "./parser.cc"
     break;
 
   case 40: // sep: sep_one
-#line 391 "parser.ypp"
+#line 394 "parser.ypp"
               { LIST_NEW(yylhs.value.as < std::vector<std::string> > ()); LIST_ADD(yylhs.value.as < std::vector<std::string> > (), yystack_[0].value.as < std::string > ()); }
-#line 1039 "./parser.cc"
+#line 1042 "./parser.cc"
     break;
 
   case 41: // sep_one: NEWLINE
-#line 395 "parser.ypp"
+#line 398 "parser.ypp"
               { yylhs.value.as < std::string > () = std::string("newline"); }
-#line 1045 "./parser.cc"
+#line 1048 "./parser.cc"
     break;
 
   case 42: // sep_one: COMMENT
-#line 396 "parser.ypp"
+#line 399 "parser.ypp"
               { yylhs.value.as < std::string > () = std::string("comment"); }
-#line 1051 "./parser.cc"
+#line 1054 "./parser.cc"
     break;
 
   case 43: // sep_one: SEMICOLON
-#line 397 "parser.ypp"
+#line 400 "parser.ypp"
                 { yylhs.value.as < std::string > () = std::string(";"); }
-#line 1057 "./parser.cc"
+#line 1060 "./parser.cc"
     break;
 
 
-#line 1061 "./parser.cc"
+#line 1064 "./parser.cc"
 
             default:
               break;
@@ -1381,8 +1384,8 @@ namespace  pxcompiler  {
        0,   190,   190,   191,   192,   196,   200,   204,   208,   209,
      213,   214,   218,   219,   220,   221,   224,   227,   233,   236,
      242,   245,   251,   252,   253,   257,   275,   288,   291,   299,
-     303,   304,   307,   310,   316,   317,   318,   319,   386,   390,
-     391,   395,   396,   397
+     303,   304,   307,   310,   316,   317,   321,   322,   389,   393,
+     394,   398,   399,   400
   };
 
   void
@@ -1415,6 +1418,6 @@ namespace  pxcompiler  {
 
 #line 21 "parser.ypp"
 } //  pxcompiler
-#line 1419 "./parser.cc"
+#line 1422 "./parser.cc"
 
-#line 400 "parser.ypp"
+#line 403 "parser.ypp"

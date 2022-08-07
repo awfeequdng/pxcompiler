@@ -87,7 +87,7 @@ UNDERSCORE           "_"
 identifier            [A-Za-z_][A-Za-z0-9_]*
 /* TODO: Remove Print special casing once we have variadics or overloads. */
 sized_type_literal    [iuf][1-9][0-9]*
-integer_literal       (\+|\-)?[0-9]+
+integer_literal       (\-)?[0-9]+
 real_literal          {integer_literal}\.([0-9]+)?((E|e){integer_literal})?
 horizontal_whitespace [ \t\r]
 whitespace            [ \t\r\n]
