@@ -32,20 +32,50 @@ using NonnullArena = pxcompiler::Nonnull<pxcompiler::Arena*>;
 
 #define STRING1(x, l) pxcompiler::ConstantStr::make_ConstantStr(arena, l, \
         unescape(x))
-#define STRING2(x, y, l) concat_string(arena, l, x, std::move(y))
+#define STRING2(x, y, l) concat_string(arena, l, x, y)
 #define STRING3(id, x, l) PREFIX_STRING(arena, l, id->name(), x)
+#define STRING4(x, id, y, l) concat_string(arena, l, x, STRING3(id, y, l))
 
-static inline std::string&& unescape(const std::string &s) {
-    std::string x;
-    for (size_t idx=0; idx < s.size(); idx++) {
-        if (s[idx] == '\\' && s[idx+1] == 'n') {
-            x += "\n";
-            idx++;
+static inline std::string unescape(const std::string &s) {
+    // std::string x;
+    // for (size_t idx=0; idx < s.size(); idx++) {
+    //     if (s[idx] == '\\' && s[idx+1] == 'n') {
+    //         x += "\n";
+    //         idx++;
+    //     } else {
+    //         x += s[idx];
+    //     }
+    // }
+    // return x;
+    return s;
+}
+
+static inline pxcompiler::Nonnull<pxcompiler::Expression*> concat_string(
+    pxcompiler::Nonnull<pxcompiler::Arena*> arena,
+    const pxcompiler::SourceLocation &loc,
+    pxcompiler::Nonnull<pxcompiler::Expression*> a,
+    pxcompiler::Nonnull<pxcompiler::Expression*> b) {
+    if (pxcompiler::JoinedStr::classof(a)) {
+        // JoinedStr
+        auto &joinedStr = llvm::cast<pxcompiler::JoinedStr>(*a);
+        joinedStr.join(b);
+        return a;
+    } else if (pxcompiler::ConstantStr::classof(a) ||
+               pxcompiler::ConstantBytes::classof(a)) {
+        if (pxcompiler::ConstantStr::classof(b) ||
+            pxcompiler::ConstantBytes::classof(b) ||
+            pxcompiler::JoinedStr::classof(b)) {
+            llvm::cast<pxcompiler::ConstantStr>(*a).extend(b);
         } else {
-            x += s[idx];
+            std::cout << "Error: invalid expression kind" << std::endl;
+            exit(0);
         }
+
+        return a;
+    } else {
+        std::cout << "Error: invalid expression kind" << std::endl;
+        exit(0);
     }
-    return std::move(x);
 }
 
 static inline pxcompiler::Nonnull<pxcompiler::Expression*> concat_string(
@@ -61,7 +91,6 @@ static inline pxcompiler::Nonnull<pxcompiler::Expression*> concat_string(
         return a;
     } else if (pxcompiler::ConstantStr::classof(a)) {
         llvm::cast<pxcompiler::ConstantStr>(*a).concat(b);
-        // a->concat(std::move(b));
         return a;
     } else {
         std::cout << "Error: invalid expression kind" << std::endl;
@@ -85,49 +114,48 @@ static inline NonnullExpr PREFIX_STRING(
         prefix[i] = tolower(prefix[i]);
     }
     if (prefix == "f" || prefix == "fr" || prefix == "rf") {
-        std::string str = std::move(s);
-        std::string s1 = "\"";
+        std::string str = s;
+        std::string s1 = "";
         std::string id;
         std::vector<std::string> strs;
         bool open_paren = false;
         for (size_t i = 0; i < str.length(); i++) {
             if(str[i] == '{') {
-                if(s1 != "\"") {
-                    s1.push_back('"');
+                if(s1 != "") {
                     strs.push_back(s1);
-                    s1 = "\"";
+                    s1 = "";
                 }
                 open_paren = true;
             } else if (str[i] != '}' && open_paren) {
                 id.push_back(s[i]);
             } else if (str[i] == '}') {
                 if(id != "") {
-                    strs.push_back(id);
+                    strs.push_back("{" + id + "}");
                     id = "";
                 }
                 open_paren = false;
             } else if (!open_paren) {
-                s1.push_back(s[i]);
+                s1.push_back(str[i]);
             }
-            if(i == str.length()-1 && s1 != "\"") {
-                s1.push_back('"');
+            if(i == str.length()-1 && s1 != "") {
                 strs.push_back(s1);
             }
         }
 
         for (size_t i = 0; i < strs.size(); i++) {
-            if (strs[i][0] == '"') {
+            auto last_c = strs[i][strs[i].length()-1];
+            if (strs[i][0] == '{' && last_c == '}') {
                 strs[i] = strs[i].substr(1, strs[i].length() - 2);
-                tmp = pxcompiler::ConstantStr::make_ConstantStr(arena,
-                                                                l,
-                                                                strs[i]);
-                exprs.push_back(tmp);
-            } else {
                 tmp = pxcompiler::Name::make_Name(arena, l, strs[i]);
                 tmp = pxcompiler::FormattedValue::make_FormattedValue(arena,
                                                                       l,
                                                                       tmp,
                                                                       -1);
+                exprs.push_back(tmp);
+            } else {
+                tmp = pxcompiler::ConstantStr::make_ConstantStr(arena,
+                                                                l,
+                                                                strs[i]);
                 exprs.push_back(tmp);
             }
         }

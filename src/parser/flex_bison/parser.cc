@@ -954,72 +954,84 @@ namespace  pxcompiler  {
 
   case 31: // string: string_literal
 #line 303 "parser.ypp"
-                     { yylhs.value.as < Nonnull<Expression*> > () = STRING1(yystack_[0].value.as < std::string > (), context.source_loc()); }
-#line 959 "./parser.cc"
+                     {
+        yylhs.value.as < Nonnull<Expression*> > () = STRING1(yystack_[0].value.as < std::string > (), context.source_loc());
+      }
+#line 961 "./parser.cc"
     break;
 
   case 32: // string: id string_literal
-#line 304 "parser.ypp"
-                        { yylhs.value.as < Nonnull<Expression*> > () = STRING3(yystack_[1].value.as < Nonnull<Name*> > (), yystack_[0].value.as < std::string > (), context.source_loc()); }
-#line 965 "./parser.cc"
+#line 306 "parser.ypp"
+                        {
+        yylhs.value.as < Nonnull<Expression*> > () = STRING3(yystack_[1].value.as < Nonnull<Name*> > (), yystack_[0].value.as < std::string > (), context.source_loc());
+      }
+#line 969 "./parser.cc"
     break;
 
-  case 33: // expr: id
-#line 308 "parser.ypp"
-         { yylhs.value.as < Nonnull<Expression*> > () = yystack_[0].value.as < Nonnull<Name*> > (); }
-#line 971 "./parser.cc"
-    break;
-
-  case 34: // expr: integer_literal
+  case 33: // string: string id string_literal
 #line 309 "parser.ypp"
-                      { yylhs.value.as < Nonnull<Expression*> > () = INTEGER(yystack_[0].value.as < long long > (), context.source_loc()); }
+                               {
+        yylhs.value.as < Nonnull<Expression*> > () = STRING4(yystack_[2].value.as < Nonnull<Expression*> > (), yystack_[1].value.as < Nonnull<Name*> > (), yystack_[0].value.as < std::string > (), context.source_loc());
+      }
 #line 977 "./parser.cc"
     break;
 
-  case 35: // expr: string
-#line 310 "parser.ypp"
-             { yylhs.value.as < Nonnull<Expression*> > () = yystack_[0].value.as < Nonnull<Expression*> > (); }
+  case 34: // expr: id
+#line 315 "parser.ypp"
+         { yylhs.value.as < Nonnull<Expression*> > () = yystack_[0].value.as < Nonnull<Name*> > (); }
 #line 983 "./parser.cc"
     break;
 
-  case 36: // id: identifier
-#line 378 "parser.ypp"
-                 { yylhs.value.as < Nonnull<Name*> > () = SYMBOL(yystack_[0].value.as < std::string > (), context.source_loc()); }
+  case 35: // expr: integer_literal
+#line 316 "parser.ypp"
+                      { yylhs.value.as < Nonnull<Expression*> > () = INTEGER(yystack_[0].value.as < long long > (), context.source_loc()); }
 #line 989 "./parser.cc"
     break;
 
-  case 37: // sep: sep sep_one
-#line 382 "parser.ypp"
-                  { yylhs.value.as < std::vector<std::string> > () = yystack_[1].value.as < std::vector<std::string> > (); LIST_ADD(yylhs.value.as < std::vector<std::string> > (), yystack_[0].value.as < std::string > ()); }
+  case 36: // expr: string
+#line 317 "parser.ypp"
+             { yylhs.value.as < Nonnull<Expression*> > () = yystack_[0].value.as < Nonnull<Expression*> > (); }
 #line 995 "./parser.cc"
     break;
 
-  case 38: // sep: sep_one
-#line 383 "parser.ypp"
-              { LIST_NEW(yylhs.value.as < std::vector<std::string> > ()); LIST_ADD(yylhs.value.as < std::vector<std::string> > (), yystack_[0].value.as < std::string > ()); }
+  case 37: // id: identifier
+#line 385 "parser.ypp"
+                 { yylhs.value.as < Nonnull<Name*> > () = SYMBOL(yystack_[0].value.as < std::string > (), context.source_loc()); }
 #line 1001 "./parser.cc"
     break;
 
-  case 39: // sep_one: NEWLINE
-#line 387 "parser.ypp"
-              { yylhs.value.as < std::string > () = std::string("newline"); }
+  case 38: // sep: sep sep_one
+#line 389 "parser.ypp"
+                  { yylhs.value.as < std::vector<std::string> > () = yystack_[1].value.as < std::vector<std::string> > (); LIST_ADD(yylhs.value.as < std::vector<std::string> > (), yystack_[0].value.as < std::string > ()); }
 #line 1007 "./parser.cc"
     break;
 
-  case 40: // sep_one: COMMENT
-#line 388 "parser.ypp"
-              { yylhs.value.as < std::string > () = std::string("comment"); }
+  case 39: // sep: sep_one
+#line 390 "parser.ypp"
+              { LIST_NEW(yylhs.value.as < std::vector<std::string> > ()); LIST_ADD(yylhs.value.as < std::vector<std::string> > (), yystack_[0].value.as < std::string > ()); }
 #line 1013 "./parser.cc"
     break;
 
-  case 41: // sep_one: SEMICOLON
-#line 389 "parser.ypp"
-                { yylhs.value.as < std::string > () = std::string(";"); }
+  case 40: // sep_one: NEWLINE
+#line 394 "parser.ypp"
+              { yylhs.value.as < std::string > () = std::string("newline"); }
 #line 1019 "./parser.cc"
     break;
 
+  case 41: // sep_one: COMMENT
+#line 395 "parser.ypp"
+              { yylhs.value.as < std::string > () = std::string("comment"); }
+#line 1025 "./parser.cc"
+    break;
 
-#line 1023 "./parser.cc"
+  case 42: // sep_one: SEMICOLON
+#line 396 "parser.ypp"
+                { yylhs.value.as < std::string > () = std::string(";"); }
+#line 1031 "./parser.cc"
+    break;
+
+
+#line 1035 "./parser.cc"
 
             default:
               break;
@@ -1212,68 +1224,70 @@ namespace  pxcompiler  {
 
 
 
-  const signed char  Parser ::yypact_ninf_ = -32;
+  const signed char  Parser ::yypact_ninf_ = -42;
 
   const signed char  Parser ::yytable_ninf_ = -20;
 
   const signed char
    Parser ::yypact_[] =
   {
-      -3,   -32,   -32,   -32,    47,   -32,   -32,   -32,    10,   -32,
-     -32,   -30,   -30,   -32,   -32,    -4,   -32,     0,   -30,   -32,
-     -31,   -32,   -32,   -30,   -30,   -32,   -32,   -32,     1,   -32,
-      -6,   -32,   -10,    47,   -16,   -20,   -21,   -32,   -28,   -13,
-      -7,   -32,   -17,    14,   -32,     1,   -32,    -1,   -32,   -12,
-     -32,     5,   -32,   -32,   -32,   -32,   -32
+      -3,   -42,   -42,   -42,    44,   -42,   -42,   -42,    10,   -42,
+     -42,   -29,   -29,   -42,   -42,    49,   -42,     0,   -29,   -42,
+     -41,   -42,   -42,   -29,   -29,   -42,     6,   -42,   -42,     1,
+     -42,   -42,    -2,   -42,   -36,    44,   -13,   -20,    -5,   -42,
+     -15,     8,    -7,   -42,   -10,    14,   -42,     1,   -42,    -1,
+     -42,     7,   -42,     5,   -42,   -42,   -42,   -42,   -42
   };
 
   const signed char
    Parser ::yydefact_[] =
   {
-       0,    34,    36,    31,     0,    41,    39,    40,     0,     3,
-       5,     0,    23,    26,    25,    35,    29,    33,     4,    38,
-       0,     1,     2,    22,    24,    30,    32,    37,     0,     9,
-      27,     8,     0,     0,     0,     0,     0,    12,     0,    18,
-      21,    14,     0,     0,     7,     0,    13,    20,    15,     0,
-      17,     0,    11,    28,    16,     6,    10
+       0,    35,    37,    31,     0,    42,    40,    41,     0,     3,
+       5,     0,    23,    26,    25,    36,    29,    34,     4,    39,
+       0,     1,     2,    22,    24,    30,     0,    32,    38,     0,
+      33,     9,    27,     8,     0,     0,     0,     0,     0,    12,
+       0,    18,    21,    14,     0,     0,     7,     0,    13,    20,
+      15,     0,    17,     0,    11,    28,    16,     6,    10
   };
 
   const signed char
    Parser ::yypgoto_[] =
   {
-     -32,   -32,    51,   -32,   -32,    22,   -32,   -32,   -32,   -32,
-     -18,    -5,   -32,   -32,   -32,   -32,    65,   -32,    19,     3
+     -42,   -42,    51,   -42,   -42,    23,   -42,   -42,   -42,   -42,
+     -30,    -4,   -42,   -42,   -42,   -42,    65,    57,    22,     3
   };
 
   const signed char
    Parser ::yydefgoto_[] =
   {
-       0,     8,     9,    44,    29,    30,    51,    31,    32,    33,
-      10,    11,    12,    13,    14,    15,    16,    17,    35,    19
+       0,     8,     9,    46,    31,    32,    53,    33,    34,    35,
+      10,    11,    12,    13,    14,    15,    16,    17,    37,    19
   };
 
   const signed char
    Parser ::yytable_[] =
   {
-       1,     2,    25,     3,     1,     2,    26,     3,     1,     2,
-      21,     3,    28,     1,     2,    36,     3,     1,     2,    18,
-       3,    27,    45,    34,     4,    52,    27,    27,    39,     5,
-      23,    24,     4,    56,     6,     7,    46,     4,    27,     5,
-      34,     4,    43,    40,     6,     7,    47,    50,    41,    42,
-       1,     2,    54,     3,    37,    38,     5,    48,    49,    22,
-       5,     6,     7,   -19,   -19,     6,     7,    53,    55,    20
+       1,     2,    29,     3,     1,     2,    27,     3,     1,     2,
+      21,     3,    30,     1,     2,    54,     3,     1,     2,    38,
+       3,    28,    18,    58,     4,    36,    28,    28,    39,    40,
+       5,    41,     4,    23,    24,     6,     7,     4,    47,     5,
+      28,     4,    45,    36,     6,     7,    42,     1,     2,    48,
+       3,    43,    44,     2,    52,    25,     5,    50,    51,    22,
+       5,     6,     7,   -19,   -19,     6,     7,    49,    57,    20,
+      55,    56,    26
   };
 
   const signed char
    Parser ::yycheck_[] =
   {
-       3,     4,     6,     6,     3,     4,     6,     6,     3,     4,
-       0,     6,    43,     3,     4,    21,     6,     3,     4,     0,
-       6,    18,    43,    28,    27,    43,    23,    24,    33,    59,
-      11,    12,    27,    51,    64,    65,    64,    27,    35,    59,
-      45,    27,    62,    59,    64,    65,    59,    64,    64,    65,
-       3,     4,    64,     6,    64,    65,    59,    64,    65,     8,
-      59,    64,    65,    64,    65,    64,    65,    45,    63,     4
+       3,     4,    43,     6,     3,     4,     6,     6,     3,     4,
+       0,     6,     6,     3,     4,    45,     6,     3,     4,    21,
+       6,    18,     0,    53,    27,    29,    23,    24,    64,    65,
+      59,    35,    27,    11,    12,    64,    65,    27,    43,    59,
+      37,    27,    62,    47,    64,    65,    59,     3,     4,    64,
+       6,    64,    65,     4,    64,     6,    59,    64,    65,     8,
+      59,    64,    65,    64,    65,    64,    65,    59,    63,     4,
+      47,    64,    15
   };
 
   const signed char
@@ -1281,10 +1295,10 @@ namespace  pxcompiler  {
   {
        0,     3,     4,     6,    27,    59,    64,    65,    69,    70,
       78,    79,    80,    81,    82,    83,    84,    85,    86,    87,
-      84,     0,    70,    86,    86,     6,     6,    87,    43,    72,
-      73,    75,    76,    77,    79,    86,    21,    64,    65,    79,
-      59,    64,    65,    62,    71,    43,    64,    59,    64,    65,
-      64,    74,    78,    73,    64,    63,    78
+      84,     0,    70,    86,    86,     6,    85,     6,    87,    43,
+       6,    72,    73,    75,    76,    77,    79,    86,    21,    64,
+      65,    79,    59,    64,    65,    62,    71,    43,    64,    59,
+      64,    65,    64,    74,    78,    73,    64,    63,    78
   };
 
   const signed char
@@ -1293,8 +1307,8 @@ namespace  pxcompiler  {
        0,    68,    69,    69,    69,    70,    71,    72,    73,    73,
       74,    74,    75,    75,    75,    75,    75,    75,    76,    76,
       77,    77,    78,    78,    78,    79,    80,    81,    81,    82,
-      83,    83,    83,    84,    84,    84,    85,    86,    86,    87,
-      87,    87
+      83,    83,    83,    83,    84,    84,    84,    85,    86,    86,
+      87,    87,    87
   };
 
   const signed char
@@ -1303,8 +1317,8 @@ namespace  pxcompiler  {
        0,     2,     2,     1,     1,     1,     3,     2,     1,     1,
        2,     1,     2,     3,     2,     3,     4,     3,     2,     3,
        3,     2,     2,     1,     2,     1,     1,     4,     7,     1,
-       2,     1,     2,     1,     1,     1,     1,     2,     1,     1,
-       1,     1
+       2,     1,     2,     3,     1,     1,     1,     1,     2,     1,
+       1,     1,     1
   };
 
 
@@ -1341,8 +1355,8 @@ namespace  pxcompiler  {
        0,   189,   189,   190,   191,   195,   199,   203,   207,   208,
      212,   213,   217,   218,   219,   220,   223,   226,   232,   235,
      241,   244,   250,   251,   252,   256,   274,   287,   290,   298,
-     302,   303,   304,   308,   309,   310,   378,   382,   383,   387,
-     388,   389
+     302,   303,   306,   309,   315,   316,   317,   385,   389,   390,
+     394,   395,   396
   };
 
   void
@@ -1375,6 +1389,6 @@ namespace  pxcompiler  {
 
 #line 21 "parser.ypp"
 } //  pxcompiler
-#line 1379 "./parser.cc"
+#line 1393 "./parser.cc"
 
-#line 392 "parser.ypp"
+#line 399 "parser.ypp"

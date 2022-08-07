@@ -1,7 +1,6 @@
 #pragma once
 
 #define YY_USER_ACTION  \
-    std::cout << "yy user action" << std::endl; \
     context.current_token_position.columns(yyleng);
 
 #define PXC_TOKEN(name) \

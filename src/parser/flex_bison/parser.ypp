@@ -299,9 +299,16 @@ expression_statment
     ;
 
 string
-    : string string_literal { $$ = STRING2($1, $2, context.source_loc()); } // TODO
-    | string_literal { $$ = STRING1($1, context.source_loc()); }
-    | id string_literal { $$ = STRING3($1, $2, context.source_loc()); }
+    : string string_literal { $$ = STRING2($1, $2, context.source_loc()); }
+    | string_literal {
+        $$ = STRING1($1, context.source_loc());
+      }
+    | id string_literal {
+        $$ = STRING3($1, $2, context.source_loc());
+      }
+    | string id string_literal {
+        $$ = STRING4($1, $2, $3, context.source_loc());
+      }
     ;
 
 expr

@@ -9,7 +9,7 @@ public:
     static pxcompiler::Nonnull<Name*> make_Name(
         pxcompiler::Nonnull<pxcompiler::Arena*> arena,
         pxcompiler::SourceLocation loc,
-        std::string &name) {
+        std::string name) {
         return arena->New<Name>(loc, name);
     }
 

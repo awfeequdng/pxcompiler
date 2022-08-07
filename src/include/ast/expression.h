@@ -111,12 +111,20 @@ public:
     const std::string& value() const {
         return val_;
     }
+    const std::vector<Nonnull<Expression*>> &extend() const {
+        return extend_;
+    }
+
     void concat(std::string str) {
         val_ += str;
+    }
+    void extend(Nonnull<Expression*> expr) {
+        extend_.push_back(expr);
     }
 private:
     std::string val_;
     std::string kind_;
+    std::vector<Nonnull<Expression*>> extend_;
 };
 
 class ConstantBytes : public Expression {
@@ -140,12 +148,19 @@ public:
     const std::string& value() const {
         return val_;
     }
+    const std::vector<Nonnull<Expression*>> &extend() const {
+        return extend_;
+    }
     void concat(std::string str) {
         val_ += str;
+    }
+    void extend(Nonnull<Expression*> expr) {
+        extend_.push_back(expr);
     }
 private:
     std::string val_;
     std::string kind_;
+    std::vector<Nonnull<Expression*>> extend_;
 };
 
 class JoinedStr : public Expression {

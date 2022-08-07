@@ -33,7 +33,7 @@ void Expression::Print(llvm::raw_ostream& out) const {
 void Expression::PrintID(llvm::raw_ostream& out) const {
   switch (kind()) {
     case ExpressionKind::Name:
-      out << cast<Name>(*this).name();
+      out << "Name:" << cast<Name>(*this).name();
       break;
     case ExpressionKind::ConstantInt:
       out << cast<ConstantInt>(*this).value();
@@ -43,6 +43,9 @@ void Expression::PrintID(llvm::raw_ostream& out) const {
       break;
     case ExpressionKind::ConstantStr:
       out << cast<ConstantStr>(*this).value();
+      for (auto &expr : cast<ConstantStr>(*this).extend()) {
+        out << *expr;
+      }
       break;
     case ExpressionKind::JoinedStr: {
       const auto &values = cast<JoinedStr>(*this).values();
@@ -53,21 +56,14 @@ void Expression::PrintID(llvm::raw_ostream& out) const {
     }
     case ExpressionKind::ConstantBytes:
       out << cast<ConstantBytes>(*this).value();
+      for (auto &expr : cast<ConstantStr>(*this).extend()) {
+        out << *expr;
+      }
       break;
     case ExpressionKind::FormattedValue:
       out << "{" << *(cast<FormattedValue>(*this).value()) << "}";
       break;
-    // case ExpressionKind::IntLiteral:
-    //   out << cast<IntLiteral>(*this).value();
-    //   break;
-    // case ExpressionKind::BoolLiteral:
-    //   out << (cast<BoolLiteral>(*this).value() ? "True" : "False");
-    //   break;
-    // case ExpressionKind::StringLiteral:
-    //   out << "\"";
-    //   out.write_escaped(cast<StringLiteral>(*this).value());
-    //   out << "\"";
-    //   break;
+
 
     default:
       out << "...";
