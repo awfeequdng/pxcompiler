@@ -65,9 +65,9 @@ DOUBLE_ARROW         "=>"
 EQUAL                "="
 EQUAL_EQUAL          "=="
 
-LBRACE     "{"
-LPARENT     "("
-LBRACKET    "["
+LBRACE               "{"
+LPARENT              "("
+LBRACKET             "["
 
 MINUS                "-"
 PERIOD               "."
@@ -94,7 +94,6 @@ image_literal         {integer_literal}(\.[0-9]+)?((E|e){integer_literal})?j
 horizontal_whitespace [ \t\r]
 whitespace            [ \t\r\n]
 one_line_comment      \#[^\n]*\n
-operand_start         [(A-Za-z0-9_\"]
 
 %%
 
@@ -204,8 +203,14 @@ operand_start         [(A-Za-z0-9_\"]
   {DOUBLE_ARROW}              { return PXC_TOKEN(DOUBLE_ARROW);         }
   {EQUAL}                     { return PXC_TOKEN(EQUAL);                }
   {EQUAL_EQUAL}               { return PXC_TOKEN(EQUAL_EQUAL);          }
-  {LBRACE}                    { return PXC_TOKEN(LBRACE);     }
-  {LPARENT}                   { return PXC_TOKEN(LPARENT);     }
+  {LBRACE}                    {
+      std::cout << "right )" << std::endl;
+      return PXC_TOKEN(LBRACE);
+   }
+  {LPARENT}                   {
+      std::cout << "left (" << std::endl;
+      return PXC_TOKEN(LPARENT);
+    }
   {LBRACKET}                  { return PXC_TOKEN(LBRACKET);  }
 
   {MINUS}                     { return PXC_TOKEN(MINUS);                }

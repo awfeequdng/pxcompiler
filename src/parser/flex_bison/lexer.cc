@@ -836,11 +836,11 @@ YY_DECL
 		}
 
 	{
-#line 99 "lexer.lpp"
+#line 98 "lexer.lpp"
 
 
 
-#line 103 "lexer.lpp"
+#line 102 "lexer.lpp"
   // Code run each time yylex is called.
   // Begin with an empty token span starting where its previous end was.
   context.current_token_position.step();
@@ -904,7 +904,7 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 107 "lexer.lpp"
+#line 106 "lexer.lpp"
 {
     context.current_token_position.step();
     context.current_line_indent++;
@@ -912,7 +912,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 111 "lexer.lpp"
+#line 110 "lexer.lpp"
 {
     // tab act as 4 space
     context.current_token_position.step();
@@ -922,7 +922,7 @@ YY_RULE_SETUP
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 116 "lexer.lpp"
+#line 115 "lexer.lpp"
 {
     auto tok = PXC_TOKEN(NEWLINE);
     context.current_token_position.lines(1);
@@ -933,7 +933,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 124 "lexer.lpp"
+#line 123 "lexer.lpp"
 {
     unput(*yytext);
     size_t indent_level = context.indent_stk.top();
@@ -960,7 +960,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(NORMAL):
-#line 148 "lexer.lpp"
+#line 147 "lexer.lpp"
 {
     size_t indent_level = context.indent_stk.top();
     auto warn = fmt::format("eof at line %d: indentation %d %d\n",
@@ -978,287 +978,293 @@ case YY_STATE_EOF(NORMAL):
 /* table-begin */
 case 5:
 YY_RULE_SETUP
-#line 165 "lexer.lpp"
+#line 164 "lexer.lpp"
 { return PXC_TOKEN(FALSE);                }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 166 "lexer.lpp"
+#line 165 "lexer.lpp"
 { return PXC_TOKEN(TRUE);                 }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 167 "lexer.lpp"
+#line 166 "lexer.lpp"
 { return PXC_TOKEN(NONE);                 }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 168 "lexer.lpp"
+#line 167 "lexer.lpp"
 { return PXC_TOKEN(AND);                  }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 169 "lexer.lpp"
+#line 168 "lexer.lpp"
 { return PXC_TOKEN(AS);                   }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 170 "lexer.lpp"
+#line 169 "lexer.lpp"
 { return PXC_TOKEN(ASSERT);               }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 171 "lexer.lpp"
+#line 170 "lexer.lpp"
 { return PXC_TOKEN(ASYNC);                }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 172 "lexer.lpp"
+#line 171 "lexer.lpp"
 { return PXC_TOKEN(AWAIT);                }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 173 "lexer.lpp"
+#line 172 "lexer.lpp"
 { return PXC_TOKEN(BREAK);                }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 174 "lexer.lpp"
+#line 173 "lexer.lpp"
 { return PXC_TOKEN(CLASS);                }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 175 "lexer.lpp"
+#line 174 "lexer.lpp"
 { return PXC_TOKEN(CONTINUE);             }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 176 "lexer.lpp"
+#line 175 "lexer.lpp"
 { return PXC_TOKEN(DEF);                  }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 177 "lexer.lpp"
+#line 176 "lexer.lpp"
 { return PXC_TOKEN(DEL);                  }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 178 "lexer.lpp"
+#line 177 "lexer.lpp"
 { return PXC_TOKEN(ELIF);                 }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 179 "lexer.lpp"
+#line 178 "lexer.lpp"
 { return PXC_TOKEN(ELSE);                 }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 180 "lexer.lpp"
+#line 179 "lexer.lpp"
 { return PXC_TOKEN(EXCEPT);               }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 181 "lexer.lpp"
+#line 180 "lexer.lpp"
 { return PXC_TOKEN(FINALLY);              }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 182 "lexer.lpp"
+#line 181 "lexer.lpp"
 { return PXC_TOKEN(FOR);                  }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 183 "lexer.lpp"
+#line 182 "lexer.lpp"
 { return PXC_TOKEN(FROM);                 }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 184 "lexer.lpp"
+#line 183 "lexer.lpp"
 { return PXC_TOKEN(GLOBAL);               }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 185 "lexer.lpp"
+#line 184 "lexer.lpp"
 { return PXC_TOKEN(IF);                   }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 186 "lexer.lpp"
+#line 185 "lexer.lpp"
 { return PXC_TOKEN(IMPORT);               }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 187 "lexer.lpp"
+#line 186 "lexer.lpp"
 { return PXC_TOKEN(IN);                   }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 188 "lexer.lpp"
+#line 187 "lexer.lpp"
 { return PXC_TOKEN(IS);                   }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 189 "lexer.lpp"
+#line 188 "lexer.lpp"
 { return PXC_TOKEN(LAMBDA);               }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 190 "lexer.lpp"
+#line 189 "lexer.lpp"
 { return PXC_TOKEN(NONLOCAL);             }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 191 "lexer.lpp"
+#line 190 "lexer.lpp"
 { return PXC_TOKEN(NOT);                  }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 192 "lexer.lpp"
+#line 191 "lexer.lpp"
 { return PXC_TOKEN(OR);                   }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 193 "lexer.lpp"
+#line 192 "lexer.lpp"
 { return PXC_TOKEN(PASS);                 }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 194 "lexer.lpp"
+#line 193 "lexer.lpp"
 { return PXC_TOKEN(RETURN);               }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 195 "lexer.lpp"
+#line 194 "lexer.lpp"
 { return PXC_TOKEN(TRY);                  }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 196 "lexer.lpp"
+#line 195 "lexer.lpp"
 { return PXC_TOKEN(WHILE);                }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 197 "lexer.lpp"
+#line 196 "lexer.lpp"
 { return PXC_TOKEN(WITH);                 }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 198 "lexer.lpp"
+#line 197 "lexer.lpp"
 { return PXC_TOKEN(YIELD);                }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 200 "lexer.lpp"
+#line 199 "lexer.lpp"
 { return PXC_TOKEN(ARROW);                }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 201 "lexer.lpp"
+#line 200 "lexer.lpp"
 { return PXC_TOKEN(AMPERSAND);            }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 202 "lexer.lpp"
+#line 201 "lexer.lpp"
 { return PXC_TOKEN(COLON);                }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 203 "lexer.lpp"
+#line 202 "lexer.lpp"
 { return PXC_TOKEN(COLON_BANG);           }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 204 "lexer.lpp"
+#line 203 "lexer.lpp"
 { return PXC_TOKEN(COMMA);                }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 205 "lexer.lpp"
+#line 204 "lexer.lpp"
 { return PXC_TOKEN(DOUBLE_ARROW);         }
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 206 "lexer.lpp"
+#line 205 "lexer.lpp"
 { return PXC_TOKEN(EQUAL);                }
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 207 "lexer.lpp"
+#line 206 "lexer.lpp"
 { return PXC_TOKEN(EQUAL_EQUAL);          }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 208 "lexer.lpp"
-{ return PXC_TOKEN(LBRACE);     }
+#line 207 "lexer.lpp"
+{
+      std::cout << "right )" << std::endl;
+      return PXC_TOKEN(LBRACE);
+   }
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 209 "lexer.lpp"
-{ return PXC_TOKEN(LPARENT);     }
+#line 211 "lexer.lpp"
+{
+      std::cout << "left (" << std::endl;
+      return PXC_TOKEN(LPARENT);
+    }
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 210 "lexer.lpp"
+#line 215 "lexer.lpp"
 { return PXC_TOKEN(LBRACKET);  }
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 212 "lexer.lpp"
+#line 217 "lexer.lpp"
 { return PXC_TOKEN(MINUS);                }
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 213 "lexer.lpp"
+#line 218 "lexer.lpp"
 { return PXC_TOKEN(PERIOD);               }
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 214 "lexer.lpp"
+#line 219 "lexer.lpp"
 { return PXC_TOKEN(ELLIPSIS);               }
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 215 "lexer.lpp"
+#line 220 "lexer.lpp"
 { return PXC_TOKEN(PLUS);                 }
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 216 "lexer.lpp"
+#line 221 "lexer.lpp"
 { return PXC_TOKEN(SELF);                 }
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 217 "lexer.lpp"
+#line 222 "lexer.lpp"
 { return PXC_TOKEN(SEMICOLON);            }
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 218 "lexer.lpp"
+#line 223 "lexer.lpp"
 { return PXC_TOKEN(SLASH);                }
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 219 "lexer.lpp"
+#line 224 "lexer.lpp"
 { return PXC_TOKEN(UNDERSCORE);           }
 	YY_BREAK
 /* table-end */
 case 58:
 YY_RULE_SETUP
-#line 222 "lexer.lpp"
+#line 227 "lexer.lpp"
 {
     return PXC_TOKEN(RPARENT);
   }
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 225 "lexer.lpp"
+#line 230 "lexer.lpp"
 {
     return PXC_TOKEN(RBRACE);
   }
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 228 "lexer.lpp"
+#line 233 "lexer.lpp"
 {
     return PXC_TOKEN(RBRACKET);
   }
@@ -1285,21 +1291,21 @@ YY_RULE_SETUP
     */
 case 61:
 YY_RULE_SETUP
-#line 253 "lexer.lpp"
+#line 258 "lexer.lpp"
 {
     return PXC_ARG_TOKEN(sized_type_literal, yytext);
   }
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
-#line 257 "lexer.lpp"
+#line 262 "lexer.lpp"
 {
     return PXC_ARG_TOKEN(identifier, yytext);
   }
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
-#line 261 "lexer.lpp"
+#line 266 "lexer.lpp"
 {
     double val = 0.0;
     if (!llvm::to_float(yytext, val)) {
@@ -1312,25 +1318,23 @@ YY_RULE_SETUP
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
-#line 271 "lexer.lpp"
+#line 276 "lexer.lpp"
 {
     std::cout << "image_literal lexer: " << yytext << std::endl;
     double val = 0.0;
     std::string img(yytext);
     img = img.substr(0, img.size() - 1);
-    std::cout << "image_literal lexer img: " << img << std::endl;
     if (!llvm::to_float(img, val)) {
       return context.RecordSyntaxError(
         fmt::format("Invalid real literal: {0}", yytext)
       );
     }
-    std::cout << "image_literal lexer: " << val << std::endl;
     return PXC_ARG_TOKEN(image_literal, val);
   }
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
-#line 286 "lexer.lpp"
+#line 289 "lexer.lpp"
 {
     long long val = 0;
     if (!llvm::to_integer(yytext, val)) {
@@ -1342,7 +1346,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 66:
 YY_RULE_SETUP
-#line 295 "lexer.lpp"
+#line 298 "lexer.lpp"
 {
     // Raw string literal.
     // yytext (the token that matches the above regex) and chars scanned by
@@ -1428,7 +1432,7 @@ YY_RULE_SETUP
 case 67:
 /* rule 67 can match eol */
 YY_RULE_SETUP
-#line 377 "lexer.lpp"
+#line 380 "lexer.lpp"
 {
     auto tok = PXC_TOKEN(COMMENT);
     // Advance end by 1 line, resetting the column to zero.
@@ -1442,7 +1446,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 68:
 YY_RULE_SETUP
-#line 388 "lexer.lpp"
+#line 391 "lexer.lpp"
 {
     // Make the span empty by setting start to end.
     context.current_token_position.step();
@@ -1451,7 +1455,7 @@ YY_RULE_SETUP
 case 69:
 /* rule 69 can match eol */
 YY_RULE_SETUP
-#line 393 "lexer.lpp"
+#line 396 "lexer.lpp"
 {
     // Advance end by yyleng lines, resetting the column to zero.
     auto tok = PXC_TOKEN(NEWLINE);
@@ -1465,7 +1469,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 70:
 YY_RULE_SETUP
-#line 404 "lexer.lpp"
+#line 407 "lexer.lpp"
 {
     return context.RecordSyntaxError(
         fmt::format("invalid character '\\x{0}' in source file.",
@@ -1475,10 +1479,10 @@ YY_RULE_SETUP
 
 case 71:
 YY_RULE_SETUP
-#line 412 "lexer.lpp"
+#line 415 "lexer.lpp"
 YY_FATAL_ERROR( "flex scanner jammed" );
 	YY_BREAK
-#line 1481 "./lexer.cc"
+#line 1485 "./lexer.cc"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2645,7 +2649,7 @@ void yyfree (void * ptr , yyscan_t yyscanner)
 
 #define YYTABLES_NAME "yytables"
 
-#line 412 "lexer.lpp"
+#line 415 "lexer.lpp"
 
 
 auto YyinputWrapper(yyscan_t yyscanner) -> int { return yyinput(yyscanner); }

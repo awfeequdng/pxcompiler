@@ -1067,44 +1067,50 @@ namespace  pxcompiler  {
 #line 1068 "./parser.cc"
     break;
 
-  case 44: // id: identifier
-#line 394 "parser.ypp"
-                 { yylhs.value.as < Nonnull<Name*> > () = SYMBOL(yystack_[0].value.as < std::string > (), context.source_loc()); }
+  case 44: // expr: "(" ")"
+#line 335 "parser.ypp"
+              { yylhs.value.as < Nonnull<Expression*> > () = TUPLE_EMPTY(context.source_loc()); }
 #line 1074 "./parser.cc"
     break;
 
-  case 45: // sep: sep sep_one
-#line 398 "parser.ypp"
-                  { yylhs.value.as < std::vector<std::string> > () = yystack_[1].value.as < std::vector<std::string> > (); LIST_ADD(yylhs.value.as < std::vector<std::string> > (), yystack_[0].value.as < std::string > ()); }
+  case 45: // id: identifier
+#line 396 "parser.ypp"
+                 { yylhs.value.as < Nonnull<Name*> > () = SYMBOL(yystack_[0].value.as < std::string > (), context.source_loc()); }
 #line 1080 "./parser.cc"
     break;
 
-  case 46: // sep: sep_one
-#line 399 "parser.ypp"
-              { LIST_NEW(yylhs.value.as < std::vector<std::string> > ()); LIST_ADD(yylhs.value.as < std::vector<std::string> > (), yystack_[0].value.as < std::string > ()); }
+  case 46: // sep: sep sep_one
+#line 400 "parser.ypp"
+                  { yylhs.value.as < std::vector<std::string> > () = yystack_[1].value.as < std::vector<std::string> > (); LIST_ADD(yylhs.value.as < std::vector<std::string> > (), yystack_[0].value.as < std::string > ()); }
 #line 1086 "./parser.cc"
     break;
 
-  case 47: // sep_one: NEWLINE
-#line 403 "parser.ypp"
-              { yylhs.value.as < std::string > () = std::string("newline"); }
+  case 47: // sep: sep_one
+#line 401 "parser.ypp"
+              { LIST_NEW(yylhs.value.as < std::vector<std::string> > ()); LIST_ADD(yylhs.value.as < std::vector<std::string> > (), yystack_[0].value.as < std::string > ()); }
 #line 1092 "./parser.cc"
     break;
 
-  case 48: // sep_one: COMMENT
-#line 404 "parser.ypp"
-              { yylhs.value.as < std::string > () = std::string("comment"); }
+  case 48: // sep_one: NEWLINE
+#line 405 "parser.ypp"
+              { yylhs.value.as < std::string > () = std::string("newline"); }
 #line 1098 "./parser.cc"
     break;
 
-  case 49: // sep_one: SEMICOLON
-#line 405 "parser.ypp"
-                { yylhs.value.as < std::string > () = std::string(";"); }
+  case 49: // sep_one: COMMENT
+#line 406 "parser.ypp"
+              { yylhs.value.as < std::string > () = std::string("comment"); }
 #line 1104 "./parser.cc"
     break;
 
+  case 50: // sep_one: SEMICOLON
+#line 407 "parser.ypp"
+                { yylhs.value.as < std::string > () = std::string(";"); }
+#line 1110 "./parser.cc"
+    break;
 
-#line 1108 "./parser.cc"
+
+#line 1114 "./parser.cc"
 
             default:
               break;
@@ -1297,114 +1303,113 @@ namespace  pxcompiler  {
 
 
 
-  const signed char  Parser ::yypact_ninf_ = -51;
+  const signed char  Parser ::yypact_ninf_ = -28;
 
   const signed char  Parser ::yytable_ninf_ = -20;
 
   const signed char
    Parser ::yypact_[] =
   {
-      10,   -51,   -51,   -51,   -51,   -51,   -51,   -51,   -51,   106,
-     -51,   -51,   -51,   -51,   106,     0,   -51,   -51,   -13,   -13,
-     -51,   -51,    29,   -51,     4,   -13,   -51,   -44,   -50,   -51,
-     -51,   -13,   -13,   -51,    28,   -51,   -51,    22,   -51,   -51,
-     -51,    42,   -51,     6,   106,     2,    -6,    23,   -51,    13,
-      -2,     8,   -51,    18,    96,   -51,    22,   -51,    15,   -51,
-      19,   -51,    37,   -51,   -51,   -51,   -51,   -51
+      -3,   -28,   -28,   -28,   -28,   -28,   -28,   -28,   -28,   104,
+      86,   -28,   -28,   -28,   -28,    31,   -28,   -28,    49,    49,
+     -28,   -28,    13,   -28,    -4,    49,   -28,   -27,   -28,   -26,
+     -28,   -28,    49,    49,   -28,    36,   -28,   -28,     6,   -28,
+     -28,   -28,    27,   -28,   -21,   104,    58,    10,    21,   -28,
+      14,    -7,    -6,   -28,    15,    95,   -28,     6,   -28,     2,
+     -28,    17,   -28,    19,   -28,   -28,   -28,   -28,   -28
   };
 
   const signed char
    Parser ::yydefact_[] =
   {
-       0,    35,    37,    38,    44,    31,    40,    39,    41,     0,
-      42,    49,    47,    48,     0,     0,     3,     5,     0,    23,
-      26,    25,    36,    29,    34,     4,    46,     0,     0,     1,
-       2,    22,    24,    30,     0,    32,    45,     0,    43,    33,
-       9,    27,     8,     0,     0,     0,     0,     0,    12,     0,
-      18,    21,    14,     0,     0,     7,     0,    13,    20,    15,
-       0,    17,     0,    11,    28,    16,     6,    10
+       0,    35,    37,    38,    45,    31,    40,    39,    41,     0,
+       0,    42,    50,    48,    49,     0,     3,     5,     0,    23,
+      26,    25,    36,    29,    34,     4,    47,     0,    44,     0,
+       1,     2,    22,    24,    30,     0,    32,    46,     0,    43,
+      33,     9,    27,     8,     0,     0,     0,     0,     0,    12,
+       0,    18,    21,    14,     0,     0,     7,     0,    13,    20,
+      15,     0,    17,     0,    11,    28,    16,     6,    10
   };
 
   const signed char
    Parser ::yypgoto_[] =
   {
-     -51,   -51,    72,   -51,   -51,    32,   -51,   -51,   -51,   -51,
-      -4,     7,   -51,   -51,   -51,   -51,    -7,    69,    34,    -8
+     -28,   -28,    71,   -28,   -28,    30,   -28,   -28,   -28,   -28,
+     -12,   -25,   -28,   -28,   -28,   -28,    70,    80,    38,    20
   };
 
   const signed char
    Parser ::yydefgoto_[] =
   {
-       0,    15,    16,    55,    40,    41,    62,    42,    43,    44,
-      17,    18,    19,    20,    21,    22,    23,    24,    46,    26
+       0,    15,    16,    56,    41,    42,    63,    43,    44,    45,
+      17,    18,    19,    20,    21,    22,    23,    24,    47,    26
   };
 
   const signed char
    Parser ::yytable_[] =
   {
-      29,    37,    27,     1,     2,     3,     4,    28,     5,     6,
-       7,     8,    35,     1,     2,     3,     4,    36,     5,     6,
-       7,     8,    38,    36,    36,     1,     2,     3,     4,     9,
-       5,     6,     7,     8,    25,     4,    39,    33,    36,     9,
-       1,     2,     3,     4,    45,     5,     6,     7,     8,    11,
-      63,    50,    31,    32,    12,    13,    11,    10,    67,    54,
-      58,    12,    13,    45,    51,    47,     9,    10,    56,    52,
-      53,    14,    11,    48,    49,    59,    60,    12,    13,    10,
-      57,    14,   -19,   -19,    11,    61,    65,    30,    64,    12,
-      13,    34,     0,    14,    10,     0,     0,     0,     0,     1,
-       2,     3,     4,    66,     5,     6,     7,     8,    14,     1,
-       2,     3,     4,     0,     5,     6,     7,     8,     0,     0,
-       0,     0,     0,     0,     0,     9,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,    10,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,    10,     0,     0,     0,    14,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,    14
+       1,     2,     3,     4,    36,     5,     6,     7,     8,     1,
+       2,     3,     4,    46,     5,     6,     7,     8,    38,     4,
+      51,    34,     1,     2,     3,     4,     9,     5,     6,     7,
+       8,    30,    46,    39,     1,     2,     3,     4,    25,     5,
+       6,     7,     8,    64,    40,    37,    49,    50,     9,    10,
+      48,    68,    37,    37,    11,    59,    32,    33,    10,    12,
+       9,    60,    61,    11,    13,    14,    57,    37,    12,   -19,
+     -19,    10,    12,    13,    14,    55,    11,    13,    14,    27,
+      29,    58,    62,    10,    66,    67,    31,    65,    11,     1,
+       2,     3,     4,     0,     5,     6,     7,     8,     1,     2,
+       3,     4,    35,     5,     6,     7,     8,     1,     2,     3,
+       4,    12,     5,     6,     7,     8,    13,    14,     0,     0,
+      52,     0,     0,     0,     9,    53,    54,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,    10,     0,
+       0,     0,     0,    11,     0,    28,     0,    10,     0,     0,
+       0,     0,    11,     0,     0,     0,    10,     0,     0,     0,
+       0,    11
   };
 
   const signed char
    Parser ::yycheck_[] =
   {
-       0,    45,     9,     3,     4,     5,     6,    14,     8,     9,
-      10,    11,     8,     3,     4,     5,     6,    25,     8,     9,
-      10,    11,    72,    31,    32,     3,     4,     5,     6,    29,
-       8,     9,    10,    11,     0,     6,     8,     8,    46,    29,
-       3,     4,     5,     6,    37,     8,     9,    10,    11,    62,
-      54,    44,    18,    19,    67,    68,    62,    57,    62,    65,
-      62,    67,    68,    56,    62,    23,    29,    57,    45,    67,
-      68,    71,    62,    67,    68,    67,    68,    67,    68,    57,
-      67,    71,    67,    68,    62,    67,    67,    15,    56,    67,
-      68,    22,    -1,    71,    57,    -1,    -1,    -1,    -1,     3,
-       4,     5,     6,    66,     8,     9,    10,    11,    71,     3,
-       4,     5,     6,    -1,     8,     9,    10,    11,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    29,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    57,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    57,    -1,    -1,    -1,    71,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    71
+       3,     4,     5,     6,     8,     8,     9,    10,    11,     3,
+       4,     5,     6,    38,     8,     9,    10,    11,    45,     6,
+      45,     8,     3,     4,     5,     6,    29,     8,     9,    10,
+      11,     0,    57,    59,     3,     4,     5,     6,     0,     8,
+       9,    10,    11,    55,     8,    25,    67,    68,    29,    52,
+      23,    63,    32,    33,    57,    62,    18,    19,    52,    62,
+      29,    67,    68,    57,    67,    68,    45,    47,    62,    67,
+      68,    52,    62,    67,    68,    65,    57,    67,    68,     9,
+      10,    67,    67,    52,    67,    66,    15,    57,    57,     3,
+       4,     5,     6,    -1,     8,     9,    10,    11,     3,     4,
+       5,     6,    22,     8,     9,    10,    11,     3,     4,     5,
+       6,    62,     8,     9,    10,    11,    67,    68,    -1,    -1,
+      62,    -1,    -1,    -1,    29,    67,    68,    -1,    -1,    -1,
+      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    52,    -1,
+      -1,    -1,    -1,    57,    -1,    59,    -1,    52,    -1,    -1,
+      -1,    -1,    57,    -1,    -1,    -1,    52,    -1,    -1,    -1,
+      -1,    57
   };
 
   const signed char
    Parser ::yystos_[] =
   {
        0,     3,     4,     5,     6,     8,     9,    10,    11,    29,
-      57,    62,    67,    68,    71,    74,    75,    83,    84,    85,
-      86,    87,    88,    89,    90,    91,    92,    89,    89,     0,
-      75,    91,    91,     8,    90,     8,    92,    45,    72,     8,
-      77,    78,    80,    81,    82,    84,    91,    23,    67,    68,
-      84,    62,    67,    68,    65,    76,    45,    67,    62,    67,
-      68,    67,    79,    83,    78,    67,    66,    83
+      52,    57,    62,    67,    68,    72,    73,    81,    82,    83,
+      84,    85,    86,    87,    88,    89,    90,    87,    59,    87,
+       0,    73,    89,    89,     8,    88,     8,    90,    45,    59,
+       8,    75,    76,    78,    79,    80,    82,    89,    23,    67,
+      68,    82,    62,    67,    68,    65,    74,    45,    67,    62,
+      67,    68,    67,    77,    81,    76,    67,    66,    81
   };
 
   const signed char
    Parser ::yyr1_[] =
   {
-       0,    73,    74,    74,    74,    75,    76,    77,    78,    78,
-      79,    79,    80,    80,    80,    80,    80,    80,    81,    81,
-      82,    82,    83,    83,    83,    84,    85,    86,    86,    87,
-      88,    88,    88,    88,    89,    89,    89,    89,    89,    89,
-      89,    89,    89,    89,    90,    91,    91,    92,    92,    92
+       0,    71,    72,    72,    72,    73,    74,    75,    76,    76,
+      77,    77,    78,    78,    78,    78,    78,    78,    79,    79,
+      80,    80,    81,    81,    81,    82,    83,    84,    84,    85,
+      86,    86,    86,    86,    87,    87,    87,    87,    87,    87,
+      87,    87,    87,    87,    87,    88,    89,    89,    90,    90,
+      90
   };
 
   const signed char
@@ -1414,7 +1419,8 @@ namespace  pxcompiler  {
        2,     1,     2,     3,     2,     3,     4,     3,     2,     3,
        3,     2,     2,     1,     2,     1,     1,     4,     7,     1,
        2,     1,     2,     3,     1,     1,     1,     1,     1,     1,
-       1,     1,     1,     3,     1,     2,     1,     1,     1,     1
+       1,     1,     1,     3,     2,     1,     2,     1,     1,     1,
+       1
   };
 
 
@@ -1431,16 +1437,15 @@ namespace  pxcompiler  {
   "ELSE", "EXCEPT", "FINALLY", "FOR", "FROM", "GLOBAL", "IF", "IMPORT",
   "IN", "IS", "LAMBDA", "NONLOCAL", "NOT", "OR", "PASS", "RETURN", "TRY",
   "WHILE", "WITH", "YIELD", "ARROW", "AMPERSAND", "COLON", "COLON_BANG",
-  "COMMA", "DOUBLE_ARROW", "EQUAL", "EQUAL_EQUAL", "LBRACE", "LPARENT",
-  "LBRACKET", "MINUS", "PERIOD", "PLUS", "ELLIPSIS", "RBRACE", "RPARENT",
+  "COMMA", "DOUBLE_ARROW", "EQUAL", "EQUAL_EQUAL", "LBRACE", "\"(\"",
+  "LBRACKET", "MINUS", "PERIOD", "PLUS", "ELLIPSIS", "RBRACE", "\")\"",
   "RBRACKET", "SELF", "SEMICOLON", "SLASH", "UNDERSCORE", "INDENT",
-  "DEDENT", "NEWLINE", "COMMENT", "EOLCOMMENT", "TYPE_COMMENT", "\"(\"",
-  "\")\"", "$accept", "units", "script_unit", "statements",
-  "sep_statements", "body_stmts", "statements1", "single_line_statements",
-  "single_line_multi_statements", "single_line_multi_statements_opt",
-  "statement", "single_line_statement", "multi_line_statement",
-  "if_statement", "expression_statment", "string", "expr", "id", "sep",
-  "sep_one", YY_NULLPTR
+  "DEDENT", "NEWLINE", "COMMENT", "EOLCOMMENT", "TYPE_COMMENT", "$accept",
+  "units", "script_unit", "statements", "sep_statements", "body_stmts",
+  "statements1", "single_line_statements", "single_line_multi_statements",
+  "single_line_multi_statements_opt", "statement", "single_line_statement",
+  "multi_line_statement", "if_statement", "expression_statment", "string",
+  "expr", "id", "sep", "sep_one", YY_NULLPTR
   };
 #endif
 
@@ -1453,7 +1458,8 @@ namespace  pxcompiler  {
      215,   216,   220,   221,   222,   223,   226,   229,   235,   238,
      244,   247,   253,   254,   255,   259,   277,   290,   293,   301,
      305,   306,   309,   312,   318,   319,   323,   324,   325,   329,
-     330,   331,   332,   333,   394,   398,   399,   403,   404,   405
+     330,   331,   332,   333,   335,   396,   400,   401,   405,   406,
+     407
   };
 
   void
@@ -1486,6 +1492,6 @@ namespace  pxcompiler  {
 
 #line 21 "parser.ypp"
 } //  pxcompiler
-#line 1490 "./parser.cc"
+#line 1496 "./parser.cc"
 
-#line 408 "parser.ypp"
+#line 410 "parser.ypp"

@@ -770,14 +770,14 @@ namespace  pxcompiler  {
     EQUAL = 304,                   // EQUAL
     EQUAL_EQUAL = 305,             // EQUAL_EQUAL
     LBRACE = 306,                  // LBRACE
-    LPARENT = 307,                 // LPARENT
+    LPARENT = 307,                 // "("
     LBRACKET = 308,                // LBRACKET
     MINUS = 309,                   // MINUS
     PERIOD = 310,                  // PERIOD
     PLUS = 311,                    // PLUS
     ELLIPSIS = 312,                // ELLIPSIS
     RBRACE = 313,                  // RBRACE
-    RPARENT = 314,                 // RPARENT
+    RPARENT = 314,                 // ")"
     RBRACKET = 315,                // RBRACKET
     SELF = 316,                    // SELF
     SEMICOLON = 317,               // SEMICOLON
@@ -805,7 +805,7 @@ namespace  pxcompiler  {
     {
       enum symbol_kind_type
       {
-        YYNTOKENS = 73, ///< Number of tokens.
+        YYNTOKENS = 71, ///< Number of tokens.
         S_YYEMPTY = -2,
         S_YYEOF = 0,                             // END_OF_FILE
         S_YYerror = 1,                           // error
@@ -859,14 +859,14 @@ namespace  pxcompiler  {
         S_EQUAL = 49,                            // EQUAL
         S_EQUAL_EQUAL = 50,                      // EQUAL_EQUAL
         S_LBRACE = 51,                           // LBRACE
-        S_LPARENT = 52,                          // LPARENT
+        S_LPARENT = 52,                          // "("
         S_LBRACKET = 53,                         // LBRACKET
         S_MINUS = 54,                            // MINUS
         S_PERIOD = 55,                           // PERIOD
         S_PLUS = 56,                             // PLUS
         S_ELLIPSIS = 57,                         // ELLIPSIS
         S_RBRACE = 58,                           // RBRACE
-        S_RPARENT = 59,                          // RPARENT
+        S_RPARENT = 59,                          // ")"
         S_RBRACKET = 60,                         // RBRACKET
         S_SELF = 61,                             // SELF
         S_SEMICOLON = 62,                        // SEMICOLON
@@ -878,28 +878,26 @@ namespace  pxcompiler  {
         S_COMMENT = 68,                          // COMMENT
         S_EOLCOMMENT = 69,                       // EOLCOMMENT
         S_TYPE_COMMENT = 70,                     // TYPE_COMMENT
-        S_71_ = 71,                              // "("
-        S_72_ = 72,                              // ")"
-        S_YYACCEPT = 73,                         // $accept
-        S_units = 74,                            // units
-        S_script_unit = 75,                      // script_unit
-        S_statements = 76,                       // statements
-        S_sep_statements = 77,                   // sep_statements
-        S_body_stmts = 78,                       // body_stmts
-        S_statements1 = 79,                      // statements1
-        S_single_line_statements = 80,           // single_line_statements
-        S_single_line_multi_statements = 81,     // single_line_multi_statements
-        S_single_line_multi_statements_opt = 82, // single_line_multi_statements_opt
-        S_statement = 83,                        // statement
-        S_single_line_statement = 84,            // single_line_statement
-        S_multi_line_statement = 85,             // multi_line_statement
-        S_if_statement = 86,                     // if_statement
-        S_expression_statment = 87,              // expression_statment
-        S_string = 88,                           // string
-        S_expr = 89,                             // expr
-        S_id = 90,                               // id
-        S_sep = 91,                              // sep
-        S_sep_one = 92                           // sep_one
+        S_YYACCEPT = 71,                         // $accept
+        S_units = 72,                            // units
+        S_script_unit = 73,                      // script_unit
+        S_statements = 74,                       // statements
+        S_sep_statements = 75,                   // sep_statements
+        S_body_stmts = 76,                       // body_stmts
+        S_statements1 = 77,                      // statements1
+        S_single_line_statements = 78,           // single_line_statements
+        S_single_line_multi_statements = 79,     // single_line_multi_statements
+        S_single_line_multi_statements_opt = 80, // single_line_multi_statements_opt
+        S_statement = 81,                        // statement
+        S_single_line_statement = 82,            // single_line_statement
+        S_multi_line_statement = 83,             // multi_line_statement
+        S_if_statement = 84,                     // if_statement
+        S_expression_statment = 85,              // expression_statment
+        S_string = 86,                           // string
+        S_expr = 87,                             // expr
+        S_id = 88,                               // id
+        S_sep = 89,                              // sep
+        S_sep_one = 90                           // sep_one
       };
     };
 
@@ -2730,9 +2728,9 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 177,     ///< Last index in yytable_.
+      yylast_ = 161,     ///< Last index in yytable_.
       yynnts_ = 20,  ///< Number of nonterminal symbols.
-      yyfinal_ = 29 ///< Termination state number.
+      yyfinal_ = 30 ///< Termination state number.
     };
 
 
@@ -2786,10 +2784,10 @@ switch (yykind)
       35,    36,    37,    38,    39,    40,    41,    42,    43,    44,
       45,    46,    47,    48,    49,    50,    51,    52,    53,    54,
       55,    56,    57,    58,    59,    60,    61,    62,    63,    64,
-      65,    66,    67,    68,    69,    70,    71,    72
+      65,    66,    67,    68,    69,    70
     };
     // Last valid token kind.
-    const int code_max = 327;
+    const int code_max = 325;
 
     if (t <= 0)
       return symbol_kind::S_YYEOF;
@@ -2996,7 +2994,7 @@ switch (yykind)
 
 #line 21 "parser.ypp"
 } //  pxcompiler 
-#line 3000 "../../include/parser/flex_bison/parser.h"
+#line 2998 "../../include/parser/flex_bison/parser.h"
 
 
 

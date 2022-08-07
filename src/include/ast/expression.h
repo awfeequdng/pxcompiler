@@ -306,4 +306,28 @@ private:
     int64_t conversion_;
 };
 
+class Tuple : public Expression {
+public:
+    static Nonnull<Tuple*> make_Tuple(
+        Nonnull<pxcompiler::Arena*> arena,
+        SourceLocation loc,
+        std::vector<Nonnull<Expression*>> elts) {
+        return arena->New<Tuple>(loc, elts);
+    }
+
+    static auto classof(const AstNode* node) {
+        return InheritsFromTuple(node->kind());
+    }
+
+    Tuple(pxcompiler::SourceLocation loc, std::vector<Nonnull<Expression*>> elts)
+        : Expression(AstNodeKind::Tuple, loc), elts_(elts) {}
+
+    const std::vector<Nonnull<Expression*>> &elements() const {
+        return elts_;
+    }
+
+private:
+    std::vector<Nonnull<Expression*>> elts_;
+};
+
 } // namespace pxcompiler

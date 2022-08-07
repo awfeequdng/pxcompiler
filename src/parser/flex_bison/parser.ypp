@@ -132,14 +132,14 @@
   EQUAL
   EQUAL_EQUAL
   LBRACE
-  LPARENT
+  LPARENT "("
   LBRACKET
   MINUS
   PERIOD
   PLUS
   ELLIPSIS
   RBRACE
-  RPARENT
+  RPARENT  ")"
   RBRACKET
   SELF
   SEMICOLON
@@ -331,7 +331,9 @@ expr
     | NONE { $$ = NONE(context.source_loc()); }
     | ELLIPSIS { $$ = ELLIPSIS(context.source_loc()); }
     | "(" expr ")" { $$ = $2; }
-   // | "(" ")" { $$ = TUPLE_EMPTY(context.source_loc()); }
+   // | LPARENT expr RPARENT { $$ = $2; }
+    | "(" ")" { $$ = TUPLE_EMPTY(context.source_loc()); }
+   // | LPARENT RPARENT { $$ = TUPLE_EMPTY(context.source_loc()); }
    // | function_call { $$ = $1; }
    // | subscription { $$ = $1; }
    // | "[" expr_list_opt "]" { $$ = LIST($2, context.source_loc()); }

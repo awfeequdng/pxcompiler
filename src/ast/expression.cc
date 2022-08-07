@@ -81,8 +81,13 @@ void Expression::PrintID(llvm::raw_ostream& out) const {
     case ExpressionKind::FormattedValue:
       out << "{" << *(cast<FormattedValue>(*this).value()) << "}";
       break;
-
-
+    case ExpressionKind::Tuple:
+      out << "Tuple(";
+      for (auto &elt: cast<Tuple>(*this).elements()) {
+        out << *elt << ",";
+      }
+      out << ")";
+      break;
     default:
       out << "...";
       break;
