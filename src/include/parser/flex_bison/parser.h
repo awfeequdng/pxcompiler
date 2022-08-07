@@ -649,14 +649,17 @@ namespace  pxcompiler  {
       // expression_statment
       char dummy3[sizeof (Nonnull<Statement*>)];
 
+      // real_literal
+      char dummy4[sizeof (double)];
+
       // integer_literal
-      char dummy4[sizeof (long long)];
+      char dummy5[sizeof (long long)];
 
       // identifier
       // sized_type_literal
       // string_literal
       // sep_one
-      char dummy5[sizeof (std::string)];
+      char dummy6[sizeof (std::string)];
 
       // statements
       // sep_statements
@@ -665,10 +668,10 @@ namespace  pxcompiler  {
       // single_line_statements
       // single_line_multi_statements
       // single_line_multi_statements_opt
-      char dummy6[sizeof (std::vector<Nonnull<Statement*>>)];
+      char dummy7[sizeof (std::vector<Nonnull<Statement*>>)];
 
       // sep
-      char dummy7[sizeof (std::vector<std::string>)];
+      char dummy8[sizeof (std::vector<std::string>)];
     };
 
     /// The size of the largest semantic type.
@@ -718,70 +721,71 @@ namespace  pxcompiler  {
     YYerror = 256,                 // error
     YYUNDEF = 257,                 // "invalid token"
     integer_literal = 258,         // integer_literal
-    identifier = 259,              // identifier
-    sized_type_literal = 260,      // sized_type_literal
-    string_literal = 261,          // string_literal
-    FALSE = 262,                   // FALSE
-    TRUE = 263,                    // TRUE
-    NONE = 264,                    // NONE
-    AND = 265,                     // AND
-    AS = 266,                      // AS
-    ASSERT = 267,                  // ASSERT
-    ASYNC = 268,                   // ASYNC
-    AWAIT = 269,                   // AWAIT
-    BREAK = 270,                   // BREAK
-    CLASS = 271,                   // CLASS
-    CONTINUE = 272,                // CONTINUE
-    DEF = 273,                     // DEF
-    DEL = 274,                     // DEL
-    ELIF = 275,                    // ELIF
-    ELSE = 276,                    // ELSE
-    EXCEPT = 277,                  // EXCEPT
-    FINALLY = 278,                 // FINALLY
-    FOR = 279,                     // FOR
-    FROM = 280,                    // FROM
-    GLOBAL = 281,                  // GLOBAL
-    IF = 282,                      // IF
-    IMPORT = 283,                  // IMPORT
-    IN = 284,                      // IN
-    IS = 285,                      // IS
-    LAMBDA = 286,                  // LAMBDA
-    NONLOCAL = 287,                // NONLOCAL
-    NOT = 288,                     // NOT
-    OR = 289,                      // OR
-    PASS = 290,                    // PASS
-    RETURN = 291,                  // RETURN
-    TRY = 292,                     // TRY
-    WHILE = 293,                   // WHILE
-    WITH = 294,                    // WITH
-    YIELD = 295,                   // YIELD
-    ARROW = 296,                   // ARROW
-    AMPERSAND = 297,               // AMPERSAND
-    COLON = 298,                   // COLON
-    COLON_BANG = 299,              // COLON_BANG
-    COMMA = 300,                   // COMMA
-    DOUBLE_ARROW = 301,            // DOUBLE_ARROW
-    EQUAL = 302,                   // EQUAL
-    EQUAL_EQUAL = 303,             // EQUAL_EQUAL
-    LBRACE = 304,                  // LBRACE
-    LPARENT = 305,                 // LPARENT
-    LBRACKET = 306,                // LBRACKET
-    MINUS = 307,                   // MINUS
-    PERIOD = 308,                  // PERIOD
-    PLUS = 309,                    // PLUS
-    RBRACE = 310,                  // RBRACE
-    RPARENT = 311,                 // RPARENT
-    RBRACKET = 312,                // RBRACKET
-    SELF = 313,                    // SELF
-    SEMICOLON = 314,               // SEMICOLON
-    SLASH = 315,                   // SLASH
-    UNDERSCORE = 316,              // UNDERSCORE
-    INDENT = 317,                  // INDENT
-    DEDENT = 318,                  // DEDENT
-    NEWLINE = 319,                 // NEWLINE
-    COMMENT = 320,                 // COMMENT
-    EOLCOMMENT = 321,              // EOLCOMMENT
-    TYPE_COMMENT = 322             // TYPE_COMMENT
+    real_literal = 259,            // real_literal
+    identifier = 260,              // identifier
+    sized_type_literal = 261,      // sized_type_literal
+    string_literal = 262,          // string_literal
+    FALSE = 263,                   // FALSE
+    TRUE = 264,                    // TRUE
+    NONE = 265,                    // NONE
+    AND = 266,                     // AND
+    AS = 267,                      // AS
+    ASSERT = 268,                  // ASSERT
+    ASYNC = 269,                   // ASYNC
+    AWAIT = 270,                   // AWAIT
+    BREAK = 271,                   // BREAK
+    CLASS = 272,                   // CLASS
+    CONTINUE = 273,                // CONTINUE
+    DEF = 274,                     // DEF
+    DEL = 275,                     // DEL
+    ELIF = 276,                    // ELIF
+    ELSE = 277,                    // ELSE
+    EXCEPT = 278,                  // EXCEPT
+    FINALLY = 279,                 // FINALLY
+    FOR = 280,                     // FOR
+    FROM = 281,                    // FROM
+    GLOBAL = 282,                  // GLOBAL
+    IF = 283,                      // IF
+    IMPORT = 284,                  // IMPORT
+    IN = 285,                      // IN
+    IS = 286,                      // IS
+    LAMBDA = 287,                  // LAMBDA
+    NONLOCAL = 288,                // NONLOCAL
+    NOT = 289,                     // NOT
+    OR = 290,                      // OR
+    PASS = 291,                    // PASS
+    RETURN = 292,                  // RETURN
+    TRY = 293,                     // TRY
+    WHILE = 294,                   // WHILE
+    WITH = 295,                    // WITH
+    YIELD = 296,                   // YIELD
+    ARROW = 297,                   // ARROW
+    AMPERSAND = 298,               // AMPERSAND
+    COLON = 299,                   // COLON
+    COLON_BANG = 300,              // COLON_BANG
+    COMMA = 301,                   // COMMA
+    DOUBLE_ARROW = 302,            // DOUBLE_ARROW
+    EQUAL = 303,                   // EQUAL
+    EQUAL_EQUAL = 304,             // EQUAL_EQUAL
+    LBRACE = 305,                  // LBRACE
+    LPARENT = 306,                 // LPARENT
+    LBRACKET = 307,                // LBRACKET
+    MINUS = 308,                   // MINUS
+    PERIOD = 309,                  // PERIOD
+    PLUS = 310,                    // PLUS
+    RBRACE = 311,                  // RBRACE
+    RPARENT = 312,                 // RPARENT
+    RBRACKET = 313,                // RBRACKET
+    SELF = 314,                    // SELF
+    SEMICOLON = 315,               // SEMICOLON
+    SLASH = 316,                   // SLASH
+    UNDERSCORE = 317,              // UNDERSCORE
+    INDENT = 318,                  // INDENT
+    DEDENT = 319,                  // DEDENT
+    NEWLINE = 320,                 // NEWLINE
+    COMMENT = 321,                 // COMMENT
+    EOLCOMMENT = 322,              // EOLCOMMENT
+    TYPE_COMMENT = 323             // TYPE_COMMENT
       };
       /// Backward compatibility alias (Bison 3.6).
       typedef token_kind_type yytokentype;
@@ -798,96 +802,97 @@ namespace  pxcompiler  {
     {
       enum symbol_kind_type
       {
-        YYNTOKENS = 68, ///< Number of tokens.
+        YYNTOKENS = 69, ///< Number of tokens.
         S_YYEMPTY = -2,
         S_YYEOF = 0,                             // END_OF_FILE
         S_YYerror = 1,                           // error
         S_YYUNDEF = 2,                           // "invalid token"
         S_integer_literal = 3,                   // integer_literal
-        S_identifier = 4,                        // identifier
-        S_sized_type_literal = 5,                // sized_type_literal
-        S_string_literal = 6,                    // string_literal
-        S_FALSE = 7,                             // FALSE
-        S_TRUE = 8,                              // TRUE
-        S_NONE = 9,                              // NONE
-        S_AND = 10,                              // AND
-        S_AS = 11,                               // AS
-        S_ASSERT = 12,                           // ASSERT
-        S_ASYNC = 13,                            // ASYNC
-        S_AWAIT = 14,                            // AWAIT
-        S_BREAK = 15,                            // BREAK
-        S_CLASS = 16,                            // CLASS
-        S_CONTINUE = 17,                         // CONTINUE
-        S_DEF = 18,                              // DEF
-        S_DEL = 19,                              // DEL
-        S_ELIF = 20,                             // ELIF
-        S_ELSE = 21,                             // ELSE
-        S_EXCEPT = 22,                           // EXCEPT
-        S_FINALLY = 23,                          // FINALLY
-        S_FOR = 24,                              // FOR
-        S_FROM = 25,                             // FROM
-        S_GLOBAL = 26,                           // GLOBAL
-        S_IF = 27,                               // IF
-        S_IMPORT = 28,                           // IMPORT
-        S_IN = 29,                               // IN
-        S_IS = 30,                               // IS
-        S_LAMBDA = 31,                           // LAMBDA
-        S_NONLOCAL = 32,                         // NONLOCAL
-        S_NOT = 33,                              // NOT
-        S_OR = 34,                               // OR
-        S_PASS = 35,                             // PASS
-        S_RETURN = 36,                           // RETURN
-        S_TRY = 37,                              // TRY
-        S_WHILE = 38,                            // WHILE
-        S_WITH = 39,                             // WITH
-        S_YIELD = 40,                            // YIELD
-        S_ARROW = 41,                            // ARROW
-        S_AMPERSAND = 42,                        // AMPERSAND
-        S_COLON = 43,                            // COLON
-        S_COLON_BANG = 44,                       // COLON_BANG
-        S_COMMA = 45,                            // COMMA
-        S_DOUBLE_ARROW = 46,                     // DOUBLE_ARROW
-        S_EQUAL = 47,                            // EQUAL
-        S_EQUAL_EQUAL = 48,                      // EQUAL_EQUAL
-        S_LBRACE = 49,                           // LBRACE
-        S_LPARENT = 50,                          // LPARENT
-        S_LBRACKET = 51,                         // LBRACKET
-        S_MINUS = 52,                            // MINUS
-        S_PERIOD = 53,                           // PERIOD
-        S_PLUS = 54,                             // PLUS
-        S_RBRACE = 55,                           // RBRACE
-        S_RPARENT = 56,                          // RPARENT
-        S_RBRACKET = 57,                         // RBRACKET
-        S_SELF = 58,                             // SELF
-        S_SEMICOLON = 59,                        // SEMICOLON
-        S_SLASH = 60,                            // SLASH
-        S_UNDERSCORE = 61,                       // UNDERSCORE
-        S_INDENT = 62,                           // INDENT
-        S_DEDENT = 63,                           // DEDENT
-        S_NEWLINE = 64,                          // NEWLINE
-        S_COMMENT = 65,                          // COMMENT
-        S_EOLCOMMENT = 66,                       // EOLCOMMENT
-        S_TYPE_COMMENT = 67,                     // TYPE_COMMENT
-        S_YYACCEPT = 68,                         // $accept
-        S_units = 69,                            // units
-        S_script_unit = 70,                      // script_unit
-        S_statements = 71,                       // statements
-        S_sep_statements = 72,                   // sep_statements
-        S_body_stmts = 73,                       // body_stmts
-        S_statements1 = 74,                      // statements1
-        S_single_line_statements = 75,           // single_line_statements
-        S_single_line_multi_statements = 76,     // single_line_multi_statements
-        S_single_line_multi_statements_opt = 77, // single_line_multi_statements_opt
-        S_statement = 78,                        // statement
-        S_single_line_statement = 79,            // single_line_statement
-        S_multi_line_statement = 80,             // multi_line_statement
-        S_if_statement = 81,                     // if_statement
-        S_expression_statment = 82,              // expression_statment
-        S_string = 83,                           // string
-        S_expr = 84,                             // expr
-        S_id = 85,                               // id
-        S_sep = 86,                              // sep
-        S_sep_one = 87                           // sep_one
+        S_real_literal = 4,                      // real_literal
+        S_identifier = 5,                        // identifier
+        S_sized_type_literal = 6,                // sized_type_literal
+        S_string_literal = 7,                    // string_literal
+        S_FALSE = 8,                             // FALSE
+        S_TRUE = 9,                              // TRUE
+        S_NONE = 10,                             // NONE
+        S_AND = 11,                              // AND
+        S_AS = 12,                               // AS
+        S_ASSERT = 13,                           // ASSERT
+        S_ASYNC = 14,                            // ASYNC
+        S_AWAIT = 15,                            // AWAIT
+        S_BREAK = 16,                            // BREAK
+        S_CLASS = 17,                            // CLASS
+        S_CONTINUE = 18,                         // CONTINUE
+        S_DEF = 19,                              // DEF
+        S_DEL = 20,                              // DEL
+        S_ELIF = 21,                             // ELIF
+        S_ELSE = 22,                             // ELSE
+        S_EXCEPT = 23,                           // EXCEPT
+        S_FINALLY = 24,                          // FINALLY
+        S_FOR = 25,                              // FOR
+        S_FROM = 26,                             // FROM
+        S_GLOBAL = 27,                           // GLOBAL
+        S_IF = 28,                               // IF
+        S_IMPORT = 29,                           // IMPORT
+        S_IN = 30,                               // IN
+        S_IS = 31,                               // IS
+        S_LAMBDA = 32,                           // LAMBDA
+        S_NONLOCAL = 33,                         // NONLOCAL
+        S_NOT = 34,                              // NOT
+        S_OR = 35,                               // OR
+        S_PASS = 36,                             // PASS
+        S_RETURN = 37,                           // RETURN
+        S_TRY = 38,                              // TRY
+        S_WHILE = 39,                            // WHILE
+        S_WITH = 40,                             // WITH
+        S_YIELD = 41,                            // YIELD
+        S_ARROW = 42,                            // ARROW
+        S_AMPERSAND = 43,                        // AMPERSAND
+        S_COLON = 44,                            // COLON
+        S_COLON_BANG = 45,                       // COLON_BANG
+        S_COMMA = 46,                            // COMMA
+        S_DOUBLE_ARROW = 47,                     // DOUBLE_ARROW
+        S_EQUAL = 48,                            // EQUAL
+        S_EQUAL_EQUAL = 49,                      // EQUAL_EQUAL
+        S_LBRACE = 50,                           // LBRACE
+        S_LPARENT = 51,                          // LPARENT
+        S_LBRACKET = 52,                         // LBRACKET
+        S_MINUS = 53,                            // MINUS
+        S_PERIOD = 54,                           // PERIOD
+        S_PLUS = 55,                             // PLUS
+        S_RBRACE = 56,                           // RBRACE
+        S_RPARENT = 57,                          // RPARENT
+        S_RBRACKET = 58,                         // RBRACKET
+        S_SELF = 59,                             // SELF
+        S_SEMICOLON = 60,                        // SEMICOLON
+        S_SLASH = 61,                            // SLASH
+        S_UNDERSCORE = 62,                       // UNDERSCORE
+        S_INDENT = 63,                           // INDENT
+        S_DEDENT = 64,                           // DEDENT
+        S_NEWLINE = 65,                          // NEWLINE
+        S_COMMENT = 66,                          // COMMENT
+        S_EOLCOMMENT = 67,                       // EOLCOMMENT
+        S_TYPE_COMMENT = 68,                     // TYPE_COMMENT
+        S_YYACCEPT = 69,                         // $accept
+        S_units = 70,                            // units
+        S_script_unit = 71,                      // script_unit
+        S_statements = 72,                       // statements
+        S_sep_statements = 73,                   // sep_statements
+        S_body_stmts = 74,                       // body_stmts
+        S_statements1 = 75,                      // statements1
+        S_single_line_statements = 76,           // single_line_statements
+        S_single_line_multi_statements = 77,     // single_line_multi_statements
+        S_single_line_multi_statements_opt = 78, // single_line_multi_statements_opt
+        S_statement = 79,                        // statement
+        S_single_line_statement = 80,            // single_line_statement
+        S_multi_line_statement = 81,             // multi_line_statement
+        S_if_statement = 82,                     // if_statement
+        S_expression_statment = 83,              // expression_statment
+        S_string = 84,                           // string
+        S_expr = 85,                             // expr
+        S_id = 86,                               // id
+        S_sep = 87,                              // sep
+        S_sep_one = 88                           // sep_one
       };
     };
 
@@ -940,6 +945,10 @@ namespace  pxcompiler  {
       case symbol_kind::S_if_statement: // if_statement
       case symbol_kind::S_expression_statment: // expression_statment
         value.move< Nonnull<Statement*> > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_real_literal: // real_literal
+        value.move< double > (std::move (that.value));
         break;
 
       case symbol_kind::S_integer_literal: // integer_literal
@@ -1026,6 +1035,20 @@ namespace  pxcompiler  {
       {}
 #else
       basic_symbol (typename Base::kind_type t, const Nonnull<Statement*>& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, double&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const double& v, const location_type& l)
         : Base (t)
         , value (v)
         , location (l)
@@ -1126,6 +1149,10 @@ switch (yykind)
       case symbol_kind::S_if_statement: // if_statement
       case symbol_kind::S_expression_statment: // expression_statment
         value.template destroy< Nonnull<Statement*> > ();
+        break;
+
+      case symbol_kind::S_real_literal: // real_literal
+        value.template destroy< double > ();
         break;
 
       case symbol_kind::S_integer_literal: // integer_literal
@@ -1248,6 +1275,14 @@ switch (yykind)
 #else
       symbol_type (int tok, const location_type& l)
         : super_type (token_type (tok), l)
+#endif
+      {}
+#if 201103L <= YY_CPLUSPLUS
+      symbol_type (int tok, double v, location_type l)
+        : super_type (token_type (tok), std::move (v), std::move (l))
+#else
+      symbol_type (int tok, const double& v, const location_type& l)
+        : super_type (token_type (tok), v, l)
 #endif
       {}
 #if 201103L <= YY_CPLUSPLUS
@@ -1375,6 +1410,21 @@ switch (yykind)
       make_integer_literal (const long long& v, const location_type& l)
       {
         return symbol_type (token::integer_literal, v, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_real_literal (double v, location_type l)
+      {
+        return symbol_type (token::real_literal, std::move (v), std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_real_literal (const double& v, const location_type& l)
+      {
+        return symbol_type (token::real_literal, v, l);
       }
 #endif
 #if 201103L <= YY_CPLUSPLUS
@@ -2641,9 +2691,9 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 72,     ///< Last index in yytable_.
+      yylast_ = 78,     ///< Last index in yytable_.
       yynnts_ = 20,  ///< Number of nonterminal symbols.
-      yyfinal_ = 21 ///< Termination state number.
+      yyfinal_ = 22 ///< Termination state number.
     };
 
 
@@ -2697,10 +2747,10 @@ switch (yykind)
       35,    36,    37,    38,    39,    40,    41,    42,    43,    44,
       45,    46,    47,    48,    49,    50,    51,    52,    53,    54,
       55,    56,    57,    58,    59,    60,    61,    62,    63,    64,
-      65,    66,    67
+      65,    66,    67,    68
     };
     // Last valid token kind.
-    const int code_max = 322;
+    const int code_max = 323;
 
     if (t <= 0)
       return symbol_kind::S_YYEOF;
@@ -2735,6 +2785,10 @@ switch (yykind)
       case symbol_kind::S_if_statement: // if_statement
       case symbol_kind::S_expression_statment: // expression_statment
         value.copy< Nonnull<Statement*> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_real_literal: // real_literal
+        value.copy< double > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_integer_literal: // integer_literal
@@ -2807,6 +2861,10 @@ switch (yykind)
       case symbol_kind::S_if_statement: // if_statement
       case symbol_kind::S_expression_statment: // expression_statment
         value.move< Nonnull<Statement*> > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_real_literal: // real_literal
+        value.move< double > (YY_MOVE (s.value));
         break;
 
       case symbol_kind::S_integer_literal: // integer_literal
@@ -2897,7 +2955,7 @@ switch (yykind)
 
 #line 21 "parser.ypp"
 } //  pxcompiler 
-#line 2901 "../../include/parser/flex_bison/parser.h"
+#line 2959 "../../include/parser/flex_bison/parser.h"
 
 
 

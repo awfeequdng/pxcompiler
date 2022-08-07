@@ -87,7 +87,8 @@ UNDERSCORE           "_"
 identifier            [A-Za-z_][A-Za-z0-9_]*
 /* TODO: Remove Print special casing once we have variadics or overloads. */
 sized_type_literal    [iuf][1-9][0-9]*
-integer_literal       [0-9]+
+integer_literal       (\+|\-)?[0-9]+
+real_literal          {integer_literal}\.([0-9]+)?((E|e){integer_literal})?
 horizontal_whitespace [ \t\r]
 whitespace            [ \t\r\n]
 one_line_comment      \#[^\n]*\n
@@ -253,6 +254,16 @@ operand_start         [(A-Za-z0-9_\"]
     return PXC_ARG_TOKEN(identifier, yytext);
   }
 
+  {real_literal} {
+    double val = 0.0;
+    if (!llvm::to_float(yytext, val)) {
+      return context.RecordSyntaxError(
+        fmt::format("Invalid real literal: {0}", yytext)
+      );
+    }
+    return PXC_ARG_TOKEN(real_literal, val);
+  }
+
   {integer_literal} {
     long long val = 0;
     if (!llvm::to_integer(yytext, val)) {
@@ -288,9 +299,11 @@ operand_start         [(A-Za-z0-9_\"]
 
     while (!str_lex_helper.is_eof()) {
       switch (str_lex_helper.last_char()) {
-        case '\n':  // Fall through.
-        case '\v':  // Fall through.
-        case '\f':  // Fall through.
+        case '\n':
+          context.current_token_position.lines(1);
+          [[fallthrough]];
+        case '\v':  [[fallthrough]];
+        case '\f':  [[fallthrough]];
         case '\r':
           if (!multi_line) {
             return context.RecordSyntaxError(
