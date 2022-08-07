@@ -64,24 +64,25 @@ enum class AstNodeKind {
   ConstantComplex = 53,
   ConstantEllipsis = 54,
   ConstantNone = 55,
-  ConstantBytes = 56,
-  Attribute = 57,
-  Subscript = 58,
-  Starred = 59,
-  Name = 60,
-  List = 61,
-  Tuple = 62,
-  Slice = 63,
-  ExceptHandler = 64,
-  MatchValue = 65,
-  MatchSingleton = 66,
-  MatchSequence = 67,
-  MatchMapping = 68,
-  MatchClass = 69,
-  MatchStar = 70,
-  MatchAs = 71,
-  MatchOr = 72,
-  TypeIgnore = 73,
+  ConstantBool = 56,
+  ConstantBytes = 57,
+  Attribute = 58,
+  Subscript = 59,
+  Starred = 60,
+  Name = 61,
+  List = 62,
+  Tuple = 63,
+  Slice = 64,
+  ExceptHandler = 65,
+  MatchValue = 66,
+  MatchSingleton = 67,
+  MatchSequence = 68,
+  MatchMapping = 69,
+  MatchClass = 70,
+  MatchStar = 71,
+  MatchAs = 72,
+  MatchOr = 73,
+  TypeIgnore = 74,
 };
 
 std::string_view AstNodeKindName(AstNodeKind k);
@@ -300,14 +301,15 @@ enum class ExpressionKind {
   ConstantComplex = 53,
   ConstantEllipsis = 54,
   ConstantNone = 55,
-  ConstantBytes = 56,
-  Attribute = 57,
-  Subscript = 58,
-  Starred = 59,
-  Name = 60,
-  List = 61,
-  Tuple = 62,
-  Slice = 63,
+  ConstantBool = 56,
+  ConstantBytes = 57,
+  Attribute = 58,
+  Subscript = 59,
+  Starred = 60,
+  Name = 61,
+  List = 62,
+  Tuple = 63,
+  Slice = 64,
 };
 
 std::string_view ExpressionKindName(ExpressionKind k);
@@ -418,6 +420,10 @@ inline bool InheritsFromConstantNone(AstNodeKind kind) {
     return kind == AstNodeKind::ConstantNone;
 }
 
+inline bool InheritsFromConstantBool(AstNodeKind kind) {
+    return kind == AstNodeKind::ConstantBool;
+}
+
 inline bool InheritsFromConstantBytes(AstNodeKind kind) {
     return kind == AstNodeKind::ConstantBytes;
 }
@@ -455,14 +461,14 @@ inline bool InheritsFromExceptHandler(AstNodeKind kind) {
 }
 
 enum class PatternKind {
-  MatchValue = 65,
-  MatchSingleton = 66,
-  MatchSequence = 67,
-  MatchMapping = 68,
-  MatchClass = 69,
-  MatchStar = 70,
-  MatchAs = 71,
-  MatchOr = 72,
+  MatchValue = 66,
+  MatchSingleton = 67,
+  MatchSequence = 68,
+  MatchMapping = 69,
+  MatchClass = 70,
+  MatchStar = 71,
+  MatchAs = 72,
+  MatchOr = 73,
 };
 
 std::string_view PatternKindName(PatternKind k);

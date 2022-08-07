@@ -67,10 +67,11 @@ EQUAL_EQUAL          "=="
 
 LBRACE     "{"
 LPARENT     "("
-LBRACKET  "["
+LBRACKET    "["
 
 MINUS                "-"
 PERIOD               "."
+ELLIPSIS             "..."
 PLUS                 "+"
 
 RBRACE                "}"
@@ -89,6 +90,7 @@ identifier            [A-Za-z_][A-Za-z0-9_]*
 sized_type_literal    [iuf][1-9][0-9]*
 integer_literal       (\-)?[0-9]+
 real_literal          {integer_literal}\.([0-9]+)?((E|e){integer_literal})?
+image_literal         {integer_literal}(\.[0-9]+)?((E|e){integer_literal})?j
 horizontal_whitespace [ \t\r]
 whitespace            [ \t\r\n]
 one_line_comment      \#[^\n]*\n
@@ -208,6 +210,7 @@ operand_start         [(A-Za-z0-9_\"]
 
   {MINUS}                     { return PXC_TOKEN(MINUS);                }
   {PERIOD}                    { return PXC_TOKEN(PERIOD);               }
+  {ELLIPSIS}                  { return PXC_TOKEN(ELLIPSIS);               }
   {PLUS}                      { return PXC_TOKEN(PLUS);                 }
   {SELF}                      { return PXC_TOKEN(SELF);                 }
   {SEMICOLON}                 { return PXC_TOKEN(SEMICOLON);            }
@@ -262,6 +265,19 @@ operand_start         [(A-Za-z0-9_\"]
       );
     }
     return PXC_ARG_TOKEN(real_literal, val);
+  }
+
+  {image_literal} {
+    std::cout << "image_literal lexer: " << yytext << std::endl;
+    double val = 0.0;
+    std::string img(yytext);
+    img = img.substr(0, img.size() - 1);
+    if (!llvm::to_float(img, val)) {
+      return context.RecordSyntaxError(
+        fmt::format("Invalid real literal: {0}", yytext)
+      );
+    }
+    return PXC_ARG_TOKEN(image_literal, val);
   }
 
   {integer_literal} {

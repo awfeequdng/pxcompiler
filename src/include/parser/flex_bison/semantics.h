@@ -29,6 +29,11 @@ using NonnullArena = pxcompiler::Nonnull<pxcompiler::Arena*>;
         e, stmt, orelse)
 #define INTEGER(x, l) pxcompiler::ConstantInt::make_ConstantInt(arena, l, x)
 #define FLOAT(x, l) pxcompiler::ConstantFloat::make_ConstantFloat(arena, l, x)
+#define COMPLEX(x, l) pxcompiler::ConstantComplex::make_ConstantComplex(arena, l, 0, x)
+#define BOOL(x, l) pxcompiler::ConstantBool::make_ConstantBool(arena, l, x)
+
+#define ELLIPSIS(l) pxcompiler::ConstantEllipsis::make_ConstantEllipsis(arena,l)
+#define NONE(l) pxcompiler::ConstantNone::make_ConstantNone(arena, l)
 
 #define STRING1(x, l) pxcompiler::ConstantStr::make_ConstantStr(arena, l, \
         unescape(x))

@@ -62,6 +62,7 @@ std::string_view AstNodeKindName(AstNodeKind k) {
     case AstNodeKind::ConstantComplex: return "constant complex";
     case AstNodeKind::ConstantEllipsis: return "constant ellipsis";
     case AstNodeKind::ConstantNone: return "constant none";
+    case AstNodeKind::ConstantBool: return "constant bool";
     case AstNodeKind::ConstantBytes: return "constant bytes";
     case AstNodeKind::Attribute: return "attribute";
     case AstNodeKind::Subscript: return "subscript";
@@ -156,6 +157,7 @@ std::string_view ExpressionKindName(ExpressionKind k) {
     case ExpressionKind::ConstantComplex: return "constant complex";
     case ExpressionKind::ConstantEllipsis: return "constant ellipsis";
     case ExpressionKind::ConstantNone: return "constant none";
+    case ExpressionKind::ConstantBool: return "constant bool";
     case ExpressionKind::ConstantBytes: return "constant bytes";
     case ExpressionKind::Attribute: return "attribute";
     case ExpressionKind::Subscript: return "subscript";

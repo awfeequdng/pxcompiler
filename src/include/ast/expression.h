@@ -66,6 +66,62 @@ private:
     int64_t val_;
 };
 
+class ConstantBool : public Expression {
+public:
+    static Nonnull<ConstantBool*> make_ConstantBool(
+        Nonnull<pxcompiler::Arena*> arena,
+        SourceLocation loc,
+        bool val) {
+        return arena->New<ConstantBool>(loc, val);
+    }
+
+    static auto classof(const AstNode* node) {
+        return InheritsFromConstantBool(node->kind());
+    }
+
+    ConstantBool(pxcompiler::SourceLocation loc, bool val)
+        : Expression(AstNodeKind::ConstantBool, loc),
+          val_(val) {}
+
+    bool value() const {
+        return val_;
+    }
+private:
+    bool val_;
+};
+
+class ConstantNone : public Expression {
+public:
+    static Nonnull<ConstantNone*> make_ConstantNone(
+        Nonnull<pxcompiler::Arena*> arena,
+        SourceLocation loc) {
+        return arena->New<ConstantNone>(loc);
+    }
+
+    static auto classof(const AstNode* node) {
+        return InheritsFromConstantNone(node->kind());
+    }
+
+    ConstantNone(pxcompiler::SourceLocation loc)
+        : Expression(AstNodeKind::ConstantNone, loc) {}
+};
+
+class ConstantEllipsis : public Expression {
+public:
+    static Nonnull<ConstantEllipsis*> make_ConstantEllipsis(
+        Nonnull<pxcompiler::Arena*> arena,
+        SourceLocation loc) {
+        return arena->New<ConstantEllipsis>(loc);
+    }
+
+    static auto classof(const AstNode* node) {
+        return InheritsFromConstantEllipsis(node->kind());
+    }
+
+    ConstantEllipsis(pxcompiler::SourceLocation loc)
+        : Expression(AstNodeKind::ConstantEllipsis, loc) {}
+};
+
 class ConstantFloat : public Expression {
 public:
     static Nonnull<ConstantFloat*> make_ConstantFloat(
@@ -88,6 +144,34 @@ public:
     }
 private:
     double val_;
+};
+
+class ConstantComplex : public Expression {
+public:
+    static Nonnull<ConstantComplex*> make_ConstantComplex(
+        Nonnull<pxcompiler::Arena*> arena,
+        SourceLocation loc,
+        double real, double image) {
+        return arena->New<ConstantComplex>(loc, real, image);
+    }
+
+    static auto classof(const AstNode* node) {
+        return InheritsFromConstantComplex(node->kind());
+    }
+
+    ConstantComplex(SourceLocation loc, double real, double image)
+        : Expression(AstNodeKind::ConstantComplex, loc),
+          real_(real), image_(image) {}
+
+    double real() const {
+        return real_;
+    }
+    double image() const {
+        return image_;
+    }
+private:
+    double real_;
+    double image_;
 };
 
 class ConstantStr : public Expression {

@@ -38,9 +38,27 @@ void Expression::PrintID(llvm::raw_ostream& out) const {
     case ExpressionKind::ConstantInt:
       out << cast<ConstantInt>(*this).value();
       break;
+    case ExpressionKind::ConstantBool:
+      out << (cast<ConstantBool>(*this).value() ? "True" : "False");
+      break;
+    case ExpressionKind::ConstantNone:
+      out << "None";
+      break;
+    case ExpressionKind::ConstantEllipsis:
+      out << "...";
+      break;
     case ExpressionKind::ConstantFloat:
       out << cast<ConstantFloat>(*this).value();
       break;
+    case ExpressionKind::ConstantComplex: {
+      out << cast<ConstantComplex>(*this).real();
+      auto image = cast<ConstantComplex>(*this).image();
+      if (!(image < 0)) {
+        out << "+";
+      }
+      out << image << "j";
+      break;
+    }
     case ExpressionKind::ConstantStr:
       out << cast<ConstantStr>(*this).value();
       for (auto &expr : cast<ConstantStr>(*this).extend()) {

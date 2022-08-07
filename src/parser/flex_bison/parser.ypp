@@ -81,6 +81,7 @@
 
 %token <long long> integer_literal
 %token <double> real_literal
+%token <double> image_literal
 %token <std::string> identifier
 %token <std::string> sized_type_literal
 %token <std::string> string_literal
@@ -136,6 +137,7 @@
   MINUS
   PERIOD
   PLUS
+  ELLIPSIS
   RBRACE
   RPARENT
   RBRACKET
@@ -320,12 +322,15 @@ expr
       }
     | string { $$ = $1; }
     | real_literal { $$ = FLOAT($1, context.source_loc()); }
-   // | TK_IMAG_NUM { $$ = COMPLEX($1, context.source_loc()); }
-   // | TK_TRUE { $$ = BOOL(true, context.source_loc()); }
-   // | TK_FALSE { $$ = BOOL(false, context.source_loc()); }
-   // | KW_NONE { $$ = NONE(context.source_loc()); }
-   // | TK_ELLIPSIS { $$ = ELLIPSIS(context.source_loc()); }
-   // | "(" expr ")" { $$ = $2; }
+    | image_literal {
+        std::cout << "image_literal: " << $1 << std::endl;
+        $$ = COMPLEX($1, context.source_loc());
+      }
+    | TRUE { $$ = BOOL(true, context.source_loc()); }
+    | FALSE { $$ = BOOL(false, context.source_loc()); }
+    | NONE { $$ = NONE(context.source_loc()); }
+    | ELLIPSIS { $$ = ELLIPSIS(context.source_loc()); }
+    | "(" expr ")" { $$ = $2; }
    // | "(" ")" { $$ = TUPLE_EMPTY(context.source_loc()); }
    // | function_call { $$ = $1; }
    // | subscription { $$ = $1; }

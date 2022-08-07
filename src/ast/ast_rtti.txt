@@ -63,6 +63,7 @@ abstract class Expression : AstNode;
   class ConstantComplex : Expression;
   class ConstantEllipsis : Expression;
   class ConstantNone : Expression;
+  class ConstantBool : Expression;
   class ConstantBytes : Expression;
   class Attribute : Expression;
   class Subscript : Expression;
