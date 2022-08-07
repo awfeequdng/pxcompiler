@@ -237,7 +237,7 @@ def main() -> None:
     print(f"#ifndef {guard_macro}")
     print(f"#define {guard_macro}")
     print("\n#include <string_view>")
-    print("\nnamespace ast {\n")
+    print("\nnamespace pxcompiler {\n")
 
     for node in classes.values():
         if node.kind != Class.Kind.CONCRETE:
@@ -288,7 +288,7 @@ def main() -> None:
 
     print(f"// Generated from {input_filename} by gen_rtti.py\n")
     print(f'#include "{relative_header}"')
-    print("\nnamespace ast {\n")
+    print("\nnamespace pxcompiler {\n")
     for node in classes.values():
         if node.kind != Class.Kind.CONCRETE:
             assert node.id_range is not None

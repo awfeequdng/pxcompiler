@@ -19,7 +19,7 @@ public:
 
     Name(pxcompiler::SourceLocation loc, std::string name)
         : Expression(AstNodeKind::Name, loc),
-          name_(std::move(name)) {}
+          name_(name) {}
 
     std::string name() const {
         return name_;

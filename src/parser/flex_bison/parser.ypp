@@ -79,7 +79,7 @@
   }
 }  // %code
 
-%token <int> integer_literal
+%token <long long> integer_literal
 %token <std::string> identifier
 %token <std::string> sized_type_literal
 %token <std::string> string_literal
@@ -169,6 +169,7 @@
 %type <std::vector<Nonnull<Statement*>>> single_line_multi_statements_opt
 %type <Nonnull<Expression*>> expr
 %type <Nonnull<Name*>> id
+%type <Nonnull<Expression*>> string
 
 %type <std::vector<std::string>> sep
 %type <std::string> sep_one
@@ -297,10 +298,16 @@ expression_statment
     : expr { $$ = EXPR_01($1, context.source_loc()); }
     ;
 
+string
+    : string string_literal { $$ = STRING2($1, $2, context.source_loc()); } // TODO
+    | string_literal { $$ = STRING1($1, context.source_loc()); }
+    | id string_literal { $$ = STRING3($1, $2, context.source_loc()); }
+    ;
+
 expr
     : id { $$ = $1; }
-   // | TK_INTEGER { $$ = INTEGER($1, @$); }
-   // | string { $$ = $1; }
+    | integer_literal { $$ = INTEGER($1, context.source_loc()); }
+    | string { $$ = $1; }
    // | TK_REAL { $$ = FLOAT($1, @$); }
    // | TK_IMAG_NUM { $$ = COMPLEX($1, @$); }
    // | TK_TRUE { $$ = BOOL(true, @$); }

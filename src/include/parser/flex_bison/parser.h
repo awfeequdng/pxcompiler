@@ -634,6 +634,7 @@ namespace  pxcompiler  {
     /// An auxiliary type to compute the largest semantic type.
     union union_type
     {
+      // string
       // expr
       char dummy1[sizeof (Nonnull<Expression*>)];
 
@@ -649,7 +650,7 @@ namespace  pxcompiler  {
       char dummy3[sizeof (Nonnull<Statement*>)];
 
       // integer_literal
-      char dummy4[sizeof (int)];
+      char dummy4[sizeof (long long)];
 
       // identifier
       // sized_type_literal
@@ -882,10 +883,11 @@ namespace  pxcompiler  {
         S_multi_line_statement = 80,             // multi_line_statement
         S_if_statement = 81,                     // if_statement
         S_expression_statment = 82,              // expression_statment
-        S_expr = 83,                             // expr
-        S_id = 84,                               // id
-        S_sep = 85,                              // sep
-        S_sep_one = 86                           // sep_one
+        S_string = 83,                           // string
+        S_expr = 84,                             // expr
+        S_id = 85,                               // id
+        S_sep = 86,                              // sep
+        S_sep_one = 87                           // sep_one
       };
     };
 
@@ -922,6 +924,7 @@ namespace  pxcompiler  {
       {
         switch (this->kind ())
     {
+      case symbol_kind::S_string: // string
       case symbol_kind::S_expr: // expr
         value.move< Nonnull<Expression*> > (std::move (that.value));
         break;
@@ -940,7 +943,7 @@ namespace  pxcompiler  {
         break;
 
       case symbol_kind::S_integer_literal: // integer_literal
-        value.move< int > (std::move (that.value));
+        value.move< long long > (std::move (that.value));
         break;
 
       case symbol_kind::S_identifier: // identifier
@@ -1030,13 +1033,13 @@ namespace  pxcompiler  {
 #endif
 
 #if 201103L <= YY_CPLUSPLUS
-      basic_symbol (typename Base::kind_type t, int&& v, location_type&& l)
+      basic_symbol (typename Base::kind_type t, long long&& v, location_type&& l)
         : Base (t)
         , value (std::move (v))
         , location (std::move (l))
       {}
 #else
-      basic_symbol (typename Base::kind_type t, const int& v, const location_type& l)
+      basic_symbol (typename Base::kind_type t, const long long& v, const location_type& l)
         : Base (t)
         , value (v)
         , location (l)
@@ -1107,6 +1110,7 @@ namespace  pxcompiler  {
         // Value type destructor.
 switch (yykind)
     {
+      case symbol_kind::S_string: // string
       case symbol_kind::S_expr: // expr
         value.template destroy< Nonnull<Expression*> > ();
         break;
@@ -1125,7 +1129,7 @@ switch (yykind)
         break;
 
       case symbol_kind::S_integer_literal: // integer_literal
-        value.template destroy< int > ();
+        value.template destroy< long long > ();
         break;
 
       case symbol_kind::S_identifier: // identifier
@@ -1247,10 +1251,10 @@ switch (yykind)
 #endif
       {}
 #if 201103L <= YY_CPLUSPLUS
-      symbol_type (int tok, int v, location_type l)
+      symbol_type (int tok, long long v, location_type l)
         : super_type (token_type (tok), std::move (v), std::move (l))
 #else
-      symbol_type (int tok, const int& v, const location_type& l)
+      symbol_type (int tok, const long long& v, const location_type& l)
         : super_type (token_type (tok), v, l)
 #endif
       {}
@@ -1361,14 +1365,14 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
-      make_integer_literal (int v, location_type l)
+      make_integer_literal (long long v, location_type l)
       {
         return symbol_type (token::integer_literal, std::move (v), std::move (l));
       }
 #else
       static
       symbol_type
-      make_integer_literal (const int& v, const location_type& l)
+      make_integer_literal (const long long& v, const location_type& l)
       {
         return symbol_type (token::integer_literal, v, l);
       }
@@ -2637,9 +2641,9 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 64,     ///< Last index in yytable_.
-      yynnts_ = 19,  ///< Number of nonterminal symbols.
-      yyfinal_ = 18 ///< Termination state number.
+      yylast_ = 69,     ///< Last index in yytable_.
+      yynnts_ = 20,  ///< Number of nonterminal symbols.
+      yyfinal_ = 21 ///< Termination state number.
     };
 
 
@@ -2715,6 +2719,7 @@ switch (yykind)
   {
     switch (this->kind ())
     {
+      case symbol_kind::S_string: // string
       case symbol_kind::S_expr: // expr
         value.copy< Nonnull<Expression*> > (YY_MOVE (that.value));
         break;
@@ -2733,7 +2738,7 @@ switch (yykind)
         break;
 
       case symbol_kind::S_integer_literal: // integer_literal
-        value.copy< int > (YY_MOVE (that.value));
+        value.copy< long long > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_identifier: // identifier
@@ -2786,6 +2791,7 @@ switch (yykind)
     super_type::move (s);
     switch (this->kind ())
     {
+      case symbol_kind::S_string: // string
       case symbol_kind::S_expr: // expr
         value.move< Nonnull<Expression*> > (YY_MOVE (s.value));
         break;
@@ -2804,7 +2810,7 @@ switch (yykind)
         break;
 
       case symbol_kind::S_integer_literal: // integer_literal
-        value.move< int > (YY_MOVE (s.value));
+        value.move< long long > (YY_MOVE (s.value));
         break;
 
       case symbol_kind::S_identifier: // identifier
@@ -2891,7 +2897,7 @@ switch (yykind)
 
 #line 21 "parser.ypp"
 } //  pxcompiler 
-#line 2895 "../../include/parser/flex_bison/parser.h"
+#line 2901 "../../include/parser/flex_bison/parser.h"
 
 
 

@@ -258,7 +258,7 @@ operand_start         [(A-Za-z0-9_\"]
   }
 
   {integer_literal} {
-    int val = 0;
+    long long val = 0;
     if (!llvm::to_integer(yytext, val)) {
       return context.RecordSyntaxError(
           fmt::format("Invalid integer literal: {0}", yytext));

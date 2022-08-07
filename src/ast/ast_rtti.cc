@@ -10,6 +10,7 @@ std::string_view AstNodeKindName(AstNodeKind k) {
     case AstNodeKind::Interactive: return "interactive";
     case AstNodeKind::ModExpression: return "mod expression";
     case AstNodeKind::FunctionType: return "function type";
+    case AstNodeKind::TestDeclaration: return "test declaration";
     case AstNodeKind::FunctionDef: return "function def";
     case AstNodeKind::AsyncFunctionDef: return "async function def";
     case AstNodeKind::ClassDef: return "class def";
@@ -56,6 +57,7 @@ std::string_view AstNodeKindName(AstNodeKind k) {
     case AstNodeKind::FormattedValue: return "formatted value";
     case AstNodeKind::JoinedStr: return "joined str";
     case AstNodeKind::ConstantStr: return "constant str";
+    case AstNodeKind::ConstantInt: return "constant int";
     case AstNodeKind::ConstantFloat: return "constant float";
     case AstNodeKind::ConstantComplex: return "constant complex";
     case AstNodeKind::ConstantEllipsis: return "constant ellipsis";
@@ -87,6 +89,12 @@ std::string_view ModuleBaseKindName(ModuleBaseKind k) {
     case ModuleBaseKind::Interactive: return "interactive";
     case ModuleBaseKind::ModExpression: return "mod expression";
     case ModuleBaseKind::FunctionType: return "function type";
+  }
+}
+
+std::string_view DeclarationKindName(DeclarationKind k) {
+  switch(k) {
+    case DeclarationKind::TestDeclaration: return "test declaration";
   }
 }
 
@@ -143,6 +151,7 @@ std::string_view ExpressionKindName(ExpressionKind k) {
     case ExpressionKind::FormattedValue: return "formatted value";
     case ExpressionKind::JoinedStr: return "joined str";
     case ExpressionKind::ConstantStr: return "constant str";
+    case ExpressionKind::ConstantInt: return "constant int";
     case ExpressionKind::ConstantFloat: return "constant float";
     case ExpressionKind::ConstantComplex: return "constant complex";
     case ExpressionKind::ConstantEllipsis: return "constant ellipsis";

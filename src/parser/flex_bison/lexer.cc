@@ -1273,7 +1273,7 @@ case 62:
 YY_RULE_SETUP
 #line 261 "lexer.lpp"
 {
-    int val = 0;
+    long long val = 0;
     if (!llvm::to_integer(yytext, val)) {
       return context.RecordSyntaxError(
           fmt::format("Invalid integer literal: {0}", yytext));
