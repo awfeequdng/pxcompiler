@@ -88,6 +88,13 @@ void Expression::PrintID(llvm::raw_ostream& out) const {
       }
       out << ")";
       break;
+    case ExpressionKind::List:
+      out << "List[";
+      for (auto &elt: cast<List>(*this).elements()) {
+        out << *elt << ",";
+      }
+      out << "]";
+      break;
     default:
       out << "...";
       break;

@@ -330,4 +330,28 @@ private:
     std::vector<Nonnull<Expression*>> elts_;
 };
 
+class List: public Expression {
+public:
+    static Nonnull<List*> make_List(
+        Nonnull<pxcompiler::Arena*> arena,
+        SourceLocation loc,
+        std::vector<Nonnull<Expression*>> elts) {
+        return arena->New<List>(loc, elts);
+    }
+
+    static auto classof(const AstNode* node) {
+        return InheritsFromList(node->kind());
+    }
+
+    List(pxcompiler::SourceLocation loc, std::vector<Nonnull<Expression*>> elts)
+        : Expression(AstNodeKind::List, loc), elts_(elts) {}
+
+    const std::vector<Nonnull<Expression*>> &elements() const {
+        return elts_;
+    }
+
+private:
+    std::vector<Nonnull<Expression*>> elts_;
+};
+
 } // namespace pxcompiler

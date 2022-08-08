@@ -127,20 +127,20 @@
   AMPERSAND
   COLON
   COLON_BANG
-  COMMA
+  COMMA     ","
   DOUBLE_ARROW
   EQUAL
   EQUAL_EQUAL
-  LBRACE
-  LPARENT "("
-  LBRACKET
+  LBRACE    "{"
+  LPARENT   "("
+  LBRACKET  "["
   MINUS
   PERIOD
   PLUS
   ELLIPSIS
-  RBRACE
-  RPARENT  ")"
-  RBRACKET
+  RBRACE    "}"
+  RPARENT   ")"
+  RBRACKET  "]"
   SELF
   SEMICOLON
   SLASH
@@ -171,6 +171,8 @@
 %type <std::vector<Nonnull<Statement*>>> single_line_multi_statements
 %type <std::vector<Nonnull<Statement*>>> single_line_multi_statements_opt
 %type <Nonnull<Expression*>> expr
+%type <std::vector<Nonnull<Expression*>>> expr_list
+%type <std::vector<Nonnull<Expression*>>> expr_list_opt
 %type <Nonnull<Name*>> id
 %type <Nonnull<Expression*>> string
 
@@ -314,6 +316,21 @@ string
       }
     ;
 
+expr_list_opt
+    : expr_list { $$ = $1; }
+    | %empty { LIST_NEW($$); }
+    ;
+
+expr_list
+    : expr_list "," expr { $$ = $1; LIST_ADD($$, $3); }
+    | expr { LIST_NEW($$); LIST_ADD($$, $1); }
+    ;
+
+// expr_list
+//    : expr_list "," expr %prec "not" { $$ = $1; LIST_ADD($$, $3); }
+//    | expr %prec "not" { LIST_NEW($$); LIST_ADD($$, $1); }
+//    ;
+
 expr
     : id { $$ = $1; }
     | integer_literal {
@@ -331,13 +348,11 @@ expr
     | NONE { $$ = NONE(context.source_loc()); }
     | ELLIPSIS { $$ = ELLIPSIS(context.source_loc()); }
     | "(" expr ")" { $$ = $2; }
-   // | LPARENT expr RPARENT { $$ = $2; }
     | "(" ")" { $$ = TUPLE_EMPTY(context.source_loc()); }
-   // | LPARENT RPARENT { $$ = TUPLE_EMPTY(context.source_loc()); }
    // | function_call { $$ = $1; }
    // | subscription { $$ = $1; }
-   // | "[" expr_list_opt "]" { $$ = LIST($2, context.source_loc()); }
-   // | "[" expr_list "," "]" { $$ = LIST($2, context.source_loc()); }
+    | "[" expr_list_opt "]" { $$ = LIST($2, context.source_loc()); }
+    | "[" expr_list "," "]" { $$ = LIST($2, context.source_loc()); }
    // | "{" expr_list "}" { $$ = SET($2, context.source_loc()); }
    // | "{" expr_list "," "}" { $$ = SET($2, context.source_loc()); }
    // | expr "." id { $$ = ATTRIBUTE_REF($1, $3, context.source_loc()); }

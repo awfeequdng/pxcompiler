@@ -187,3 +187,4 @@ static inline NonnullExpr PREFIX_STRING(
 }
 
 #define TUPLE_EMPTY(l) pxcompiler::Tuple::make_Tuple(arena, l, {})
+#define LIST(e, l) pxcompiler::List::make_List(arena, l, e)

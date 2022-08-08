@@ -33,17 +33,14 @@ Terminals unused in grammar
     ARROW
     AMPERSAND
     COLON_BANG
-    COMMA
     DOUBLE_ARROW
     EQUAL
     EQUAL_EQUAL
-    LBRACE
-    LBRACKET
+    "{"
     MINUS
     PERIOD
     PLUS
-    RBRACE
-    RBRACKET
+    "}"
     SELF
     SLASH
     UNDERSCORE
@@ -102,41 +99,49 @@ Grammar
    31       | id string_literal
    32       | string id string_literal
 
-   33 expr: id
-   34     | integer_literal
-   35     | string
-   36     | real_literal
-   37     | image_literal
-   38     | TRUE
-   39     | FALSE
-   40     | NONE
-   41     | ELLIPSIS
-   42     | "(" expr ")"
-   43     | "(" ")"
+   33 expr_list_opt: expr_list
+   34              | ε
 
-   44 id: identifier
+   35 expr_list: expr_list "," expr
+   36          | expr
 
-   45 sep: sep sep_one
-   46    | sep_one
+   37 expr: id
+   38     | integer_literal
+   39     | string
+   40     | real_literal
+   41     | image_literal
+   42     | TRUE
+   43     | FALSE
+   44     | NONE
+   45     | ELLIPSIS
+   46     | "(" expr ")"
+   47     | "(" ")"
+   48     | "[" expr_list_opt "]"
+   49     | "[" expr_list "," "]"
 
-   47 sep_one: NEWLINE
-   48        | COMMENT
-   49        | SEMICOLON
+   50 id: identifier
+
+   51 sep: sep sep_one
+   52    | sep_one
+
+   53 sep_one: NEWLINE
+   54        | COMMENT
+   55        | SEMICOLON
 
 
 Terminals, with rules where they appear
 
     END_OF_FILE (0) 0
     error (256)
-    integer_literal <long long> (258) 34
-    real_literal <double> (259) 36
-    image_literal <double> (260) 37
-    identifier <std::string> (261) 44
+    integer_literal <long long> (258) 38
+    real_literal <double> (259) 40
+    image_literal <double> (260) 41
+    identifier <std::string> (261) 50
     sized_type_literal <std::string> (262)
     string_literal <std::string> (263) 29 30 31 32
-    FALSE (264) 39
-    TRUE (265) 38
-    NONE (266) 40
+    FALSE (264) 43
+    TRUE (265) 42
+    NONE (266) 44
     AND (267)
     AS (268)
     ASSERT (269)
@@ -172,28 +177,28 @@ Terminals, with rules where they appear
     AMPERSAND (299)
     COLON (300) 26 27
     COLON_BANG (301)
-    COMMA (302)
+    "," (302) 35 49
     DOUBLE_ARROW (303)
     EQUAL (304)
     EQUAL_EQUAL (305)
-    LBRACE (306)
-    "(" (307) 42 43
-    LBRACKET (308)
+    "{" (306)
+    "(" (307) 46 47
+    "[" (308) 48 49
     MINUS (309)
     PERIOD (310)
     PLUS (311)
-    ELLIPSIS (312) 41
-    RBRACE (313)
-    ")" (314) 42 43
-    RBRACKET (315)
+    ELLIPSIS (312) 45
+    "}" (313)
+    ")" (314) 46 47
+    "]" (315) 48 49
     SELF (316)
-    SEMICOLON (317) 14 15 18 19 20 49
+    SEMICOLON (317) 14 15 18 19 20 55
     SLASH (318)
     UNDERSCORE (319)
     INDENT (320) 5
     DEDENT (321) 5
-    NEWLINE (322) 11 12 13 14 15 16 47
-    COMMENT (323) 12 15 16 48
+    NEWLINE (322) 11 12 13 14 15 16 53
+    COMMENT (323) 12 15 16 54
     EOLCOMMENT (324)
     TYPE_COMMENT (325)
 
@@ -246,19 +251,25 @@ Nonterminals, with rules where they appear
         on right: 24
     string <Nonnull<Expression*>> (86)
         on left: 29 30 31 32
-        on right: 29 32 35
-    expr <Nonnull<Expression*>> (87)
-        on left: 33 34 35 36 37 38 39 40 41 42 43
-        on right: 26 27 28 42
-    id <Nonnull<Name*>> (88)
-        on left: 44
-        on right: 31 32 33
-    sep <std::vector<std::string>> (89)
-        on left: 45 46
-        on right: 3 6 21 23 45
-    sep_one <std::string> (90)
-        on left: 47 48 49
-        on right: 45 46
+        on right: 29 32 39
+    expr_list_opt <std::vector<Nonnull<Expression*>>> (87)
+        on left: 33 34
+        on right: 48
+    expr_list <std::vector<Nonnull<Expression*>>> (88)
+        on left: 35 36
+        on right: 33 35 49
+    expr <Nonnull<Expression*>> (89)
+        on left: 37 38 39 40 41 42 43 44 45 46 47 48 49
+        on right: 26 27 28 35 36 46
+    id <Nonnull<Name*>> (90)
+        on left: 50
+        on right: 31 32 37
+    sep <std::vector<std::string>> (91)
+        on left: 51 52
+        on right: 3 6 21 23 51
+    sep_one <std::string> (92)
+        on left: 53 54 55
+        on right: 51 52
 
 
 State 0
@@ -275,51 +286,52 @@ State 0
     NONE             shift, and go to state 8
     IF               shift, and go to state 9
     "("              shift, and go to state 10
-    ELLIPSIS         shift, and go to state 11
-    SEMICOLON        shift, and go to state 12
-    NEWLINE          shift, and go to state 13
-    COMMENT          shift, and go to state 14
+    "["              shift, and go to state 11
+    ELLIPSIS         shift, and go to state 12
+    SEMICOLON        shift, and go to state 13
+    NEWLINE          shift, and go to state 14
+    COMMENT          shift, and go to state 15
 
-    units                  go to state 15
-    script_unit            go to state 16
-    statement              go to state 17
-    single_line_statement  go to state 18
-    multi_line_statement   go to state 19
-    if_statement           go to state 20
-    expression_statment    go to state 21
-    string                 go to state 22
-    expr                   go to state 23
-    id                     go to state 24
-    sep                    go to state 25
-    sep_one                go to state 26
+    units                  go to state 16
+    script_unit            go to state 17
+    statement              go to state 18
+    single_line_statement  go to state 19
+    multi_line_statement   go to state 20
+    if_statement           go to state 21
+    expression_statment    go to state 22
+    string                 go to state 23
+    expr                   go to state 24
+    id                     go to state 25
+    sep                    go to state 26
+    sep_one                go to state 27
 
 
 State 1
 
-   34 expr: integer_literal •
+   38 expr: integer_literal •
 
-    $default  reduce using rule 34 (expr)
+    $default  reduce using rule 38 (expr)
 
 
 State 2
 
-   36 expr: real_literal •
+   40 expr: real_literal •
 
-    $default  reduce using rule 36 (expr)
+    $default  reduce using rule 40 (expr)
 
 
 State 3
 
-   37 expr: image_literal •
+   41 expr: image_literal •
 
-    $default  reduce using rule 37 (expr)
+    $default  reduce using rule 41 (expr)
 
 
 State 4
 
-   44 id: identifier •
+   50 id: identifier •
 
-    $default  reduce using rule 44 (id)
+    $default  reduce using rule 50 (id)
 
 
 State 5
@@ -331,23 +343,23 @@ State 5
 
 State 6
 
-   39 expr: FALSE •
+   43 expr: FALSE •
 
-    $default  reduce using rule 39 (expr)
+    $default  reduce using rule 43 (expr)
 
 
 State 7
 
-   38 expr: TRUE •
+   42 expr: TRUE •
 
-    $default  reduce using rule 38 (expr)
+    $default  reduce using rule 42 (expr)
 
 
 State 8
 
-   40 expr: NONE •
+   44 expr: NONE •
 
-    $default  reduce using rule 40 (expr)
+    $default  reduce using rule 44 (expr)
 
 
 State 9
@@ -364,17 +376,18 @@ State 9
     TRUE             shift, and go to state 7
     NONE             shift, and go to state 8
     "("              shift, and go to state 10
-    ELLIPSIS         shift, and go to state 11
+    "["              shift, and go to state 11
+    ELLIPSIS         shift, and go to state 12
 
-    string  go to state 22
-    expr    go to state 27
-    id      go to state 24
+    string  go to state 23
+    expr    go to state 28
+    id      go to state 25
 
 
 State 10
 
-   42 expr: "(" • expr ")"
-   43     | "(" • ")"
+   46 expr: "(" • expr ")"
+   47     | "(" • ")"
 
     integer_literal  shift, and go to state 1
     real_literal     shift, and go to state 2
@@ -385,48 +398,75 @@ State 10
     TRUE             shift, and go to state 7
     NONE             shift, and go to state 8
     "("              shift, and go to state 10
-    ELLIPSIS         shift, and go to state 11
-    ")"              shift, and go to state 28
+    "["              shift, and go to state 11
+    ELLIPSIS         shift, and go to state 12
+    ")"              shift, and go to state 29
 
-    string  go to state 22
-    expr    go to state 29
-    id      go to state 24
+    string  go to state 23
+    expr    go to state 30
+    id      go to state 25
 
 
 State 11
 
-   41 expr: ELLIPSIS •
+   48 expr: "[" • expr_list_opt "]"
+   49     | "[" • expr_list "," "]"
 
-    $default  reduce using rule 41 (expr)
+    integer_literal  shift, and go to state 1
+    real_literal     shift, and go to state 2
+    image_literal    shift, and go to state 3
+    identifier       shift, and go to state 4
+    string_literal   shift, and go to state 5
+    FALSE            shift, and go to state 6
+    TRUE             shift, and go to state 7
+    NONE             shift, and go to state 8
+    "("              shift, and go to state 10
+    "["              shift, and go to state 11
+    ELLIPSIS         shift, and go to state 12
+
+    $default  reduce using rule 34 (expr_list_opt)
+
+    string         go to state 23
+    expr_list_opt  go to state 31
+    expr_list      go to state 32
+    expr           go to state 33
+    id             go to state 25
 
 
 State 12
 
-   49 sep_one: SEMICOLON •
+   45 expr: ELLIPSIS •
 
-    $default  reduce using rule 49 (sep_one)
+    $default  reduce using rule 45 (expr)
 
 
 State 13
 
-   47 sep_one: NEWLINE •
+   55 sep_one: SEMICOLON •
 
-    $default  reduce using rule 47 (sep_one)
+    $default  reduce using rule 55 (sep_one)
 
 
 State 14
 
-   48 sep_one: COMMENT •
+   53 sep_one: NEWLINE •
 
-    $default  reduce using rule 48 (sep_one)
+    $default  reduce using rule 53 (sep_one)
 
 
 State 15
 
+   54 sep_one: COMMENT •
+
+    $default  reduce using rule 54 (sep_one)
+
+
+State 16
+
     0 $accept: units • END_OF_FILE
     1 units: units • script_unit
 
-    END_OF_FILE      shift, and go to state 30
+    END_OF_FILE      shift, and go to state 34
     integer_literal  shift, and go to state 1
     real_literal     shift, and go to state 2
     image_literal    shift, and go to state 3
@@ -437,219 +477,245 @@ State 15
     NONE             shift, and go to state 8
     IF               shift, and go to state 9
     "("              shift, and go to state 10
-    ELLIPSIS         shift, and go to state 11
+    "["              shift, and go to state 11
+    ELLIPSIS         shift, and go to state 12
 
-    script_unit            go to state 31
-    statement              go to state 17
-    single_line_statement  go to state 18
-    multi_line_statement   go to state 19
-    if_statement           go to state 20
-    expression_statment    go to state 21
-    string                 go to state 22
-    expr                   go to state 23
-    id                     go to state 24
+    script_unit            go to state 35
+    statement              go to state 18
+    single_line_statement  go to state 19
+    multi_line_statement   go to state 20
+    if_statement           go to state 21
+    expression_statment    go to state 22
+    string                 go to state 23
+    expr                   go to state 24
+    id                     go to state 25
 
 
-State 16
+State 17
 
     2 units: script_unit •
 
     $default  reduce using rule 2 (units)
 
 
-State 17
+State 18
 
     4 script_unit: statement •
 
     $default  reduce using rule 4 (script_unit)
 
 
-State 18
+State 19
 
    21 statement: single_line_statement • sep
 
-    SEMICOLON  shift, and go to state 12
-    NEWLINE    shift, and go to state 13
-    COMMENT    shift, and go to state 14
+    SEMICOLON  shift, and go to state 13
+    NEWLINE    shift, and go to state 14
+    COMMENT    shift, and go to state 15
 
-    sep      go to state 32
-    sep_one  go to state 26
+    sep      go to state 36
+    sep_one  go to state 27
 
 
-State 19
+State 20
 
    22 statement: multi_line_statement •
    23          | multi_line_statement • sep
 
-    SEMICOLON  shift, and go to state 12
-    NEWLINE    shift, and go to state 13
-    COMMENT    shift, and go to state 14
+    SEMICOLON  shift, and go to state 13
+    NEWLINE    shift, and go to state 14
+    COMMENT    shift, and go to state 15
 
     $default  reduce using rule 22 (statement)
 
-    sep      go to state 33
-    sep_one  go to state 26
+    sep      go to state 37
+    sep_one  go to state 27
 
 
-State 20
+State 21
 
    25 multi_line_statement: if_statement •
 
     $default  reduce using rule 25 (multi_line_statement)
 
 
-State 21
+State 22
 
    24 single_line_statement: expression_statment •
 
     $default  reduce using rule 24 (single_line_statement)
 
 
-State 22
+State 23
 
    29 string: string • string_literal
    32       | string • id string_literal
-   35 expr: string •
+   39 expr: string •
 
     identifier      shift, and go to state 4
-    string_literal  shift, and go to state 34
+    string_literal  shift, and go to state 38
 
-    $default  reduce using rule 35 (expr)
+    $default  reduce using rule 39 (expr)
 
-    id  go to state 35
+    id  go to state 39
 
 
-State 23
+State 24
 
    28 expression_statment: expr •
 
     $default  reduce using rule 28 (expression_statment)
 
 
-State 24
-
-   31 string: id • string_literal
-   33 expr: id •
-
-    string_literal  shift, and go to state 36
-
-    $default  reduce using rule 33 (expr)
-
-
 State 25
 
-    3 units: sep •
-   45 sep: sep • sep_one
+   31 string: id • string_literal
+   37 expr: id •
 
-    SEMICOLON  shift, and go to state 12
-    NEWLINE    shift, and go to state 13
-    COMMENT    shift, and go to state 14
+    string_literal  shift, and go to state 40
 
-    $default  reduce using rule 3 (units)
-
-    sep_one  go to state 37
+    $default  reduce using rule 37 (expr)
 
 
 State 26
 
-   46 sep: sep_one •
+    3 units: sep •
+   51 sep: sep • sep_one
 
-    $default  reduce using rule 46 (sep)
+    SEMICOLON  shift, and go to state 13
+    NEWLINE    shift, and go to state 14
+    COMMENT    shift, and go to state 15
+
+    $default  reduce using rule 3 (units)
+
+    sep_one  go to state 41
 
 
 State 27
 
-   26 if_statement: IF expr • COLON body_stmts
-   27             | IF expr • COLON body_stmts ELSE COLON body_stmts
+   52 sep: sep_one •
 
-    COLON  shift, and go to state 38
+    $default  reduce using rule 52 (sep)
 
 
 State 28
 
-   43 expr: "(" ")" •
+   26 if_statement: IF expr • COLON body_stmts
+   27             | IF expr • COLON body_stmts ELSE COLON body_stmts
 
-    $default  reduce using rule 43 (expr)
+    COLON  shift, and go to state 42
 
 
 State 29
 
-   42 expr: "(" expr • ")"
+   47 expr: "(" ")" •
 
-    ")"  shift, and go to state 39
+    $default  reduce using rule 47 (expr)
 
 
 State 30
+
+   46 expr: "(" expr • ")"
+
+    ")"  shift, and go to state 43
+
+
+State 31
+
+   48 expr: "[" expr_list_opt • "]"
+
+    "]"  shift, and go to state 44
+
+
+State 32
+
+   33 expr_list_opt: expr_list •
+   35 expr_list: expr_list • "," expr
+   49 expr: "[" expr_list • "," "]"
+
+    ","  shift, and go to state 45
+
+    $default  reduce using rule 33 (expr_list_opt)
+
+
+State 33
+
+   36 expr_list: expr •
+
+    $default  reduce using rule 36 (expr_list)
+
+
+State 34
 
     0 $accept: units END_OF_FILE •
 
     $default  accept
 
 
-State 31
+State 35
 
     1 units: units script_unit •
 
     $default  reduce using rule 1 (units)
 
 
-State 32
+State 36
 
    21 statement: single_line_statement sep •
-   45 sep: sep • sep_one
+   51 sep: sep • sep_one
 
-    SEMICOLON  shift, and go to state 12
-    NEWLINE    shift, and go to state 13
-    COMMENT    shift, and go to state 14
+    SEMICOLON  shift, and go to state 13
+    NEWLINE    shift, and go to state 14
+    COMMENT    shift, and go to state 15
 
     $default  reduce using rule 21 (statement)
 
-    sep_one  go to state 37
+    sep_one  go to state 41
 
 
-State 33
+State 37
 
    23 statement: multi_line_statement sep •
-   45 sep: sep • sep_one
+   51 sep: sep • sep_one
 
-    SEMICOLON  shift, and go to state 12
-    NEWLINE    shift, and go to state 13
-    COMMENT    shift, and go to state 14
+    SEMICOLON  shift, and go to state 13
+    NEWLINE    shift, and go to state 14
+    COMMENT    shift, and go to state 15
 
     $default  reduce using rule 23 (statement)
 
-    sep_one  go to state 37
+    sep_one  go to state 41
 
 
-State 34
+State 38
 
    29 string: string string_literal •
 
     $default  reduce using rule 29 (string)
 
 
-State 35
+State 39
 
    32 string: string id • string_literal
 
-    string_literal  shift, and go to state 40
+    string_literal  shift, and go to state 46
 
 
-State 36
+State 40
 
    31 string: id string_literal •
 
     $default  reduce using rule 31 (string)
 
 
-State 37
+State 41
 
-   45 sep: sep sep_one •
+   51 sep: sep sep_one •
 
-    $default  reduce using rule 45 (sep)
+    $default  reduce using rule 51 (sep)
 
 
-State 38
+State 42
 
    26 if_statement: IF expr COLON • body_stmts
    27             | IF expr COLON • body_stmts ELSE COLON body_stmts
@@ -663,73 +729,104 @@ State 38
     TRUE             shift, and go to state 7
     NONE             shift, and go to state 8
     "("              shift, and go to state 10
-    ELLIPSIS         shift, and go to state 11
-    SEMICOLON        shift, and go to state 12
-    NEWLINE          shift, and go to state 13
-    COMMENT          shift, and go to state 14
+    "["              shift, and go to state 11
+    ELLIPSIS         shift, and go to state 12
+    SEMICOLON        shift, and go to state 13
+    NEWLINE          shift, and go to state 14
+    COMMENT          shift, and go to state 15
 
-    sep_statements                    go to state 41
-    body_stmts                        go to state 42
-    single_line_statements            go to state 43
-    single_line_multi_statements      go to state 44
-    single_line_multi_statements_opt  go to state 45
-    single_line_statement             go to state 46
-    expression_statment               go to state 21
-    string                            go to state 22
-    expr                              go to state 23
-    id                                go to state 24
-    sep                               go to state 47
-    sep_one                           go to state 26
-
-
-State 39
-
-   42 expr: "(" expr ")" •
-
-    $default  reduce using rule 42 (expr)
+    sep_statements                    go to state 47
+    body_stmts                        go to state 48
+    single_line_statements            go to state 49
+    single_line_multi_statements      go to state 50
+    single_line_multi_statements_opt  go to state 51
+    single_line_statement             go to state 52
+    expression_statment               go to state 22
+    string                            go to state 23
+    expr                              go to state 24
+    id                                go to state 25
+    sep                               go to state 53
+    sep_one                           go to state 27
 
 
-State 40
+State 43
+
+   46 expr: "(" expr ")" •
+
+    $default  reduce using rule 46 (expr)
+
+
+State 44
+
+   48 expr: "[" expr_list_opt "]" •
+
+    $default  reduce using rule 48 (expr)
+
+
+State 45
+
+   35 expr_list: expr_list "," • expr
+   49 expr: "[" expr_list "," • "]"
+
+    integer_literal  shift, and go to state 1
+    real_literal     shift, and go to state 2
+    image_literal    shift, and go to state 3
+    identifier       shift, and go to state 4
+    string_literal   shift, and go to state 5
+    FALSE            shift, and go to state 6
+    TRUE             shift, and go to state 7
+    NONE             shift, and go to state 8
+    "("              shift, and go to state 10
+    "["              shift, and go to state 11
+    ELLIPSIS         shift, and go to state 12
+    "]"              shift, and go to state 54
+
+    string  go to state 23
+    expr    go to state 55
+    id      go to state 25
+
+
+State 46
 
    32 string: string id string_literal •
 
     $default  reduce using rule 32 (string)
 
 
-State 41
+State 47
 
     8 body_stmts: sep_statements •
 
     $default  reduce using rule 8 (body_stmts)
 
 
-State 42
+State 48
 
    26 if_statement: IF expr COLON body_stmts •
    27             | IF expr COLON body_stmts • ELSE COLON body_stmts
 
-    ELSE  shift, and go to state 48
+    ELSE  shift, and go to state 56
 
     $default  reduce using rule 26 (if_statement)
 
 
-State 43
+State 49
 
     7 body_stmts: single_line_statements •
 
     $default  reduce using rule 7 (body_stmts)
 
 
-State 44
+State 50
 
    11 single_line_statements: single_line_multi_statements • NEWLINE
    12                       | single_line_multi_statements • COMMENT NEWLINE
 
-    NEWLINE  shift, and go to state 49
-    COMMENT  shift, and go to state 50
+    NEWLINE  shift, and go to state 57
+    COMMENT  shift, and go to state 58
 
 
-State 45
+State 51
 
    17 single_line_multi_statements: single_line_multi_statements_opt • single_line_statement
    18                             | single_line_multi_statements_opt • single_line_statement SEMICOLON
@@ -744,16 +841,17 @@ State 45
     TRUE             shift, and go to state 7
     NONE             shift, and go to state 8
     "("              shift, and go to state 10
-    ELLIPSIS         shift, and go to state 11
+    "["              shift, and go to state 11
+    ELLIPSIS         shift, and go to state 12
 
-    single_line_statement  go to state 51
-    expression_statment    go to state 21
-    string                 go to state 22
-    expr                   go to state 23
-    id                     go to state 24
+    single_line_statement  go to state 59
+    expression_statment    go to state 22
+    string                 go to state 23
+    expr                   go to state 24
+    id                     go to state 25
 
 
-State 46
+State 52
 
    13 single_line_statements: single_line_statement • NEWLINE
    14                       | single_line_statement • SEMICOLON NEWLINE
@@ -761,84 +859,98 @@ State 46
    16                       | single_line_statement • COMMENT NEWLINE
    20 single_line_multi_statements_opt: single_line_statement • SEMICOLON
 
-    SEMICOLON  shift, and go to state 52
-    NEWLINE    shift, and go to state 53
-    COMMENT    shift, and go to state 54
+    SEMICOLON  shift, and go to state 60
+    NEWLINE    shift, and go to state 61
+    COMMENT    shift, and go to state 62
 
 
-State 47
+State 53
 
     6 sep_statements: sep • statements
-   45 sep: sep • sep_one
+   51 sep: sep • sep_one
 
-    SEMICOLON  shift, and go to state 12
-    INDENT     shift, and go to state 55
-    NEWLINE    shift, and go to state 13
-    COMMENT    shift, and go to state 14
+    SEMICOLON  shift, and go to state 13
+    INDENT     shift, and go to state 63
+    NEWLINE    shift, and go to state 14
+    COMMENT    shift, and go to state 15
 
-    statements  go to state 56
-    sep_one     go to state 37
+    statements  go to state 64
+    sep_one     go to state 41
 
 
-State 48
+State 54
+
+   49 expr: "[" expr_list "," "]" •
+
+    $default  reduce using rule 49 (expr)
+
+
+State 55
+
+   35 expr_list: expr_list "," expr •
+
+    $default  reduce using rule 35 (expr_list)
+
+
+State 56
 
    27 if_statement: IF expr COLON body_stmts ELSE • COLON body_stmts
 
-    COLON  shift, and go to state 57
+    COLON  shift, and go to state 65
 
 
-State 49
+State 57
 
    11 single_line_statements: single_line_multi_statements NEWLINE •
 
     $default  reduce using rule 11 (single_line_statements)
 
 
-State 50
+State 58
 
    12 single_line_statements: single_line_multi_statements COMMENT • NEWLINE
 
-    NEWLINE  shift, and go to state 58
+    NEWLINE  shift, and go to state 66
 
 
-State 51
+State 59
 
    17 single_line_multi_statements: single_line_multi_statements_opt single_line_statement •
    18                             | single_line_multi_statements_opt single_line_statement • SEMICOLON
    19 single_line_multi_statements_opt: single_line_multi_statements_opt single_line_statement • SEMICOLON
 
-    SEMICOLON  shift, and go to state 59
+    SEMICOLON  shift, and go to state 67
 
     $default  reduce using rule 17 (single_line_multi_statements)
 
 
-State 52
+State 60
 
    14 single_line_statements: single_line_statement SEMICOLON • NEWLINE
    15                       | single_line_statement SEMICOLON • COMMENT NEWLINE
    20 single_line_multi_statements_opt: single_line_statement SEMICOLON •
 
-    NEWLINE  shift, and go to state 60
-    COMMENT  shift, and go to state 61
+    NEWLINE  shift, and go to state 68
+    COMMENT  shift, and go to state 69
 
     $default  reduce using rule 20 (single_line_multi_statements_opt)
 
 
-State 53
+State 61
 
    13 single_line_statements: single_line_statement NEWLINE •
 
     $default  reduce using rule 13 (single_line_statements)
 
 
-State 54
+State 62
 
    16 single_line_statements: single_line_statement COMMENT • NEWLINE
 
-    NEWLINE  shift, and go to state 62
+    NEWLINE  shift, and go to state 70
 
 
-State 55
+State 63
 
     5 statements: INDENT • statements1 DEDENT
 
@@ -852,27 +964,28 @@ State 55
     NONE             shift, and go to state 8
     IF               shift, and go to state 9
     "("              shift, and go to state 10
-    ELLIPSIS         shift, and go to state 11
+    "["              shift, and go to state 11
+    ELLIPSIS         shift, and go to state 12
 
-    statements1            go to state 63
-    statement              go to state 64
-    single_line_statement  go to state 18
-    multi_line_statement   go to state 19
-    if_statement           go to state 20
-    expression_statment    go to state 21
-    string                 go to state 22
-    expr                   go to state 23
-    id                     go to state 24
+    statements1            go to state 71
+    statement              go to state 72
+    single_line_statement  go to state 19
+    multi_line_statement   go to state 20
+    if_statement           go to state 21
+    expression_statment    go to state 22
+    string                 go to state 23
+    expr                   go to state 24
+    id                     go to state 25
 
 
-State 56
+State 64
 
     6 sep_statements: sep statements •
 
     $default  reduce using rule 6 (sep_statements)
 
 
-State 57
+State 65
 
    27 if_statement: IF expr COLON body_stmts ELSE COLON • body_stmts
 
@@ -885,33 +998,34 @@ State 57
     TRUE             shift, and go to state 7
     NONE             shift, and go to state 8
     "("              shift, and go to state 10
-    ELLIPSIS         shift, and go to state 11
-    SEMICOLON        shift, and go to state 12
-    NEWLINE          shift, and go to state 13
-    COMMENT          shift, and go to state 14
+    "["              shift, and go to state 11
+    ELLIPSIS         shift, and go to state 12
+    SEMICOLON        shift, and go to state 13
+    NEWLINE          shift, and go to state 14
+    COMMENT          shift, and go to state 15
 
-    sep_statements                    go to state 41
-    body_stmts                        go to state 65
-    single_line_statements            go to state 43
-    single_line_multi_statements      go to state 44
-    single_line_multi_statements_opt  go to state 45
-    single_line_statement             go to state 46
-    expression_statment               go to state 21
-    string                            go to state 22
-    expr                              go to state 23
-    id                                go to state 24
-    sep                               go to state 47
-    sep_one                           go to state 26
+    sep_statements                    go to state 47
+    body_stmts                        go to state 73
+    single_line_statements            go to state 49
+    single_line_multi_statements      go to state 50
+    single_line_multi_statements_opt  go to state 51
+    single_line_statement             go to state 52
+    expression_statment               go to state 22
+    string                            go to state 23
+    expr                              go to state 24
+    id                                go to state 25
+    sep                               go to state 53
+    sep_one                           go to state 27
 
 
-State 58
+State 66
 
    12 single_line_statements: single_line_multi_statements COMMENT NEWLINE •
 
     $default  reduce using rule 12 (single_line_statements)
 
 
-State 59
+State 67
 
    18 single_line_multi_statements: single_line_multi_statements_opt single_line_statement SEMICOLON •
    19 single_line_multi_statements_opt: single_line_multi_statements_opt single_line_statement SEMICOLON •
@@ -921,28 +1035,28 @@ State 59
     $default  reduce using rule 19 (single_line_multi_statements_opt)
 
 
-State 60
+State 68
 
    14 single_line_statements: single_line_statement SEMICOLON NEWLINE •
 
     $default  reduce using rule 14 (single_line_statements)
 
 
-State 61
+State 69
 
    15 single_line_statements: single_line_statement SEMICOLON COMMENT • NEWLINE
 
-    NEWLINE  shift, and go to state 66
+    NEWLINE  shift, and go to state 74
 
 
-State 62
+State 70
 
    16 single_line_statements: single_line_statement COMMENT NEWLINE •
 
     $default  reduce using rule 16 (single_line_statements)
 
 
-State 63
+State 71
 
     5 statements: INDENT statements1 • DEDENT
     9 statements1: statements1 • statement
@@ -957,48 +1071,49 @@ State 63
     NONE             shift, and go to state 8
     IF               shift, and go to state 9
     "("              shift, and go to state 10
-    ELLIPSIS         shift, and go to state 11
-    DEDENT           shift, and go to state 67
+    "["              shift, and go to state 11
+    ELLIPSIS         shift, and go to state 12
+    DEDENT           shift, and go to state 75
 
-    statement              go to state 68
-    single_line_statement  go to state 18
-    multi_line_statement   go to state 19
-    if_statement           go to state 20
-    expression_statment    go to state 21
-    string                 go to state 22
-    expr                   go to state 23
-    id                     go to state 24
+    statement              go to state 76
+    single_line_statement  go to state 19
+    multi_line_statement   go to state 20
+    if_statement           go to state 21
+    expression_statment    go to state 22
+    string                 go to state 23
+    expr                   go to state 24
+    id                     go to state 25
 
 
-State 64
+State 72
 
    10 statements1: statement •
 
     $default  reduce using rule 10 (statements1)
 
 
-State 65
+State 73
 
    27 if_statement: IF expr COLON body_stmts ELSE COLON body_stmts •
 
     $default  reduce using rule 27 (if_statement)
 
 
-State 66
+State 74
 
    15 single_line_statements: single_line_statement SEMICOLON COMMENT NEWLINE •
 
     $default  reduce using rule 15 (single_line_statements)
 
 
-State 67
+State 75
 
     5 statements: INDENT statements1 DEDENT •
 
     $default  reduce using rule 5 (statements)
 
 
-State 68
+State 76
 
     9 statements1: statements1 statement •
 
