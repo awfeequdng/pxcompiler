@@ -62,6 +62,7 @@ COLON                ":"
 COLON_BANG           ":!"
 COMMA                ","
 DOUBLE_ARROW         "=>"
+COLONEQUAL           ":="
 EQUAL                "="
 EQUAL_EQUAL          "=="
 
@@ -202,6 +203,7 @@ one_line_comment      \#[^\n]*\n
   {COMMA}                     { return PXC_TOKEN(COMMA);                }
   {DOUBLE_ARROW}              { return PXC_TOKEN(DOUBLE_ARROW);         }
   {EQUAL}                     { return PXC_TOKEN(EQUAL);                }
+  {COLONEQUAL}                { return PXC_TOKEN(COLONEQUAL);           }
   {EQUAL_EQUAL}               { return PXC_TOKEN(EQUAL_EQUAL);          }
   {LBRACE}                    {
       std::cout << "right )" << std::endl;

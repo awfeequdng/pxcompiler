@@ -445,5 +445,36 @@ private:
     std::vector<PairNonnullExpr> key_value_;
 };
 
+class NamedExpr: public Expression {
+public:
+    static Nonnull<NamedExpr*> make_NamedExpr(
+        Nonnull<pxcompiler::Arena*> arena,
+        SourceLocation loc,
+        Nonnull<Expression*> target,
+        Nonnull<Expression*> value) {
+        return arena->New<NamedExpr>(loc, target, value);
+    }
+
+    static auto classof(const AstNode* node) {
+        return InheritsFromNamedExpr(node->kind());
+    }
+
+    NamedExpr(pxcompiler::SourceLocation loc,
+              Nonnull<Expression*> target,
+              Nonnull<Expression*> value)
+        : Expression(AstNodeKind::NamedExpr, loc),
+        target_(target), value_(value) {}
+
+    const Nonnull<Expression*> &target() const {
+        return target_;
+    }
+    const Nonnull<Expression*> &value() const {
+        return value_;
+    }
+
+private:
+    Nonnull<Expression*> target_;
+    Nonnull<Expression*> value_;
+};
 } // namespace pxcompiler
 

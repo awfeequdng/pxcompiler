@@ -195,3 +195,5 @@ static inline NonnullExpr PREFIX_STRING(
 #define DICT_02(dict_list, l) pxcompiler::Dict::make_Dict(arena, l, dict_list)
 
 #define DICT_EXPR(key, value, l) std::make_pair(key, value)
+
+#define NAMEDEXPR(x, y, l) pxcompiler::NamedExpr::make_NamedExpr(arena, l, x, y)

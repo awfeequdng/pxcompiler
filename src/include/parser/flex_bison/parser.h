@@ -778,27 +778,28 @@ namespace  pxcompiler  {
     COMMA = 302,                   // ","
     DOUBLE_ARROW = 303,            // DOUBLE_ARROW
     EQUAL = 304,                   // EQUAL
-    EQUAL_EQUAL = 305,             // EQUAL_EQUAL
-    LBRACE = 306,                  // "{"
-    LPARENT = 307,                 // "("
-    LBRACKET = 308,                // "["
-    MINUS = 309,                   // MINUS
-    PERIOD = 310,                  // "."
-    PLUS = 311,                    // PLUS
-    ELLIPSIS = 312,                // ELLIPSIS
-    RBRACE = 313,                  // "}"
-    RPARENT = 314,                 // ")"
-    RBRACKET = 315,                // "]"
-    SELF = 316,                    // SELF
-    SEMICOLON = 317,               // SEMICOLON
-    SLASH = 318,                   // SLASH
-    UNDERSCORE = 319,              // UNDERSCORE
-    INDENT = 320,                  // INDENT
-    DEDENT = 321,                  // DEDENT
-    NEWLINE = 322,                 // NEWLINE
-    COMMENT = 323,                 // COMMENT
-    EOLCOMMENT = 324,              // EOLCOMMENT
-    TYPE_COMMENT = 325             // TYPE_COMMENT
+    COLONEQUAL = 305,              // ":="
+    EQUAL_EQUAL = 306,             // EQUAL_EQUAL
+    LBRACE = 307,                  // "{"
+    LPARENT = 308,                 // "("
+    LBRACKET = 309,                // "["
+    MINUS = 310,                   // MINUS
+    PERIOD = 311,                  // "."
+    PLUS = 312,                    // PLUS
+    ELLIPSIS = 313,                // ELLIPSIS
+    RBRACE = 314,                  // "}"
+    RPARENT = 315,                 // ")"
+    RBRACKET = 316,                // "]"
+    SELF = 317,                    // SELF
+    SEMICOLON = 318,               // SEMICOLON
+    SLASH = 319,                   // SLASH
+    UNDERSCORE = 320,              // UNDERSCORE
+    INDENT = 321,                  // INDENT
+    DEDENT = 322,                  // DEDENT
+    NEWLINE = 323,                 // NEWLINE
+    COMMENT = 324,                 // COMMENT
+    EOLCOMMENT = 325,              // EOLCOMMENT
+    TYPE_COMMENT = 326             // TYPE_COMMENT
       };
       /// Backward compatibility alias (Bison 3.6).
       typedef token_kind_type yytokentype;
@@ -815,7 +816,7 @@ namespace  pxcompiler  {
     {
       enum symbol_kind_type
       {
-        YYNTOKENS = 71, ///< Number of tokens.
+        YYNTOKENS = 72, ///< Number of tokens.
         S_YYEMPTY = -2,
         S_YYEOF = 0,                             // END_OF_FILE
         S_YYerror = 1,                           // error
@@ -867,51 +868,52 @@ namespace  pxcompiler  {
         S_COMMA = 47,                            // ","
         S_DOUBLE_ARROW = 48,                     // DOUBLE_ARROW
         S_EQUAL = 49,                            // EQUAL
-        S_EQUAL_EQUAL = 50,                      // EQUAL_EQUAL
-        S_LBRACE = 51,                           // "{"
-        S_LPARENT = 52,                          // "("
-        S_LBRACKET = 53,                         // "["
-        S_MINUS = 54,                            // MINUS
-        S_PERIOD = 55,                           // "."
-        S_PLUS = 56,                             // PLUS
-        S_ELLIPSIS = 57,                         // ELLIPSIS
-        S_RBRACE = 58,                           // "}"
-        S_RPARENT = 59,                          // ")"
-        S_RBRACKET = 60,                         // "]"
-        S_SELF = 61,                             // SELF
-        S_SEMICOLON = 62,                        // SEMICOLON
-        S_SLASH = 63,                            // SLASH
-        S_UNDERSCORE = 64,                       // UNDERSCORE
-        S_INDENT = 65,                           // INDENT
-        S_DEDENT = 66,                           // DEDENT
-        S_NEWLINE = 67,                          // NEWLINE
-        S_COMMENT = 68,                          // COMMENT
-        S_EOLCOMMENT = 69,                       // EOLCOMMENT
-        S_TYPE_COMMENT = 70,                     // TYPE_COMMENT
-        S_YYACCEPT = 71,                         // $accept
-        S_units = 72,                            // units
-        S_script_unit = 73,                      // script_unit
-        S_statements = 74,                       // statements
-        S_sep_statements = 75,                   // sep_statements
-        S_body_stmts = 76,                       // body_stmts
-        S_statements1 = 77,                      // statements1
-        S_single_line_statements = 78,           // single_line_statements
-        S_single_line_multi_statements = 79,     // single_line_multi_statements
-        S_single_line_multi_statements_opt = 80, // single_line_multi_statements_opt
-        S_statement = 81,                        // statement
-        S_single_line_statement = 82,            // single_line_statement
-        S_multi_line_statement = 83,             // multi_line_statement
-        S_if_statement = 84,                     // if_statement
-        S_expression_statment = 85,              // expression_statment
-        S_string = 86,                           // string
-        S_expr_list_opt = 87,                    // expr_list_opt
-        S_expr_list = 88,                        // expr_list
-        S_dict = 89,                             // dict
-        S_dict_list = 90,                        // dict_list
-        S_expr = 91,                             // expr
-        S_id = 92,                               // id
-        S_sep = 93,                              // sep
-        S_sep_one = 94                           // sep_one
+        S_COLONEQUAL = 50,                       // ":="
+        S_EQUAL_EQUAL = 51,                      // EQUAL_EQUAL
+        S_LBRACE = 52,                           // "{"
+        S_LPARENT = 53,                          // "("
+        S_LBRACKET = 54,                         // "["
+        S_MINUS = 55,                            // MINUS
+        S_PERIOD = 56,                           // "."
+        S_PLUS = 57,                             // PLUS
+        S_ELLIPSIS = 58,                         // ELLIPSIS
+        S_RBRACE = 59,                           // "}"
+        S_RPARENT = 60,                          // ")"
+        S_RBRACKET = 61,                         // "]"
+        S_SELF = 62,                             // SELF
+        S_SEMICOLON = 63,                        // SEMICOLON
+        S_SLASH = 64,                            // SLASH
+        S_UNDERSCORE = 65,                       // UNDERSCORE
+        S_INDENT = 66,                           // INDENT
+        S_DEDENT = 67,                           // DEDENT
+        S_NEWLINE = 68,                          // NEWLINE
+        S_COMMENT = 69,                          // COMMENT
+        S_EOLCOMMENT = 70,                       // EOLCOMMENT
+        S_TYPE_COMMENT = 71,                     // TYPE_COMMENT
+        S_YYACCEPT = 72,                         // $accept
+        S_units = 73,                            // units
+        S_script_unit = 74,                      // script_unit
+        S_statements = 75,                       // statements
+        S_sep_statements = 76,                   // sep_statements
+        S_body_stmts = 77,                       // body_stmts
+        S_statements1 = 78,                      // statements1
+        S_single_line_statements = 79,           // single_line_statements
+        S_single_line_multi_statements = 80,     // single_line_multi_statements
+        S_single_line_multi_statements_opt = 81, // single_line_multi_statements_opt
+        S_statement = 82,                        // statement
+        S_single_line_statement = 83,            // single_line_statement
+        S_multi_line_statement = 84,             // multi_line_statement
+        S_if_statement = 85,                     // if_statement
+        S_expression_statment = 86,              // expression_statment
+        S_string = 87,                           // string
+        S_expr_list_opt = 88,                    // expr_list_opt
+        S_expr_list = 89,                        // expr_list
+        S_dict = 90,                             // dict
+        S_dict_list = 91,                        // dict_list
+        S_expr = 92,                             // expr
+        S_id = 93,                               // id
+        S_sep = 94,                              // sep
+        S_sep_one = 95                           // sep_one
       };
     };
 
@@ -2194,6 +2196,21 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
+      make_COLONEQUAL (location_type l)
+      {
+        return symbol_type (token::COLONEQUAL, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_COLONEQUAL (const location_type& l)
+      {
+        return symbol_type (token::COLONEQUAL, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
       make_EQUAL_EQUAL (location_type l)
       {
         return symbol_type (token::EQUAL_EQUAL, std::move (l));
@@ -2558,7 +2575,7 @@ switch (yykind)
     static const signed char yydefact_[];
 
     // YYPGOTO[NTERM-NUM].
-    static const signed char yypgoto_[];
+    static const short yypgoto_[];
 
     // YYDEFGOTO[NTERM-NUM].
     static const signed char yydefgoto_[];
@@ -2810,7 +2827,7 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 248,     ///< Last index in yytable_.
+      yylast_ = 243,     ///< Last index in yytable_.
       yynnts_ = 24,  ///< Number of nonterminal symbols.
       yyfinal_ = 40 ///< Termination state number.
     };
@@ -2866,10 +2883,10 @@ switch (yykind)
       35,    36,    37,    38,    39,    40,    41,    42,    43,    44,
       45,    46,    47,    48,    49,    50,    51,    52,    53,    54,
       55,    56,    57,    58,    59,    60,    61,    62,    63,    64,
-      65,    66,    67,    68,    69,    70
+      65,    66,    67,    68,    69,    70,    71
     };
     // Last valid token kind.
-    const int code_max = 325;
+    const int code_max = 326;
 
     if (t <= 0)
       return symbol_kind::S_YYEOF;
@@ -3102,7 +3119,7 @@ switch (yykind)
 
 #line 21 "parser.ypp"
 } //  pxcompiler 
-#line 3106 "../../include/parser/flex_bison/parser.h"
+#line 3123 "../../include/parser/flex_bison/parser.h"
 
 
 

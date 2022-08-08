@@ -103,8 +103,9 @@ void Expression::PrintID(llvm::raw_ostream& out) const {
       out << "}";
       break;
     case ExpressionKind::Attribute:
-      out << "Attribute: " << *(cast<Attribute>(*this).value())
-          << "." << *(cast<Attribute>(*this).attr());
+      out << "Attribute(" << *(cast<Attribute>(*this).value())
+          << "." << *(cast<Attribute>(*this).attr())
+          << ")";
       break;
     case ExpressionKind::Dict: {
       out << "Dict{";
@@ -118,6 +119,11 @@ void Expression::PrintID(llvm::raw_ostream& out) const {
       out << "}";
       break;
     }
+    case ExpressionKind::NamedExpr:
+      out << "NamedExpr(" << *(cast<NamedExpr>(*this).target())
+          << ":=" << *(cast<NamedExpr>(*this).value())
+          << ")";
+      break;
     default:
       out << "...";
       break;
