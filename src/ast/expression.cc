@@ -33,7 +33,7 @@ void Expression::Print(llvm::raw_ostream& out) const {
 void Expression::PrintID(llvm::raw_ostream& out) const {
   switch (kind()) {
     case ExpressionKind::Name:
-      out << "Name:" << cast<Name>(*this).name();
+      out << "Name(" << cast<Name>(*this).name() << ")";
       break;
     case ExpressionKind::ConstantInt:
       out << cast<ConstantInt>(*this).value();
@@ -106,6 +106,18 @@ void Expression::PrintID(llvm::raw_ostream& out) const {
       out << "Attribute: " << *(cast<Attribute>(*this).value())
           << "." << *(cast<Attribute>(*this).attr());
       break;
+    case ExpressionKind::Dict: {
+      out << "Dict{";
+      size_t cnt = 0;
+      size_t sz = cast<Dict>(*this).key_value().size();
+      for (auto &key_val : cast<Dict>(*this).key_value()) {
+        out << *(key_val.first) << ":" << *(key_val.second);
+        cnt++;
+        if (cnt < sz) out << ", ";
+      }
+      out << "}";
+      break;
+    }
     default:
       out << "...";
       break;

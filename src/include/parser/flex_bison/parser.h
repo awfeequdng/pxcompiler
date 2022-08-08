@@ -45,7 +45,7 @@
 #ifndef YY_YY_INCLUDE_PARSER_FLEX_BISON_PARSER_H_INCLUDED
 # define YY_YY_INCLUDE_PARSER_FLEX_BISON_PARSER_H_INCLUDED
 // "%code requires" blocks.
-#line 59 "parser.ypp"
+#line 60 "parser.ypp"
 
   #include <optional>
 
@@ -649,22 +649,25 @@ namespace  pxcompiler  {
       // expression_statment
       char dummy3[sizeof (Nonnull<Statement*>)];
 
+      // dict
+      char dummy4[sizeof (PairNonnullExpr)];
+
       // real_literal
       // image_literal
-      char dummy4[sizeof (double)];
+      char dummy5[sizeof (double)];
 
       // integer_literal
-      char dummy5[sizeof (long long)];
+      char dummy6[sizeof (long long)];
 
       // identifier
       // sized_type_literal
       // string_literal
       // sep_one
-      char dummy6[sizeof (std::string)];
+      char dummy7[sizeof (std::string)];
 
       // expr_list_opt
       // expr_list
-      char dummy7[sizeof (std::vector<Nonnull<Expression*>>)];
+      char dummy8[sizeof (std::vector<Nonnull<Expression*>>)];
 
       // statements
       // sep_statements
@@ -673,10 +676,13 @@ namespace  pxcompiler  {
       // single_line_statements
       // single_line_multi_statements
       // single_line_multi_statements_opt
-      char dummy8[sizeof (std::vector<Nonnull<Statement*>>)];
+      char dummy9[sizeof (std::vector<Nonnull<Statement*>>)];
+
+      // dict_list
+      char dummy10[sizeof (std::vector<PairNonnullExpr>)];
 
       // sep
-      char dummy9[sizeof (std::vector<std::string>)];
+      char dummy11[sizeof (std::vector<std::string>)];
     };
 
     /// The size of the largest semantic type.
@@ -767,7 +773,7 @@ namespace  pxcompiler  {
     YIELD = 297,                   // YIELD
     ARROW = 298,                   // ARROW
     AMPERSAND = 299,               // AMPERSAND
-    COLON = 300,                   // COLON
+    COLON = 300,                   // ":"
     COLON_BANG = 301,              // COLON_BANG
     COMMA = 302,                   // ","
     DOUBLE_ARROW = 303,            // DOUBLE_ARROW
@@ -856,7 +862,7 @@ namespace  pxcompiler  {
         S_YIELD = 42,                            // YIELD
         S_ARROW = 43,                            // ARROW
         S_AMPERSAND = 44,                        // AMPERSAND
-        S_COLON = 45,                            // COLON
+        S_COLON = 45,                            // ":"
         S_COLON_BANG = 46,                       // COLON_BANG
         S_COMMA = 47,                            // ","
         S_DOUBLE_ARROW = 48,                     // DOUBLE_ARROW
@@ -900,10 +906,12 @@ namespace  pxcompiler  {
         S_string = 86,                           // string
         S_expr_list_opt = 87,                    // expr_list_opt
         S_expr_list = 88,                        // expr_list
-        S_expr = 89,                             // expr
-        S_id = 90,                               // id
-        S_sep = 91,                              // sep
-        S_sep_one = 92                           // sep_one
+        S_dict = 89,                             // dict
+        S_dict_list = 90,                        // dict_list
+        S_expr = 91,                             // expr
+        S_id = 92,                               // id
+        S_sep = 93,                              // sep
+        S_sep_one = 94                           // sep_one
       };
     };
 
@@ -958,6 +966,10 @@ namespace  pxcompiler  {
         value.move< Nonnull<Statement*> > (std::move (that.value));
         break;
 
+      case symbol_kind::S_dict: // dict
+        value.move< PairNonnullExpr > (std::move (that.value));
+        break;
+
       case symbol_kind::S_real_literal: // real_literal
       case symbol_kind::S_image_literal: // image_literal
         value.move< double > (std::move (that.value));
@@ -987,6 +999,10 @@ namespace  pxcompiler  {
       case symbol_kind::S_single_line_multi_statements: // single_line_multi_statements
       case symbol_kind::S_single_line_multi_statements_opt: // single_line_multi_statements_opt
         value.move< std::vector<Nonnull<Statement*>> > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_dict_list: // dict_list
+        value.move< std::vector<PairNonnullExpr> > (std::move (that.value));
         break;
 
       case symbol_kind::S_sep: // sep
@@ -1052,6 +1068,20 @@ namespace  pxcompiler  {
       {}
 #else
       basic_symbol (typename Base::kind_type t, const Nonnull<Statement*>& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, PairNonnullExpr&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const PairNonnullExpr& v, const location_type& l)
         : Base (t)
         , value (v)
         , location (l)
@@ -1129,6 +1159,20 @@ namespace  pxcompiler  {
 #endif
 
 #if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, std::vector<PairNonnullExpr>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const std::vector<PairNonnullExpr>& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
       basic_symbol (typename Base::kind_type t, std::vector<std::string>&& v, location_type&& l)
         : Base (t)
         , value (std::move (v))
@@ -1182,6 +1226,10 @@ switch (yykind)
         value.template destroy< Nonnull<Statement*> > ();
         break;
 
+      case symbol_kind::S_dict: // dict
+        value.template destroy< PairNonnullExpr > ();
+        break;
+
       case symbol_kind::S_real_literal: // real_literal
       case symbol_kind::S_image_literal: // image_literal
         value.template destroy< double > ();
@@ -1211,6 +1259,10 @@ switch (yykind)
       case symbol_kind::S_single_line_multi_statements: // single_line_multi_statements
       case symbol_kind::S_single_line_multi_statements_opt: // single_line_multi_statements_opt
         value.template destroy< std::vector<Nonnull<Statement*>> > ();
+        break;
+
+      case symbol_kind::S_dict_list: // dict_list
+        value.template destroy< std::vector<PairNonnullExpr> > ();
         break;
 
       case symbol_kind::S_sep: // sep
@@ -2506,7 +2558,7 @@ switch (yykind)
     static const signed char yydefact_[];
 
     // YYPGOTO[NTERM-NUM].
-    static const short yypgoto_[];
+    static const signed char yypgoto_[];
 
     // YYDEFGOTO[NTERM-NUM].
     static const signed char yydefgoto_[];
@@ -2758,9 +2810,9 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 239,     ///< Last index in yytable_.
-      yynnts_ = 22,  ///< Number of nonterminal symbols.
-      yyfinal_ = 36 ///< Termination state number.
+      yylast_ = 248,     ///< Last index in yytable_.
+      yynnts_ = 24,  ///< Number of nonterminal symbols.
+      yyfinal_ = 40 ///< Termination state number.
     };
 
 
@@ -2854,6 +2906,10 @@ switch (yykind)
         value.copy< Nonnull<Statement*> > (YY_MOVE (that.value));
         break;
 
+      case symbol_kind::S_dict: // dict
+        value.copy< PairNonnullExpr > (YY_MOVE (that.value));
+        break;
+
       case symbol_kind::S_real_literal: // real_literal
       case symbol_kind::S_image_literal: // image_literal
         value.copy< double > (YY_MOVE (that.value));
@@ -2883,6 +2939,10 @@ switch (yykind)
       case symbol_kind::S_single_line_multi_statements: // single_line_multi_statements
       case symbol_kind::S_single_line_multi_statements_opt: // single_line_multi_statements_opt
         value.copy< std::vector<Nonnull<Statement*>> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_dict_list: // dict_list
+        value.copy< std::vector<PairNonnullExpr> > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_sep: // sep
@@ -2936,6 +2996,10 @@ switch (yykind)
         value.move< Nonnull<Statement*> > (YY_MOVE (s.value));
         break;
 
+      case symbol_kind::S_dict: // dict
+        value.move< PairNonnullExpr > (YY_MOVE (s.value));
+        break;
+
       case symbol_kind::S_real_literal: // real_literal
       case symbol_kind::S_image_literal: // image_literal
         value.move< double > (YY_MOVE (s.value));
@@ -2965,6 +3029,10 @@ switch (yykind)
       case symbol_kind::S_single_line_multi_statements: // single_line_multi_statements
       case symbol_kind::S_single_line_multi_statements_opt: // single_line_multi_statements_opt
         value.move< std::vector<Nonnull<Statement*>> > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_dict_list: // dict_list
+        value.move< std::vector<PairNonnullExpr> > (YY_MOVE (s.value));
         break;
 
       case symbol_kind::S_sep: // sep
@@ -3034,7 +3102,7 @@ switch (yykind)
 
 #line 21 "parser.ypp"
 } //  pxcompiler 
-#line 3038 "../../include/parser/flex_bison/parser.h"
+#line 3106 "../../include/parser/flex_bison/parser.h"
 
 
 

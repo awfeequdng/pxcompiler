@@ -5,6 +5,7 @@
 #include <string>
 #include <variant>
 #include <vector>
+#include <utility>
 
 #include "common/ostream.h"
 #include "ast/ast_node.h"
@@ -42,6 +43,14 @@ class Expression : public AstNode {
  private:
 };
 
+} // pxcompiler
+
+using NonnullExpr = pxcompiler::Nonnull<pxcompiler::Expression*>;
+using NonnullArena = pxcompiler::Nonnull<pxcompiler::Arena*>;
+using PairNonnullExpr = std::pair<pxcompiler::Nonnull<pxcompiler::Expression*>,
+                                  pxcompiler::Nonnull<pxcompiler::Expression*>>;
+
+namespace pxcompiler {
 class ConstantInt : public Expression {
 public:
     static Nonnull<ConstantInt*> make_ConstantInt(
@@ -409,4 +418,32 @@ private:
     Nonnull<Expression*> attr_;
 };
 
+class Dict: public Expression {
+public:
+    static Nonnull<Dict*> make_Dict(
+        Nonnull<pxcompiler::Arena*> arena,
+        SourceLocation loc,
+        std::vector<PairNonnullExpr> key_value) {
+        return arena->New<Dict>(loc, key_value);
+    }
+
+    static auto classof(const AstNode* node) {
+        return InheritsFromDict(node->kind());
+    }
+
+    Dict(pxcompiler::SourceLocation loc,
+        std::vector<PairNonnullExpr> key_value)
+        : Expression(AstNodeKind::Dict, loc),
+        key_value_(key_value) {}
+
+    const std::vector<PairNonnullExpr> &key_value() const {
+        return key_value_;
+    }
+
+
+private:
+    std::vector<PairNonnullExpr> key_value_;
+};
+
 } // namespace pxcompiler
+

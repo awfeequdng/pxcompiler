@@ -6,8 +6,6 @@
 #include "llvm/Support/Casting.h"
 
 #include <iostream>
-using NonnullExpr = pxcompiler::Nonnull<pxcompiler::Expression*>;
-using NonnullArena = pxcompiler::Nonnull<pxcompiler::Arena*>;
 
 #define RESULT(x) do { \
     if (*ast == std::nullopt) { \
@@ -193,3 +191,7 @@ static inline NonnullExpr PREFIX_STRING(
 #define ATTRIBUTE_REF(val, attr, l) \
     pxcompiler::Attribute::make_Attribute(arena, l, val, attr)
 
+#define DICT_01(l) pxcompiler::Dict::make_Dict(arena, l, {})
+#define DICT_02(dict_list, l) pxcompiler::Dict::make_Dict(arena, l, dict_list)
+
+#define DICT_EXPR(key, value, l) std::make_pair(key, value)
