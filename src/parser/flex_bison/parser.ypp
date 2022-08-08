@@ -135,7 +135,7 @@
   LPARENT   "("
   LBRACKET  "["
   MINUS
-  PERIOD
+  PERIOD    "."
   PLUS
   ELLIPSIS
   RBRACE    "}"
@@ -353,9 +353,9 @@ expr
    // | subscription { $$ = $1; }
     | "[" expr_list_opt "]" { $$ = LIST($2, context.source_loc()); }
     | "[" expr_list "," "]" { $$ = LIST($2, context.source_loc()); }
-   // | "{" expr_list "}" { $$ = SET($2, context.source_loc()); }
-   // | "{" expr_list "," "}" { $$ = SET($2, context.source_loc()); }
-   // | expr "." id { $$ = ATTRIBUTE_REF($1, $3, context.source_loc()); }
+    | "{" expr_list "}" { $$ = SET($2, context.source_loc()); }
+    | "{" expr_list "," "}" { $$ = SET($2, context.source_loc()); }
+    | expr "." id { $$ = ATTRIBUTE_REF($1, $3, context.source_loc()); }
 
    // | "{" "}" { $$ = DICT_01(context.source_loc()); }
    // | "{" dict_list "}" { $$ = DICT_02($2, context.source_loc()); }

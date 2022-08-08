@@ -354,4 +354,59 @@ private:
     std::vector<Nonnull<Expression*>> elts_;
 };
 
+class Set: public Expression {
+public:
+    static Nonnull<Set*> make_Set(
+        Nonnull<pxcompiler::Arena*> arena,
+        SourceLocation loc,
+        std::vector<Nonnull<Expression*>> elts) {
+        return arena->New<Set>(loc, elts);
+    }
+
+    static auto classof(const AstNode* node) {
+        return InheritsFromSet(node->kind());
+    }
+
+    Set(pxcompiler::SourceLocation loc, std::vector<Nonnull<Expression*>> elts)
+        : Expression(AstNodeKind::Set, loc), elts_(elts) {}
+
+    const std::vector<Nonnull<Expression*>> &elements() const {
+        return elts_;
+    }
+
+private:
+    std::vector<Nonnull<Expression*>> elts_;
+};
+
+class Attribute: public Expression {
+public:
+    static Nonnull<Attribute*> make_Attribute(
+        Nonnull<pxcompiler::Arena*> arena,
+        SourceLocation loc,
+        Nonnull<Expression*> value,
+        Nonnull<Expression*> attr) {
+        return arena->New<Attribute>(loc, value, attr);
+    }
+
+    static auto classof(const AstNode* node) {
+        return InheritsFromAttribute(node->kind());
+    }
+
+    Attribute(pxcompiler::SourceLocation loc,
+              Nonnull<Expression*> value,
+              Nonnull<Expression*> attr)
+        : Expression(AstNodeKind::Attribute, loc), value_(value), attr_(attr) {}
+
+    const Nonnull<Expression*> &value() const {
+        return value_;
+    }
+    const Nonnull<Expression*> &attr() const {
+        return attr_;
+    }
+
+private:
+    Nonnull<Expression*> value_;
+    Nonnull<Expression*> attr_;
+};
+
 } // namespace pxcompiler

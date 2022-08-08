@@ -180,7 +180,8 @@ static inline NonnullExpr PREFIX_STRING(
         tmp = pxcompiler::ConstantStr::make_ConstantStr(
                 arena, l, s, std::string("u"));
     } else {
-        std::cout << ("The string is not recognized by the parser.") << std::endl;
+        std::cout << ("The string is not recognized by the parser.")
+                  << std::endl;
         exit(0);
     }
     return tmp;
@@ -188,3 +189,7 @@ static inline NonnullExpr PREFIX_STRING(
 
 #define TUPLE_EMPTY(l) pxcompiler::Tuple::make_Tuple(arena, l, {})
 #define LIST(e, l) pxcompiler::List::make_List(arena, l, e)
+#define SET(e, l) pxcompiler::Set::make_Set(arena, l, e)
+#define ATTRIBUTE_REF(val, attr, l) \
+    pxcompiler::Attribute::make_Attribute(arena, l, val, attr)
+

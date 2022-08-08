@@ -60,7 +60,7 @@ void Expression::PrintID(llvm::raw_ostream& out) const {
       break;
     }
     case ExpressionKind::ConstantStr:
-      out << cast<ConstantStr>(*this).value();
+      out << "ConstStr(" << cast<ConstantStr>(*this).value() << ")";
       for (auto &expr : cast<ConstantStr>(*this).extend()) {
         out << *expr;
       }
@@ -94,6 +94,17 @@ void Expression::PrintID(llvm::raw_ostream& out) const {
         out << *elt << ",";
       }
       out << "]";
+      break;
+    case ExpressionKind::Set:
+      out << "Set{";
+      for (auto &elt: cast<Set>(*this).elements()) {
+        out << *elt << ",";
+      }
+      out << "}";
+      break;
+    case ExpressionKind::Attribute:
+      out << "Attribute: " << *(cast<Attribute>(*this).value())
+          << "." << *(cast<Attribute>(*this).attr());
       break;
     default:
       out << "...";

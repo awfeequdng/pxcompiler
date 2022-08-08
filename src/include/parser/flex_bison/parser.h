@@ -777,7 +777,7 @@ namespace  pxcompiler  {
     LPARENT = 307,                 // "("
     LBRACKET = 308,                // "["
     MINUS = 309,                   // MINUS
-    PERIOD = 310,                  // PERIOD
+    PERIOD = 310,                  // "."
     PLUS = 311,                    // PLUS
     ELLIPSIS = 312,                // ELLIPSIS
     RBRACE = 313,                  // "}"
@@ -866,7 +866,7 @@ namespace  pxcompiler  {
         S_LPARENT = 52,                          // "("
         S_LBRACKET = 53,                         // "["
         S_MINUS = 54,                            // MINUS
-        S_PERIOD = 55,                           // PERIOD
+        S_PERIOD = 55,                           // "."
         S_PLUS = 56,                             // PLUS
         S_ELLIPSIS = 57,                         // ELLIPSIS
         S_RBRACE = 58,                           // "}"
@@ -2506,7 +2506,7 @@ switch (yykind)
     static const signed char yydefact_[];
 
     // YYPGOTO[NTERM-NUM].
-    static const signed char yypgoto_[];
+    static const short yypgoto_[];
 
     // YYDEFGOTO[NTERM-NUM].
     static const signed char yydefgoto_[];
@@ -2758,9 +2758,9 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 208,     ///< Last index in yytable_.
+      yylast_ = 239,     ///< Last index in yytable_.
       yynnts_ = 22,  ///< Number of nonterminal symbols.
-      yyfinal_ = 34 ///< Termination state number.
+      yyfinal_ = 36 ///< Termination state number.
     };
 
 
