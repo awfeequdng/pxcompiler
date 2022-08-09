@@ -77,4 +77,9 @@ ss := b.s
 + ss.x
 + ss * b
 
+sss ** c + 3
+2 ** ss ** c * 3
 
+ss // 333 // s
+
+cc @ bb @ dd

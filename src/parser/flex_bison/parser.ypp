@@ -140,6 +140,9 @@
   PERIOD          "."
   PLUS            "+"
   STAR            "*"
+  POW             "**"
+  AT              "@"
+  FLOOR_DIV       "//"
   MOD             "%"
   TILDE           "~"
   ELLIPSIS
@@ -190,9 +193,10 @@
 
 %precedence ":="
 %left "-" "+"
-%left "%" "*" "/"
+%left "%" "*" "/" "//" "@"
 %precedence UNARY
 
+%right "**"
 %precedence "."
 
 
@@ -401,9 +405,9 @@ expr
     | "-" expr %prec UNARY { $$ = UNARY($2, USub, context.source_loc()); }
     | "+" expr %prec UNARY { $$ = UNARY($2, UAdd, context.source_loc()); }
     | "~" expr %prec UNARY { $$ = UNARY($2, Invert, context.source_loc()); }
-   // | expr "**" expr { $$ = BINOP($1, Pow, $3, context.source_loc()); }
-   // | expr "//" expr { $$ = BINOP($1, FloorDiv, $3, context.source_loc()); }
-   // | expr "@" expr { $$ = BINOP($1, MatMult, $3, context.source_loc()); }
+    | expr "**" expr { $$ = BINOP($1, Pow, $3, context.source_loc()); }
+    | expr "//" expr { $$ = BINOP($1, FloorDiv, $3, context.source_loc()); }
+    | expr "@" expr { $$ = BINOP($1, MatMult, $3, context.source_loc()); }
 
    // | expr "&" expr { $$ = BINOP($1, BitAnd, $3, context.source_loc()); }
    // | expr "|" expr { $$ = BINOP($1, BitOr, $3, context.source_loc()); }

@@ -132,15 +132,18 @@ Grammar
    65     | "-" expr
    66     | "+" expr
    67     | "~" expr
+   68     | expr "**" expr
+   69     | expr "//" expr
+   70     | expr "@" expr
 
-   68 id: identifier
+   71 id: identifier
 
-   69 sep: sep sep_one
-   70    | sep_one
+   72 sep: sep sep_one
+   73    | sep_one
 
-   71 sep_one: NEWLINE
-   72        | COMMENT
-   73        | SEMICOLON
+   74 sep_one: NEWLINE
+   75        | COMMENT
+   76        | SEMICOLON
 
 
 Terminals, with rules where they appear
@@ -150,7 +153,7 @@ Terminals, with rules where they appear
     integer_literal <long long> (258) 41
     real_literal <double> (259) 43
     image_literal <double> (260) 44
-    identifier <std::string> (261) 68
+    identifier <std::string> (261) 71
     sized_type_literal <std::string> (262)
     string_literal <std::string> (263) 29 30 31 32
     FALSE (264) 46
@@ -203,98 +206,101 @@ Terminals, with rules where they appear
     "." (311) 55
     "+" (312) 60 66
     "*" (313) 59 62
-    "%" (314) 64
-    "~" (315) 67
-    ELLIPSIS (316) 48
-    "}" (317) 53 54 56 57
-    ")" (318) 49 50
-    "]" (319) 51 52
-    SELF (320)
-    SEMICOLON (321) 14 15 18 19 20 73
-    "/" (322) 63
-    UNDERSCORE (323)
-    INDENT (324) 5
-    DEDENT (325) 5
-    NEWLINE (326) 11 12 13 14 15 16 71
-    COMMENT (327) 12 15 16 72
-    EOLCOMMENT (328)
-    TYPE_COMMENT (329)
-    UNARY (330)
+    "**" (314) 68
+    "@" (315) 70
+    "//" (316) 69
+    "%" (317) 64
+    "~" (318) 67
+    ELLIPSIS (319) 48
+    "}" (320) 53 54 56 57
+    ")" (321) 49 50
+    "]" (322) 51 52
+    SELF (323)
+    SEMICOLON (324) 14 15 18 19 20 76
+    "/" (325) 63
+    UNDERSCORE (326)
+    INDENT (327) 5
+    DEDENT (328) 5
+    NEWLINE (329) 11 12 13 14 15 16 74
+    COMMENT (330) 12 15 16 75
+    EOLCOMMENT (331)
+    TYPE_COMMENT (332)
+    UNARY (333)
 
 
 Nonterminals, with rules where they appear
 
-    $accept (76)
+    $accept (79)
         on left: 0
-    units (77)
+    units (80)
         on left: 1 2 3
         on right: 0 1
-    script_unit <Nonnull<Statement*>> (78)
+    script_unit <Nonnull<Statement*>> (81)
         on left: 4
         on right: 1 2
-    statements <std::vector<Nonnull<Statement*>>> (79)
+    statements <std::vector<Nonnull<Statement*>>> (82)
         on left: 5
         on right: 6
-    sep_statements <std::vector<Nonnull<Statement*>>> (80)
+    sep_statements <std::vector<Nonnull<Statement*>>> (83)
         on left: 6
         on right: 8
-    body_stmts <std::vector<Nonnull<Statement*>>> (81)
+    body_stmts <std::vector<Nonnull<Statement*>>> (84)
         on left: 7 8
         on right: 26 27
-    statements1 <std::vector<Nonnull<Statement*>>> (82)
+    statements1 <std::vector<Nonnull<Statement*>>> (85)
         on left: 9 10
         on right: 5 9
-    single_line_statements <std::vector<Nonnull<Statement*>>> (83)
+    single_line_statements <std::vector<Nonnull<Statement*>>> (86)
         on left: 11 12 13 14 15 16
         on right: 7
-    single_line_multi_statements <std::vector<Nonnull<Statement*>>> (84)
+    single_line_multi_statements <std::vector<Nonnull<Statement*>>> (87)
         on left: 17 18
         on right: 11 12
-    single_line_multi_statements_opt <std::vector<Nonnull<Statement*>>> (85)
+    single_line_multi_statements_opt <std::vector<Nonnull<Statement*>>> (88)
         on left: 19 20
         on right: 17 18 19
-    statement <Nonnull<Statement*>> (86)
+    statement <Nonnull<Statement*>> (89)
         on left: 21 22 23
         on right: 4 9 10
-    single_line_statement <Nonnull<Statement*>> (87)
+    single_line_statement <Nonnull<Statement*>> (90)
         on left: 24
         on right: 13 14 15 16 17 18 19 20 21
-    multi_line_statement <Nonnull<Statement*>> (88)
+    multi_line_statement <Nonnull<Statement*>> (91)
         on left: 25
         on right: 22 23
-    if_statement <Nonnull<Statement*>> (89)
+    if_statement <Nonnull<Statement*>> (92)
         on left: 26 27
         on right: 25
-    expression_statment <Nonnull<Statement*>> (90)
+    expression_statment <Nonnull<Statement*>> (93)
         on left: 28
         on right: 24
-    string <Nonnull<Expression*>> (91)
+    string <Nonnull<Expression*>> (94)
         on left: 29 30 31 32
         on right: 29 32 42
-    expr_list_opt <std::vector<Nonnull<Expression*>>> (92)
+    expr_list_opt <std::vector<Nonnull<Expression*>>> (95)
         on left: 33 34
         on right: 51
-    expr_list <std::vector<Nonnull<Expression*>>> (93)
+    expr_list <std::vector<Nonnull<Expression*>>> (96)
         on left: 35 36
         on right: 33 35 52 53 54
-    dict <PairNonnullExpr> (94)
+    dict <PairNonnullExpr> (97)
         on left: 37
         on right: 38 39
-    dict_list <std::vector<PairNonnullExpr>> (95)
+    dict_list <std::vector<PairNonnullExpr>> (98)
         on left: 38 39
         on right: 38 57
-    expr <Nonnull<Expression*>> (96)
-        on left: 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67
-        on right: 26 27 28 35 36 37 49 55 58 59 60 61 62 63 64 65 66 67
-    id <Nonnull<Name*>> (97)
-        on left: 68
+    expr <Nonnull<Expression*>> (99)
+        on left: 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70
+        on right: 26 27 28 35 36 37 49 55 58 59 60 61 62 63 64 65 66 67 68 69 70
+    id <Nonnull<Name*>> (100)
+        on left: 71
         on right: 31 32 40 55 58
-    sep <std::vector<std::string>> (98)
-        on left: 69 70
-        on right: 3 6 21 23 69
-    sep_one <std::string> (99)
-        on left: 71 72 73
-        on right: 69 70
+    sep <std::vector<std::string>> (101)
+        on left: 72 73
+        on right: 3 6 21 23 72
+    sep_one <std::string> (102)
+        on left: 74 75 76
+        on right: 72 73
 
 
 State 0
@@ -359,9 +365,9 @@ State 3
 
 State 4
 
-   68 id: identifier •
+   71 id: identifier •
 
-    $default  reduce using rule 68 (id)
+    $default  reduce using rule 71 (id)
 
 
 State 5
@@ -624,23 +630,23 @@ State 17
 
 State 18
 
-   73 sep_one: SEMICOLON •
+   76 sep_one: SEMICOLON •
 
-    $default  reduce using rule 73 (sep_one)
+    $default  reduce using rule 76 (sep_one)
 
 
 State 19
 
-   71 sep_one: NEWLINE •
+   74 sep_one: NEWLINE •
 
-    $default  reduce using rule 71 (sep_one)
+    $default  reduce using rule 74 (sep_one)
 
 
 State 20
 
-   72 sep_one: COMMENT •
+   75 sep_one: COMMENT •
 
-    $default  reduce using rule 72 (sep_one)
+    $default  reduce using rule 75 (sep_one)
 
 
 State 21
@@ -756,13 +762,19 @@ State 29
    62     | expr • "*" expr
    63     | expr • "/" expr
    64     | expr • "%" expr
+   68     | expr • "**" expr
+   69     | expr • "//" expr
+   70     | expr • "@" expr
 
-    "-"  shift, and go to state 54
-    "."  shift, and go to state 55
-    "+"  shift, and go to state 56
-    "*"  shift, and go to state 57
-    "%"  shift, and go to state 58
-    "/"  shift, and go to state 59
+    "-"   shift, and go to state 54
+    "."   shift, and go to state 55
+    "+"   shift, and go to state 56
+    "*"   shift, and go to state 57
+    "**"  shift, and go to state 58
+    "@"   shift, and go to state 59
+    "//"  shift, and go to state 60
+    "%"   shift, and go to state 61
+    "/"   shift, and go to state 62
 
     $default  reduce using rule 28 (expression_statment)
 
@@ -773,8 +785,8 @@ State 30
    40 expr: id •
    58     | id • ":=" expr
 
-    string_literal  shift, and go to state 60
-    ":="            shift, and go to state 61
+    string_literal  shift, and go to state 63
+    ":="            shift, and go to state 64
 
     $default  reduce using rule 40 (expr)
 
@@ -782,7 +794,7 @@ State 30
 State 31
 
     3 units: sep •
-   69 sep: sep • sep_one
+   72 sep: sep • sep_one
 
     SEMICOLON  shift, and go to state 18
     NEWLINE    shift, and go to state 19
@@ -790,14 +802,14 @@ State 31
 
     $default  reduce using rule 3 (units)
 
-    sep_one  go to state 62
+    sep_one  go to state 65
 
 
 State 32
 
-   70 sep: sep_one •
+   73 sep: sep_one •
 
-    $default  reduce using rule 70 (sep)
+    $default  reduce using rule 73 (sep)
 
 
 State 33
@@ -810,14 +822,20 @@ State 33
    62     | expr • "*" expr
    63     | expr • "/" expr
    64     | expr • "%" expr
+   68     | expr • "**" expr
+   69     | expr • "//" expr
+   70     | expr • "@" expr
 
-    ":"  shift, and go to state 63
-    "-"  shift, and go to state 54
-    "."  shift, and go to state 55
-    "+"  shift, and go to state 56
-    "*"  shift, and go to state 57
-    "%"  shift, and go to state 58
-    "/"  shift, and go to state 59
+    ":"   shift, and go to state 66
+    "-"   shift, and go to state 54
+    "."   shift, and go to state 55
+    "+"   shift, and go to state 56
+    "*"   shift, and go to state 57
+    "**"  shift, and go to state 58
+    "@"   shift, and go to state 59
+    "//"  shift, and go to state 60
+    "%"   shift, and go to state 61
+    "/"   shift, and go to state 62
 
 
 State 34
@@ -833,8 +851,8 @@ State 35
    53 expr: "{" expr_list • "}"
    54     | "{" expr_list • "," "}"
 
-    ","  shift, and go to state 64
-    "}"  shift, and go to state 65
+    ","  shift, and go to state 67
+    "}"  shift, and go to state 68
 
 
 State 36
@@ -849,8 +867,8 @@ State 37
    38 dict_list: dict_list • "," dict
    57 expr: "{" dict_list • "}"
 
-    ","  shift, and go to state 66
-    "}"  shift, and go to state 67
+    ","  shift, and go to state 69
+    "}"  shift, and go to state 70
 
 
 State 38
@@ -863,14 +881,20 @@ State 38
    62     | expr • "*" expr
    63     | expr • "/" expr
    64     | expr • "%" expr
+   68     | expr • "**" expr
+   69     | expr • "//" expr
+   70     | expr • "@" expr
 
-    ":"  shift, and go to state 68
-    "-"  shift, and go to state 54
-    "."  shift, and go to state 55
-    "+"  shift, and go to state 56
-    "*"  shift, and go to state 57
-    "%"  shift, and go to state 58
-    "/"  shift, and go to state 59
+    ":"   shift, and go to state 71
+    "-"   shift, and go to state 54
+    "."   shift, and go to state 55
+    "+"   shift, and go to state 56
+    "*"   shift, and go to state 57
+    "**"  shift, and go to state 58
+    "@"   shift, and go to state 59
+    "//"  shift, and go to state 60
+    "%"   shift, and go to state 61
+    "/"   shift, and go to state 62
 
     $default  reduce using rule 36 (expr_list)
 
@@ -891,21 +915,27 @@ State 40
    62     | expr • "*" expr
    63     | expr • "/" expr
    64     | expr • "%" expr
+   68     | expr • "**" expr
+   69     | expr • "//" expr
+   70     | expr • "@" expr
 
-    "-"  shift, and go to state 54
-    "."  shift, and go to state 55
-    "+"  shift, and go to state 56
-    "*"  shift, and go to state 57
-    "%"  shift, and go to state 58
-    ")"  shift, and go to state 69
-    "/"  shift, and go to state 59
+    "-"   shift, and go to state 54
+    "."   shift, and go to state 55
+    "+"   shift, and go to state 56
+    "*"   shift, and go to state 57
+    "**"  shift, and go to state 58
+    "@"   shift, and go to state 59
+    "//"  shift, and go to state 60
+    "%"   shift, and go to state 61
+    ")"   shift, and go to state 72
+    "/"   shift, and go to state 62
 
 
 State 41
 
    51 expr: "[" expr_list_opt • "]"
 
-    "]"  shift, and go to state 70
+    "]"  shift, and go to state 73
 
 
 State 42
@@ -914,7 +944,7 @@ State 42
    35 expr_list: expr_list • "," expr
    52 expr: "[" expr_list • "," "]"
 
-    ","  shift, and go to state 71
+    ","  shift, and go to state 74
 
     $default  reduce using rule 33 (expr_list_opt)
 
@@ -928,13 +958,19 @@ State 43
    62     | expr • "*" expr
    63     | expr • "/" expr
    64     | expr • "%" expr
+   68     | expr • "**" expr
+   69     | expr • "//" expr
+   70     | expr • "@" expr
 
-    "-"  shift, and go to state 54
-    "."  shift, and go to state 55
-    "+"  shift, and go to state 56
-    "*"  shift, and go to state 57
-    "%"  shift, and go to state 58
-    "/"  shift, and go to state 59
+    "-"   shift, and go to state 54
+    "."   shift, and go to state 55
+    "+"   shift, and go to state 56
+    "*"   shift, and go to state 57
+    "**"  shift, and go to state 58
+    "@"   shift, and go to state 59
+    "//"  shift, and go to state 60
+    "%"   shift, and go to state 61
+    "/"   shift, and go to state 62
 
     $default  reduce using rule 36 (expr_list)
 
@@ -948,8 +984,12 @@ State 44
    63     | expr • "/" expr
    64     | expr • "%" expr
    65     | "-" expr •
+   68     | expr • "**" expr
+   69     | expr • "//" expr
+   70     | expr • "@" expr
 
-    "."  shift, and go to state 55
+    "."   shift, and go to state 55
+    "**"  shift, and go to state 58
 
     $default  reduce using rule 65 (expr)
 
@@ -963,8 +1003,12 @@ State 45
    63     | expr • "/" expr
    64     | expr • "%" expr
    66     | "+" expr •
+   68     | expr • "**" expr
+   69     | expr • "//" expr
+   70     | expr • "@" expr
 
-    "."  shift, and go to state 55
+    "."   shift, and go to state 55
+    "**"  shift, and go to state 58
 
     $default  reduce using rule 66 (expr)
 
@@ -978,8 +1022,12 @@ State 46
    62     | expr • "*" expr
    63     | expr • "/" expr
    64     | expr • "%" expr
+   68     | expr • "**" expr
+   69     | expr • "//" expr
+   70     | expr • "@" expr
 
-    "."  shift, and go to state 55
+    "."   shift, and go to state 55
+    "**"  shift, and go to state 58
 
     $default  reduce using rule 59 (expr)
 
@@ -993,8 +1041,12 @@ State 47
    63     | expr • "/" expr
    64     | expr • "%" expr
    67     | "~" expr •
+   68     | expr • "**" expr
+   69     | expr • "//" expr
+   70     | expr • "@" expr
 
-    "."  shift, and go to state 55
+    "."   shift, and go to state 55
+    "**"  shift, and go to state 58
 
     $default  reduce using rule 67 (expr)
 
@@ -1016,7 +1068,7 @@ State 49
 State 50
 
    21 statement: single_line_statement sep •
-   69 sep: sep • sep_one
+   72 sep: sep • sep_one
 
     SEMICOLON  shift, and go to state 18
     NEWLINE    shift, and go to state 19
@@ -1024,13 +1076,13 @@ State 50
 
     $default  reduce using rule 21 (statement)
 
-    sep_one  go to state 62
+    sep_one  go to state 65
 
 
 State 51
 
    23 statement: multi_line_statement sep •
-   69 sep: sep • sep_one
+   72 sep: sep • sep_one
 
     SEMICOLON  shift, and go to state 18
     NEWLINE    shift, and go to state 19
@@ -1038,7 +1090,7 @@ State 51
 
     $default  reduce using rule 23 (statement)
 
-    sep_one  go to state 62
+    sep_one  go to state 65
 
 
 State 52
@@ -1052,7 +1104,7 @@ State 53
 
    32 string: string id • string_literal
 
-    string_literal  shift, and go to state 72
+    string_literal  shift, and go to state 75
 
 
 State 54
@@ -1077,7 +1129,7 @@ State 54
     ELLIPSIS         shift, and go to state 17
 
     string  go to state 28
-    expr    go to state 73
+    expr    go to state 76
     id      go to state 30
 
 
@@ -1087,7 +1139,7 @@ State 55
 
     identifier  shift, and go to state 4
 
-    id  go to state 74
+    id  go to state 77
 
 
 State 56
@@ -1112,7 +1164,7 @@ State 56
     ELLIPSIS         shift, and go to state 17
 
     string  go to state 28
-    expr    go to state 75
+    expr    go to state 78
     id      go to state 30
 
 
@@ -1138,11 +1190,89 @@ State 57
     ELLIPSIS         shift, and go to state 17
 
     string  go to state 28
-    expr    go to state 76
+    expr    go to state 79
     id      go to state 30
 
 
 State 58
+
+   68 expr: expr "**" • expr
+
+    integer_literal  shift, and go to state 1
+    real_literal     shift, and go to state 2
+    image_literal    shift, and go to state 3
+    identifier       shift, and go to state 4
+    string_literal   shift, and go to state 5
+    FALSE            shift, and go to state 6
+    TRUE             shift, and go to state 7
+    NONE             shift, and go to state 8
+    "{"              shift, and go to state 10
+    "("              shift, and go to state 11
+    "["              shift, and go to state 12
+    "-"              shift, and go to state 13
+    "+"              shift, and go to state 14
+    "*"              shift, and go to state 15
+    "~"              shift, and go to state 16
+    ELLIPSIS         shift, and go to state 17
+
+    string  go to state 28
+    expr    go to state 80
+    id      go to state 30
+
+
+State 59
+
+   70 expr: expr "@" • expr
+
+    integer_literal  shift, and go to state 1
+    real_literal     shift, and go to state 2
+    image_literal    shift, and go to state 3
+    identifier       shift, and go to state 4
+    string_literal   shift, and go to state 5
+    FALSE            shift, and go to state 6
+    TRUE             shift, and go to state 7
+    NONE             shift, and go to state 8
+    "{"              shift, and go to state 10
+    "("              shift, and go to state 11
+    "["              shift, and go to state 12
+    "-"              shift, and go to state 13
+    "+"              shift, and go to state 14
+    "*"              shift, and go to state 15
+    "~"              shift, and go to state 16
+    ELLIPSIS         shift, and go to state 17
+
+    string  go to state 28
+    expr    go to state 81
+    id      go to state 30
+
+
+State 60
+
+   69 expr: expr "//" • expr
+
+    integer_literal  shift, and go to state 1
+    real_literal     shift, and go to state 2
+    image_literal    shift, and go to state 3
+    identifier       shift, and go to state 4
+    string_literal   shift, and go to state 5
+    FALSE            shift, and go to state 6
+    TRUE             shift, and go to state 7
+    NONE             shift, and go to state 8
+    "{"              shift, and go to state 10
+    "("              shift, and go to state 11
+    "["              shift, and go to state 12
+    "-"              shift, and go to state 13
+    "+"              shift, and go to state 14
+    "*"              shift, and go to state 15
+    "~"              shift, and go to state 16
+    ELLIPSIS         shift, and go to state 17
+
+    string  go to state 28
+    expr    go to state 82
+    id      go to state 30
+
+
+State 61
 
    64 expr: expr "%" • expr
 
@@ -1164,11 +1294,11 @@ State 58
     ELLIPSIS         shift, and go to state 17
 
     string  go to state 28
-    expr    go to state 77
+    expr    go to state 83
     id      go to state 30
 
 
-State 59
+State 62
 
    63 expr: expr "/" • expr
 
@@ -1190,18 +1320,18 @@ State 59
     ELLIPSIS         shift, and go to state 17
 
     string  go to state 28
-    expr    go to state 78
+    expr    go to state 84
     id      go to state 30
 
 
-State 60
+State 63
 
    31 string: id string_literal •
 
     $default  reduce using rule 31 (string)
 
 
-State 61
+State 64
 
    58 expr: id ":=" • expr
 
@@ -1223,18 +1353,18 @@ State 61
     ELLIPSIS         shift, and go to state 17
 
     string  go to state 28
-    expr    go to state 79
+    expr    go to state 85
     id      go to state 30
 
 
-State 62
+State 65
 
-   69 sep: sep sep_one •
+   72 sep: sep sep_one •
 
-    $default  reduce using rule 69 (sep)
+    $default  reduce using rule 72 (sep)
 
 
-State 63
+State 66
 
    26 if_statement: IF expr ":" • body_stmts
    27             | IF expr ":" • body_stmts ELSE ":" body_stmts
@@ -1259,21 +1389,21 @@ State 63
     NEWLINE          shift, and go to state 19
     COMMENT          shift, and go to state 20
 
-    sep_statements                    go to state 80
-    body_stmts                        go to state 81
-    single_line_statements            go to state 82
-    single_line_multi_statements      go to state 83
-    single_line_multi_statements_opt  go to state 84
-    single_line_statement             go to state 85
+    sep_statements                    go to state 86
+    body_stmts                        go to state 87
+    single_line_statements            go to state 88
+    single_line_multi_statements      go to state 89
+    single_line_multi_statements_opt  go to state 90
+    single_line_statement             go to state 91
     expression_statment               go to state 27
     string                            go to state 28
     expr                              go to state 29
     id                                go to state 30
-    sep                               go to state 86
+    sep                               go to state 92
     sep_one                           go to state 32
 
 
-State 64
+State 67
 
    35 expr_list: expr_list "," • expr
    54 expr: "{" expr_list "," • "}"
@@ -1294,21 +1424,21 @@ State 64
     "*"              shift, and go to state 15
     "~"              shift, and go to state 16
     ELLIPSIS         shift, and go to state 17
-    "}"              shift, and go to state 87
+    "}"              shift, and go to state 93
 
     string  go to state 28
-    expr    go to state 88
+    expr    go to state 94
     id      go to state 30
 
 
-State 65
+State 68
 
    53 expr: "{" expr_list "}" •
 
     $default  reduce using rule 53 (expr)
 
 
-State 66
+State 69
 
    38 dict_list: dict_list "," • dict
 
@@ -1330,19 +1460,19 @@ State 66
     ELLIPSIS         shift, and go to state 17
 
     string  go to state 28
-    dict    go to state 89
-    expr    go to state 90
+    dict    go to state 95
+    expr    go to state 96
     id      go to state 30
 
 
-State 67
+State 70
 
    57 expr: "{" dict_list "}" •
 
     $default  reduce using rule 57 (expr)
 
 
-State 68
+State 71
 
    37 dict: expr ":" • expr
 
@@ -1364,25 +1494,25 @@ State 68
     ELLIPSIS         shift, and go to state 17
 
     string  go to state 28
-    expr    go to state 91
+    expr    go to state 97
     id      go to state 30
 
 
-State 69
+State 72
 
    49 expr: "(" expr ")" •
 
     $default  reduce using rule 49 (expr)
 
 
-State 70
+State 73
 
    51 expr: "[" expr_list_opt "]" •
 
     $default  reduce using rule 51 (expr)
 
 
-State 71
+State 74
 
    35 expr_list: expr_list "," • expr
    52 expr: "[" expr_list "," • "]"
@@ -1403,21 +1533,21 @@ State 71
     "*"              shift, and go to state 15
     "~"              shift, and go to state 16
     ELLIPSIS         shift, and go to state 17
-    "]"              shift, and go to state 92
+    "]"              shift, and go to state 98
 
     string  go to state 28
-    expr    go to state 88
+    expr    go to state 94
     id      go to state 30
 
 
-State 72
+State 75
 
    32 string: string id string_literal •
 
     $default  reduce using rule 32 (string)
 
 
-State 73
+State 76
 
    55 expr: expr • "." id
    60     | expr • "+" expr
@@ -1426,23 +1556,29 @@ State 73
    62     | expr • "*" expr
    63     | expr • "/" expr
    64     | expr • "%" expr
+   68     | expr • "**" expr
+   69     | expr • "//" expr
+   70     | expr • "@" expr
 
-    "."  shift, and go to state 55
-    "*"  shift, and go to state 57
-    "%"  shift, and go to state 58
-    "/"  shift, and go to state 59
+    "."   shift, and go to state 55
+    "*"   shift, and go to state 57
+    "**"  shift, and go to state 58
+    "@"   shift, and go to state 59
+    "//"  shift, and go to state 60
+    "%"   shift, and go to state 61
+    "/"   shift, and go to state 62
 
     $default  reduce using rule 61 (expr)
 
 
-State 74
+State 77
 
    55 expr: expr "." id •
 
     $default  reduce using rule 55 (expr)
 
 
-State 75
+State 78
 
    55 expr: expr • "." id
    60     | expr • "+" expr
@@ -1451,16 +1587,22 @@ State 75
    62     | expr • "*" expr
    63     | expr • "/" expr
    64     | expr • "%" expr
+   68     | expr • "**" expr
+   69     | expr • "//" expr
+   70     | expr • "@" expr
 
-    "."  shift, and go to state 55
-    "*"  shift, and go to state 57
-    "%"  shift, and go to state 58
-    "/"  shift, and go to state 59
+    "."   shift, and go to state 55
+    "*"   shift, and go to state 57
+    "**"  shift, and go to state 58
+    "@"   shift, and go to state 59
+    "//"  shift, and go to state 60
+    "%"   shift, and go to state 61
+    "/"   shift, and go to state 62
 
     $default  reduce using rule 60 (expr)
 
 
-State 76
+State 79
 
    55 expr: expr • "." id
    60     | expr • "+" expr
@@ -1469,13 +1611,74 @@ State 76
    62     | expr "*" expr •
    63     | expr • "/" expr
    64     | expr • "%" expr
+   68     | expr • "**" expr
+   69     | expr • "//" expr
+   70     | expr • "@" expr
 
-    "."  shift, and go to state 55
+    "."   shift, and go to state 55
+    "**"  shift, and go to state 58
 
     $default  reduce using rule 62 (expr)
 
 
-State 77
+State 80
+
+   55 expr: expr • "." id
+   60     | expr • "+" expr
+   61     | expr • "-" expr
+   62     | expr • "*" expr
+   63     | expr • "/" expr
+   64     | expr • "%" expr
+   68     | expr • "**" expr
+   68     | expr "**" expr •
+   69     | expr • "//" expr
+   70     | expr • "@" expr
+
+    "."   shift, and go to state 55
+    "**"  shift, and go to state 58
+
+    $default  reduce using rule 68 (expr)
+
+
+State 81
+
+   55 expr: expr • "." id
+   60     | expr • "+" expr
+   61     | expr • "-" expr
+   62     | expr • "*" expr
+   63     | expr • "/" expr
+   64     | expr • "%" expr
+   68     | expr • "**" expr
+   69     | expr • "//" expr
+   70     | expr • "@" expr
+   70     | expr "@" expr •
+
+    "."   shift, and go to state 55
+    "**"  shift, and go to state 58
+
+    $default  reduce using rule 70 (expr)
+
+
+State 82
+
+   55 expr: expr • "." id
+   60     | expr • "+" expr
+   61     | expr • "-" expr
+   62     | expr • "*" expr
+   63     | expr • "/" expr
+   64     | expr • "%" expr
+   68     | expr • "**" expr
+   69     | expr • "//" expr
+   69     | expr "//" expr •
+   70     | expr • "@" expr
+
+    "."   shift, and go to state 55
+    "**"  shift, and go to state 58
+
+    $default  reduce using rule 69 (expr)
+
+
+State 83
 
    55 expr: expr • "." id
    60     | expr • "+" expr
@@ -1484,13 +1687,17 @@ State 77
    63     | expr • "/" expr
    64     | expr • "%" expr
    64     | expr "%" expr •
+   68     | expr • "**" expr
+   69     | expr • "//" expr
+   70     | expr • "@" expr
 
-    "."  shift, and go to state 55
+    "."   shift, and go to state 55
+    "**"  shift, and go to state 58
 
     $default  reduce using rule 64 (expr)
 
 
-State 78
+State 84
 
    55 expr: expr • "." id
    60     | expr • "+" expr
@@ -1499,13 +1706,17 @@ State 78
    63     | expr • "/" expr
    63     | expr "/" expr •
    64     | expr • "%" expr
+   68     | expr • "**" expr
+   69     | expr • "//" expr
+   70     | expr • "@" expr
 
-    "."  shift, and go to state 55
+    "."   shift, and go to state 55
+    "**"  shift, and go to state 58
 
     $default  reduce using rule 63 (expr)
 
 
-State 79
+State 85
 
    55 expr: expr • "." id
    58     | id ":=" expr •
@@ -1514,51 +1725,57 @@ State 79
    62     | expr • "*" expr
    63     | expr • "/" expr
    64     | expr • "%" expr
+   68     | expr • "**" expr
+   69     | expr • "//" expr
+   70     | expr • "@" expr
 
-    "-"  shift, and go to state 54
-    "."  shift, and go to state 55
-    "+"  shift, and go to state 56
-    "*"  shift, and go to state 57
-    "%"  shift, and go to state 58
-    "/"  shift, and go to state 59
+    "-"   shift, and go to state 54
+    "."   shift, and go to state 55
+    "+"   shift, and go to state 56
+    "*"   shift, and go to state 57
+    "**"  shift, and go to state 58
+    "@"   shift, and go to state 59
+    "//"  shift, and go to state 60
+    "%"   shift, and go to state 61
+    "/"   shift, and go to state 62
 
     $default  reduce using rule 58 (expr)
 
 
-State 80
+State 86
 
     8 body_stmts: sep_statements •
 
     $default  reduce using rule 8 (body_stmts)
 
 
-State 81
+State 87
 
    26 if_statement: IF expr ":" body_stmts •
    27             | IF expr ":" body_stmts • ELSE ":" body_stmts
 
-    ELSE  shift, and go to state 93
+    ELSE  shift, and go to state 99
 
     $default  reduce using rule 26 (if_statement)
 
 
-State 82
+State 88
 
     7 body_stmts: single_line_statements •
 
     $default  reduce using rule 7 (body_stmts)
 
 
-State 83
+State 89
 
    11 single_line_statements: single_line_multi_statements • NEWLINE
    12                       | single_line_multi_statements • COMMENT NEWLINE
 
-    NEWLINE  shift, and go to state 94
-    COMMENT  shift, and go to state 95
+    NEWLINE  shift, and go to state 100
+    COMMENT  shift, and go to state 101
 
 
-State 84
+State 90
 
    17 single_line_multi_statements: single_line_multi_statements_opt • single_line_statement
    18                             | single_line_multi_statements_opt • single_line_statement SEMICOLON
@@ -1581,14 +1798,14 @@ State 84
     "~"              shift, and go to state 16
     ELLIPSIS         shift, and go to state 17
 
-    single_line_statement  go to state 96
+    single_line_statement  go to state 102
     expression_statment    go to state 27
     string                 go to state 28
     expr                   go to state 29
     id                     go to state 30
 
 
-State 85
+State 91
 
    13 single_line_statements: single_line_statement • NEWLINE
    14                       | single_line_statement • SEMICOLON NEWLINE
@@ -1596,33 +1813,33 @@ State 85
    16                       | single_line_statement • COMMENT NEWLINE
    20 single_line_multi_statements_opt: single_line_statement • SEMICOLON
 
-    SEMICOLON  shift, and go to state 97
-    NEWLINE    shift, and go to state 98
-    COMMENT    shift, and go to state 99
+    SEMICOLON  shift, and go to state 103
+    NEWLINE    shift, and go to state 104
+    COMMENT    shift, and go to state 105
 
 
-State 86
+State 92
 
     6 sep_statements: sep • statements
-   69 sep: sep • sep_one
+   72 sep: sep • sep_one
 
     SEMICOLON  shift, and go to state 18
-    INDENT     shift, and go to state 100
+    INDENT     shift, and go to state 106
     NEWLINE    shift, and go to state 19
     COMMENT    shift, and go to state 20
 
-    statements  go to state 101
-    sep_one     go to state 62
+    statements  go to state 107
+    sep_one     go to state 65
 
 
-State 87
+State 93
 
    54 expr: "{" expr_list "," "}" •
 
     $default  reduce using rule 54 (expr)
 
 
-State 88
+State 94
 
    35 expr_list: expr_list "," expr •
    55 expr: expr • "." id
@@ -1631,25 +1848,31 @@ State 88
    62     | expr • "*" expr
    63     | expr • "/" expr
    64     | expr • "%" expr
+   68     | expr • "**" expr
+   69     | expr • "//" expr
+   70     | expr • "@" expr
 
-    "-"  shift, and go to state 54
-    "."  shift, and go to state 55
-    "+"  shift, and go to state 56
-    "*"  shift, and go to state 57
-    "%"  shift, and go to state 58
-    "/"  shift, and go to state 59
+    "-"   shift, and go to state 54
+    "."   shift, and go to state 55
+    "+"   shift, and go to state 56
+    "*"   shift, and go to state 57
+    "**"  shift, and go to state 58
+    "@"   shift, and go to state 59
+    "//"  shift, and go to state 60
+    "%"   shift, and go to state 61
+    "/"   shift, and go to state 62
 
     $default  reduce using rule 35 (expr_list)
 
 
-State 89
+State 95
 
    38 dict_list: dict_list "," dict •
 
     $default  reduce using rule 38 (dict_list)
 
 
-State 90
+State 96
 
    37 dict: expr • ":" expr
    55 expr: expr • "." id
@@ -1658,17 +1881,23 @@ State 90
    62     | expr • "*" expr
    63     | expr • "/" expr
    64     | expr • "%" expr
+   68     | expr • "**" expr
+   69     | expr • "//" expr
+   70     | expr • "@" expr
 
-    ":"  shift, and go to state 68
-    "-"  shift, and go to state 54
-    "."  shift, and go to state 55
-    "+"  shift, and go to state 56
-    "*"  shift, and go to state 57
-    "%"  shift, and go to state 58
-    "/"  shift, and go to state 59
+    ":"   shift, and go to state 71
+    "-"   shift, and go to state 54
+    "."   shift, and go to state 55
+    "+"   shift, and go to state 56
+    "*"   shift, and go to state 57
+    "**"  shift, and go to state 58
+    "@"   shift, and go to state 59
+    "//"  shift, and go to state 60
+    "%"   shift, and go to state 61
+    "/"   shift, and go to state 62
 
 
-State 91
+State 97
 
    37 dict: expr ":" expr •
    55 expr: expr • "." id
@@ -1677,83 +1906,89 @@ State 91
    62     | expr • "*" expr
    63     | expr • "/" expr
    64     | expr • "%" expr
+   68     | expr • "**" expr
+   69     | expr • "//" expr
+   70     | expr • "@" expr
 
-    "-"  shift, and go to state 54
-    "."  shift, and go to state 55
-    "+"  shift, and go to state 56
-    "*"  shift, and go to state 57
-    "%"  shift, and go to state 58
-    "/"  shift, and go to state 59
+    "-"   shift, and go to state 54
+    "."   shift, and go to state 55
+    "+"   shift, and go to state 56
+    "*"   shift, and go to state 57
+    "**"  shift, and go to state 58
+    "@"   shift, and go to state 59
+    "//"  shift, and go to state 60
+    "%"   shift, and go to state 61
+    "/"   shift, and go to state 62
 
     $default  reduce using rule 37 (dict)
 
 
-State 92
+State 98
 
    52 expr: "[" expr_list "," "]" •
 
     $default  reduce using rule 52 (expr)
 
 
-State 93
+State 99
 
    27 if_statement: IF expr ":" body_stmts ELSE • ":" body_stmts
 
-    ":"  shift, and go to state 102
+    ":"  shift, and go to state 108
 
 
-State 94
+State 100
 
    11 single_line_statements: single_line_multi_statements NEWLINE •
 
     $default  reduce using rule 11 (single_line_statements)
 
 
-State 95
+State 101
 
    12 single_line_statements: single_line_multi_statements COMMENT • NEWLINE
 
-    NEWLINE  shift, and go to state 103
+    NEWLINE  shift, and go to state 109
 
 
-State 96
+State 102
 
    17 single_line_multi_statements: single_line_multi_statements_opt single_line_statement •
    18                             | single_line_multi_statements_opt single_line_statement • SEMICOLON
    19 single_line_multi_statements_opt: single_line_multi_statements_opt single_line_statement • SEMICOLON
 
-    SEMICOLON  shift, and go to state 104
+    SEMICOLON  shift, and go to state 110
 
     $default  reduce using rule 17 (single_line_multi_statements)
 
 
-State 97
+State 103
 
    14 single_line_statements: single_line_statement SEMICOLON • NEWLINE
    15                       | single_line_statement SEMICOLON • COMMENT NEWLINE
    20 single_line_multi_statements_opt: single_line_statement SEMICOLON •
 
-    NEWLINE  shift, and go to state 105
-    COMMENT  shift, and go to state 106
+    NEWLINE  shift, and go to state 111
+    COMMENT  shift, and go to state 112
 
     $default  reduce using rule 20 (single_line_multi_statements_opt)
 
 
-State 98
+State 104
 
    13 single_line_statements: single_line_statement NEWLINE •
 
     $default  reduce using rule 13 (single_line_statements)
 
 
-State 99
+State 105
 
    16 single_line_statements: single_line_statement COMMENT • NEWLINE
 
-    NEWLINE  shift, and go to state 107
+    NEWLINE  shift, and go to state 113
 
 
-State 100
+State 106
 
     5 statements: INDENT • statements1 DEDENT
 
@@ -1775,8 +2010,8 @@ State 100
     "~"              shift, and go to state 16
     ELLIPSIS         shift, and go to state 17
 
-    statements1            go to state 108
-    statement              go to state 109
+    statements1            go to state 114
+    statement              go to state 115
     single_line_statement  go to state 24
     multi_line_statement   go to state 25
     if_statement           go to state 26
@@ -1786,14 +2021,14 @@ State 100
     id                     go to state 30
 
 
-State 101
+State 107
 
     6 sep_statements: sep statements •
 
     $default  reduce using rule 6 (sep_statements)
 
 
-State 102
+State 108
 
    27 if_statement: IF expr ":" body_stmts ELSE ":" • body_stmts
 
@@ -1817,28 +2052,28 @@ State 102
     NEWLINE          shift, and go to state 19
     COMMENT          shift, and go to state 20
 
-    sep_statements                    go to state 80
-    body_stmts                        go to state 110
-    single_line_statements            go to state 82
-    single_line_multi_statements      go to state 83
-    single_line_multi_statements_opt  go to state 84
-    single_line_statement             go to state 85
+    sep_statements                    go to state 86
+    body_stmts                        go to state 116
+    single_line_statements            go to state 88
+    single_line_multi_statements      go to state 89
+    single_line_multi_statements_opt  go to state 90
+    single_line_statement             go to state 91
     expression_statment               go to state 27
     string                            go to state 28
     expr                              go to state 29
     id                                go to state 30
-    sep                               go to state 86
+    sep                               go to state 92
     sep_one                           go to state 32
 
 
-State 103
+State 109
 
    12 single_line_statements: single_line_multi_statements COMMENT NEWLINE •
 
     $default  reduce using rule 12 (single_line_statements)
 
 
-State 104
+State 110
 
    18 single_line_multi_statements: single_line_multi_statements_opt single_line_statement SEMICOLON •
    19 single_line_multi_statements_opt: single_line_multi_statements_opt single_line_statement SEMICOLON •
@@ -1848,28 +2083,28 @@ State 104
     $default  reduce using rule 19 (single_line_multi_statements_opt)
 
 
-State 105
+State 111
 
    14 single_line_statements: single_line_statement SEMICOLON NEWLINE •
 
     $default  reduce using rule 14 (single_line_statements)
 
 
-State 106
+State 112
 
    15 single_line_statements: single_line_statement SEMICOLON COMMENT • NEWLINE
 
-    NEWLINE  shift, and go to state 111
+    NEWLINE  shift, and go to state 117
 
 
-State 107
+State 113
 
    16 single_line_statements: single_line_statement COMMENT NEWLINE •
 
     $default  reduce using rule 16 (single_line_statements)
 
 
-State 108
+State 114
 
     5 statements: INDENT statements1 • DEDENT
     9 statements1: statements1 • statement
@@ -1891,9 +2126,9 @@ State 108
     "*"              shift, and go to state 15
     "~"              shift, and go to state 16
     ELLIPSIS         shift, and go to state 17
-    DEDENT           shift, and go to state 112
+    DEDENT           shift, and go to state 118
 
-    statement              go to state 113
+    statement              go to state 119
     single_line_statement  go to state 24
     multi_line_statement   go to state 25
     if_statement           go to state 26
@@ -1903,35 +2138,35 @@ State 108
     id                     go to state 30
 
 
-State 109
+State 115
 
    10 statements1: statement •
 
     $default  reduce using rule 10 (statements1)
 
 
-State 110
+State 116
 
    27 if_statement: IF expr ":" body_stmts ELSE ":" body_stmts •
 
     $default  reduce using rule 27 (if_statement)
 
 
-State 111
+State 117
 
    15 single_line_statements: single_line_statement SEMICOLON COMMENT NEWLINE •
 
     $default  reduce using rule 15 (single_line_statements)
 
 
-State 112
+State 118
 
     5 statements: INDENT statements1 DEDENT •
 
     $default  reduce using rule 5 (statements)
 
 
-State 113
+State 119
 
     9 statements1: statements1 statement •
 

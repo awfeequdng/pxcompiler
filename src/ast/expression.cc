@@ -31,7 +31,7 @@ std::string operatorTypeStr(const operatorType &x) {
             return "*";
         }
         case (operatorType::MatMult) : {
-            return "MatMult";
+            return "@";
         }
         case (operatorType::Div) : {
             return "/";
@@ -40,7 +40,7 @@ std::string operatorTypeStr(const operatorType &x) {
             return "%";
         }
         case (operatorType::Pow) : {
-            return "Pow";
+            return "**";
         }
         case (operatorType::LShift) : {
             return "LShift";
@@ -58,7 +58,7 @@ std::string operatorTypeStr(const operatorType &x) {
             return "BitAnd";
         }
         case (operatorType::FloorDiv) : {
-            return "FloorDiv";
+            return "//";
         }
     }
     return "UnknowOperatorType";

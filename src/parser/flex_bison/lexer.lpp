@@ -75,6 +75,9 @@ PERIOD               "."
 ELLIPSIS             "..."
 PLUS                 "+"
 STAR                 "*"
+POW                  "**"
+AT                   "@"
+FLOOR_DIV            "//"
 MOD                  "%"
 TILDE                "~"
 
@@ -223,6 +226,9 @@ one_line_comment      \#[^\n]*\n
   {ELLIPSIS}                  { return PXC_TOKEN(ELLIPSIS);             }
   {PLUS}                      { return PXC_TOKEN(PLUS);                 }
   {STAR}                      { return PXC_TOKEN(STAR);                 }
+  {POW}                       { return PXC_TOKEN(POW);                  }
+  {AT}                        { return PXC_TOKEN(AT);                   }
+  {FLOOR_DIV}                 { return PXC_TOKEN(FLOOR_DIV);            }
   {MOD}                       { return PXC_TOKEN(MOD);                  }
   {TILDE}                     { return PXC_TOKEN(TILDE);                }
   {SELF}                      { return PXC_TOKEN(SELF);                 }
