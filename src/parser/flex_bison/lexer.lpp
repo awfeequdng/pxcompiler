@@ -75,6 +75,7 @@ PERIOD               "."
 ELLIPSIS             "..."
 PLUS                 "+"
 STAR                 "*"
+MOD                  "%"
 
 RBRACE                "}"
 RPARENT               ")"
@@ -221,6 +222,7 @@ one_line_comment      \#[^\n]*\n
   {ELLIPSIS}                  { return PXC_TOKEN(ELLIPSIS);             }
   {PLUS}                      { return PXC_TOKEN(PLUS);                 }
   {STAR}                      { return PXC_TOKEN(STAR);                 }
+  {MOD}                       { return PXC_TOKEN(MOD);                  }
   {SELF}                      { return PXC_TOKEN(SELF);                 }
   {SEMICOLON}                 { return PXC_TOKEN(SEMICOLON);            }
   {SLASH}                     { return PXC_TOKEN(SLASH);                }

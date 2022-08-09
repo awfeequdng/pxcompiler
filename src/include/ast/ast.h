@@ -6,6 +6,7 @@
 #include "ast/statement.h"
 
 namespace pxcompiler {
+
 struct AST {
     std::string filename;
     // The file's ordered statement.

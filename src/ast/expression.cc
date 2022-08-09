@@ -19,6 +19,51 @@ using llvm::isa;
 
 Expression::~Expression() = default;
 
+std::string operatorTypeStr(const operatorType &x) {
+    switch (x) {
+        case (operatorType::Add) : {
+            return "+";
+        }
+        case (operatorType::Sub) : {
+            return "-";
+        }
+        case (operatorType::Mult) : {
+            return "*";
+        }
+        case (operatorType::MatMult) : {
+            return "MatMult";
+        }
+        case (operatorType::Div) : {
+            return "/";
+        }
+        case (operatorType::Mod) : {
+            return "%";
+        }
+        case (operatorType::Pow) : {
+            return "Pow";
+        }
+        case (operatorType::LShift) : {
+            return "LShift";
+        }
+        case (operatorType::RShift) : {
+            return "RShift";
+        }
+        case (operatorType::BitOr) : {
+            return "BitOr";
+        }
+        case (operatorType::BitXor) : {
+            return "BitXor";
+        }
+        case (operatorType::BitAnd) : {
+            return "BitAnd";
+        }
+        case (operatorType::FloorDiv) : {
+            return "FloorDiv";
+        }
+    }
+    return "UnknowOperatorType";
+}
+
 void Expression::Print(llvm::raw_ostream& out) const {
   // switch (kind()) {
   //   case ExpressionKind::Name:
@@ -122,6 +167,12 @@ void Expression::PrintID(llvm::raw_ostream& out) const {
     case ExpressionKind::NamedExpr:
       out << "NamedExpr(" << *(cast<NamedExpr>(*this).target())
           << ":=" << *(cast<NamedExpr>(*this).value())
+          << ")";
+      break;
+    case ExpressionKind::BinOp:
+      out << "BinOp(" << *(cast<BinOp>(*this).left())
+          << operatorTypeStr(cast<BinOp>(*this).op())
+          << *(cast<BinOp>(*this).right())
           << ")";
       break;
     case ExpressionKind::Starred:

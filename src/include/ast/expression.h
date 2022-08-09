@@ -16,6 +16,13 @@
 
 namespace pxcompiler {
 
+enum operatorType
+{
+    Add, Sub, Mult, MatMult, Div, Mod, Pow, LShift, RShift, BitOr, BitXor, BitAnd, FloorDiv
+};
+
+std::string operatorTypeStr(const operatorType &x);
+
 class Expression : public AstNode {
  public:
   ~Expression() override = 0;
@@ -475,6 +482,44 @@ public:
 private:
     Nonnull<Expression*> target_;
     Nonnull<Expression*> value_;
+};
+
+class BinOp: public Expression {
+public:
+    static Nonnull<BinOp*> make_BinOp(
+        Nonnull<pxcompiler::Arena*> arena,
+        SourceLocation loc,
+        Nonnull<Expression*> left,
+        operatorType op,
+        Nonnull<Expression*> right) {
+        return arena->New<BinOp>(loc, left, op, right);
+    }
+
+    static auto classof(const AstNode* node) {
+        return InheritsFromBinOp(node->kind());
+    }
+
+    BinOp(pxcompiler::SourceLocation loc,
+              Nonnull<Expression*> left,
+              operatorType op,
+              Nonnull<Expression*> right)
+        : Expression(AstNodeKind::BinOp, loc),
+        left_(left), op_(op), right_(right) {}
+
+    const Nonnull<Expression*> &left() const {
+        return left_;
+    }
+    const operatorType &op() const {
+        return op_;
+    }
+    const Nonnull<Expression*> &right() const {
+        return right_;
+    }
+
+private:
+    Nonnull<Expression*> left_;
+    operatorType op_;
+    Nonnull<Expression*> right_;
 };
 
 class Starred: public Expression {

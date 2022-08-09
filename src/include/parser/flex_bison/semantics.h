@@ -198,3 +198,7 @@ static inline NonnullExpr PREFIX_STRING(
 
 #define NAMEDEXPR(x, y, l) pxcompiler::NamedExpr::make_NamedExpr(arena, l, x, y)
 #define STARRED_ARG(e, l) pxcompiler::Starred::make_Starred(arena, l, e)
+
+#define BINOP(x, op, y, l) pxcompiler::BinOp::make_BinOp(arena, l, \
+        x, pxcompiler::operatorType::op, y)
+

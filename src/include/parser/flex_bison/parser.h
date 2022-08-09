@@ -783,24 +783,25 @@ namespace  pxcompiler  {
     LBRACE = 307,                  // "{"
     LPARENT = 308,                 // "("
     LBRACKET = 309,                // "["
-    MINUS = 310,                   // MINUS
+    MINUS = 310,                   // "-"
     PERIOD = 311,                  // "."
-    PLUS = 312,                    // PLUS
+    PLUS = 312,                    // "+"
     STAR = 313,                    // "*"
-    ELLIPSIS = 314,                // ELLIPSIS
-    RBRACE = 315,                  // "}"
-    RPARENT = 316,                 // ")"
-    RBRACKET = 317,                // "]"
-    SELF = 318,                    // SELF
-    SEMICOLON = 319,               // SEMICOLON
-    SLASH = 320,                   // SLASH
-    UNDERSCORE = 321,              // UNDERSCORE
-    INDENT = 322,                  // INDENT
-    DEDENT = 323,                  // DEDENT
-    NEWLINE = 324,                 // NEWLINE
-    COMMENT = 325,                 // COMMENT
-    EOLCOMMENT = 326,              // EOLCOMMENT
-    TYPE_COMMENT = 327             // TYPE_COMMENT
+    MOD = 314,                     // "%"
+    ELLIPSIS = 315,                // ELLIPSIS
+    RBRACE = 316,                  // "}"
+    RPARENT = 317,                 // ")"
+    RBRACKET = 318,                // "]"
+    SELF = 319,                    // SELF
+    SEMICOLON = 320,               // SEMICOLON
+    SLASH = 321,                   // "/"
+    UNDERSCORE = 322,              // UNDERSCORE
+    INDENT = 323,                  // INDENT
+    DEDENT = 324,                  // DEDENT
+    NEWLINE = 325,                 // NEWLINE
+    COMMENT = 326,                 // COMMENT
+    EOLCOMMENT = 327,              // EOLCOMMENT
+    TYPE_COMMENT = 328             // TYPE_COMMENT
       };
       /// Backward compatibility alias (Bison 3.6).
       typedef token_kind_type yytokentype;
@@ -817,7 +818,7 @@ namespace  pxcompiler  {
     {
       enum symbol_kind_type
       {
-        YYNTOKENS = 73, ///< Number of tokens.
+        YYNTOKENS = 74, ///< Number of tokens.
         S_YYEMPTY = -2,
         S_YYEOF = 0,                             // END_OF_FILE
         S_YYerror = 1,                           // error
@@ -874,48 +875,49 @@ namespace  pxcompiler  {
         S_LBRACE = 52,                           // "{"
         S_LPARENT = 53,                          // "("
         S_LBRACKET = 54,                         // "["
-        S_MINUS = 55,                            // MINUS
+        S_MINUS = 55,                            // "-"
         S_PERIOD = 56,                           // "."
-        S_PLUS = 57,                             // PLUS
+        S_PLUS = 57,                             // "+"
         S_STAR = 58,                             // "*"
-        S_ELLIPSIS = 59,                         // ELLIPSIS
-        S_RBRACE = 60,                           // "}"
-        S_RPARENT = 61,                          // ")"
-        S_RBRACKET = 62,                         // "]"
-        S_SELF = 63,                             // SELF
-        S_SEMICOLON = 64,                        // SEMICOLON
-        S_SLASH = 65,                            // SLASH
-        S_UNDERSCORE = 66,                       // UNDERSCORE
-        S_INDENT = 67,                           // INDENT
-        S_DEDENT = 68,                           // DEDENT
-        S_NEWLINE = 69,                          // NEWLINE
-        S_COMMENT = 70,                          // COMMENT
-        S_EOLCOMMENT = 71,                       // EOLCOMMENT
-        S_TYPE_COMMENT = 72,                     // TYPE_COMMENT
-        S_YYACCEPT = 73,                         // $accept
-        S_units = 74,                            // units
-        S_script_unit = 75,                      // script_unit
-        S_statements = 76,                       // statements
-        S_sep_statements = 77,                   // sep_statements
-        S_body_stmts = 78,                       // body_stmts
-        S_statements1 = 79,                      // statements1
-        S_single_line_statements = 80,           // single_line_statements
-        S_single_line_multi_statements = 81,     // single_line_multi_statements
-        S_single_line_multi_statements_opt = 82, // single_line_multi_statements_opt
-        S_statement = 83,                        // statement
-        S_single_line_statement = 84,            // single_line_statement
-        S_multi_line_statement = 85,             // multi_line_statement
-        S_if_statement = 86,                     // if_statement
-        S_expression_statment = 87,              // expression_statment
-        S_string = 88,                           // string
-        S_expr_list_opt = 89,                    // expr_list_opt
-        S_expr_list = 90,                        // expr_list
-        S_dict = 91,                             // dict
-        S_dict_list = 92,                        // dict_list
-        S_expr = 93,                             // expr
-        S_id = 94,                               // id
-        S_sep = 95,                              // sep
-        S_sep_one = 96                           // sep_one
+        S_MOD = 59,                              // "%"
+        S_ELLIPSIS = 60,                         // ELLIPSIS
+        S_RBRACE = 61,                           // "}"
+        S_RPARENT = 62,                          // ")"
+        S_RBRACKET = 63,                         // "]"
+        S_SELF = 64,                             // SELF
+        S_SEMICOLON = 65,                        // SEMICOLON
+        S_SLASH = 66,                            // "/"
+        S_UNDERSCORE = 67,                       // UNDERSCORE
+        S_INDENT = 68,                           // INDENT
+        S_DEDENT = 69,                           // DEDENT
+        S_NEWLINE = 70,                          // NEWLINE
+        S_COMMENT = 71,                          // COMMENT
+        S_EOLCOMMENT = 72,                       // EOLCOMMENT
+        S_TYPE_COMMENT = 73,                     // TYPE_COMMENT
+        S_YYACCEPT = 74,                         // $accept
+        S_units = 75,                            // units
+        S_script_unit = 76,                      // script_unit
+        S_statements = 77,                       // statements
+        S_sep_statements = 78,                   // sep_statements
+        S_body_stmts = 79,                       // body_stmts
+        S_statements1 = 80,                      // statements1
+        S_single_line_statements = 81,           // single_line_statements
+        S_single_line_multi_statements = 82,     // single_line_multi_statements
+        S_single_line_multi_statements_opt = 83, // single_line_multi_statements_opt
+        S_statement = 84,                        // statement
+        S_single_line_statement = 85,            // single_line_statement
+        S_multi_line_statement = 86,             // multi_line_statement
+        S_if_statement = 87,                     // if_statement
+        S_expression_statment = 88,              // expression_statment
+        S_string = 89,                           // string
+        S_expr_list_opt = 90,                    // expr_list_opt
+        S_expr_list = 91,                        // expr_list
+        S_dict = 92,                             // dict
+        S_dict_list = 93,                        // dict_list
+        S_expr = 94,                             // expr
+        S_id = 95,                               // id
+        S_sep = 96,                              // sep
+        S_sep_one = 97                           // sep_one
       };
     };
 
@@ -2333,6 +2335,21 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
+      make_MOD (location_type l)
+      {
+        return symbol_type (token::MOD, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_MOD (const location_type& l)
+      {
+        return symbol_type (token::MOD, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
       make_ELLIPSIS (location_type l)
       {
         return symbol_type (token::ELLIPSIS, std::move (l));
@@ -2844,7 +2861,7 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 260,     ///< Last index in yytable_.
+      yylast_ = 302,     ///< Last index in yytable_.
       yynnts_ = 24,  ///< Number of nonterminal symbols.
       yyfinal_ = 42 ///< Termination state number.
     };
@@ -2900,10 +2917,10 @@ switch (yykind)
       35,    36,    37,    38,    39,    40,    41,    42,    43,    44,
       45,    46,    47,    48,    49,    50,    51,    52,    53,    54,
       55,    56,    57,    58,    59,    60,    61,    62,    63,    64,
-      65,    66,    67,    68,    69,    70,    71,    72
+      65,    66,    67,    68,    69,    70,    71,    72,    73
     };
     // Last valid token kind.
-    const int code_max = 327;
+    const int code_max = 328;
 
     if (t <= 0)
       return symbol_kind::S_YYEOF;
@@ -3136,7 +3153,7 @@ switch (yykind)
 
 #line 21 "parser.ypp"
 } //  pxcompiler 
-#line 3140 "../../include/parser/flex_bison/parser.h"
+#line 3157 "../../include/parser/flex_bison/parser.h"
 
 
 
