@@ -21,12 +21,24 @@ enum operatorType
     Add, Sub, Mult, MatMult, Div, Mod, Pow, LShift, RShift, BitOr, BitXor, BitAnd, FloorDiv
 };
 
-enum unaryopType // Simple Sum
-{ // Types
+enum unaryopType
+{
     Invert, Not, UAdd, USub
+};
+
+enum cmpopType
+{
+    Eq, NotEq, Lt, LtE, Gt, GtE, Is, IsNot, In, NotIn
+};
+
+enum boolopType
+{
+    And, Or
 };
 std::string operatorTypeStr(const operatorType &x);
 std::string unaryopTypeStr(const unaryopType &x);
+std::string cmpopTypeStr(const cmpopType &x);
+std::string boolopTypeStr(const boolopType &x);
 
 class Expression : public AstNode {
  public:
@@ -524,6 +536,82 @@ public:
 private:
     Nonnull<Expression*> left_;
     operatorType op_;
+    Nonnull<Expression*> right_;
+};
+
+class Compare: public Expression {
+public:
+    static Nonnull<Compare*> make_Compare(
+        Nonnull<pxcompiler::Arena*> arena,
+        SourceLocation loc,
+        Nonnull<Expression*> left,
+        cmpopType op,
+        Nonnull<Expression*> right) {
+        return arena->New<Compare>(loc, left, op, right);
+    }
+
+    static auto classof(const AstNode* node) {
+        return InheritsFromCompare(node->kind());
+    }
+
+    Compare(pxcompiler::SourceLocation loc,
+              Nonnull<Expression*> left,
+              cmpopType op,
+              Nonnull<Expression*> right)
+        : Expression(AstNodeKind::Compare, loc),
+        left_(left), op_(op), right_(right) {}
+
+    const Nonnull<Expression*> &left() const {
+        return left_;
+    }
+    const cmpopType &op() const {
+        return op_;
+    }
+    const Nonnull<Expression*> &right() const {
+        return right_;
+    }
+
+private:
+    Nonnull<Expression*> left_;
+    cmpopType op_;
+    Nonnull<Expression*> right_;
+};
+
+class BoolOp: public Expression {
+public:
+    static Nonnull<BoolOp*> make_BoolOp(
+        Nonnull<pxcompiler::Arena*> arena,
+        SourceLocation loc,
+        Nonnull<Expression*> left,
+        boolopType op,
+        Nonnull<Expression*> right) {
+        return arena->New<BoolOp>(loc, left, op, right);
+    }
+
+    static auto classof(const AstNode* node) {
+        return InheritsFromBoolOp(node->kind());
+    }
+
+    BoolOp(pxcompiler::SourceLocation loc,
+              Nonnull<Expression*> left,
+              boolopType op,
+              Nonnull<Expression*> right)
+        : Expression(AstNodeKind::BoolOp, loc),
+        left_(left), op_(op), right_(right) {}
+
+    const Nonnull<Expression*> &left() const {
+        return left_;
+    }
+    const boolopType &op() const {
+        return op_;
+    }
+    const Nonnull<Expression*> &right() const {
+        return right_;
+    }
+
+private:
+    Nonnull<Expression*> left_;
+    boolopType op_;
     Nonnull<Expression*> right_;
 };
 

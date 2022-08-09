@@ -45,6 +45,8 @@ IF                   "if"
 IMPORT               "import"
 IN                   "in"
 IS                   "is"
+IS_NOT               "is not"
+NOT_IN               "not in"
 LAMBDA               "lambda"
 NONLOCAL             "nonlocal"
 NOT                  "not"
@@ -58,6 +60,7 @@ YIELD                "yield"
 
 ARROW                "->"
 AMPERSAND            "&"
+CARET                "^"
 COLON                ":"
 COLON_BANG           ":!"
 COMMA                ","
@@ -65,6 +68,11 @@ DOUBLE_ARROW         "=>"
 COLONEQUAL           ":="
 EQUAL                "="
 EQUAL_EQUAL          "=="
+NOT_EQUAL            "!="
+LOWER_THEN           "<"
+LOWER_EQUAL          "<="
+GREATER_THEN         ">"
+GREATER_EQUAL        ">="
 
 LBRACE               "{"
 LPARENT              "("
@@ -80,6 +88,9 @@ AT                   "@"
 FLOOR_DIV            "//"
 MOD                  "%"
 TILDE                "~"
+VBAR                 "|"
+LSHIFT               "<<"
+RSHIFT               ">>"
 
 RBRACE                "}"
 RPARENT               ")"
@@ -191,6 +202,8 @@ one_line_comment      \#[^\n]*\n
   {IMPORT}                    { return PXC_TOKEN(IMPORT);               }
   {IN}                        { return PXC_TOKEN(IN);                   }
   {IS}                        { return PXC_TOKEN(IS);                   }
+  {IS_NOT}                    { return PXC_TOKEN(IS_NOT);               }
+  {NOT_IN}                    { return PXC_TOKEN(NOT_IN);               }
   {LAMBDA}                    { return PXC_TOKEN(LAMBDA);               }
   {NONLOCAL}                  { return PXC_TOKEN(NONLOCAL);             }
   {NOT}                       { return PXC_TOKEN(NOT);                  }
@@ -204,6 +217,7 @@ one_line_comment      \#[^\n]*\n
 
   {ARROW}                     { return PXC_TOKEN(ARROW);                }
   {AMPERSAND}                 { return PXC_TOKEN(AMPERSAND);            }
+  {CARET}                     { return PXC_TOKEN(CARET);                }
   {COLON}                     { return PXC_TOKEN(COLON);                }
   {COLON_BANG}                { return PXC_TOKEN(COLON_BANG);           }
   {COMMA}                     { return PXC_TOKEN(COMMA);                }
@@ -211,6 +225,10 @@ one_line_comment      \#[^\n]*\n
   {EQUAL}                     { return PXC_TOKEN(EQUAL);                }
   {COLONEQUAL}                { return PXC_TOKEN(COLONEQUAL);           }
   {EQUAL_EQUAL}               { return PXC_TOKEN(EQUAL_EQUAL);          }
+  {LOWER_THEN}                { return PXC_TOKEN(LOWER_THEN);           }
+  {LOWER_EQUAL}               { return PXC_TOKEN(LOWER_EQUAL);          }
+  {GREATER_THEN}              { return PXC_TOKEN(GREATER_THEN);         }
+  {GREATER_EQUAL}             { return PXC_TOKEN(GREATER_EQUAL);        }
   {LBRACE}                    {
       std::cout << "right )" << std::endl;
       return PXC_TOKEN(LBRACE);
@@ -231,6 +249,9 @@ one_line_comment      \#[^\n]*\n
   {FLOOR_DIV}                 { return PXC_TOKEN(FLOOR_DIV);            }
   {MOD}                       { return PXC_TOKEN(MOD);                  }
   {TILDE}                     { return PXC_TOKEN(TILDE);                }
+  {VBAR}                      { return PXC_TOKEN(VBAR);                 }
+  {LSHIFT}                    { return PXC_TOKEN(LSHIFT);               }
+  {RSHIFT}                    { return PXC_TOKEN(RSHIFT);               }
   {SELF}                      { return PXC_TOKEN(SELF);                 }
   {SEMICOLON}                 { return PXC_TOKEN(SEMICOLON);            }
   {SLASH}                     { return PXC_TOKEN(SLASH);                }

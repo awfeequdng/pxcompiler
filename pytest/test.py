@@ -1,7 +1,4 @@
 
-
-
-
 my_testfile ## hello world
 b
 c
@@ -77,9 +74,19 @@ ss := b.s
 + ss.x
 + ss * b
 
+not ss * b
+
 sss ** c + 3
 2 ** ss ** c * 3
 
 ss // 333 // s
 
 cc @ bb @ dd
+
+a | b
+a & b
+c not in c
+c in d
+b is a
+c is not ss
+

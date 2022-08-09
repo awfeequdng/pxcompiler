@@ -82,6 +82,55 @@ std::string unaryopTypeStr(const unaryopType &x) {
     return "UnknowunaryopType";
 }
 
+std::string cmpopTypeStr(const cmpopType &x) {
+    switch (x) {
+      // Eq, NotEq, Lt, LtE, Gt, GtE, Is, IsNot, In, NotIn
+        case (cmpopType::Eq) : {
+            return "eq ";
+        }
+        case (cmpopType::NotEq) : {
+            return "not eq ";
+        }
+        case (cmpopType::Lt) : {
+            return "Lt ";
+        }
+        case (cmpopType::LtE) : {
+            return "LtE ";
+        }
+        case (cmpopType::Gt) : {
+            return "Gt ";
+        }
+        case (cmpopType::GtE) : {
+            return "GtE ";
+        }
+        case (cmpopType::Is) : {
+            return "Is ";
+        }
+        case (cmpopType::IsNot) : {
+            return "Is Not ";
+        }
+        case (cmpopType::In) : {
+            return "In ";
+        }
+        case (cmpopType::NotIn) : {
+            return "Not In ";
+        }
+    }
+    return "Unknown cmpopType";
+}
+
+std::string boolopTypeStr(const boolopType &x) {
+    switch (x) {
+        case (boolopType::And) : {
+            return "& ";
+        }
+        case (boolopType::Or) : {
+            return "| ";
+        }
+    }
+    return "Unknown boolopType";
+}
+
 void Expression::Print(llvm::raw_ostream& out) const {
   // switch (kind()) {
   //   case ExpressionKind::Name:
@@ -191,6 +240,18 @@ void Expression::PrintID(llvm::raw_ostream& out) const {
       out << "BinOp(" << *(cast<BinOp>(*this).left())
           << operatorTypeStr(cast<BinOp>(*this).op())
           << *(cast<BinOp>(*this).right())
+          << ")";
+      break;
+    case ExpressionKind::Compare:
+      out << "Compare(" << *(cast<Compare>(*this).left())
+          << cmpopTypeStr(cast<Compare>(*this).op())
+          << *(cast<Compare>(*this).right())
+          << ")";
+      break;
+    case ExpressionKind::BoolOp:
+      out << "BoolOp(" << *(cast<BoolOp>(*this).left())
+          << boolopTypeStr(cast<BoolOp>(*this).op())
+          << *(cast<BoolOp>(*this).right())
           << ")";
       break;
     case ExpressionKind::UnaryOp:

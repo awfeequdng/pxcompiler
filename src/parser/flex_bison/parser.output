@@ -1,7 +1,6 @@
 Terminals unused in grammar
 
     sized_type_literal
-    AND
     AS
     ASSERT
     ASYNC
@@ -18,12 +17,8 @@ Terminals unused in grammar
     FROM
     GLOBAL
     IMPORT
-    IN
-    IS
     LAMBDA
     NONLOCAL
-    NOT
-    OR
     PASS
     RETURN
     TRY
@@ -31,13 +26,11 @@ Terminals unused in grammar
     WITH
     YIELD
     ARROW
-    AMPERSAND
-    COLON_BANG
-    DOUBLE_ARROW
-    EQUAL
-    EQUAL_EQUAL
-    SELF
-    UNDERSCORE
+    ":!"
+    "=>"
+    "="
+    "self"
+    "_"
     EOLCOMMENT
     TYPE_COMMENT
 
@@ -65,15 +58,15 @@ Grammar
    11 single_line_statements: single_line_multi_statements NEWLINE
    12                       | single_line_multi_statements COMMENT NEWLINE
    13                       | single_line_statement NEWLINE
-   14                       | single_line_statement SEMICOLON NEWLINE
-   15                       | single_line_statement SEMICOLON COMMENT NEWLINE
+   14                       | single_line_statement ";" NEWLINE
+   15                       | single_line_statement ";" COMMENT NEWLINE
    16                       | single_line_statement COMMENT NEWLINE
 
    17 single_line_multi_statements: single_line_multi_statements_opt single_line_statement
-   18                             | single_line_multi_statements_opt single_line_statement SEMICOLON
+   18                             | single_line_multi_statements_opt single_line_statement ";"
 
-   19 single_line_multi_statements_opt: single_line_multi_statements_opt single_line_statement SEMICOLON
-   20                                 | single_line_statement SEMICOLON
+   19 single_line_multi_statements_opt: single_line_multi_statements_opt single_line_statement ";"
+   20                                 | single_line_statement ";"
 
    21 statement: single_line_statement sep
    22          | multi_line_statement
@@ -112,7 +105,7 @@ Grammar
    45     | TRUE
    46     | FALSE
    47     | NONE
-   48     | ELLIPSIS
+   48     | "..."
    49     | "(" expr ")"
    50     | "(" ")"
    51     | "[" expr_list_opt "]"
@@ -135,15 +128,33 @@ Grammar
    68     | expr "**" expr
    69     | expr "//" expr
    70     | expr "@" expr
+   71     | expr "&" expr
+   72     | expr "|" expr
+   73     | expr "^" expr
+   74     | expr "<<" expr
+   75     | expr ">>" expr
+   76     | expr "==" expr
+   77     | expr "!=" expr
+   78     | expr "<" expr
+   79     | expr "<=" expr
+   80     | expr ">" expr
+   81     | expr ">=" expr
+   82     | expr "is" expr
+   83     | expr "is not" expr
+   84     | expr "in" expr
+   85     | expr "not in" expr
+   86     | expr "and" expr
+   87     | expr "or" expr
+   88     | "not" expr
 
-   71 id: identifier
+   89 id: identifier
 
-   72 sep: sep sep_one
-   73    | sep_one
+   90 sep: sep sep_one
+   91    | sep_one
 
-   74 sep_one: NEWLINE
-   75        | COMMENT
-   76        | SEMICOLON
+   92 sep_one: NEWLINE
+   93        | COMMENT
+   94        | ";"
 
 
 Terminals, with rules where they appear
@@ -153,13 +164,13 @@ Terminals, with rules where they appear
     integer_literal <long long> (258) 41
     real_literal <double> (259) 43
     image_literal <double> (260) 44
-    identifier <std::string> (261) 71
+    identifier <std::string> (261) 89
     sized_type_literal <std::string> (262)
     string_literal <std::string> (263) 29 30 31 32
     FALSE (264) 46
     TRUE (265) 45
     NONE (266) 47
-    AND (267)
+    "and" (267) 86
     AS (268)
     ASSERT (269)
     ASYNC (270)
@@ -178,129 +189,140 @@ Terminals, with rules where they appear
     GLOBAL (283)
     IF (284) 26 27
     IMPORT (285)
-    IN (286)
-    IS (287)
-    LAMBDA (288)
-    NONLOCAL (289)
-    NOT (290)
-    OR (291)
-    PASS (292)
-    RETURN (293)
-    TRY (294)
-    WHILE (295)
-    WITH (296)
-    YIELD (297)
-    ARROW (298)
-    AMPERSAND (299)
-    ":" (300) 26 27 37
-    COLON_BANG (301)
-    "," (302) 35 38 52 54
-    DOUBLE_ARROW (303)
-    EQUAL (304)
-    ":=" (305) 58
-    EQUAL_EQUAL (306)
-    "{" (307) 53 54 56 57
-    "(" (308) 49 50
-    "[" (309) 51 52
-    "-" (310) 61 65
-    "." (311) 55
-    "+" (312) 60 66
-    "*" (313) 59 62
-    "**" (314) 68
-    "@" (315) 70
-    "//" (316) 69
-    "%" (317) 64
-    "~" (318) 67
-    ELLIPSIS (319) 48
-    "}" (320) 53 54 56 57
-    ")" (321) 49 50
-    "]" (322) 51 52
-    SELF (323)
-    SEMICOLON (324) 14 15 18 19 20 76
-    "/" (325) 63
-    UNDERSCORE (326)
-    INDENT (327) 5
-    DEDENT (328) 5
-    NEWLINE (329) 11 12 13 14 15 16 74
-    COMMENT (330) 12 15 16 75
-    EOLCOMMENT (331)
-    TYPE_COMMENT (332)
-    UNARY (333)
+    "in" (286) 84
+    "is" (287) 82
+    "is not" (288) 83
+    "not in" (289) 85
+    LAMBDA (290)
+    NONLOCAL (291)
+    "not" (292) 88
+    "or" (293) 87
+    PASS (294)
+    RETURN (295)
+    TRY (296)
+    WHILE (297)
+    WITH (298)
+    YIELD (299)
+    ARROW (300)
+    "&" (301) 71
+    "^" (302) 73
+    ":" (303) 26 27 37
+    ":!" (304)
+    "," (305) 35 38 52 54
+    "=>" (306)
+    "=" (307)
+    ":=" (308) 58
+    "==" (309) 76
+    "{" (310) 53 54 56 57
+    "(" (311) 49 50
+    "[" (312) 51 52
+    "-" (313) 61 65
+    "." (314) 55
+    "+" (315) 60 66
+    "*" (316) 59 62
+    "**" (317) 68
+    "@" (318) 70
+    "//" (319) 69
+    "%" (320) 64
+    "~" (321) 67
+    "|" (322) 72
+    "<<" (323) 74
+    ">>" (324) 75
+    "<" (325) 78
+    "<=" (326) 79
+    ">" (327) 80
+    ">=" (328) 81
+    "..." (329) 48
+    "}" (330) 53 54 56 57
+    ")" (331) 49 50
+    "]" (332) 51 52
+    "self" (333)
+    ";" (334) 14 15 18 19 20 94
+    "/" (335) 63
+    "_" (336)
+    INDENT (337) 5
+    DEDENT (338) 5
+    NEWLINE (339) 11 12 13 14 15 16 92
+    COMMENT (340) 12 15 16 93
+    EOLCOMMENT (341)
+    TYPE_COMMENT (342)
+    "!=" (343) 77
+    UNARY (344)
 
 
 Nonterminals, with rules where they appear
 
-    $accept (79)
+    $accept (90)
         on left: 0
-    units (80)
+    units (91)
         on left: 1 2 3
         on right: 0 1
-    script_unit <Nonnull<Statement*>> (81)
+    script_unit <Nonnull<Statement*>> (92)
         on left: 4
         on right: 1 2
-    statements <std::vector<Nonnull<Statement*>>> (82)
+    statements <std::vector<Nonnull<Statement*>>> (93)
         on left: 5
         on right: 6
-    sep_statements <std::vector<Nonnull<Statement*>>> (83)
+    sep_statements <std::vector<Nonnull<Statement*>>> (94)
         on left: 6
         on right: 8
-    body_stmts <std::vector<Nonnull<Statement*>>> (84)
+    body_stmts <std::vector<Nonnull<Statement*>>> (95)
         on left: 7 8
         on right: 26 27
-    statements1 <std::vector<Nonnull<Statement*>>> (85)
+    statements1 <std::vector<Nonnull<Statement*>>> (96)
         on left: 9 10
         on right: 5 9
-    single_line_statements <std::vector<Nonnull<Statement*>>> (86)
+    single_line_statements <std::vector<Nonnull<Statement*>>> (97)
         on left: 11 12 13 14 15 16
         on right: 7
-    single_line_multi_statements <std::vector<Nonnull<Statement*>>> (87)
+    single_line_multi_statements <std::vector<Nonnull<Statement*>>> (98)
         on left: 17 18
         on right: 11 12
-    single_line_multi_statements_opt <std::vector<Nonnull<Statement*>>> (88)
+    single_line_multi_statements_opt <std::vector<Nonnull<Statement*>>> (99)
         on left: 19 20
         on right: 17 18 19
-    statement <Nonnull<Statement*>> (89)
+    statement <Nonnull<Statement*>> (100)
         on left: 21 22 23
         on right: 4 9 10
-    single_line_statement <Nonnull<Statement*>> (90)
+    single_line_statement <Nonnull<Statement*>> (101)
         on left: 24
         on right: 13 14 15 16 17 18 19 20 21
-    multi_line_statement <Nonnull<Statement*>> (91)
+    multi_line_statement <Nonnull<Statement*>> (102)
         on left: 25
         on right: 22 23
-    if_statement <Nonnull<Statement*>> (92)
+    if_statement <Nonnull<Statement*>> (103)
         on left: 26 27
         on right: 25
-    expression_statment <Nonnull<Statement*>> (93)
+    expression_statment <Nonnull<Statement*>> (104)
         on left: 28
         on right: 24
-    string <Nonnull<Expression*>> (94)
+    string <Nonnull<Expression*>> (105)
         on left: 29 30 31 32
         on right: 29 32 42
-    expr_list_opt <std::vector<Nonnull<Expression*>>> (95)
+    expr_list_opt <std::vector<Nonnull<Expression*>>> (106)
         on left: 33 34
         on right: 51
-    expr_list <std::vector<Nonnull<Expression*>>> (96)
+    expr_list <std::vector<Nonnull<Expression*>>> (107)
         on left: 35 36
         on right: 33 35 52 53 54
-    dict <PairNonnullExpr> (97)
+    dict <PairNonnullExpr> (108)
         on left: 37
         on right: 38 39
-    dict_list <std::vector<PairNonnullExpr>> (98)
+    dict_list <std::vector<PairNonnullExpr>> (109)
         on left: 38 39
         on right: 38 57
-    expr <Nonnull<Expression*>> (99)
-        on left: 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70
-        on right: 26 27 28 35 36 37 49 55 58 59 60 61 62 63 64 65 66 67 68 69 70
-    id <Nonnull<Name*>> (100)
-        on left: 71
+    expr <Nonnull<Expression*>> (110)
+        on left: 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88
+        on right: 26 27 28 35 36 37 49 55 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88
+    id <Nonnull<Name*>> (111)
+        on left: 89
         on right: 31 32 40 55 58
-    sep <std::vector<std::string>> (101)
-        on left: 72 73
-        on right: 3 6 21 23 72
-    sep_one <std::string> (102)
-        on left: 74 75 76
-        on right: 72 73
+    sep <std::vector<std::string>> (112)
+        on left: 90 91
+        on right: 3 6 21 23 90
+    sep_one <std::string> (113)
+        on left: 92 93 94
+        on right: 90 91
 
 
 State 0
@@ -316,30 +338,31 @@ State 0
     TRUE             shift, and go to state 7
     NONE             shift, and go to state 8
     IF               shift, and go to state 9
-    "{"              shift, and go to state 10
-    "("              shift, and go to state 11
-    "["              shift, and go to state 12
-    "-"              shift, and go to state 13
-    "+"              shift, and go to state 14
-    "*"              shift, and go to state 15
-    "~"              shift, and go to state 16
-    ELLIPSIS         shift, and go to state 17
-    SEMICOLON        shift, and go to state 18
-    NEWLINE          shift, and go to state 19
-    COMMENT          shift, and go to state 20
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
+    ";"              shift, and go to state 19
+    NEWLINE          shift, and go to state 20
+    COMMENT          shift, and go to state 21
 
-    units                  go to state 21
-    script_unit            go to state 22
-    statement              go to state 23
-    single_line_statement  go to state 24
-    multi_line_statement   go to state 25
-    if_statement           go to state 26
-    expression_statment    go to state 27
-    string                 go to state 28
-    expr                   go to state 29
-    id                     go to state 30
-    sep                    go to state 31
-    sep_one                go to state 32
+    units                  go to state 22
+    script_unit            go to state 23
+    statement              go to state 24
+    single_line_statement  go to state 25
+    multi_line_statement   go to state 26
+    if_statement           go to state 27
+    expression_statment    go to state 28
+    string                 go to state 29
+    expr                   go to state 30
+    id                     go to state 31
+    sep                    go to state 32
+    sep_one                go to state 33
 
 
 State 1
@@ -365,9 +388,9 @@ State 3
 
 State 4
 
-   71 id: identifier •
+   89 id: identifier •
 
-    $default  reduce using rule 71 (id)
+    $default  reduce using rule 89 (id)
 
 
 State 5
@@ -411,21 +434,49 @@ State 9
     FALSE            shift, and go to state 6
     TRUE             shift, and go to state 7
     NONE             shift, and go to state 8
-    "{"              shift, and go to state 10
-    "("              shift, and go to state 11
-    "["              shift, and go to state 12
-    "-"              shift, and go to state 13
-    "+"              shift, and go to state 14
-    "*"              shift, and go to state 15
-    "~"              shift, and go to state 16
-    ELLIPSIS         shift, and go to state 17
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
 
-    string  go to state 28
-    expr    go to state 33
-    id      go to state 30
+    string  go to state 29
+    expr    go to state 34
+    id      go to state 31
 
 
 State 10
+
+   88 expr: "not" • expr
+
+    integer_literal  shift, and go to state 1
+    real_literal     shift, and go to state 2
+    image_literal    shift, and go to state 3
+    identifier       shift, and go to state 4
+    string_literal   shift, and go to state 5
+    FALSE            shift, and go to state 6
+    TRUE             shift, and go to state 7
+    NONE             shift, and go to state 8
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
+
+    string  go to state 29
+    expr    go to state 35
+    id      go to state 31
+
+
+State 11
 
    53 expr: "{" • expr_list "}"
    54     | "{" • expr_list "," "}"
@@ -440,25 +491,26 @@ State 10
     FALSE            shift, and go to state 6
     TRUE             shift, and go to state 7
     NONE             shift, and go to state 8
-    "{"              shift, and go to state 10
-    "("              shift, and go to state 11
-    "["              shift, and go to state 12
-    "-"              shift, and go to state 13
-    "+"              shift, and go to state 14
-    "*"              shift, and go to state 15
-    "~"              shift, and go to state 16
-    ELLIPSIS         shift, and go to state 17
-    "}"              shift, and go to state 34
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
+    "}"              shift, and go to state 36
 
-    string     go to state 28
-    expr_list  go to state 35
-    dict       go to state 36
-    dict_list  go to state 37
-    expr       go to state 38
-    id         go to state 30
+    string     go to state 29
+    expr_list  go to state 37
+    dict       go to state 38
+    dict_list  go to state 39
+    expr       go to state 40
+    id         go to state 31
 
 
-State 11
+State 12
 
    49 expr: "(" • expr ")"
    50     | "(" • ")"
@@ -471,22 +523,23 @@ State 11
     FALSE            shift, and go to state 6
     TRUE             shift, and go to state 7
     NONE             shift, and go to state 8
-    "{"              shift, and go to state 10
-    "("              shift, and go to state 11
-    "["              shift, and go to state 12
-    "-"              shift, and go to state 13
-    "+"              shift, and go to state 14
-    "*"              shift, and go to state 15
-    "~"              shift, and go to state 16
-    ELLIPSIS         shift, and go to state 17
-    ")"              shift, and go to state 39
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
+    ")"              shift, and go to state 41
 
-    string  go to state 28
-    expr    go to state 40
-    id      go to state 30
+    string  go to state 29
+    expr    go to state 42
+    id      go to state 31
 
 
-State 12
+State 13
 
    51 expr: "[" • expr_list_opt "]"
    52     | "[" • expr_list "," "]"
@@ -499,25 +552,26 @@ State 12
     FALSE            shift, and go to state 6
     TRUE             shift, and go to state 7
     NONE             shift, and go to state 8
-    "{"              shift, and go to state 10
-    "("              shift, and go to state 11
-    "["              shift, and go to state 12
-    "-"              shift, and go to state 13
-    "+"              shift, and go to state 14
-    "*"              shift, and go to state 15
-    "~"              shift, and go to state 16
-    ELLIPSIS         shift, and go to state 17
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
 
     $default  reduce using rule 34 (expr_list_opt)
 
-    string         go to state 28
-    expr_list_opt  go to state 41
-    expr_list      go to state 42
-    expr           go to state 43
-    id             go to state 30
+    string         go to state 29
+    expr_list_opt  go to state 43
+    expr_list      go to state 44
+    expr           go to state 45
+    id             go to state 31
 
 
-State 13
+State 14
 
    65 expr: "-" • expr
 
@@ -529,21 +583,22 @@ State 13
     FALSE            shift, and go to state 6
     TRUE             shift, and go to state 7
     NONE             shift, and go to state 8
-    "{"              shift, and go to state 10
-    "("              shift, and go to state 11
-    "["              shift, and go to state 12
-    "-"              shift, and go to state 13
-    "+"              shift, and go to state 14
-    "*"              shift, and go to state 15
-    "~"              shift, and go to state 16
-    ELLIPSIS         shift, and go to state 17
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
 
-    string  go to state 28
-    expr    go to state 44
-    id      go to state 30
+    string  go to state 29
+    expr    go to state 46
+    id      go to state 31
 
 
-State 14
+State 15
 
    66 expr: "+" • expr
 
@@ -555,21 +610,22 @@ State 14
     FALSE            shift, and go to state 6
     TRUE             shift, and go to state 7
     NONE             shift, and go to state 8
-    "{"              shift, and go to state 10
-    "("              shift, and go to state 11
-    "["              shift, and go to state 12
-    "-"              shift, and go to state 13
-    "+"              shift, and go to state 14
-    "*"              shift, and go to state 15
-    "~"              shift, and go to state 16
-    ELLIPSIS         shift, and go to state 17
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
 
-    string  go to state 28
-    expr    go to state 45
-    id      go to state 30
+    string  go to state 29
+    expr    go to state 47
+    id      go to state 31
 
 
-State 15
+State 16
 
    59 expr: "*" • expr
 
@@ -581,21 +637,22 @@ State 15
     FALSE            shift, and go to state 6
     TRUE             shift, and go to state 7
     NONE             shift, and go to state 8
-    "{"              shift, and go to state 10
-    "("              shift, and go to state 11
-    "["              shift, and go to state 12
-    "-"              shift, and go to state 13
-    "+"              shift, and go to state 14
-    "*"              shift, and go to state 15
-    "~"              shift, and go to state 16
-    ELLIPSIS         shift, and go to state 17
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
 
-    string  go to state 28
-    expr    go to state 46
-    id      go to state 30
+    string  go to state 29
+    expr    go to state 48
+    id      go to state 31
 
 
-State 16
+State 17
 
    67 expr: "~" • expr
 
@@ -607,54 +664,55 @@ State 16
     FALSE            shift, and go to state 6
     TRUE             shift, and go to state 7
     NONE             shift, and go to state 8
-    "{"              shift, and go to state 10
-    "("              shift, and go to state 11
-    "["              shift, and go to state 12
-    "-"              shift, and go to state 13
-    "+"              shift, and go to state 14
-    "*"              shift, and go to state 15
-    "~"              shift, and go to state 16
-    ELLIPSIS         shift, and go to state 17
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
 
-    string  go to state 28
-    expr    go to state 47
-    id      go to state 30
-
-
-State 17
-
-   48 expr: ELLIPSIS •
-
-    $default  reduce using rule 48 (expr)
+    string  go to state 29
+    expr    go to state 49
+    id      go to state 31
 
 
 State 18
 
-   76 sep_one: SEMICOLON •
+   48 expr: "..." •
 
-    $default  reduce using rule 76 (sep_one)
+    $default  reduce using rule 48 (expr)
 
 
 State 19
 
-   74 sep_one: NEWLINE •
+   94 sep_one: ";" •
 
-    $default  reduce using rule 74 (sep_one)
+    $default  reduce using rule 94 (sep_one)
 
 
 State 20
 
-   75 sep_one: COMMENT •
+   92 sep_one: NEWLINE •
 
-    $default  reduce using rule 75 (sep_one)
+    $default  reduce using rule 92 (sep_one)
 
 
 State 21
 
+   93 sep_one: COMMENT •
+
+    $default  reduce using rule 93 (sep_one)
+
+
+State 22
+
     0 $accept: units • END_OF_FILE
     1 units: units • script_unit
 
-    END_OF_FILE      shift, and go to state 48
+    END_OF_FILE      shift, and go to state 50
     integer_literal  shift, and go to state 1
     real_literal     shift, and go to state 2
     image_literal    shift, and go to state 3
@@ -664,96 +722,97 @@ State 21
     TRUE             shift, and go to state 7
     NONE             shift, and go to state 8
     IF               shift, and go to state 9
-    "{"              shift, and go to state 10
-    "("              shift, and go to state 11
-    "["              shift, and go to state 12
-    "-"              shift, and go to state 13
-    "+"              shift, and go to state 14
-    "*"              shift, and go to state 15
-    "~"              shift, and go to state 16
-    ELLIPSIS         shift, and go to state 17
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
 
-    script_unit            go to state 49
-    statement              go to state 23
-    single_line_statement  go to state 24
-    multi_line_statement   go to state 25
-    if_statement           go to state 26
-    expression_statment    go to state 27
-    string                 go to state 28
-    expr                   go to state 29
-    id                     go to state 30
+    script_unit            go to state 51
+    statement              go to state 24
+    single_line_statement  go to state 25
+    multi_line_statement   go to state 26
+    if_statement           go to state 27
+    expression_statment    go to state 28
+    string                 go to state 29
+    expr                   go to state 30
+    id                     go to state 31
 
 
-State 22
+State 23
 
     2 units: script_unit •
 
     $default  reduce using rule 2 (units)
 
 
-State 23
+State 24
 
     4 script_unit: statement •
 
     $default  reduce using rule 4 (script_unit)
 
 
-State 24
+State 25
 
    21 statement: single_line_statement • sep
 
-    SEMICOLON  shift, and go to state 18
-    NEWLINE    shift, and go to state 19
-    COMMENT    shift, and go to state 20
+    ";"      shift, and go to state 19
+    NEWLINE  shift, and go to state 20
+    COMMENT  shift, and go to state 21
 
-    sep      go to state 50
-    sep_one  go to state 32
+    sep      go to state 52
+    sep_one  go to state 33
 
 
-State 25
+State 26
 
    22 statement: multi_line_statement •
    23          | multi_line_statement • sep
 
-    SEMICOLON  shift, and go to state 18
-    NEWLINE    shift, and go to state 19
-    COMMENT    shift, and go to state 20
+    ";"      shift, and go to state 19
+    NEWLINE  shift, and go to state 20
+    COMMENT  shift, and go to state 21
 
     $default  reduce using rule 22 (statement)
 
-    sep      go to state 51
-    sep_one  go to state 32
+    sep      go to state 53
+    sep_one  go to state 33
 
 
-State 26
+State 27
 
    25 multi_line_statement: if_statement •
 
     $default  reduce using rule 25 (multi_line_statement)
 
 
-State 27
+State 28
 
    24 single_line_statement: expression_statment •
 
     $default  reduce using rule 24 (single_line_statement)
 
 
-State 28
+State 29
 
    29 string: string • string_literal
    32       | string • id string_literal
    42 expr: string •
 
     identifier      shift, and go to state 4
-    string_literal  shift, and go to state 52
+    string_literal  shift, and go to state 54
 
     $default  reduce using rule 42 (expr)
 
-    id  go to state 53
+    id  go to state 55
 
 
-State 29
+State 30
 
    28 expression_statment: expr •
    55 expr: expr • "." id
@@ -765,54 +824,88 @@ State 29
    68     | expr • "**" expr
    69     | expr • "//" expr
    70     | expr • "@" expr
+   71     | expr • "&" expr
+   72     | expr • "|" expr
+   73     | expr • "^" expr
+   74     | expr • "<<" expr
+   75     | expr • ">>" expr
+   76     | expr • "==" expr
+   77     | expr • "!=" expr
+   78     | expr • "<" expr
+   79     | expr • "<=" expr
+   80     | expr • ">" expr
+   81     | expr • ">=" expr
+   82     | expr • "is" expr
+   83     | expr • "is not" expr
+   84     | expr • "in" expr
+   85     | expr • "not in" expr
+   86     | expr • "and" expr
+   87     | expr • "or" expr
 
-    "-"   shift, and go to state 54
-    "."   shift, and go to state 55
-    "+"   shift, and go to state 56
-    "*"   shift, and go to state 57
-    "**"  shift, and go to state 58
-    "@"   shift, and go to state 59
-    "//"  shift, and go to state 60
-    "%"   shift, and go to state 61
-    "/"   shift, and go to state 62
+    "and"     shift, and go to state 56
+    "in"      shift, and go to state 57
+    "is"      shift, and go to state 58
+    "is not"  shift, and go to state 59
+    "not in"  shift, and go to state 60
+    "or"      shift, and go to state 61
+    "&"       shift, and go to state 62
+    "^"       shift, and go to state 63
+    "=="      shift, and go to state 64
+    "-"       shift, and go to state 65
+    "."       shift, and go to state 66
+    "+"       shift, and go to state 67
+    "*"       shift, and go to state 68
+    "**"      shift, and go to state 69
+    "@"       shift, and go to state 70
+    "//"      shift, and go to state 71
+    "%"       shift, and go to state 72
+    "|"       shift, and go to state 73
+    "<<"      shift, and go to state 74
+    ">>"      shift, and go to state 75
+    "<"       shift, and go to state 76
+    "<="      shift, and go to state 77
+    ">"       shift, and go to state 78
+    ">="      shift, and go to state 79
+    "/"       shift, and go to state 80
+    "!="      shift, and go to state 81
 
     $default  reduce using rule 28 (expression_statment)
 
 
-State 30
+State 31
 
    31 string: id • string_literal
    40 expr: id •
    58     | id • ":=" expr
 
-    string_literal  shift, and go to state 63
-    ":="            shift, and go to state 64
+    string_literal  shift, and go to state 82
+    ":="            shift, and go to state 83
 
     $default  reduce using rule 40 (expr)
 
 
-State 31
+State 32
 
     3 units: sep •
-   72 sep: sep • sep_one
+   90 sep: sep • sep_one
 
-    SEMICOLON  shift, and go to state 18
-    NEWLINE    shift, and go to state 19
-    COMMENT    shift, and go to state 20
+    ";"      shift, and go to state 19
+    NEWLINE  shift, and go to state 20
+    COMMENT  shift, and go to state 21
 
     $default  reduce using rule 3 (units)
 
-    sep_one  go to state 65
-
-
-State 32
-
-   73 sep: sep_one •
-
-    $default  reduce using rule 73 (sep)
+    sep_one  go to state 84
 
 
 State 33
+
+   91 sep: sep_one •
+
+    $default  reduce using rule 91 (sep)
+
+
+State 34
 
    26 if_statement: IF expr • ":" body_stmts
    27             | IF expr • ":" body_stmts ELSE ":" body_stmts
@@ -825,53 +918,145 @@ State 33
    68     | expr • "**" expr
    69     | expr • "//" expr
    70     | expr • "@" expr
+   71     | expr • "&" expr
+   72     | expr • "|" expr
+   73     | expr • "^" expr
+   74     | expr • "<<" expr
+   75     | expr • ">>" expr
+   76     | expr • "==" expr
+   77     | expr • "!=" expr
+   78     | expr • "<" expr
+   79     | expr • "<=" expr
+   80     | expr • ">" expr
+   81     | expr • ">=" expr
+   82     | expr • "is" expr
+   83     | expr • "is not" expr
+   84     | expr • "in" expr
+   85     | expr • "not in" expr
+   86     | expr • "and" expr
+   87     | expr • "or" expr
 
-    ":"   shift, and go to state 66
-    "-"   shift, and go to state 54
-    "."   shift, and go to state 55
-    "+"   shift, and go to state 56
-    "*"   shift, and go to state 57
-    "**"  shift, and go to state 58
-    "@"   shift, and go to state 59
-    "//"  shift, and go to state 60
-    "%"   shift, and go to state 61
-    "/"   shift, and go to state 62
+    "and"     shift, and go to state 56
+    "in"      shift, and go to state 57
+    "is"      shift, and go to state 58
+    "is not"  shift, and go to state 59
+    "not in"  shift, and go to state 60
+    "or"      shift, and go to state 61
+    "&"       shift, and go to state 62
+    "^"       shift, and go to state 63
+    ":"       shift, and go to state 85
+    "=="      shift, and go to state 64
+    "-"       shift, and go to state 65
+    "."       shift, and go to state 66
+    "+"       shift, and go to state 67
+    "*"       shift, and go to state 68
+    "**"      shift, and go to state 69
+    "@"       shift, and go to state 70
+    "//"      shift, and go to state 71
+    "%"       shift, and go to state 72
+    "|"       shift, and go to state 73
+    "<<"      shift, and go to state 74
+    ">>"      shift, and go to state 75
+    "<"       shift, and go to state 76
+    "<="      shift, and go to state 77
+    ">"       shift, and go to state 78
+    ">="      shift, and go to state 79
+    "/"       shift, and go to state 80
+    "!="      shift, and go to state 81
 
 
-State 34
+State 35
+
+   55 expr: expr • "." id
+   60     | expr • "+" expr
+   61     | expr • "-" expr
+   62     | expr • "*" expr
+   63     | expr • "/" expr
+   64     | expr • "%" expr
+   68     | expr • "**" expr
+   69     | expr • "//" expr
+   70     | expr • "@" expr
+   71     | expr • "&" expr
+   72     | expr • "|" expr
+   73     | expr • "^" expr
+   74     | expr • "<<" expr
+   75     | expr • ">>" expr
+   76     | expr • "==" expr
+   77     | expr • "!=" expr
+   78     | expr • "<" expr
+   79     | expr • "<=" expr
+   80     | expr • ">" expr
+   81     | expr • ">=" expr
+   82     | expr • "is" expr
+   83     | expr • "is not" expr
+   84     | expr • "in" expr
+   85     | expr • "not in" expr
+   86     | expr • "and" expr
+   87     | expr • "or" expr
+   88     | "not" expr •
+
+    "in"      shift, and go to state 57
+    "is"      shift, and go to state 58
+    "is not"  shift, and go to state 59
+    "not in"  shift, and go to state 60
+    "&"       shift, and go to state 62
+    "^"       shift, and go to state 63
+    "=="      shift, and go to state 64
+    "-"       shift, and go to state 65
+    "."       shift, and go to state 66
+    "+"       shift, and go to state 67
+    "*"       shift, and go to state 68
+    "**"      shift, and go to state 69
+    "@"       shift, and go to state 70
+    "//"      shift, and go to state 71
+    "%"       shift, and go to state 72
+    "|"       shift, and go to state 73
+    "<<"      shift, and go to state 74
+    ">>"      shift, and go to state 75
+    "<"       shift, and go to state 76
+    "<="      shift, and go to state 77
+    ">"       shift, and go to state 78
+    ">="      shift, and go to state 79
+    "/"       shift, and go to state 80
+    "!="      shift, and go to state 81
+
+    $default  reduce using rule 88 (expr)
+
+
+State 36
 
    56 expr: "{" "}" •
 
     $default  reduce using rule 56 (expr)
 
 
-State 35
+State 37
 
    35 expr_list: expr_list • "," expr
    53 expr: "{" expr_list • "}"
    54     | "{" expr_list • "," "}"
 
-    ","  shift, and go to state 67
-    "}"  shift, and go to state 68
+    ","  shift, and go to state 86
+    "}"  shift, and go to state 87
 
 
-State 36
+State 38
 
    39 dict_list: dict •
 
     $default  reduce using rule 39 (dict_list)
 
 
-State 37
+State 39
 
    38 dict_list: dict_list • "," dict
    57 expr: "{" dict_list • "}"
 
-    ","  shift, and go to state 69
-    "}"  shift, and go to state 70
+    ","  shift, and go to state 88
+    "}"  shift, and go to state 89
 
 
-State 38
+State 40
 
    36 expr_list: expr •
    37 dict: expr • ":" expr
@@ -884,29 +1069,63 @@ State 38
    68     | expr • "**" expr
    69     | expr • "//" expr
    70     | expr • "@" expr
+   71     | expr • "&" expr
+   72     | expr • "|" expr
+   73     | expr • "^" expr
+   74     | expr • "<<" expr
+   75     | expr • ">>" expr
+   76     | expr • "==" expr
+   77     | expr • "!=" expr
+   78     | expr • "<" expr
+   79     | expr • "<=" expr
+   80     | expr • ">" expr
+   81     | expr • ">=" expr
+   82     | expr • "is" expr
+   83     | expr • "is not" expr
+   84     | expr • "in" expr
+   85     | expr • "not in" expr
+   86     | expr • "and" expr
+   87     | expr • "or" expr
 
-    ":"   shift, and go to state 71
-    "-"   shift, and go to state 54
-    "."   shift, and go to state 55
-    "+"   shift, and go to state 56
-    "*"   shift, and go to state 57
-    "**"  shift, and go to state 58
-    "@"   shift, and go to state 59
-    "//"  shift, and go to state 60
-    "%"   shift, and go to state 61
-    "/"   shift, and go to state 62
+    "and"     shift, and go to state 56
+    "in"      shift, and go to state 57
+    "is"      shift, and go to state 58
+    "is not"  shift, and go to state 59
+    "not in"  shift, and go to state 60
+    "or"      shift, and go to state 61
+    "&"       shift, and go to state 62
+    "^"       shift, and go to state 63
+    ":"       shift, and go to state 90
+    "=="      shift, and go to state 64
+    "-"       shift, and go to state 65
+    "."       shift, and go to state 66
+    "+"       shift, and go to state 67
+    "*"       shift, and go to state 68
+    "**"      shift, and go to state 69
+    "@"       shift, and go to state 70
+    "//"      shift, and go to state 71
+    "%"       shift, and go to state 72
+    "|"       shift, and go to state 73
+    "<<"      shift, and go to state 74
+    ">>"      shift, and go to state 75
+    "<"       shift, and go to state 76
+    "<="      shift, and go to state 77
+    ">"       shift, and go to state 78
+    ">="      shift, and go to state 79
+    "/"       shift, and go to state 80
+    "!="      shift, and go to state 81
 
     $default  reduce using rule 36 (expr_list)
 
 
-State 39
+State 41
 
    50 expr: "(" ")" •
 
     $default  reduce using rule 50 (expr)
 
 
-State 40
+State 42
 
    49 expr: "(" expr • ")"
    55     | expr • "." id
@@ -918,38 +1137,72 @@ State 40
    68     | expr • "**" expr
    69     | expr • "//" expr
    70     | expr • "@" expr
+   71     | expr • "&" expr
+   72     | expr • "|" expr
+   73     | expr • "^" expr
+   74     | expr • "<<" expr
+   75     | expr • ">>" expr
+   76     | expr • "==" expr
+   77     | expr • "!=" expr
+   78     | expr • "<" expr
+   79     | expr • "<=" expr
+   80     | expr • ">" expr
+   81     | expr • ">=" expr
+   82     | expr • "is" expr
+   83     | expr • "is not" expr
+   84     | expr • "in" expr
+   85     | expr • "not in" expr
+   86     | expr • "and" expr
+   87     | expr • "or" expr
 
-    "-"   shift, and go to state 54
-    "."   shift, and go to state 55
-    "+"   shift, and go to state 56
-    "*"   shift, and go to state 57
-    "**"  shift, and go to state 58
-    "@"   shift, and go to state 59
-    "//"  shift, and go to state 60
-    "%"   shift, and go to state 61
-    ")"   shift, and go to state 72
-    "/"   shift, and go to state 62
+    "and"     shift, and go to state 56
+    "in"      shift, and go to state 57
+    "is"      shift, and go to state 58
+    "is not"  shift, and go to state 59
+    "not in"  shift, and go to state 60
+    "or"      shift, and go to state 61
+    "&"       shift, and go to state 62
+    "^"       shift, and go to state 63
+    "=="      shift, and go to state 64
+    "-"       shift, and go to state 65
+    "."       shift, and go to state 66
+    "+"       shift, and go to state 67
+    "*"       shift, and go to state 68
+    "**"      shift, and go to state 69
+    "@"       shift, and go to state 70
+    "//"      shift, and go to state 71
+    "%"       shift, and go to state 72
+    "|"       shift, and go to state 73
+    "<<"      shift, and go to state 74
+    ">>"      shift, and go to state 75
+    "<"       shift, and go to state 76
+    "<="      shift, and go to state 77
+    ">"       shift, and go to state 78
+    ">="      shift, and go to state 79
+    ")"       shift, and go to state 91
+    "/"       shift, and go to state 80
+    "!="      shift, and go to state 81
 
 
-State 41
+State 43
 
    51 expr: "[" expr_list_opt • "]"
 
-    "]"  shift, and go to state 73
+    "]"  shift, and go to state 92
 
 
-State 42
+State 44
 
    33 expr_list_opt: expr_list •
    35 expr_list: expr_list • "," expr
    52 expr: "[" expr_list • "," "]"
 
-    ","  shift, and go to state 74
+    ","  shift, and go to state 93
 
     $default  reduce using rule 33 (expr_list_opt)
 
 
-State 43
+State 45
 
    36 expr_list: expr •
    55 expr: expr • "." id
@@ -961,21 +1214,55 @@ State 43
    68     | expr • "**" expr
    69     | expr • "//" expr
    70     | expr • "@" expr
+   71     | expr • "&" expr
+   72     | expr • "|" expr
+   73     | expr • "^" expr
+   74     | expr • "<<" expr
+   75     | expr • ">>" expr
+   76     | expr • "==" expr
+   77     | expr • "!=" expr
+   78     | expr • "<" expr
+   79     | expr • "<=" expr
+   80     | expr • ">" expr
+   81     | expr • ">=" expr
+   82     | expr • "is" expr
+   83     | expr • "is not" expr
+   84     | expr • "in" expr
+   85     | expr • "not in" expr
+   86     | expr • "and" expr
+   87     | expr • "or" expr
 
-    "-"   shift, and go to state 54
-    "."   shift, and go to state 55
-    "+"   shift, and go to state 56
-    "*"   shift, and go to state 57
-    "**"  shift, and go to state 58
-    "@"   shift, and go to state 59
-    "//"  shift, and go to state 60
-    "%"   shift, and go to state 61
-    "/"   shift, and go to state 62
+    "and"     shift, and go to state 56
+    "in"      shift, and go to state 57
+    "is"      shift, and go to state 58
+    "is not"  shift, and go to state 59
+    "not in"  shift, and go to state 60
+    "or"      shift, and go to state 61
+    "&"       shift, and go to state 62
+    "^"       shift, and go to state 63
+    "=="      shift, and go to state 64
+    "-"       shift, and go to state 65
+    "."       shift, and go to state 66
+    "+"       shift, and go to state 67
+    "*"       shift, and go to state 68
+    "**"      shift, and go to state 69
+    "@"       shift, and go to state 70
+    "//"      shift, and go to state 71
+    "%"       shift, and go to state 72
+    "|"       shift, and go to state 73
+    "<<"      shift, and go to state 74
+    ">>"      shift, and go to state 75
+    "<"       shift, and go to state 76
+    "<="      shift, and go to state 77
+    ">"       shift, and go to state 78
+    ">="      shift, and go to state 79
+    "/"       shift, and go to state 80
+    "!="      shift, and go to state 81
 
     $default  reduce using rule 36 (expr_list)
 
 
-State 44
+State 46
 
    55 expr: expr • "." id
    60     | expr • "+" expr
@@ -987,14 +1274,31 @@ State 44
    68     | expr • "**" expr
    69     | expr • "//" expr
    70     | expr • "@" expr
+   71     | expr • "&" expr
+   72     | expr • "|" expr
+   73     | expr • "^" expr
+   74     | expr • "<<" expr
+   75     | expr • ">>" expr
+   76     | expr • "==" expr
+   77     | expr • "!=" expr
+   78     | expr • "<" expr
+   79     | expr • "<=" expr
+   80     | expr • ">" expr
+   81     | expr • ">=" expr
+   82     | expr • "is" expr
+   83     | expr • "is not" expr
+   84     | expr • "in" expr
+   85     | expr • "not in" expr
+   86     | expr • "and" expr
+   87     | expr • "or" expr
 
-    "."   shift, and go to state 55
-    "**"  shift, and go to state 58
+    "."   shift, and go to state 66
+    "**"  shift, and go to state 69
 
     $default  reduce using rule 65 (expr)
 
 
-State 45
+State 47
 
    55 expr: expr • "." id
    60     | expr • "+" expr
@@ -1006,14 +1310,31 @@ State 45
    68     | expr • "**" expr
    69     | expr • "//" expr
    70     | expr • "@" expr
+   71     | expr • "&" expr
+   72     | expr • "|" expr
+   73     | expr • "^" expr
+   74     | expr • "<<" expr
+   75     | expr • ">>" expr
+   76     | expr • "==" expr
+   77     | expr • "!=" expr
+   78     | expr • "<" expr
+   79     | expr • "<=" expr
+   80     | expr • ">" expr
+   81     | expr • ">=" expr
+   82     | expr • "is" expr
+   83     | expr • "is not" expr
+   84     | expr • "in" expr
+   85     | expr • "not in" expr
+   86     | expr • "and" expr
+   87     | expr • "or" expr
 
-    "."   shift, and go to state 55
-    "**"  shift, and go to state 58
+    "."   shift, and go to state 66
+    "**"  shift, and go to state 69
 
     $default  reduce using rule 66 (expr)
 
 
-State 46
+State 48
 
    55 expr: expr • "." id
    59     | "*" expr •
@@ -1025,14 +1346,31 @@ State 46
    68     | expr • "**" expr
    69     | expr • "//" expr
    70     | expr • "@" expr
+   71     | expr • "&" expr
+   72     | expr • "|" expr
+   73     | expr • "^" expr
+   74     | expr • "<<" expr
+   75     | expr • ">>" expr
+   76     | expr • "==" expr
+   77     | expr • "!=" expr
+   78     | expr • "<" expr
+   79     | expr • "<=" expr
+   80     | expr • ">" expr
+   81     | expr • ">=" expr
+   82     | expr • "is" expr
+   83     | expr • "is not" expr
+   84     | expr • "in" expr
+   85     | expr • "not in" expr
+   86     | expr • "and" expr
+   87     | expr • "or" expr
 
-    "."   shift, and go to state 55
-    "**"  shift, and go to state 58
+    "."   shift, and go to state 66
+    "**"  shift, and go to state 69
 
     $default  reduce using rule 59 (expr)
 
 
-State 47
+State 49
 
    55 expr: expr • "." id
    60     | expr • "+" expr
@@ -1044,70 +1382,330 @@ State 47
    68     | expr • "**" expr
    69     | expr • "//" expr
    70     | expr • "@" expr
+   71     | expr • "&" expr
+   72     | expr • "|" expr
+   73     | expr • "^" expr
+   74     | expr • "<<" expr
+   75     | expr • ">>" expr
+   76     | expr • "==" expr
+   77     | expr • "!=" expr
+   78     | expr • "<" expr
+   79     | expr • "<=" expr
+   80     | expr • ">" expr
+   81     | expr • ">=" expr
+   82     | expr • "is" expr
+   83     | expr • "is not" expr
+   84     | expr • "in" expr
+   85     | expr • "not in" expr
+   86     | expr • "and" expr
+   87     | expr • "or" expr
 
-    "."   shift, and go to state 55
-    "**"  shift, and go to state 58
+    "."   shift, and go to state 66
+    "**"  shift, and go to state 69
 
     $default  reduce using rule 67 (expr)
 
 
-State 48
+State 50
 
     0 $accept: units END_OF_FILE •
 
     $default  accept
 
 
-State 49
+State 51
 
     1 units: units script_unit •
 
     $default  reduce using rule 1 (units)
 
 
-State 50
+State 52
 
    21 statement: single_line_statement sep •
-   72 sep: sep • sep_one
+   90 sep: sep • sep_one
 
-    SEMICOLON  shift, and go to state 18
-    NEWLINE    shift, and go to state 19
-    COMMENT    shift, and go to state 20
+    ";"      shift, and go to state 19
+    NEWLINE  shift, and go to state 20
+    COMMENT  shift, and go to state 21
 
     $default  reduce using rule 21 (statement)
 
-    sep_one  go to state 65
+    sep_one  go to state 84
 
 
-State 51
+State 53
 
    23 statement: multi_line_statement sep •
-   72 sep: sep • sep_one
+   90 sep: sep • sep_one
 
-    SEMICOLON  shift, and go to state 18
-    NEWLINE    shift, and go to state 19
-    COMMENT    shift, and go to state 20
+    ";"      shift, and go to state 19
+    NEWLINE  shift, and go to state 20
+    COMMENT  shift, and go to state 21
 
     $default  reduce using rule 23 (statement)
 
-    sep_one  go to state 65
+    sep_one  go to state 84
 
 
-State 52
+State 54
 
    29 string: string string_literal •
 
     $default  reduce using rule 29 (string)
 
 
-State 53
+State 55
 
    32 string: string id • string_literal
 
-    string_literal  shift, and go to state 75
+    string_literal  shift, and go to state 94
 
 
-State 54
+State 56
+
+   86 expr: expr "and" • expr
+
+    integer_literal  shift, and go to state 1
+    real_literal     shift, and go to state 2
+    image_literal    shift, and go to state 3
+    identifier       shift, and go to state 4
+    string_literal   shift, and go to state 5
+    FALSE            shift, and go to state 6
+    TRUE             shift, and go to state 7
+    NONE             shift, and go to state 8
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
+
+    string  go to state 29
+    expr    go to state 95
+    id      go to state 31
+
+
+State 57
+
+   84 expr: expr "in" • expr
+
+    integer_literal  shift, and go to state 1
+    real_literal     shift, and go to state 2
+    image_literal    shift, and go to state 3
+    identifier       shift, and go to state 4
+    string_literal   shift, and go to state 5
+    FALSE            shift, and go to state 6
+    TRUE             shift, and go to state 7
+    NONE             shift, and go to state 8
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
+
+    string  go to state 29
+    expr    go to state 96
+    id      go to state 31
+
+
+State 58
+
+   82 expr: expr "is" • expr
+
+    integer_literal  shift, and go to state 1
+    real_literal     shift, and go to state 2
+    image_literal    shift, and go to state 3
+    identifier       shift, and go to state 4
+    string_literal   shift, and go to state 5
+    FALSE            shift, and go to state 6
+    TRUE             shift, and go to state 7
+    NONE             shift, and go to state 8
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
+
+    string  go to state 29
+    expr    go to state 97
+    id      go to state 31
+
+
+State 59
+
+   83 expr: expr "is not" • expr
+
+    integer_literal  shift, and go to state 1
+    real_literal     shift, and go to state 2
+    image_literal    shift, and go to state 3
+    identifier       shift, and go to state 4
+    string_literal   shift, and go to state 5
+    FALSE            shift, and go to state 6
+    TRUE             shift, and go to state 7
+    NONE             shift, and go to state 8
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
+
+    string  go to state 29
+    expr    go to state 98
+    id      go to state 31
+
+
+State 60
+
+   85 expr: expr "not in" • expr
+
+    integer_literal  shift, and go to state 1
+    real_literal     shift, and go to state 2
+    image_literal    shift, and go to state 3
+    identifier       shift, and go to state 4
+    string_literal   shift, and go to state 5
+    FALSE            shift, and go to state 6
+    TRUE             shift, and go to state 7
+    NONE             shift, and go to state 8
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
+
+    string  go to state 29
+    expr    go to state 99
+    id      go to state 31
+
+
+State 61
+
+   87 expr: expr "or" • expr
+
+    integer_literal  shift, and go to state 1
+    real_literal     shift, and go to state 2
+    image_literal    shift, and go to state 3
+    identifier       shift, and go to state 4
+    string_literal   shift, and go to state 5
+    FALSE            shift, and go to state 6
+    TRUE             shift, and go to state 7
+    NONE             shift, and go to state 8
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
+
+    string  go to state 29
+    expr    go to state 100
+    id      go to state 31
+
+
+State 62
+
+   71 expr: expr "&" • expr
+
+    integer_literal  shift, and go to state 1
+    real_literal     shift, and go to state 2
+    image_literal    shift, and go to state 3
+    identifier       shift, and go to state 4
+    string_literal   shift, and go to state 5
+    FALSE            shift, and go to state 6
+    TRUE             shift, and go to state 7
+    NONE             shift, and go to state 8
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
+
+    string  go to state 29
+    expr    go to state 101
+    id      go to state 31
+
+
+State 63
+
+   73 expr: expr "^" • expr
+
+    integer_literal  shift, and go to state 1
+    real_literal     shift, and go to state 2
+    image_literal    shift, and go to state 3
+    identifier       shift, and go to state 4
+    string_literal   shift, and go to state 5
+    FALSE            shift, and go to state 6
+    TRUE             shift, and go to state 7
+    NONE             shift, and go to state 8
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
+
+    string  go to state 29
+    expr    go to state 102
+    id      go to state 31
+
+
+State 64
+
+   76 expr: expr "==" • expr
+
+    integer_literal  shift, and go to state 1
+    real_literal     shift, and go to state 2
+    image_literal    shift, and go to state 3
+    identifier       shift, and go to state 4
+    string_literal   shift, and go to state 5
+    FALSE            shift, and go to state 6
+    TRUE             shift, and go to state 7
+    NONE             shift, and go to state 8
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
+
+    string  go to state 29
+    expr    go to state 103
+    id      go to state 31
+
+
+State 65
 
    61 expr: expr "-" • expr
 
@@ -1119,30 +1717,31 @@ State 54
     FALSE            shift, and go to state 6
     TRUE             shift, and go to state 7
     NONE             shift, and go to state 8
-    "{"              shift, and go to state 10
-    "("              shift, and go to state 11
-    "["              shift, and go to state 12
-    "-"              shift, and go to state 13
-    "+"              shift, and go to state 14
-    "*"              shift, and go to state 15
-    "~"              shift, and go to state 16
-    ELLIPSIS         shift, and go to state 17
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
 
-    string  go to state 28
-    expr    go to state 76
-    id      go to state 30
+    string  go to state 29
+    expr    go to state 104
+    id      go to state 31
 
 
-State 55
+State 66
 
    55 expr: expr "." • id
 
     identifier  shift, and go to state 4
 
-    id  go to state 77
+    id  go to state 105
 
 
-State 56
+State 67
 
    60 expr: expr "+" • expr
 
@@ -1154,21 +1753,22 @@ State 56
     FALSE            shift, and go to state 6
     TRUE             shift, and go to state 7
     NONE             shift, and go to state 8
-    "{"              shift, and go to state 10
-    "("              shift, and go to state 11
-    "["              shift, and go to state 12
-    "-"              shift, and go to state 13
-    "+"              shift, and go to state 14
-    "*"              shift, and go to state 15
-    "~"              shift, and go to state 16
-    ELLIPSIS         shift, and go to state 17
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
 
-    string  go to state 28
-    expr    go to state 78
-    id      go to state 30
+    string  go to state 29
+    expr    go to state 106
+    id      go to state 31
 
 
-State 57
+State 68
 
    62 expr: expr "*" • expr
 
@@ -1180,21 +1780,22 @@ State 57
     FALSE            shift, and go to state 6
     TRUE             shift, and go to state 7
     NONE             shift, and go to state 8
-    "{"              shift, and go to state 10
-    "("              shift, and go to state 11
-    "["              shift, and go to state 12
-    "-"              shift, and go to state 13
-    "+"              shift, and go to state 14
-    "*"              shift, and go to state 15
-    "~"              shift, and go to state 16
-    ELLIPSIS         shift, and go to state 17
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
 
-    string  go to state 28
-    expr    go to state 79
-    id      go to state 30
+    string  go to state 29
+    expr    go to state 107
+    id      go to state 31
 
 
-State 58
+State 69
 
    68 expr: expr "**" • expr
 
@@ -1206,21 +1807,22 @@ State 58
     FALSE            shift, and go to state 6
     TRUE             shift, and go to state 7
     NONE             shift, and go to state 8
-    "{"              shift, and go to state 10
-    "("              shift, and go to state 11
-    "["              shift, and go to state 12
-    "-"              shift, and go to state 13
-    "+"              shift, and go to state 14
-    "*"              shift, and go to state 15
-    "~"              shift, and go to state 16
-    ELLIPSIS         shift, and go to state 17
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
 
-    string  go to state 28
-    expr    go to state 80
-    id      go to state 30
+    string  go to state 29
+    expr    go to state 108
+    id      go to state 31
 
 
-State 59
+State 70
 
    70 expr: expr "@" • expr
 
@@ -1232,21 +1834,22 @@ State 59
     FALSE            shift, and go to state 6
     TRUE             shift, and go to state 7
     NONE             shift, and go to state 8
-    "{"              shift, and go to state 10
-    "("              shift, and go to state 11
-    "["              shift, and go to state 12
-    "-"              shift, and go to state 13
-    "+"              shift, and go to state 14
-    "*"              shift, and go to state 15
-    "~"              shift, and go to state 16
-    ELLIPSIS         shift, and go to state 17
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
 
-    string  go to state 28
-    expr    go to state 81
-    id      go to state 30
+    string  go to state 29
+    expr    go to state 109
+    id      go to state 31
 
 
-State 60
+State 71
 
    69 expr: expr "//" • expr
 
@@ -1258,21 +1861,22 @@ State 60
     FALSE            shift, and go to state 6
     TRUE             shift, and go to state 7
     NONE             shift, and go to state 8
-    "{"              shift, and go to state 10
-    "("              shift, and go to state 11
-    "["              shift, and go to state 12
-    "-"              shift, and go to state 13
-    "+"              shift, and go to state 14
-    "*"              shift, and go to state 15
-    "~"              shift, and go to state 16
-    ELLIPSIS         shift, and go to state 17
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
 
-    string  go to state 28
-    expr    go to state 82
-    id      go to state 30
+    string  go to state 29
+    expr    go to state 110
+    id      go to state 31
 
 
-State 61
+State 72
 
    64 expr: expr "%" • expr
 
@@ -1284,21 +1888,211 @@ State 61
     FALSE            shift, and go to state 6
     TRUE             shift, and go to state 7
     NONE             shift, and go to state 8
-    "{"              shift, and go to state 10
-    "("              shift, and go to state 11
-    "["              shift, and go to state 12
-    "-"              shift, and go to state 13
-    "+"              shift, and go to state 14
-    "*"              shift, and go to state 15
-    "~"              shift, and go to state 16
-    ELLIPSIS         shift, and go to state 17
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
 
-    string  go to state 28
-    expr    go to state 83
-    id      go to state 30
+    string  go to state 29
+    expr    go to state 111
+    id      go to state 31
 
 
-State 62
+State 73
+
+   72 expr: expr "|" • expr
+
+    integer_literal  shift, and go to state 1
+    real_literal     shift, and go to state 2
+    image_literal    shift, and go to state 3
+    identifier       shift, and go to state 4
+    string_literal   shift, and go to state 5
+    FALSE            shift, and go to state 6
+    TRUE             shift, and go to state 7
+    NONE             shift, and go to state 8
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
+
+    string  go to state 29
+    expr    go to state 112
+    id      go to state 31
+
+
+State 74
+
+   74 expr: expr "<<" • expr
+
+    integer_literal  shift, and go to state 1
+    real_literal     shift, and go to state 2
+    image_literal    shift, and go to state 3
+    identifier       shift, and go to state 4
+    string_literal   shift, and go to state 5
+    FALSE            shift, and go to state 6
+    TRUE             shift, and go to state 7
+    NONE             shift, and go to state 8
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
+
+    string  go to state 29
+    expr    go to state 113
+    id      go to state 31
+
+
+State 75
+
+   75 expr: expr ">>" • expr
+
+    integer_literal  shift, and go to state 1
+    real_literal     shift, and go to state 2
+    image_literal    shift, and go to state 3
+    identifier       shift, and go to state 4
+    string_literal   shift, and go to state 5
+    FALSE            shift, and go to state 6
+    TRUE             shift, and go to state 7
+    NONE             shift, and go to state 8
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
+
+    string  go to state 29
+    expr    go to state 114
+    id      go to state 31
+
+
+State 76
+
+   78 expr: expr "<" • expr
+
+    integer_literal  shift, and go to state 1
+    real_literal     shift, and go to state 2
+    image_literal    shift, and go to state 3
+    identifier       shift, and go to state 4
+    string_literal   shift, and go to state 5
+    FALSE            shift, and go to state 6
+    TRUE             shift, and go to state 7
+    NONE             shift, and go to state 8
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
+
+    string  go to state 29
+    expr    go to state 115
+    id      go to state 31
+
+
+State 77
+
+   79 expr: expr "<=" • expr
+
+    integer_literal  shift, and go to state 1
+    real_literal     shift, and go to state 2
+    image_literal    shift, and go to state 3
+    identifier       shift, and go to state 4
+    string_literal   shift, and go to state 5
+    FALSE            shift, and go to state 6
+    TRUE             shift, and go to state 7
+    NONE             shift, and go to state 8
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
+
+    string  go to state 29
+    expr    go to state 116
+    id      go to state 31
+
+
+State 78
+
+   80 expr: expr ">" • expr
+
+    integer_literal  shift, and go to state 1
+    real_literal     shift, and go to state 2
+    image_literal    shift, and go to state 3
+    identifier       shift, and go to state 4
+    string_literal   shift, and go to state 5
+    FALSE            shift, and go to state 6
+    TRUE             shift, and go to state 7
+    NONE             shift, and go to state 8
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
+
+    string  go to state 29
+    expr    go to state 117
+    id      go to state 31
+
+
+State 79
+
+   81 expr: expr ">=" • expr
+
+    integer_literal  shift, and go to state 1
+    real_literal     shift, and go to state 2
+    image_literal    shift, and go to state 3
+    identifier       shift, and go to state 4
+    string_literal   shift, and go to state 5
+    FALSE            shift, and go to state 6
+    TRUE             shift, and go to state 7
+    NONE             shift, and go to state 8
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
+
+    string  go to state 29
+    expr    go to state 118
+    id      go to state 31
+
+
+State 80
 
    63 expr: expr "/" • expr
 
@@ -1310,28 +2104,56 @@ State 62
     FALSE            shift, and go to state 6
     TRUE             shift, and go to state 7
     NONE             shift, and go to state 8
-    "{"              shift, and go to state 10
-    "("              shift, and go to state 11
-    "["              shift, and go to state 12
-    "-"              shift, and go to state 13
-    "+"              shift, and go to state 14
-    "*"              shift, and go to state 15
-    "~"              shift, and go to state 16
-    ELLIPSIS         shift, and go to state 17
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
 
-    string  go to state 28
-    expr    go to state 84
-    id      go to state 30
+    string  go to state 29
+    expr    go to state 119
+    id      go to state 31
 
 
-State 63
+State 81
+
+   77 expr: expr "!=" • expr
+
+    integer_literal  shift, and go to state 1
+    real_literal     shift, and go to state 2
+    image_literal    shift, and go to state 3
+    identifier       shift, and go to state 4
+    string_literal   shift, and go to state 5
+    FALSE            shift, and go to state 6
+    TRUE             shift, and go to state 7
+    NONE             shift, and go to state 8
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
+
+    string  go to state 29
+    expr    go to state 120
+    id      go to state 31
+
+
+State 82
 
    31 string: id string_literal •
 
     $default  reduce using rule 31 (string)
 
 
-State 64
+State 83
 
    58 expr: id ":=" • expr
 
@@ -1343,28 +2165,29 @@ State 64
     FALSE            shift, and go to state 6
     TRUE             shift, and go to state 7
     NONE             shift, and go to state 8
-    "{"              shift, and go to state 10
-    "("              shift, and go to state 11
-    "["              shift, and go to state 12
-    "-"              shift, and go to state 13
-    "+"              shift, and go to state 14
-    "*"              shift, and go to state 15
-    "~"              shift, and go to state 16
-    ELLIPSIS         shift, and go to state 17
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
 
-    string  go to state 28
-    expr    go to state 85
-    id      go to state 30
-
-
-State 65
-
-   72 sep: sep sep_one •
-
-    $default  reduce using rule 72 (sep)
+    string  go to state 29
+    expr    go to state 121
+    id      go to state 31
 
 
-State 66
+State 84
+
+   90 sep: sep sep_one •
+
+    $default  reduce using rule 90 (sep)
+
+
+State 85
 
    26 if_statement: IF expr ":" • body_stmts
    27             | IF expr ":" • body_stmts ELSE ":" body_stmts
@@ -1377,33 +2200,34 @@ State 66
     FALSE            shift, and go to state 6
     TRUE             shift, and go to state 7
     NONE             shift, and go to state 8
-    "{"              shift, and go to state 10
-    "("              shift, and go to state 11
-    "["              shift, and go to state 12
-    "-"              shift, and go to state 13
-    "+"              shift, and go to state 14
-    "*"              shift, and go to state 15
-    "~"              shift, and go to state 16
-    ELLIPSIS         shift, and go to state 17
-    SEMICOLON        shift, and go to state 18
-    NEWLINE          shift, and go to state 19
-    COMMENT          shift, and go to state 20
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
+    ";"              shift, and go to state 19
+    NEWLINE          shift, and go to state 20
+    COMMENT          shift, and go to state 21
 
-    sep_statements                    go to state 86
-    body_stmts                        go to state 87
-    single_line_statements            go to state 88
-    single_line_multi_statements      go to state 89
-    single_line_multi_statements_opt  go to state 90
-    single_line_statement             go to state 91
-    expression_statment               go to state 27
-    string                            go to state 28
-    expr                              go to state 29
-    id                                go to state 30
-    sep                               go to state 92
-    sep_one                           go to state 32
+    sep_statements                    go to state 122
+    body_stmts                        go to state 123
+    single_line_statements            go to state 124
+    single_line_multi_statements      go to state 125
+    single_line_multi_statements_opt  go to state 126
+    single_line_statement             go to state 127
+    expression_statment               go to state 28
+    string                            go to state 29
+    expr                              go to state 30
+    id                                go to state 31
+    sep                               go to state 128
+    sep_one                           go to state 33
 
 
-State 67
+State 86
 
    35 expr_list: expr_list "," • expr
    54 expr: "{" expr_list "," • "}"
@@ -1416,29 +2240,30 @@ State 67
     FALSE            shift, and go to state 6
     TRUE             shift, and go to state 7
     NONE             shift, and go to state 8
-    "{"              shift, and go to state 10
-    "("              shift, and go to state 11
-    "["              shift, and go to state 12
-    "-"              shift, and go to state 13
-    "+"              shift, and go to state 14
-    "*"              shift, and go to state 15
-    "~"              shift, and go to state 16
-    ELLIPSIS         shift, and go to state 17
-    "}"              shift, and go to state 93
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
+    "}"              shift, and go to state 129
 
-    string  go to state 28
-    expr    go to state 94
-    id      go to state 30
+    string  go to state 29
+    expr    go to state 130
+    id      go to state 31
 
 
-State 68
+State 87
 
    53 expr: "{" expr_list "}" •
 
     $default  reduce using rule 53 (expr)
 
 
-State 69
+State 88
 
    38 dict_list: dict_list "," • dict
 
@@ -1450,29 +2275,30 @@ State 69
     FALSE            shift, and go to state 6
     TRUE             shift, and go to state 7
     NONE             shift, and go to state 8
-    "{"              shift, and go to state 10
-    "("              shift, and go to state 11
-    "["              shift, and go to state 12
-    "-"              shift, and go to state 13
-    "+"              shift, and go to state 14
-    "*"              shift, and go to state 15
-    "~"              shift, and go to state 16
-    ELLIPSIS         shift, and go to state 17
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
 
-    string  go to state 28
-    dict    go to state 95
-    expr    go to state 96
-    id      go to state 30
+    string  go to state 29
+    dict    go to state 131
+    expr    go to state 132
+    id      go to state 31
 
 
-State 70
+State 89
 
    57 expr: "{" dict_list "}" •
 
     $default  reduce using rule 57 (expr)
 
 
-State 71
+State 90
 
    37 dict: expr ":" • expr
 
@@ -1484,35 +2310,36 @@ State 71
     FALSE            shift, and go to state 6
     TRUE             shift, and go to state 7
     NONE             shift, and go to state 8
-    "{"              shift, and go to state 10
-    "("              shift, and go to state 11
-    "["              shift, and go to state 12
-    "-"              shift, and go to state 13
-    "+"              shift, and go to state 14
-    "*"              shift, and go to state 15
-    "~"              shift, and go to state 16
-    ELLIPSIS         shift, and go to state 17
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
 
-    string  go to state 28
-    expr    go to state 97
-    id      go to state 30
+    string  go to state 29
+    expr    go to state 133
+    id      go to state 31
 
 
-State 72
+State 91
 
    49 expr: "(" expr ")" •
 
     $default  reduce using rule 49 (expr)
 
 
-State 73
+State 92
 
    51 expr: "[" expr_list_opt "]" •
 
     $default  reduce using rule 51 (expr)
 
 
-State 74
+State 93
 
    35 expr_list: expr_list "," • expr
    52 expr: "[" expr_list "," • "]"
@@ -1525,29 +2352,478 @@ State 74
     FALSE            shift, and go to state 6
     TRUE             shift, and go to state 7
     NONE             shift, and go to state 8
-    "{"              shift, and go to state 10
-    "("              shift, and go to state 11
-    "["              shift, and go to state 12
-    "-"              shift, and go to state 13
-    "+"              shift, and go to state 14
-    "*"              shift, and go to state 15
-    "~"              shift, and go to state 16
-    ELLIPSIS         shift, and go to state 17
-    "]"              shift, and go to state 98
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
+    "]"              shift, and go to state 134
 
-    string  go to state 28
-    expr    go to state 94
-    id      go to state 30
+    string  go to state 29
+    expr    go to state 130
+    id      go to state 31
 
 
-State 75
+State 94
 
    32 string: string id string_literal •
 
     $default  reduce using rule 32 (string)
 
 
-State 76
+State 95
+
+   55 expr: expr • "." id
+   60     | expr • "+" expr
+   61     | expr • "-" expr
+   62     | expr • "*" expr
+   63     | expr • "/" expr
+   64     | expr • "%" expr
+   68     | expr • "**" expr
+   69     | expr • "//" expr
+   70     | expr • "@" expr
+   71     | expr • "&" expr
+   72     | expr • "|" expr
+   73     | expr • "^" expr
+   74     | expr • "<<" expr
+   75     | expr • ">>" expr
+   76     | expr • "==" expr
+   77     | expr • "!=" expr
+   78     | expr • "<" expr
+   79     | expr • "<=" expr
+   80     | expr • ">" expr
+   81     | expr • ">=" expr
+   82     | expr • "is" expr
+   83     | expr • "is not" expr
+   84     | expr • "in" expr
+   85     | expr • "not in" expr
+   86     | expr • "and" expr
+   86     | expr "and" expr •
+   87     | expr • "or" expr
+
+    "in"      shift, and go to state 57
+    "is"      shift, and go to state 58
+    "is not"  shift, and go to state 59
+    "not in"  shift, and go to state 60
+    "&"       shift, and go to state 62
+    "^"       shift, and go to state 63
+    "=="      shift, and go to state 64
+    "-"       shift, and go to state 65
+    "."       shift, and go to state 66
+    "+"       shift, and go to state 67
+    "*"       shift, and go to state 68
+    "**"      shift, and go to state 69
+    "@"       shift, and go to state 70
+    "//"      shift, and go to state 71
+    "%"       shift, and go to state 72
+    "|"       shift, and go to state 73
+    "<<"      shift, and go to state 74
+    ">>"      shift, and go to state 75
+    "<"       shift, and go to state 76
+    "<="      shift, and go to state 77
+    ">"       shift, and go to state 78
+    ">="      shift, and go to state 79
+    "/"       shift, and go to state 80
+    "!="      shift, and go to state 81
+
+    $default  reduce using rule 86 (expr)
+
+
+State 96
+
+   55 expr: expr • "." id
+   60     | expr • "+" expr
+   61     | expr • "-" expr
+   62     | expr • "*" expr
+   63     | expr • "/" expr
+   64     | expr • "%" expr
+   68     | expr • "**" expr
+   69     | expr • "//" expr
+   70     | expr • "@" expr
+   71     | expr • "&" expr
+   72     | expr • "|" expr
+   73     | expr • "^" expr
+   74     | expr • "<<" expr
+   75     | expr • ">>" expr
+   76     | expr • "==" expr
+   77     | expr • "!=" expr
+   78     | expr • "<" expr
+   79     | expr • "<=" expr
+   80     | expr • ">" expr
+   81     | expr • ">=" expr
+   82     | expr • "is" expr
+   83     | expr • "is not" expr
+   84     | expr • "in" expr
+   84     | expr "in" expr •
+   85     | expr • "not in" expr
+   86     | expr • "and" expr
+   87     | expr • "or" expr
+
+    "&"   shift, and go to state 62
+    "^"   shift, and go to state 63
+    "-"   shift, and go to state 65
+    "."   shift, and go to state 66
+    "+"   shift, and go to state 67
+    "*"   shift, and go to state 68
+    "**"  shift, and go to state 69
+    "@"   shift, and go to state 70
+    "//"  shift, and go to state 71
+    "%"   shift, and go to state 72
+    "|"   shift, and go to state 73
+    "<<"  shift, and go to state 74
+    ">>"  shift, and go to state 75
+    "/"   shift, and go to state 80
+
+    $default  reduce using rule 84 (expr)
+
+
+State 97
+
+   55 expr: expr • "." id
+   60     | expr • "+" expr
+   61     | expr • "-" expr
+   62     | expr • "*" expr
+   63     | expr • "/" expr
+   64     | expr • "%" expr
+   68     | expr • "**" expr
+   69     | expr • "//" expr
+   70     | expr • "@" expr
+   71     | expr • "&" expr
+   72     | expr • "|" expr
+   73     | expr • "^" expr
+   74     | expr • "<<" expr
+   75     | expr • ">>" expr
+   76     | expr • "==" expr
+   77     | expr • "!=" expr
+   78     | expr • "<" expr
+   79     | expr • "<=" expr
+   80     | expr • ">" expr
+   81     | expr • ">=" expr
+   82     | expr • "is" expr
+   82     | expr "is" expr •
+   83     | expr • "is not" expr
+   84     | expr • "in" expr
+   85     | expr • "not in" expr
+   86     | expr • "and" expr
+   87     | expr • "or" expr
+
+    "&"   shift, and go to state 62
+    "^"   shift, and go to state 63
+    "-"   shift, and go to state 65
+    "."   shift, and go to state 66
+    "+"   shift, and go to state 67
+    "*"   shift, and go to state 68
+    "**"  shift, and go to state 69
+    "@"   shift, and go to state 70
+    "//"  shift, and go to state 71
+    "%"   shift, and go to state 72
+    "|"   shift, and go to state 73
+    "<<"  shift, and go to state 74
+    ">>"  shift, and go to state 75
+    "/"   shift, and go to state 80
+
+    $default  reduce using rule 82 (expr)
+
+
+State 98
+
+   55 expr: expr • "." id
+   60     | expr • "+" expr
+   61     | expr • "-" expr
+   62     | expr • "*" expr
+   63     | expr • "/" expr
+   64     | expr • "%" expr
+   68     | expr • "**" expr
+   69     | expr • "//" expr
+   70     | expr • "@" expr
+   71     | expr • "&" expr
+   72     | expr • "|" expr
+   73     | expr • "^" expr
+   74     | expr • "<<" expr
+   75     | expr • ">>" expr
+   76     | expr • "==" expr
+   77     | expr • "!=" expr
+   78     | expr • "<" expr
+   79     | expr • "<=" expr
+   80     | expr • ">" expr
+   81     | expr • ">=" expr
+   82     | expr • "is" expr
+   83     | expr • "is not" expr
+   83     | expr "is not" expr •
+   84     | expr • "in" expr
+   85     | expr • "not in" expr
+   86     | expr • "and" expr
+   87     | expr • "or" expr
+
+    "&"   shift, and go to state 62
+    "^"   shift, and go to state 63
+    "-"   shift, and go to state 65
+    "."   shift, and go to state 66
+    "+"   shift, and go to state 67
+    "*"   shift, and go to state 68
+    "**"  shift, and go to state 69
+    "@"   shift, and go to state 70
+    "//"  shift, and go to state 71
+    "%"   shift, and go to state 72
+    "|"   shift, and go to state 73
+    "<<"  shift, and go to state 74
+    ">>"  shift, and go to state 75
+    "/"   shift, and go to state 80
+
+    $default  reduce using rule 83 (expr)
+
+
+State 99
+
+   55 expr: expr • "." id
+   60     | expr • "+" expr
+   61     | expr • "-" expr
+   62     | expr • "*" expr
+   63     | expr • "/" expr
+   64     | expr • "%" expr
+   68     | expr • "**" expr
+   69     | expr • "//" expr
+   70     | expr • "@" expr
+   71     | expr • "&" expr
+   72     | expr • "|" expr
+   73     | expr • "^" expr
+   74     | expr • "<<" expr
+   75     | expr • ">>" expr
+   76     | expr • "==" expr
+   77     | expr • "!=" expr
+   78     | expr • "<" expr
+   79     | expr • "<=" expr
+   80     | expr • ">" expr
+   81     | expr • ">=" expr
+   82     | expr • "is" expr
+   83     | expr • "is not" expr
+   84     | expr • "in" expr
+   85     | expr • "not in" expr
+   85     | expr "not in" expr •
+   86     | expr • "and" expr
+   87     | expr • "or" expr
+
+    "&"   shift, and go to state 62
+    "^"   shift, and go to state 63
+    "-"   shift, and go to state 65
+    "."   shift, and go to state 66
+    "+"   shift, and go to state 67
+    "*"   shift, and go to state 68
+    "**"  shift, and go to state 69
+    "@"   shift, and go to state 70
+    "//"  shift, and go to state 71
+    "%"   shift, and go to state 72
+    "|"   shift, and go to state 73
+    "<<"  shift, and go to state 74
+    ">>"  shift, and go to state 75
+    "/"   shift, and go to state 80
+
+    $default  reduce using rule 85 (expr)
+
+
+State 100
+
+   55 expr: expr • "." id
+   60     | expr • "+" expr
+   61     | expr • "-" expr
+   62     | expr • "*" expr
+   63     | expr • "/" expr
+   64     | expr • "%" expr
+   68     | expr • "**" expr
+   69     | expr • "//" expr
+   70     | expr • "@" expr
+   71     | expr • "&" expr
+   72     | expr • "|" expr
+   73     | expr • "^" expr
+   74     | expr • "<<" expr
+   75     | expr • ">>" expr
+   76     | expr • "==" expr
+   77     | expr • "!=" expr
+   78     | expr • "<" expr
+   79     | expr • "<=" expr
+   80     | expr • ">" expr
+   81     | expr • ">=" expr
+   82     | expr • "is" expr
+   83     | expr • "is not" expr
+   84     | expr • "in" expr
+   85     | expr • "not in" expr
+   86     | expr • "and" expr
+   87     | expr • "or" expr
+   87     | expr "or" expr •
+
+    "and"     shift, and go to state 56
+    "in"      shift, and go to state 57
+    "is"      shift, and go to state 58
+    "is not"  shift, and go to state 59
+    "not in"  shift, and go to state 60
+    "&"       shift, and go to state 62
+    "^"       shift, and go to state 63
+    "=="      shift, and go to state 64
+    "-"       shift, and go to state 65
+    "."       shift, and go to state 66
+    "+"       shift, and go to state 67
+    "*"       shift, and go to state 68
+    "**"      shift, and go to state 69
+    "@"       shift, and go to state 70
+    "//"      shift, and go to state 71
+    "%"       shift, and go to state 72
+    "|"       shift, and go to state 73
+    "<<"      shift, and go to state 74
+    ">>"      shift, and go to state 75
+    "<"       shift, and go to state 76
+    "<="      shift, and go to state 77
+    ">"       shift, and go to state 78
+    ">="      shift, and go to state 79
+    "/"       shift, and go to state 80
+    "!="      shift, and go to state 81
+
+    $default  reduce using rule 87 (expr)
+
+
+State 101
+
+   55 expr: expr • "." id
+   60     | expr • "+" expr
+   61     | expr • "-" expr
+   62     | expr • "*" expr
+   63     | expr • "/" expr
+   64     | expr • "%" expr
+   68     | expr • "**" expr
+   69     | expr • "//" expr
+   70     | expr • "@" expr
+   71     | expr • "&" expr
+   71     | expr "&" expr •
+   72     | expr • "|" expr
+   73     | expr • "^" expr
+   74     | expr • "<<" expr
+   75     | expr • ">>" expr
+   76     | expr • "==" expr
+   77     | expr • "!=" expr
+   78     | expr • "<" expr
+   79     | expr • "<=" expr
+   80     | expr • ">" expr
+   81     | expr • ">=" expr
+   82     | expr • "is" expr
+   83     | expr • "is not" expr
+   84     | expr • "in" expr
+   85     | expr • "not in" expr
+   86     | expr • "and" expr
+   87     | expr • "or" expr
+
+    "-"   shift, and go to state 65
+    "."   shift, and go to state 66
+    "+"   shift, and go to state 67
+    "*"   shift, and go to state 68
+    "**"  shift, and go to state 69
+    "@"   shift, and go to state 70
+    "//"  shift, and go to state 71
+    "%"   shift, and go to state 72
+    "<<"  shift, and go to state 74
+    ">>"  shift, and go to state 75
+    "/"   shift, and go to state 80
+
+    $default  reduce using rule 71 (expr)
+
+
+State 102
+
+   55 expr: expr • "." id
+   60     | expr • "+" expr
+   61     | expr • "-" expr
+   62     | expr • "*" expr
+   63     | expr • "/" expr
+   64     | expr • "%" expr
+   68     | expr • "**" expr
+   69     | expr • "//" expr
+   70     | expr • "@" expr
+   71     | expr • "&" expr
+   72     | expr • "|" expr
+   73     | expr • "^" expr
+   73     | expr "^" expr •
+   74     | expr • "<<" expr
+   75     | expr • ">>" expr
+   76     | expr • "==" expr
+   77     | expr • "!=" expr
+   78     | expr • "<" expr
+   79     | expr • "<=" expr
+   80     | expr • ">" expr
+   81     | expr • ">=" expr
+   82     | expr • "is" expr
+   83     | expr • "is not" expr
+   84     | expr • "in" expr
+   85     | expr • "not in" expr
+   86     | expr • "and" expr
+   87     | expr • "or" expr
+
+    "&"   shift, and go to state 62
+    "-"   shift, and go to state 65
+    "."   shift, and go to state 66
+    "+"   shift, and go to state 67
+    "*"   shift, and go to state 68
+    "**"  shift, and go to state 69
+    "@"   shift, and go to state 70
+    "//"  shift, and go to state 71
+    "%"   shift, and go to state 72
+    "<<"  shift, and go to state 74
+    ">>"  shift, and go to state 75
+    "/"   shift, and go to state 80
+
+    $default  reduce using rule 73 (expr)
+
+
+State 103
+
+   55 expr: expr • "." id
+   60     | expr • "+" expr
+   61     | expr • "-" expr
+   62     | expr • "*" expr
+   63     | expr • "/" expr
+   64     | expr • "%" expr
+   68     | expr • "**" expr
+   69     | expr • "//" expr
+   70     | expr • "@" expr
+   71     | expr • "&" expr
+   72     | expr • "|" expr
+   73     | expr • "^" expr
+   74     | expr • "<<" expr
+   75     | expr • ">>" expr
+   76     | expr • "==" expr
+   76     | expr "==" expr •
+   77     | expr • "!=" expr
+   78     | expr • "<" expr
+   79     | expr • "<=" expr
+   80     | expr • ">" expr
+   81     | expr • ">=" expr
+   82     | expr • "is" expr
+   83     | expr • "is not" expr
+   84     | expr • "in" expr
+   85     | expr • "not in" expr
+   86     | expr • "and" expr
+   87     | expr • "or" expr
+
+    "&"   shift, and go to state 62
+    "^"   shift, and go to state 63
+    "-"   shift, and go to state 65
+    "."   shift, and go to state 66
+    "+"   shift, and go to state 67
+    "*"   shift, and go to state 68
+    "**"  shift, and go to state 69
+    "@"   shift, and go to state 70
+    "//"  shift, and go to state 71
+    "%"   shift, and go to state 72
+    "|"   shift, and go to state 73
+    "<<"  shift, and go to state 74
+    ">>"  shift, and go to state 75
+    "/"   shift, and go to state 80
+
+    $default  reduce using rule 76 (expr)
+
+
+State 104
 
    55 expr: expr • "." id
    60     | expr • "+" expr
@@ -1559,26 +2835,43 @@ State 76
    68     | expr • "**" expr
    69     | expr • "//" expr
    70     | expr • "@" expr
+   71     | expr • "&" expr
+   72     | expr • "|" expr
+   73     | expr • "^" expr
+   74     | expr • "<<" expr
+   75     | expr • ">>" expr
+   76     | expr • "==" expr
+   77     | expr • "!=" expr
+   78     | expr • "<" expr
+   79     | expr • "<=" expr
+   80     | expr • ">" expr
+   81     | expr • ">=" expr
+   82     | expr • "is" expr
+   83     | expr • "is not" expr
+   84     | expr • "in" expr
+   85     | expr • "not in" expr
+   86     | expr • "and" expr
+   87     | expr • "or" expr
 
-    "."   shift, and go to state 55
-    "*"   shift, and go to state 57
-    "**"  shift, and go to state 58
-    "@"   shift, and go to state 59
-    "//"  shift, and go to state 60
-    "%"   shift, and go to state 61
-    "/"   shift, and go to state 62
+    "."   shift, and go to state 66
+    "*"   shift, and go to state 68
+    "**"  shift, and go to state 69
+    "@"   shift, and go to state 70
+    "//"  shift, and go to state 71
+    "%"   shift, and go to state 72
+    "/"   shift, and go to state 80
 
     $default  reduce using rule 61 (expr)
 
 
-State 77
+State 105
 
    55 expr: expr "." id •
 
     $default  reduce using rule 55 (expr)
 
 
-State 78
+State 106
 
    55 expr: expr • "." id
    60     | expr • "+" expr
@@ -1590,19 +2883,36 @@ State 78
    68     | expr • "**" expr
    69     | expr • "//" expr
    70     | expr • "@" expr
+   71     | expr • "&" expr
+   72     | expr • "|" expr
+   73     | expr • "^" expr
+   74     | expr • "<<" expr
+   75     | expr • ">>" expr
+   76     | expr • "==" expr
+   77     | expr • "!=" expr
+   78     | expr • "<" expr
+   79     | expr • "<=" expr
+   80     | expr • ">" expr
+   81     | expr • ">=" expr
+   82     | expr • "is" expr
+   83     | expr • "is not" expr
+   84     | expr • "in" expr
+   85     | expr • "not in" expr
+   86     | expr • "and" expr
+   87     | expr • "or" expr
 
-    "."   shift, and go to state 55
-    "*"   shift, and go to state 57
-    "**"  shift, and go to state 58
-    "@"   shift, and go to state 59
-    "//"  shift, and go to state 60
-    "%"   shift, and go to state 61
-    "/"   shift, and go to state 62
+    "."   shift, and go to state 66
+    "*"   shift, and go to state 68
+    "**"  shift, and go to state 69
+    "@"   shift, and go to state 70
+    "//"  shift, and go to state 71
+    "%"   shift, and go to state 72
+    "/"   shift, and go to state 80
 
     $default  reduce using rule 60 (expr)
 
 
-State 79
+State 107
 
    55 expr: expr • "." id
    60     | expr • "+" expr
@@ -1614,14 +2924,31 @@ State 79
    68     | expr • "**" expr
    69     | expr • "//" expr
    70     | expr • "@" expr
+   71     | expr • "&" expr
+   72     | expr • "|" expr
+   73     | expr • "^" expr
+   74     | expr • "<<" expr
+   75     | expr • ">>" expr
+   76     | expr • "==" expr
+   77     | expr • "!=" expr
+   78     | expr • "<" expr
+   79     | expr • "<=" expr
+   80     | expr • ">" expr
+   81     | expr • ">=" expr
+   82     | expr • "is" expr
+   83     | expr • "is not" expr
+   84     | expr • "in" expr
+   85     | expr • "not in" expr
+   86     | expr • "and" expr
+   87     | expr • "or" expr
 
-    "."   shift, and go to state 55
-    "**"  shift, and go to state 58
+    "."   shift, and go to state 66
+    "**"  shift, and go to state 69
 
     $default  reduce using rule 62 (expr)
 
 
-State 80
+State 108
 
    55 expr: expr • "." id
    60     | expr • "+" expr
@@ -1633,14 +2960,31 @@ State 80
    68     | expr "**" expr •
    69     | expr • "//" expr
    70     | expr • "@" expr
+   71     | expr • "&" expr
+   72     | expr • "|" expr
+   73     | expr • "^" expr
+   74     | expr • "<<" expr
+   75     | expr • ">>" expr
+   76     | expr • "==" expr
+   77     | expr • "!=" expr
+   78     | expr • "<" expr
+   79     | expr • "<=" expr
+   80     | expr • ">" expr
+   81     | expr • ">=" expr
+   82     | expr • "is" expr
+   83     | expr • "is not" expr
+   84     | expr • "in" expr
+   85     | expr • "not in" expr
+   86     | expr • "and" expr
+   87     | expr • "or" expr
 
-    "."   shift, and go to state 55
-    "**"  shift, and go to state 58
+    "."   shift, and go to state 66
+    "**"  shift, and go to state 69
 
     $default  reduce using rule 68 (expr)
 
 
-State 81
+State 109
 
    55 expr: expr • "." id
    60     | expr • "+" expr
@@ -1652,14 +2996,31 @@ State 81
    69     | expr • "//" expr
    70     | expr • "@" expr
    70     | expr "@" expr •
+   71     | expr • "&" expr
+   72     | expr • "|" expr
+   73     | expr • "^" expr
+   74     | expr • "<<" expr
+   75     | expr • ">>" expr
+   76     | expr • "==" expr
+   77     | expr • "!=" expr
+   78     | expr • "<" expr
+   79     | expr • "<=" expr
+   80     | expr • ">" expr
+   81     | expr • ">=" expr
+   82     | expr • "is" expr
+   83     | expr • "is not" expr
+   84     | expr • "in" expr
+   85     | expr • "not in" expr
+   86     | expr • "and" expr
+   87     | expr • "or" expr
 
-    "."   shift, and go to state 55
-    "**"  shift, and go to state 58
+    "."   shift, and go to state 66
+    "**"  shift, and go to state 69
 
     $default  reduce using rule 70 (expr)
 
 
-State 82
+State 110
 
    55 expr: expr • "." id
    60     | expr • "+" expr
@@ -1671,14 +3032,31 @@ State 82
    69     | expr • "//" expr
    69     | expr "//" expr •
    70     | expr • "@" expr
+   71     | expr • "&" expr
+   72     | expr • "|" expr
+   73     | expr • "^" expr
+   74     | expr • "<<" expr
+   75     | expr • ">>" expr
+   76     | expr • "==" expr
+   77     | expr • "!=" expr
+   78     | expr • "<" expr
+   79     | expr • "<=" expr
+   80     | expr • ">" expr
+   81     | expr • ">=" expr
+   82     | expr • "is" expr
+   83     | expr • "is not" expr
+   84     | expr • "in" expr
+   85     | expr • "not in" expr
+   86     | expr • "and" expr
+   87     | expr • "or" expr
 
-    "."   shift, and go to state 55
-    "**"  shift, and go to state 58
+    "."   shift, and go to state 66
+    "**"  shift, and go to state 69
 
     $default  reduce using rule 69 (expr)
 
 
-State 83
+State 111
 
    55 expr: expr • "." id
    60     | expr • "+" expr
@@ -1690,14 +3068,356 @@ State 83
    68     | expr • "**" expr
    69     | expr • "//" expr
    70     | expr • "@" expr
+   71     | expr • "&" expr
+   72     | expr • "|" expr
+   73     | expr • "^" expr
+   74     | expr • "<<" expr
+   75     | expr • ">>" expr
+   76     | expr • "==" expr
+   77     | expr • "!=" expr
+   78     | expr • "<" expr
+   79     | expr • "<=" expr
+   80     | expr • ">" expr
+   81     | expr • ">=" expr
+   82     | expr • "is" expr
+   83     | expr • "is not" expr
+   84     | expr • "in" expr
+   85     | expr • "not in" expr
+   86     | expr • "and" expr
+   87     | expr • "or" expr
 
-    "."   shift, and go to state 55
-    "**"  shift, and go to state 58
+    "."   shift, and go to state 66
+    "**"  shift, and go to state 69
 
     $default  reduce using rule 64 (expr)
 
 
-State 84
+State 112
+
+   55 expr: expr • "." id
+   60     | expr • "+" expr
+   61     | expr • "-" expr
+   62     | expr • "*" expr
+   63     | expr • "/" expr
+   64     | expr • "%" expr
+   68     | expr • "**" expr
+   69     | expr • "//" expr
+   70     | expr • "@" expr
+   71     | expr • "&" expr
+   72     | expr • "|" expr
+   72     | expr "|" expr •
+   73     | expr • "^" expr
+   74     | expr • "<<" expr
+   75     | expr • ">>" expr
+   76     | expr • "==" expr
+   77     | expr • "!=" expr
+   78     | expr • "<" expr
+   79     | expr • "<=" expr
+   80     | expr • ">" expr
+   81     | expr • ">=" expr
+   82     | expr • "is" expr
+   83     | expr • "is not" expr
+   84     | expr • "in" expr
+   85     | expr • "not in" expr
+   86     | expr • "and" expr
+   87     | expr • "or" expr
+
+    "&"   shift, and go to state 62
+    "^"   shift, and go to state 63
+    "-"   shift, and go to state 65
+    "."   shift, and go to state 66
+    "+"   shift, and go to state 67
+    "*"   shift, and go to state 68
+    "**"  shift, and go to state 69
+    "@"   shift, and go to state 70
+    "//"  shift, and go to state 71
+    "%"   shift, and go to state 72
+    "<<"  shift, and go to state 74
+    ">>"  shift, and go to state 75
+    "/"   shift, and go to state 80
+
+    $default  reduce using rule 72 (expr)
+
+
+State 113
+
+   55 expr: expr • "." id
+   60     | expr • "+" expr
+   61     | expr • "-" expr
+   62     | expr • "*" expr
+   63     | expr • "/" expr
+   64     | expr • "%" expr
+   68     | expr • "**" expr
+   69     | expr • "//" expr
+   70     | expr • "@" expr
+   71     | expr • "&" expr
+   72     | expr • "|" expr
+   73     | expr • "^" expr
+   74     | expr • "<<" expr
+   74     | expr "<<" expr •
+   75     | expr • ">>" expr
+   76     | expr • "==" expr
+   77     | expr • "!=" expr
+   78     | expr • "<" expr
+   79     | expr • "<=" expr
+   80     | expr • ">" expr
+   81     | expr • ">=" expr
+   82     | expr • "is" expr
+   83     | expr • "is not" expr
+   84     | expr • "in" expr
+   85     | expr • "not in" expr
+   86     | expr • "and" expr
+   87     | expr • "or" expr
+
+    "-"   shift, and go to state 65
+    "."   shift, and go to state 66
+    "+"   shift, and go to state 67
+    "*"   shift, and go to state 68
+    "**"  shift, and go to state 69
+    "@"   shift, and go to state 70
+    "//"  shift, and go to state 71
+    "%"   shift, and go to state 72
+    "/"   shift, and go to state 80
+
+    $default  reduce using rule 74 (expr)
+
+
+State 114
+
+   55 expr: expr • "." id
+   60     | expr • "+" expr
+   61     | expr • "-" expr
+   62     | expr • "*" expr
+   63     | expr • "/" expr
+   64     | expr • "%" expr
+   68     | expr • "**" expr
+   69     | expr • "//" expr
+   70     | expr • "@" expr
+   71     | expr • "&" expr
+   72     | expr • "|" expr
+   73     | expr • "^" expr
+   74     | expr • "<<" expr
+   75     | expr • ">>" expr
+   75     | expr ">>" expr •
+   76     | expr • "==" expr
+   77     | expr • "!=" expr
+   78     | expr • "<" expr
+   79     | expr • "<=" expr
+   80     | expr • ">" expr
+   81     | expr • ">=" expr
+   82     | expr • "is" expr
+   83     | expr • "is not" expr
+   84     | expr • "in" expr
+   85     | expr • "not in" expr
+   86     | expr • "and" expr
+   87     | expr • "or" expr
+
+    "-"   shift, and go to state 65
+    "."   shift, and go to state 66
+    "+"   shift, and go to state 67
+    "*"   shift, and go to state 68
+    "**"  shift, and go to state 69
+    "@"   shift, and go to state 70
+    "//"  shift, and go to state 71
+    "%"   shift, and go to state 72
+    "/"   shift, and go to state 80
+
+    $default  reduce using rule 75 (expr)
+
+
+State 115
+
+   55 expr: expr • "." id
+   60     | expr • "+" expr
+   61     | expr • "-" expr
+   62     | expr • "*" expr
+   63     | expr • "/" expr
+   64     | expr • "%" expr
+   68     | expr • "**" expr
+   69     | expr • "//" expr
+   70     | expr • "@" expr
+   71     | expr • "&" expr
+   72     | expr • "|" expr
+   73     | expr • "^" expr
+   74     | expr • "<<" expr
+   75     | expr • ">>" expr
+   76     | expr • "==" expr
+   77     | expr • "!=" expr
+   78     | expr • "<" expr
+   78     | expr "<" expr •
+   79     | expr • "<=" expr
+   80     | expr • ">" expr
+   81     | expr • ">=" expr
+   82     | expr • "is" expr
+   83     | expr • "is not" expr
+   84     | expr • "in" expr
+   85     | expr • "not in" expr
+   86     | expr • "and" expr
+   87     | expr • "or" expr
+
+    "&"   shift, and go to state 62
+    "^"   shift, and go to state 63
+    "-"   shift, and go to state 65
+    "."   shift, and go to state 66
+    "+"   shift, and go to state 67
+    "*"   shift, and go to state 68
+    "**"  shift, and go to state 69
+    "@"   shift, and go to state 70
+    "//"  shift, and go to state 71
+    "%"   shift, and go to state 72
+    "|"   shift, and go to state 73
+    "<<"  shift, and go to state 74
+    ">>"  shift, and go to state 75
+    "/"   shift, and go to state 80
+
+    $default  reduce using rule 78 (expr)
+
+
+State 116
+
+   55 expr: expr • "." id
+   60     | expr • "+" expr
+   61     | expr • "-" expr
+   62     | expr • "*" expr
+   63     | expr • "/" expr
+   64     | expr • "%" expr
+   68     | expr • "**" expr
+   69     | expr • "//" expr
+   70     | expr • "@" expr
+   71     | expr • "&" expr
+   72     | expr • "|" expr
+   73     | expr • "^" expr
+   74     | expr • "<<" expr
+   75     | expr • ">>" expr
+   76     | expr • "==" expr
+   77     | expr • "!=" expr
+   78     | expr • "<" expr
+   79     | expr • "<=" expr
+   79     | expr "<=" expr •
+   80     | expr • ">" expr
+   81     | expr • ">=" expr
+   82     | expr • "is" expr
+   83     | expr • "is not" expr
+   84     | expr • "in" expr
+   85     | expr • "not in" expr
+   86     | expr • "and" expr
+   87     | expr • "or" expr
+
+    "&"   shift, and go to state 62
+    "^"   shift, and go to state 63
+    "-"   shift, and go to state 65
+    "."   shift, and go to state 66
+    "+"   shift, and go to state 67
+    "*"   shift, and go to state 68
+    "**"  shift, and go to state 69
+    "@"   shift, and go to state 70
+    "//"  shift, and go to state 71
+    "%"   shift, and go to state 72
+    "|"   shift, and go to state 73
+    "<<"  shift, and go to state 74
+    ">>"  shift, and go to state 75
+    "/"   shift, and go to state 80
+
+    $default  reduce using rule 79 (expr)
+
+
+State 117
+
+   55 expr: expr • "." id
+   60     | expr • "+" expr
+   61     | expr • "-" expr
+   62     | expr • "*" expr
+   63     | expr • "/" expr
+   64     | expr • "%" expr
+   68     | expr • "**" expr
+   69     | expr • "//" expr
+   70     | expr • "@" expr
+   71     | expr • "&" expr
+   72     | expr • "|" expr
+   73     | expr • "^" expr
+   74     | expr • "<<" expr
+   75     | expr • ">>" expr
+   76     | expr • "==" expr
+   77     | expr • "!=" expr
+   78     | expr • "<" expr
+   79     | expr • "<=" expr
+   80     | expr • ">" expr
+   80     | expr ">" expr •
+   81     | expr • ">=" expr
+   82     | expr • "is" expr
+   83     | expr • "is not" expr
+   84     | expr • "in" expr
+   85     | expr • "not in" expr
+   86     | expr • "and" expr
+   87     | expr • "or" expr
+
+    "&"   shift, and go to state 62
+    "^"   shift, and go to state 63
+    "-"   shift, and go to state 65
+    "."   shift, and go to state 66
+    "+"   shift, and go to state 67
+    "*"   shift, and go to state 68
+    "**"  shift, and go to state 69
+    "@"   shift, and go to state 70
+    "//"  shift, and go to state 71
+    "%"   shift, and go to state 72
+    "|"   shift, and go to state 73
+    "<<"  shift, and go to state 74
+    ">>"  shift, and go to state 75
+    "/"   shift, and go to state 80
+
+    $default  reduce using rule 80 (expr)
+
+
+State 118
+
+   55 expr: expr • "." id
+   60     | expr • "+" expr
+   61     | expr • "-" expr
+   62     | expr • "*" expr
+   63     | expr • "/" expr
+   64     | expr • "%" expr
+   68     | expr • "**" expr
+   69     | expr • "//" expr
+   70     | expr • "@" expr
+   71     | expr • "&" expr
+   72     | expr • "|" expr
+   73     | expr • "^" expr
+   74     | expr • "<<" expr
+   75     | expr • ">>" expr
+   76     | expr • "==" expr
+   77     | expr • "!=" expr
+   78     | expr • "<" expr
+   79     | expr • "<=" expr
+   80     | expr • ">" expr
+   81     | expr • ">=" expr
+   81     | expr ">=" expr •
+   82     | expr • "is" expr
+   83     | expr • "is not" expr
+   84     | expr • "in" expr
+   85     | expr • "not in" expr
+   86     | expr • "and" expr
+   87     | expr • "or" expr
+
+    "&"   shift, and go to state 62
+    "^"   shift, and go to state 63
+    "-"   shift, and go to state 65
+    "."   shift, and go to state 66
+    "+"   shift, and go to state 67
+    "*"   shift, and go to state 68
+    "**"  shift, and go to state 69
+    "@"   shift, and go to state 70
+    "//"  shift, and go to state 71
+    "%"   shift, and go to state 72
+    "|"   shift, and go to state 73
+    "<<"  shift, and go to state 74
+    ">>"  shift, and go to state 75
+    "/"   shift, and go to state 80
+
+    $default  reduce using rule 81 (expr)
+
+
+State 119
 
    55 expr: expr • "." id
    60     | expr • "+" expr
@@ -1709,14 +3429,79 @@ State 84
    68     | expr • "**" expr
    69     | expr • "//" expr
    70     | expr • "@" expr
+   71     | expr • "&" expr
+   72     | expr • "|" expr
+   73     | expr • "^" expr
+   74     | expr • "<<" expr
+   75     | expr • ">>" expr
+   76     | expr • "==" expr
+   77     | expr • "!=" expr
+   78     | expr • "<" expr
+   79     | expr • "<=" expr
+   80     | expr • ">" expr
+   81     | expr • ">=" expr
+   82     | expr • "is" expr
+   83     | expr • "is not" expr
+   84     | expr • "in" expr
+   85     | expr • "not in" expr
+   86     | expr • "and" expr
+   87     | expr • "or" expr
 
-    "."   shift, and go to state 55
-    "**"  shift, and go to state 58
+    "."   shift, and go to state 66
+    "**"  shift, and go to state 69
 
     $default  reduce using rule 63 (expr)
 
 
-State 85
+State 120
+
+   55 expr: expr • "." id
+   60     | expr • "+" expr
+   61     | expr • "-" expr
+   62     | expr • "*" expr
+   63     | expr • "/" expr
+   64     | expr • "%" expr
+   68     | expr • "**" expr
+   69     | expr • "//" expr
+   70     | expr • "@" expr
+   71     | expr • "&" expr
+   72     | expr • "|" expr
+   73     | expr • "^" expr
+   74     | expr • "<<" expr
+   75     | expr • ">>" expr
+   76     | expr • "==" expr
+   77     | expr • "!=" expr
+   77     | expr "!=" expr •
+   78     | expr • "<" expr
+   79     | expr • "<=" expr
+   80     | expr • ">" expr
+   81     | expr • ">=" expr
+   82     | expr • "is" expr
+   83     | expr • "is not" expr
+   84     | expr • "in" expr
+   85     | expr • "not in" expr
+   86     | expr • "and" expr
+   87     | expr • "or" expr
+
+    "&"   shift, and go to state 62
+    "^"   shift, and go to state 63
+    "-"   shift, and go to state 65
+    "."   shift, and go to state 66
+    "+"   shift, and go to state 67
+    "*"   shift, and go to state 68
+    "**"  shift, and go to state 69
+    "@"   shift, and go to state 70
+    "//"  shift, and go to state 71
+    "%"   shift, and go to state 72
+    "|"   shift, and go to state 73
+    "<<"  shift, and go to state 74
+    ">>"  shift, and go to state 75
+    "/"   shift, and go to state 80
+
+    $default  reduce using rule 77 (expr)
+
+
+State 121
 
    55 expr: expr • "." id
    58     | id ":=" expr •
@@ -1728,58 +3513,92 @@ State 85
    68     | expr • "**" expr
    69     | expr • "//" expr
    70     | expr • "@" expr
+   71     | expr • "&" expr
+   72     | expr • "|" expr
+   73     | expr • "^" expr
+   74     | expr • "<<" expr
+   75     | expr • ">>" expr
+   76     | expr • "==" expr
+   77     | expr • "!=" expr
+   78     | expr • "<" expr
+   79     | expr • "<=" expr
+   80     | expr • ">" expr
+   81     | expr • ">=" expr
+   82     | expr • "is" expr
+   83     | expr • "is not" expr
+   84     | expr • "in" expr
+   85     | expr • "not in" expr
+   86     | expr • "and" expr
+   87     | expr • "or" expr
 
-    "-"   shift, and go to state 54
-    "."   shift, and go to state 55
-    "+"   shift, and go to state 56
-    "*"   shift, and go to state 57
-    "**"  shift, and go to state 58
-    "@"   shift, and go to state 59
-    "//"  shift, and go to state 60
-    "%"   shift, and go to state 61
-    "/"   shift, and go to state 62
+    "and"     shift, and go to state 56
+    "in"      shift, and go to state 57
+    "is"      shift, and go to state 58
+    "is not"  shift, and go to state 59
+    "not in"  shift, and go to state 60
+    "or"      shift, and go to state 61
+    "&"       shift, and go to state 62
+    "^"       shift, and go to state 63
+    "=="      shift, and go to state 64
+    "-"       shift, and go to state 65
+    "."       shift, and go to state 66
+    "+"       shift, and go to state 67
+    "*"       shift, and go to state 68
+    "**"      shift, and go to state 69
+    "@"       shift, and go to state 70
+    "//"      shift, and go to state 71
+    "%"       shift, and go to state 72
+    "|"       shift, and go to state 73
+    "<<"      shift, and go to state 74
+    ">>"      shift, and go to state 75
+    "<"       shift, and go to state 76
+    "<="      shift, and go to state 77
+    ">"       shift, and go to state 78
+    ">="      shift, and go to state 79
+    "/"       shift, and go to state 80
+    "!="      shift, and go to state 81
 
     $default  reduce using rule 58 (expr)
 
 
-State 86
+State 122
 
     8 body_stmts: sep_statements •
 
     $default  reduce using rule 8 (body_stmts)
 
 
-State 87
+State 123
 
    26 if_statement: IF expr ":" body_stmts •
    27             | IF expr ":" body_stmts • ELSE ":" body_stmts
 
-    ELSE  shift, and go to state 99
+    ELSE  shift, and go to state 135
 
     $default  reduce using rule 26 (if_statement)
 
 
-State 88
+State 124
 
     7 body_stmts: single_line_statements •
 
     $default  reduce using rule 7 (body_stmts)
 
 
-State 89
+State 125
 
    11 single_line_statements: single_line_multi_statements • NEWLINE
    12                       | single_line_multi_statements • COMMENT NEWLINE
 
-    NEWLINE  shift, and go to state 100
-    COMMENT  shift, and go to state 101
+    NEWLINE  shift, and go to state 136
+    COMMENT  shift, and go to state 137
 
 
-State 90
+State 126
 
    17 single_line_multi_statements: single_line_multi_statements_opt • single_line_statement
-   18                             | single_line_multi_statements_opt • single_line_statement SEMICOLON
-   19 single_line_multi_statements_opt: single_line_multi_statements_opt • single_line_statement SEMICOLON
+   18                             | single_line_multi_statements_opt • single_line_statement ";"
+   19 single_line_multi_statements_opt: single_line_multi_statements_opt • single_line_statement ";"
 
     integer_literal  shift, and go to state 1
     real_literal     shift, and go to state 2
@@ -1789,57 +3608,58 @@ State 90
     FALSE            shift, and go to state 6
     TRUE             shift, and go to state 7
     NONE             shift, and go to state 8
-    "{"              shift, and go to state 10
-    "("              shift, and go to state 11
-    "["              shift, and go to state 12
-    "-"              shift, and go to state 13
-    "+"              shift, and go to state 14
-    "*"              shift, and go to state 15
-    "~"              shift, and go to state 16
-    ELLIPSIS         shift, and go to state 17
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
 
-    single_line_statement  go to state 102
-    expression_statment    go to state 27
-    string                 go to state 28
-    expr                   go to state 29
-    id                     go to state 30
+    single_line_statement  go to state 138
+    expression_statment    go to state 28
+    string                 go to state 29
+    expr                   go to state 30
+    id                     go to state 31
 
 
-State 91
+State 127
 
    13 single_line_statements: single_line_statement • NEWLINE
-   14                       | single_line_statement • SEMICOLON NEWLINE
-   15                       | single_line_statement • SEMICOLON COMMENT NEWLINE
+   14                       | single_line_statement • ";" NEWLINE
+   15                       | single_line_statement • ";" COMMENT NEWLINE
    16                       | single_line_statement • COMMENT NEWLINE
-   20 single_line_multi_statements_opt: single_line_statement • SEMICOLON
+   20 single_line_multi_statements_opt: single_line_statement • ";"
 
-    SEMICOLON  shift, and go to state 103
-    NEWLINE    shift, and go to state 104
-    COMMENT    shift, and go to state 105
+    ";"      shift, and go to state 139
+    NEWLINE  shift, and go to state 140
+    COMMENT  shift, and go to state 141
 
 
-State 92
+State 128
 
     6 sep_statements: sep • statements
-   72 sep: sep • sep_one
+   90 sep: sep • sep_one
 
-    SEMICOLON  shift, and go to state 18
-    INDENT     shift, and go to state 106
-    NEWLINE    shift, and go to state 19
-    COMMENT    shift, and go to state 20
+    ";"      shift, and go to state 19
+    INDENT   shift, and go to state 142
+    NEWLINE  shift, and go to state 20
+    COMMENT  shift, and go to state 21
 
-    statements  go to state 107
-    sep_one     go to state 65
+    statements  go to state 143
+    sep_one     go to state 84
 
 
-State 93
+State 129
 
    54 expr: "{" expr_list "," "}" •
 
     $default  reduce using rule 54 (expr)
 
 
-State 94
+State 130
 
    35 expr_list: expr_list "," expr •
    55 expr: expr • "." id
@@ -1851,28 +3671,62 @@ State 94
    68     | expr • "**" expr
    69     | expr • "//" expr
    70     | expr • "@" expr
+   71     | expr • "&" expr
+   72     | expr • "|" expr
+   73     | expr • "^" expr
+   74     | expr • "<<" expr
+   75     | expr • ">>" expr
+   76     | expr • "==" expr
+   77     | expr • "!=" expr
+   78     | expr • "<" expr
+   79     | expr • "<=" expr
+   80     | expr • ">" expr
+   81     | expr • ">=" expr
+   82     | expr • "is" expr
+   83     | expr • "is not" expr
+   84     | expr • "in" expr
+   85     | expr • "not in" expr
+   86     | expr • "and" expr
+   87     | expr • "or" expr
 
-    "-"   shift, and go to state 54
-    "."   shift, and go to state 55
-    "+"   shift, and go to state 56
-    "*"   shift, and go to state 57
-    "**"  shift, and go to state 58
-    "@"   shift, and go to state 59
-    "//"  shift, and go to state 60
-    "%"   shift, and go to state 61
-    "/"   shift, and go to state 62
+    "and"     shift, and go to state 56
+    "in"      shift, and go to state 57
+    "is"      shift, and go to state 58
+    "is not"  shift, and go to state 59
+    "not in"  shift, and go to state 60
+    "or"      shift, and go to state 61
+    "&"       shift, and go to state 62
+    "^"       shift, and go to state 63
+    "=="      shift, and go to state 64
+    "-"       shift, and go to state 65
+    "."       shift, and go to state 66
+    "+"       shift, and go to state 67
+    "*"       shift, and go to state 68
+    "**"      shift, and go to state 69
+    "@"       shift, and go to state 70
+    "//"      shift, and go to state 71
+    "%"       shift, and go to state 72
+    "|"       shift, and go to state 73
+    "<<"      shift, and go to state 74
+    ">>"      shift, and go to state 75
+    "<"       shift, and go to state 76
+    "<="      shift, and go to state 77
+    ">"       shift, and go to state 78
+    ">="      shift, and go to state 79
+    "/"       shift, and go to state 80
+    "!="      shift, and go to state 81
 
     $default  reduce using rule 35 (expr_list)
 
 
-State 95
+State 131
 
    38 dict_list: dict_list "," dict •
 
     $default  reduce using rule 38 (dict_list)
 
 
-State 96
+State 132
 
    37 dict: expr • ":" expr
    55 expr: expr • "." id
@@ -1884,20 +3738,54 @@ State 96
    68     | expr • "**" expr
    69     | expr • "//" expr
    70     | expr • "@" expr
+   71     | expr • "&" expr
+   72     | expr • "|" expr
+   73     | expr • "^" expr
+   74     | expr • "<<" expr
+   75     | expr • ">>" expr
+   76     | expr • "==" expr
+   77     | expr • "!=" expr
+   78     | expr • "<" expr
+   79     | expr • "<=" expr
+   80     | expr • ">" expr
+   81     | expr • ">=" expr
+   82     | expr • "is" expr
+   83     | expr • "is not" expr
+   84     | expr • "in" expr
+   85     | expr • "not in" expr
+   86     | expr • "and" expr
+   87     | expr • "or" expr
 
-    ":"   shift, and go to state 71
-    "-"   shift, and go to state 54
-    "."   shift, and go to state 55
-    "+"   shift, and go to state 56
-    "*"   shift, and go to state 57
-    "**"  shift, and go to state 58
-    "@"   shift, and go to state 59
-    "//"  shift, and go to state 60
-    "%"   shift, and go to state 61
-    "/"   shift, and go to state 62
+    "and"     shift, and go to state 56
+    "in"      shift, and go to state 57
+    "is"      shift, and go to state 58
+    "is not"  shift, and go to state 59
+    "not in"  shift, and go to state 60
+    "or"      shift, and go to state 61
+    "&"       shift, and go to state 62
+    "^"       shift, and go to state 63
+    ":"       shift, and go to state 90
+    "=="      shift, and go to state 64
+    "-"       shift, and go to state 65
+    "."       shift, and go to state 66
+    "+"       shift, and go to state 67
+    "*"       shift, and go to state 68
+    "**"      shift, and go to state 69
+    "@"       shift, and go to state 70
+    "//"      shift, and go to state 71
+    "%"       shift, and go to state 72
+    "|"       shift, and go to state 73
+    "<<"      shift, and go to state 74
+    ">>"      shift, and go to state 75
+    "<"       shift, and go to state 76
+    "<="      shift, and go to state 77
+    ">"       shift, and go to state 78
+    ">="      shift, and go to state 79
+    "/"       shift, and go to state 80
+    "!="      shift, and go to state 81
 
 
-State 97
+State 133
 
    37 dict: expr ":" expr •
    55 expr: expr • "." id
@@ -1909,86 +3797,120 @@ State 97
    68     | expr • "**" expr
    69     | expr • "//" expr
    70     | expr • "@" expr
+   71     | expr • "&" expr
+   72     | expr • "|" expr
+   73     | expr • "^" expr
+   74     | expr • "<<" expr
+   75     | expr • ">>" expr
+   76     | expr • "==" expr
+   77     | expr • "!=" expr
+   78     | expr • "<" expr
+   79     | expr • "<=" expr
+   80     | expr • ">" expr
+   81     | expr • ">=" expr
+   82     | expr • "is" expr
+   83     | expr • "is not" expr
+   84     | expr • "in" expr
+   85     | expr • "not in" expr
+   86     | expr • "and" expr
+   87     | expr • "or" expr
 
-    "-"   shift, and go to state 54
-    "."   shift, and go to state 55
-    "+"   shift, and go to state 56
-    "*"   shift, and go to state 57
-    "**"  shift, and go to state 58
-    "@"   shift, and go to state 59
-    "//"  shift, and go to state 60
-    "%"   shift, and go to state 61
-    "/"   shift, and go to state 62
+    "and"     shift, and go to state 56
+    "in"      shift, and go to state 57
+    "is"      shift, and go to state 58
+    "is not"  shift, and go to state 59
+    "not in"  shift, and go to state 60
+    "or"      shift, and go to state 61
+    "&"       shift, and go to state 62
+    "^"       shift, and go to state 63
+    "=="      shift, and go to state 64
+    "-"       shift, and go to state 65
+    "."       shift, and go to state 66
+    "+"       shift, and go to state 67
+    "*"       shift, and go to state 68
+    "**"      shift, and go to state 69
+    "@"       shift, and go to state 70
+    "//"      shift, and go to state 71
+    "%"       shift, and go to state 72
+    "|"       shift, and go to state 73
+    "<<"      shift, and go to state 74
+    ">>"      shift, and go to state 75
+    "<"       shift, and go to state 76
+    "<="      shift, and go to state 77
+    ">"       shift, and go to state 78
+    ">="      shift, and go to state 79
+    "/"       shift, and go to state 80
+    "!="      shift, and go to state 81
 
     $default  reduce using rule 37 (dict)
 
 
-State 98
+State 134
 
    52 expr: "[" expr_list "," "]" •
 
     $default  reduce using rule 52 (expr)
 
 
-State 99
+State 135
 
    27 if_statement: IF expr ":" body_stmts ELSE • ":" body_stmts
 
-    ":"  shift, and go to state 108
+    ":"  shift, and go to state 144
 
 
-State 100
+State 136
 
    11 single_line_statements: single_line_multi_statements NEWLINE •
 
     $default  reduce using rule 11 (single_line_statements)
 
 
-State 101
+State 137
 
    12 single_line_statements: single_line_multi_statements COMMENT • NEWLINE
 
-    NEWLINE  shift, and go to state 109
+    NEWLINE  shift, and go to state 145
 
 
-State 102
+State 138
 
    17 single_line_multi_statements: single_line_multi_statements_opt single_line_statement •
-   18                             | single_line_multi_statements_opt single_line_statement • SEMICOLON
-   19 single_line_multi_statements_opt: single_line_multi_statements_opt single_line_statement • SEMICOLON
+   18                             | single_line_multi_statements_opt single_line_statement • ";"
+   19 single_line_multi_statements_opt: single_line_multi_statements_opt single_line_statement • ";"
 
-    SEMICOLON  shift, and go to state 110
+    ";"  shift, and go to state 146
 
     $default  reduce using rule 17 (single_line_multi_statements)
 
 
-State 103
+State 139
 
-   14 single_line_statements: single_line_statement SEMICOLON • NEWLINE
-   15                       | single_line_statement SEMICOLON • COMMENT NEWLINE
-   20 single_line_multi_statements_opt: single_line_statement SEMICOLON •
+   14 single_line_statements: single_line_statement ";" • NEWLINE
+   15                       | single_line_statement ";" • COMMENT NEWLINE
+   20 single_line_multi_statements_opt: single_line_statement ";" •
 
-    NEWLINE  shift, and go to state 111
-    COMMENT  shift, and go to state 112
+    NEWLINE  shift, and go to state 147
+    COMMENT  shift, and go to state 148
 
     $default  reduce using rule 20 (single_line_multi_statements_opt)
 
 
-State 104
+State 140
 
    13 single_line_statements: single_line_statement NEWLINE •
 
     $default  reduce using rule 13 (single_line_statements)
 
 
-State 105
+State 141
 
    16 single_line_statements: single_line_statement COMMENT • NEWLINE
 
-    NEWLINE  shift, and go to state 113
+    NEWLINE  shift, and go to state 149
 
 
-State 106
+State 142
 
     5 statements: INDENT • statements1 DEDENT
 
@@ -2001,34 +3923,35 @@ State 106
     TRUE             shift, and go to state 7
     NONE             shift, and go to state 8
     IF               shift, and go to state 9
-    "{"              shift, and go to state 10
-    "("              shift, and go to state 11
-    "["              shift, and go to state 12
-    "-"              shift, and go to state 13
-    "+"              shift, and go to state 14
-    "*"              shift, and go to state 15
-    "~"              shift, and go to state 16
-    ELLIPSIS         shift, and go to state 17
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
 
-    statements1            go to state 114
-    statement              go to state 115
-    single_line_statement  go to state 24
-    multi_line_statement   go to state 25
-    if_statement           go to state 26
-    expression_statment    go to state 27
-    string                 go to state 28
-    expr                   go to state 29
-    id                     go to state 30
+    statements1            go to state 150
+    statement              go to state 151
+    single_line_statement  go to state 25
+    multi_line_statement   go to state 26
+    if_statement           go to state 27
+    expression_statment    go to state 28
+    string                 go to state 29
+    expr                   go to state 30
+    id                     go to state 31
 
 
-State 107
+State 143
 
     6 sep_statements: sep statements •
 
     $default  reduce using rule 6 (sep_statements)
 
 
-State 108
+State 144
 
    27 if_statement: IF expr ":" body_stmts ELSE ":" • body_stmts
 
@@ -2040,71 +3963,72 @@ State 108
     FALSE            shift, and go to state 6
     TRUE             shift, and go to state 7
     NONE             shift, and go to state 8
-    "{"              shift, and go to state 10
-    "("              shift, and go to state 11
-    "["              shift, and go to state 12
-    "-"              shift, and go to state 13
-    "+"              shift, and go to state 14
-    "*"              shift, and go to state 15
-    "~"              shift, and go to state 16
-    ELLIPSIS         shift, and go to state 17
-    SEMICOLON        shift, and go to state 18
-    NEWLINE          shift, and go to state 19
-    COMMENT          shift, and go to state 20
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
+    ";"              shift, and go to state 19
+    NEWLINE          shift, and go to state 20
+    COMMENT          shift, and go to state 21
 
-    sep_statements                    go to state 86
-    body_stmts                        go to state 116
-    single_line_statements            go to state 88
-    single_line_multi_statements      go to state 89
-    single_line_multi_statements_opt  go to state 90
-    single_line_statement             go to state 91
-    expression_statment               go to state 27
-    string                            go to state 28
-    expr                              go to state 29
-    id                                go to state 30
-    sep                               go to state 92
-    sep_one                           go to state 32
+    sep_statements                    go to state 122
+    body_stmts                        go to state 152
+    single_line_statements            go to state 124
+    single_line_multi_statements      go to state 125
+    single_line_multi_statements_opt  go to state 126
+    single_line_statement             go to state 127
+    expression_statment               go to state 28
+    string                            go to state 29
+    expr                              go to state 30
+    id                                go to state 31
+    sep                               go to state 128
+    sep_one                           go to state 33
 
 
-State 109
+State 145
 
    12 single_line_statements: single_line_multi_statements COMMENT NEWLINE •
 
     $default  reduce using rule 12 (single_line_statements)
 
 
-State 110
+State 146
 
-   18 single_line_multi_statements: single_line_multi_statements_opt single_line_statement SEMICOLON •
-   19 single_line_multi_statements_opt: single_line_multi_statements_opt single_line_statement SEMICOLON •
+   18 single_line_multi_statements: single_line_multi_statements_opt single_line_statement ";" •
+   19 single_line_multi_statements_opt: single_line_multi_statements_opt single_line_statement ";" •
 
     NEWLINE   reduce using rule 18 (single_line_multi_statements)
     COMMENT   reduce using rule 18 (single_line_multi_statements)
     $default  reduce using rule 19 (single_line_multi_statements_opt)
 
 
-State 111
+State 147
 
-   14 single_line_statements: single_line_statement SEMICOLON NEWLINE •
+   14 single_line_statements: single_line_statement ";" NEWLINE •
 
     $default  reduce using rule 14 (single_line_statements)
 
 
-State 112
+State 148
 
-   15 single_line_statements: single_line_statement SEMICOLON COMMENT • NEWLINE
+   15 single_line_statements: single_line_statement ";" COMMENT • NEWLINE
 
-    NEWLINE  shift, and go to state 117
+    NEWLINE  shift, and go to state 153
 
 
-State 113
+State 149
 
    16 single_line_statements: single_line_statement COMMENT NEWLINE •
 
     $default  reduce using rule 16 (single_line_statements)
 
 
-State 114
+State 150
 
     5 statements: INDENT statements1 • DEDENT
     9 statements1: statements1 • statement
@@ -2118,55 +4042,56 @@ State 114
     TRUE             shift, and go to state 7
     NONE             shift, and go to state 8
     IF               shift, and go to state 9
-    "{"              shift, and go to state 10
-    "("              shift, and go to state 11
-    "["              shift, and go to state 12
-    "-"              shift, and go to state 13
-    "+"              shift, and go to state 14
-    "*"              shift, and go to state 15
-    "~"              shift, and go to state 16
-    ELLIPSIS         shift, and go to state 17
-    DEDENT           shift, and go to state 118
+    "not"            shift, and go to state 10
+    "{"              shift, and go to state 11
+    "("              shift, and go to state 12
+    "["              shift, and go to state 13
+    "-"              shift, and go to state 14
+    "+"              shift, and go to state 15
+    "*"              shift, and go to state 16
+    "~"              shift, and go to state 17
+    "..."            shift, and go to state 18
+    DEDENT           shift, and go to state 154
 
-    statement              go to state 119
-    single_line_statement  go to state 24
-    multi_line_statement   go to state 25
-    if_statement           go to state 26
-    expression_statment    go to state 27
-    string                 go to state 28
-    expr                   go to state 29
-    id                     go to state 30
+    statement              go to state 155
+    single_line_statement  go to state 25
+    multi_line_statement   go to state 26
+    if_statement           go to state 27
+    expression_statment    go to state 28
+    string                 go to state 29
+    expr                   go to state 30
+    id                     go to state 31
 
 
-State 115
+State 151
 
    10 statements1: statement •
 
     $default  reduce using rule 10 (statements1)
 
 
-State 116
+State 152
 
    27 if_statement: IF expr ":" body_stmts ELSE ":" body_stmts •
 
     $default  reduce using rule 27 (if_statement)
 
 
-State 117
+State 153
 
-   15 single_line_statements: single_line_statement SEMICOLON COMMENT NEWLINE •
+   15 single_line_statements: single_line_statement ";" COMMENT NEWLINE •
 
     $default  reduce using rule 15 (single_line_statements)
 
 
-State 118
+State 154
 
     5 statements: INDENT statements1 DEDENT •
 
     $default  reduce using rule 5 (statements)
 
 
-State 119
+State 155
 
     9 statements1: statements1 statement •
 

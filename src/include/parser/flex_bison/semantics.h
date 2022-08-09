@@ -204,3 +204,8 @@ static inline NonnullExpr PREFIX_STRING(
 #define UNARY(x, op, l) pxcompiler::UnaryOp::make_UnaryOp(arena, l, \
         pxcompiler::unaryopType::op, x)
 
+#define COMPARE(x, op, y, l) pxcompiler::Compare::make_Compare(arena, l, \
+        x, cmpopType::op, y)
+#define BOOLOP(x, op, y, l) pxcompiler::BoolOp::make_BoolOp(arena, l, \
+        x, boolopType::op, y)
+

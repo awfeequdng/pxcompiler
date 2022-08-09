@@ -93,7 +93,7 @@
   FALSE
   TRUE
   NONE
-  AND
+  AND             "and"
   AS
   ASSERT
   ASYNC
@@ -112,27 +112,31 @@
   GLOBAL
   IF
   IMPORT
-  IN
-  IS
+  IN              "in"
+  IS              "is"
+  IS_NOT          "is not"
+  NOT_IN          "not in"
   LAMBDA
   NONLOCAL
-  NOT
-  OR
+  NOT             "not"
+  OR              "or"
   PASS
   RETURN
   TRY
   WHILE
   WITH
   YIELD
+
   ARROW
-  AMPERSAND
+  AMPERSAND       "&"
+  CARET           "^"
   COLON           ":"
-  COLON_BANG
+  COLON_BANG      ":!"
   COMMA           ","
-  DOUBLE_ARROW
-  EQUAL
+  DOUBLE_ARROW    "=>"
+  EQUAL           "="
   COLONEQUAL      ":="
-  EQUAL_EQUAL
+  EQUAL_EQUAL     "=="
   LBRACE          "{"
   LPARENT         "("
   LBRACKET        "["
@@ -145,14 +149,22 @@
   FLOOR_DIV       "//"
   MOD             "%"
   TILDE           "~"
-  ELLIPSIS
+  VBAR            "|"
+  LSHIFT          "<<"
+  RSHIFT          ">>"
+
+  LOWER_THEN      "<"
+  LOWER_EQUAL     "<="
+  GREATER_THEN    ">"
+  GREATER_EQUAL   ">="
+  ELLIPSIS        "..."
   RBRACE          "}"
   RPARENT         ")"
   RBRACKET        "]"
-  SELF
-  SEMICOLON
+  SELF            "self"
+  SEMICOLON       ";"
   SLASH           "/"
-  UNDERSCORE
+  UNDERSCORE      "_"
 
   INDENT
   DEDENT
@@ -192,7 +204,19 @@
 // Precedence
 
 %precedence ":="
+
+%left "or"
+%left "and"
+%precedence "not"
+%left "==" "!=" ">=" ">" "<=" "<" "is not" "is" "not in" "in"
+
+%left "|"
+%left "^"
+%left "&"
+%left ">>" "<<"
+
 %left "-" "+"
+
 %left "%" "*" "/" "//" "@"
 %precedence UNARY
 
@@ -409,26 +433,26 @@ expr
     | expr "//" expr { $$ = BINOP($1, FloorDiv, $3, context.source_loc()); }
     | expr "@" expr { $$ = BINOP($1, MatMult, $3, context.source_loc()); }
 
-   // | expr "&" expr { $$ = BINOP($1, BitAnd, $3, context.source_loc()); }
-   // | expr "|" expr { $$ = BINOP($1, BitOr, $3, context.source_loc()); }
-   // | expr "^" expr { $$ = BINOP($1, BitXor, $3, context.source_loc()); }
-   // | expr "<<" expr { $$ = BINOP($1, LShift, $3, context.source_loc()); }
-   // | expr ">>" expr { $$ = BINOP($1, RShift, $3, context.source_loc()); }
+    | expr "&" expr { $$ = BINOP($1, BitAnd, $3, context.source_loc()); }
+    | expr "|" expr { $$ = BINOP($1, BitOr, $3, context.source_loc()); }
+    | expr "^" expr { $$ = BINOP($1, BitXor, $3, context.source_loc()); }
+    | expr "<<" expr { $$ = BINOP($1, LShift, $3, context.source_loc()); }
+    | expr ">>" expr { $$ = BINOP($1, RShift, $3, context.source_loc()); }
 
-   // | expr "==" expr { $$ = COMPARE($1, Eq, $3, context.source_loc()); }
-   // | expr "!=" expr { $$ = COMPARE($1, NotEq, $3, context.source_loc()); }
-   // | expr "<" expr { $$ = COMPARE($1, Lt, $3, context.source_loc()); }
-   // | expr "<=" expr { $$ = COMPARE($1, LtE, $3, context.source_loc()); }
-   // | expr ">" expr { $$ = COMPARE($1, Gt, $3, context.source_loc()); }
-   // | expr ">=" expr { $$ = COMPARE($1, GtE, $3, context.source_loc()); }
-   // | expr "is" expr { $$ = COMPARE($1, Is, $3, context.source_loc()); }
-   // | expr "is not" expr { $$ = COMPARE($1, IsNot, $3, context.source_loc()); }
-   // | expr "in" expr { $$ = COMPARE($1, In, $3, context.source_loc()); }
-   // | expr "not in" expr { $$ = COMPARE($1, NotIn, $3, context.source_loc()); }
+    | expr "==" expr { $$ = COMPARE($1, Eq, $3, context.source_loc()); }
+    | expr "!=" expr { $$ = COMPARE($1, NotEq, $3, context.source_loc()); }
+    | expr "<" expr { $$ = COMPARE($1, Lt, $3, context.source_loc()); }
+    | expr "<=" expr { $$ = COMPARE($1, LtE, $3, context.source_loc()); }
+    | expr ">" expr { $$ = COMPARE($1, Gt, $3, context.source_loc()); }
+    | expr ">=" expr { $$ = COMPARE($1, GtE, $3, context.source_loc()); }
+    | expr "is" expr { $$ = COMPARE($1, Is, $3, context.source_loc()); }
+    | expr "is not" expr { $$ = COMPARE($1, IsNot, $3, context.source_loc()); }
+    | expr "in" expr { $$ = COMPARE($1, In, $3, context.source_loc()); }
+    | expr "not in" expr { $$ = COMPARE($1, NotIn, $3, context.source_loc()); }
 
-   // | expr "and" expr { $$ = BOOLOP($1, And, $3, context.source_loc()); }
-   // | expr "or" expr { $$ = BOOLOP($1, Or, $3, context.source_loc()); }
-   // | "not" expr { $$ = UNARY($2, Not, context.source_loc()); }
+    | expr "and" expr { $$ = BOOLOP($1, And, $3, context.source_loc()); }
+    | expr "or" expr { $$ = BOOLOP($1, Or, $3, context.source_loc()); }
+    | "not" expr { $$ = UNARY($2, Not, context.source_loc()); }
 
    // // Comprehension
    // | "[" expr comp_for_items "]" { $$ = LIST_COMP_1($2, $3, context.source_loc()); }
