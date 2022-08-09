@@ -64,6 +64,24 @@ std::string operatorTypeStr(const operatorType &x) {
     return "UnknowOperatorType";
 }
 
+std::string unaryopTypeStr(const unaryopType &x) {
+    switch (x) {
+        case (unaryopType::Invert) : {
+            return "~ ";
+        }
+        case (unaryopType::Not) : {
+            return "not ";
+        }
+        case (unaryopType::UAdd) : {
+            return "+ ";
+        }
+        case (unaryopType::USub) : {
+            return "- ";
+        }
+    }
+    return "UnknowunaryopType";
+}
+
 void Expression::Print(llvm::raw_ostream& out) const {
   // switch (kind()) {
   //   case ExpressionKind::Name:
@@ -173,6 +191,12 @@ void Expression::PrintID(llvm::raw_ostream& out) const {
       out << "BinOp(" << *(cast<BinOp>(*this).left())
           << operatorTypeStr(cast<BinOp>(*this).op())
           << *(cast<BinOp>(*this).right())
+          << ")";
+      break;
+    case ExpressionKind::UnaryOp:
+      out << "UnaryOp("
+          << unaryopTypeStr(cast<UnaryOp>(*this).op())
+          << *(cast<UnaryOp>(*this).operand())
           << ")";
       break;
     case ExpressionKind::Starred:

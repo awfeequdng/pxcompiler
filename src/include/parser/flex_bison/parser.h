@@ -788,20 +788,22 @@ namespace  pxcompiler  {
     PLUS = 312,                    // "+"
     STAR = 313,                    // "*"
     MOD = 314,                     // "%"
-    ELLIPSIS = 315,                // ELLIPSIS
-    RBRACE = 316,                  // "}"
-    RPARENT = 317,                 // ")"
-    RBRACKET = 318,                // "]"
-    SELF = 319,                    // SELF
-    SEMICOLON = 320,               // SEMICOLON
-    SLASH = 321,                   // "/"
-    UNDERSCORE = 322,              // UNDERSCORE
-    INDENT = 323,                  // INDENT
-    DEDENT = 324,                  // DEDENT
-    NEWLINE = 325,                 // NEWLINE
-    COMMENT = 326,                 // COMMENT
-    EOLCOMMENT = 327,              // EOLCOMMENT
-    TYPE_COMMENT = 328             // TYPE_COMMENT
+    TILDE = 315,                   // "~"
+    ELLIPSIS = 316,                // ELLIPSIS
+    RBRACE = 317,                  // "}"
+    RPARENT = 318,                 // ")"
+    RBRACKET = 319,                // "]"
+    SELF = 320,                    // SELF
+    SEMICOLON = 321,               // SEMICOLON
+    SLASH = 322,                   // "/"
+    UNDERSCORE = 323,              // UNDERSCORE
+    INDENT = 324,                  // INDENT
+    DEDENT = 325,                  // DEDENT
+    NEWLINE = 326,                 // NEWLINE
+    COMMENT = 327,                 // COMMENT
+    EOLCOMMENT = 328,              // EOLCOMMENT
+    TYPE_COMMENT = 329,            // TYPE_COMMENT
+    UNARY = 330                    // UNARY
       };
       /// Backward compatibility alias (Bison 3.6).
       typedef token_kind_type yytokentype;
@@ -818,7 +820,7 @@ namespace  pxcompiler  {
     {
       enum symbol_kind_type
       {
-        YYNTOKENS = 74, ///< Number of tokens.
+        YYNTOKENS = 76, ///< Number of tokens.
         S_YYEMPTY = -2,
         S_YYEOF = 0,                             // END_OF_FILE
         S_YYerror = 1,                           // error
@@ -880,44 +882,46 @@ namespace  pxcompiler  {
         S_PLUS = 57,                             // "+"
         S_STAR = 58,                             // "*"
         S_MOD = 59,                              // "%"
-        S_ELLIPSIS = 60,                         // ELLIPSIS
-        S_RBRACE = 61,                           // "}"
-        S_RPARENT = 62,                          // ")"
-        S_RBRACKET = 63,                         // "]"
-        S_SELF = 64,                             // SELF
-        S_SEMICOLON = 65,                        // SEMICOLON
-        S_SLASH = 66,                            // "/"
-        S_UNDERSCORE = 67,                       // UNDERSCORE
-        S_INDENT = 68,                           // INDENT
-        S_DEDENT = 69,                           // DEDENT
-        S_NEWLINE = 70,                          // NEWLINE
-        S_COMMENT = 71,                          // COMMENT
-        S_EOLCOMMENT = 72,                       // EOLCOMMENT
-        S_TYPE_COMMENT = 73,                     // TYPE_COMMENT
-        S_YYACCEPT = 74,                         // $accept
-        S_units = 75,                            // units
-        S_script_unit = 76,                      // script_unit
-        S_statements = 77,                       // statements
-        S_sep_statements = 78,                   // sep_statements
-        S_body_stmts = 79,                       // body_stmts
-        S_statements1 = 80,                      // statements1
-        S_single_line_statements = 81,           // single_line_statements
-        S_single_line_multi_statements = 82,     // single_line_multi_statements
-        S_single_line_multi_statements_opt = 83, // single_line_multi_statements_opt
-        S_statement = 84,                        // statement
-        S_single_line_statement = 85,            // single_line_statement
-        S_multi_line_statement = 86,             // multi_line_statement
-        S_if_statement = 87,                     // if_statement
-        S_expression_statment = 88,              // expression_statment
-        S_string = 89,                           // string
-        S_expr_list_opt = 90,                    // expr_list_opt
-        S_expr_list = 91,                        // expr_list
-        S_dict = 92,                             // dict
-        S_dict_list = 93,                        // dict_list
-        S_expr = 94,                             // expr
-        S_id = 95,                               // id
-        S_sep = 96,                              // sep
-        S_sep_one = 97                           // sep_one
+        S_TILDE = 60,                            // "~"
+        S_ELLIPSIS = 61,                         // ELLIPSIS
+        S_RBRACE = 62,                           // "}"
+        S_RPARENT = 63,                          // ")"
+        S_RBRACKET = 64,                         // "]"
+        S_SELF = 65,                             // SELF
+        S_SEMICOLON = 66,                        // SEMICOLON
+        S_SLASH = 67,                            // "/"
+        S_UNDERSCORE = 68,                       // UNDERSCORE
+        S_INDENT = 69,                           // INDENT
+        S_DEDENT = 70,                           // DEDENT
+        S_NEWLINE = 71,                          // NEWLINE
+        S_COMMENT = 72,                          // COMMENT
+        S_EOLCOMMENT = 73,                       // EOLCOMMENT
+        S_TYPE_COMMENT = 74,                     // TYPE_COMMENT
+        S_UNARY = 75,                            // UNARY
+        S_YYACCEPT = 76,                         // $accept
+        S_units = 77,                            // units
+        S_script_unit = 78,                      // script_unit
+        S_statements = 79,                       // statements
+        S_sep_statements = 80,                   // sep_statements
+        S_body_stmts = 81,                       // body_stmts
+        S_statements1 = 82,                      // statements1
+        S_single_line_statements = 83,           // single_line_statements
+        S_single_line_multi_statements = 84,     // single_line_multi_statements
+        S_single_line_multi_statements_opt = 85, // single_line_multi_statements_opt
+        S_statement = 86,                        // statement
+        S_single_line_statement = 87,            // single_line_statement
+        S_multi_line_statement = 88,             // multi_line_statement
+        S_if_statement = 89,                     // if_statement
+        S_expression_statment = 90,              // expression_statment
+        S_string = 91,                           // string
+        S_expr_list_opt = 92,                    // expr_list_opt
+        S_expr_list = 93,                        // expr_list
+        S_dict = 94,                             // dict
+        S_dict_list = 95,                        // dict_list
+        S_expr = 96,                             // expr
+        S_id = 97,                               // id
+        S_sep = 98,                              // sep
+        S_sep_one = 99                           // sep_one
       };
     };
 
@@ -2350,6 +2354,21 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
+      make_TILDE (location_type l)
+      {
+        return symbol_type (token::TILDE, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_TILDE (const location_type& l)
+      {
+        return symbol_type (token::TILDE, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
       make_ELLIPSIS (location_type l)
       {
         return symbol_type (token::ELLIPSIS, std::move (l));
@@ -2557,6 +2576,21 @@ switch (yykind)
         return symbol_type (token::TYPE_COMMENT, l);
       }
 #endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_UNARY (location_type l)
+      {
+        return symbol_type (token::UNARY, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_UNARY (const location_type& l)
+      {
+        return symbol_type (token::UNARY, l);
+      }
+#endif
 
 
   private:
@@ -2609,7 +2643,7 @@ switch (yykind)
     static const signed char yydefact_[];
 
     // YYPGOTO[NTERM-NUM].
-    static const short yypgoto_[];
+    static const signed char yypgoto_[];
 
     // YYDEFGOTO[NTERM-NUM].
     static const signed char yydefgoto_[];
@@ -2861,9 +2895,9 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 302,     ///< Last index in yytable_.
+      yylast_ = 339,     ///< Last index in yytable_.
       yynnts_ = 24,  ///< Number of nonterminal symbols.
-      yyfinal_ = 42 ///< Termination state number.
+      yyfinal_ = 48 ///< Termination state number.
     };
 
 
@@ -2917,10 +2951,11 @@ switch (yykind)
       35,    36,    37,    38,    39,    40,    41,    42,    43,    44,
       45,    46,    47,    48,    49,    50,    51,    52,    53,    54,
       55,    56,    57,    58,    59,    60,    61,    62,    63,    64,
-      65,    66,    67,    68,    69,    70,    71,    72,    73
+      65,    66,    67,    68,    69,    70,    71,    72,    73,    74,
+      75
     };
     // Last valid token kind.
-    const int code_max = 328;
+    const int code_max = 330;
 
     if (t <= 0)
       return symbol_kind::S_YYEOF;
@@ -3153,7 +3188,7 @@ switch (yykind)
 
 #line 21 "parser.ypp"
 } //  pxcompiler 
-#line 3157 "../../include/parser/flex_bison/parser.h"
+#line 3192 "../../include/parser/flex_bison/parser.h"
 
 
 

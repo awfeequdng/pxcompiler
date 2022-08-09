@@ -141,6 +141,7 @@
   PLUS            "+"
   STAR            "*"
   MOD             "%"
+  TILDE           "~"
   ELLIPSIS
   RBRACE          "}"
   RPARENT         ")"
@@ -190,6 +191,8 @@
 %precedence ":="
 %left "-" "+"
 %left "%" "*" "/"
+%precedence UNARY
+
 %precedence "."
 
 
@@ -395,9 +398,9 @@ expr
     | expr "*" expr { $$ = BINOP($1, Mult, $3, context.source_loc()); }
     | expr "/" expr { $$ = BINOP($1, Div, $3, context.source_loc()); }
     | expr "%" expr { $$ = BINOP($1, Mod, $3, context.source_loc()); }
-   // | "-" expr %prec UNARY { $$ = UNARY($2, USub, context.source_loc()); }
-   // | "+" expr %prec UNARY { $$ = UNARY($2, UAdd, context.source_loc()); }
-   // | "~" expr %prec UNARY { $$ = UNARY($2, Invert, context.source_loc()); }
+    | "-" expr %prec UNARY { $$ = UNARY($2, USub, context.source_loc()); }
+    | "+" expr %prec UNARY { $$ = UNARY($2, UAdd, context.source_loc()); }
+    | "~" expr %prec UNARY { $$ = UNARY($2, Invert, context.source_loc()); }
    // | expr "**" expr { $$ = BINOP($1, Pow, $3, context.source_loc()); }
    // | expr "//" expr { $$ = BINOP($1, FloorDiv, $3, context.source_loc()); }
    // | expr "@" expr { $$ = BINOP($1, MatMult, $3, context.source_loc()); }

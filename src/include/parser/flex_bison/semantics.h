@@ -201,4 +201,6 @@ static inline NonnullExpr PREFIX_STRING(
 
 #define BINOP(x, op, y, l) pxcompiler::BinOp::make_BinOp(arena, l, \
         x, pxcompiler::operatorType::op, y)
+#define UNARY(x, op, l) pxcompiler::UnaryOp::make_UnaryOp(arena, l, \
+        pxcompiler::unaryopType::op, x)
 

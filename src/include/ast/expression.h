@@ -21,7 +21,12 @@ enum operatorType
     Add, Sub, Mult, MatMult, Div, Mod, Pow, LShift, RShift, BitOr, BitXor, BitAnd, FloorDiv
 };
 
+enum unaryopType // Simple Sum
+{ // Types
+    Invert, Not, UAdd, USub
+};
 std::string operatorTypeStr(const operatorType &x);
+std::string unaryopTypeStr(const unaryopType &x);
 
 class Expression : public AstNode {
  public:
@@ -522,6 +527,38 @@ private:
     Nonnull<Expression*> right_;
 };
 
+class UnaryOp: public Expression {
+public:
+    static Nonnull<UnaryOp*> make_UnaryOp(
+        Nonnull<pxcompiler::Arena*> arena,
+        SourceLocation loc,
+        unaryopType op,
+        Nonnull<Expression*> operand) {
+        return arena->New<UnaryOp>(loc, op, operand);
+    }
+
+    static auto classof(const AstNode* node) {
+        return InheritsFromUnaryOp(node->kind());
+    }
+
+    UnaryOp(pxcompiler::SourceLocation loc,
+              unaryopType op,
+              Nonnull<Expression*> operand)
+        : Expression(AstNodeKind::UnaryOp, loc),
+        op_(op), operand_(operand) {}
+
+    const unaryopType &op() const {
+        return op_;
+    }
+    const Nonnull<Expression*> &operand() const {
+        return operand_;
+    }
+
+private:
+    unaryopType op_;
+    Nonnull<Expression*> operand_;
+};
+
 class Starred: public Expression {
 public:
     static Nonnull<Starred*> make_Starred(
@@ -547,5 +584,6 @@ public:
 private:
     Nonnull<Expression*> value_;
 };
+
 } // namespace pxcompiler
 
