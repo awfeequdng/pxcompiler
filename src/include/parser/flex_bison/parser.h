@@ -786,20 +786,21 @@ namespace  pxcompiler  {
     MINUS = 310,                   // MINUS
     PERIOD = 311,                  // "."
     PLUS = 312,                    // PLUS
-    ELLIPSIS = 313,                // ELLIPSIS
-    RBRACE = 314,                  // "}"
-    RPARENT = 315,                 // ")"
-    RBRACKET = 316,                // "]"
-    SELF = 317,                    // SELF
-    SEMICOLON = 318,               // SEMICOLON
-    SLASH = 319,                   // SLASH
-    UNDERSCORE = 320,              // UNDERSCORE
-    INDENT = 321,                  // INDENT
-    DEDENT = 322,                  // DEDENT
-    NEWLINE = 323,                 // NEWLINE
-    COMMENT = 324,                 // COMMENT
-    EOLCOMMENT = 325,              // EOLCOMMENT
-    TYPE_COMMENT = 326             // TYPE_COMMENT
+    STAR = 313,                    // "*"
+    ELLIPSIS = 314,                // ELLIPSIS
+    RBRACE = 315,                  // "}"
+    RPARENT = 316,                 // ")"
+    RBRACKET = 317,                // "]"
+    SELF = 318,                    // SELF
+    SEMICOLON = 319,               // SEMICOLON
+    SLASH = 320,                   // SLASH
+    UNDERSCORE = 321,              // UNDERSCORE
+    INDENT = 322,                  // INDENT
+    DEDENT = 323,                  // DEDENT
+    NEWLINE = 324,                 // NEWLINE
+    COMMENT = 325,                 // COMMENT
+    EOLCOMMENT = 326,              // EOLCOMMENT
+    TYPE_COMMENT = 327             // TYPE_COMMENT
       };
       /// Backward compatibility alias (Bison 3.6).
       typedef token_kind_type yytokentype;
@@ -816,7 +817,7 @@ namespace  pxcompiler  {
     {
       enum symbol_kind_type
       {
-        YYNTOKENS = 72, ///< Number of tokens.
+        YYNTOKENS = 73, ///< Number of tokens.
         S_YYEMPTY = -2,
         S_YYEOF = 0,                             // END_OF_FILE
         S_YYerror = 1,                           // error
@@ -876,44 +877,45 @@ namespace  pxcompiler  {
         S_MINUS = 55,                            // MINUS
         S_PERIOD = 56,                           // "."
         S_PLUS = 57,                             // PLUS
-        S_ELLIPSIS = 58,                         // ELLIPSIS
-        S_RBRACE = 59,                           // "}"
-        S_RPARENT = 60,                          // ")"
-        S_RBRACKET = 61,                         // "]"
-        S_SELF = 62,                             // SELF
-        S_SEMICOLON = 63,                        // SEMICOLON
-        S_SLASH = 64,                            // SLASH
-        S_UNDERSCORE = 65,                       // UNDERSCORE
-        S_INDENT = 66,                           // INDENT
-        S_DEDENT = 67,                           // DEDENT
-        S_NEWLINE = 68,                          // NEWLINE
-        S_COMMENT = 69,                          // COMMENT
-        S_EOLCOMMENT = 70,                       // EOLCOMMENT
-        S_TYPE_COMMENT = 71,                     // TYPE_COMMENT
-        S_YYACCEPT = 72,                         // $accept
-        S_units = 73,                            // units
-        S_script_unit = 74,                      // script_unit
-        S_statements = 75,                       // statements
-        S_sep_statements = 76,                   // sep_statements
-        S_body_stmts = 77,                       // body_stmts
-        S_statements1 = 78,                      // statements1
-        S_single_line_statements = 79,           // single_line_statements
-        S_single_line_multi_statements = 80,     // single_line_multi_statements
-        S_single_line_multi_statements_opt = 81, // single_line_multi_statements_opt
-        S_statement = 82,                        // statement
-        S_single_line_statement = 83,            // single_line_statement
-        S_multi_line_statement = 84,             // multi_line_statement
-        S_if_statement = 85,                     // if_statement
-        S_expression_statment = 86,              // expression_statment
-        S_string = 87,                           // string
-        S_expr_list_opt = 88,                    // expr_list_opt
-        S_expr_list = 89,                        // expr_list
-        S_dict = 90,                             // dict
-        S_dict_list = 91,                        // dict_list
-        S_expr = 92,                             // expr
-        S_id = 93,                               // id
-        S_sep = 94,                              // sep
-        S_sep_one = 95                           // sep_one
+        S_STAR = 58,                             // "*"
+        S_ELLIPSIS = 59,                         // ELLIPSIS
+        S_RBRACE = 60,                           // "}"
+        S_RPARENT = 61,                          // ")"
+        S_RBRACKET = 62,                         // "]"
+        S_SELF = 63,                             // SELF
+        S_SEMICOLON = 64,                        // SEMICOLON
+        S_SLASH = 65,                            // SLASH
+        S_UNDERSCORE = 66,                       // UNDERSCORE
+        S_INDENT = 67,                           // INDENT
+        S_DEDENT = 68,                           // DEDENT
+        S_NEWLINE = 69,                          // NEWLINE
+        S_COMMENT = 70,                          // COMMENT
+        S_EOLCOMMENT = 71,                       // EOLCOMMENT
+        S_TYPE_COMMENT = 72,                     // TYPE_COMMENT
+        S_YYACCEPT = 73,                         // $accept
+        S_units = 74,                            // units
+        S_script_unit = 75,                      // script_unit
+        S_statements = 76,                       // statements
+        S_sep_statements = 77,                   // sep_statements
+        S_body_stmts = 78,                       // body_stmts
+        S_statements1 = 79,                      // statements1
+        S_single_line_statements = 80,           // single_line_statements
+        S_single_line_multi_statements = 81,     // single_line_multi_statements
+        S_single_line_multi_statements_opt = 82, // single_line_multi_statements_opt
+        S_statement = 83,                        // statement
+        S_single_line_statement = 84,            // single_line_statement
+        S_multi_line_statement = 85,             // multi_line_statement
+        S_if_statement = 86,                     // if_statement
+        S_expression_statment = 87,              // expression_statment
+        S_string = 88,                           // string
+        S_expr_list_opt = 89,                    // expr_list_opt
+        S_expr_list = 90,                        // expr_list
+        S_dict = 91,                             // dict
+        S_dict_list = 92,                        // dict_list
+        S_expr = 93,                             // expr
+        S_id = 94,                               // id
+        S_sep = 95,                              // sep
+        S_sep_one = 96                           // sep_one
       };
     };
 
@@ -2316,6 +2318,21 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
+      make_STAR (location_type l)
+      {
+        return symbol_type (token::STAR, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_STAR (const location_type& l)
+      {
+        return symbol_type (token::STAR, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
       make_ELLIPSIS (location_type l)
       {
         return symbol_type (token::ELLIPSIS, std::move (l));
@@ -2827,9 +2844,9 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 243,     ///< Last index in yytable_.
+      yylast_ = 260,     ///< Last index in yytable_.
       yynnts_ = 24,  ///< Number of nonterminal symbols.
-      yyfinal_ = 40 ///< Termination state number.
+      yyfinal_ = 42 ///< Termination state number.
     };
 
 
@@ -2883,10 +2900,10 @@ switch (yykind)
       35,    36,    37,    38,    39,    40,    41,    42,    43,    44,
       45,    46,    47,    48,    49,    50,    51,    52,    53,    54,
       55,    56,    57,    58,    59,    60,    61,    62,    63,    64,
-      65,    66,    67,    68,    69,    70,    71
+      65,    66,    67,    68,    69,    70,    71,    72
     };
     // Last valid token kind.
-    const int code_max = 326;
+    const int code_max = 327;
 
     if (t <= 0)
       return symbol_kind::S_YYEOF;
@@ -3119,7 +3136,7 @@ switch (yykind)
 
 #line 21 "parser.ypp"
 } //  pxcompiler 
-#line 3123 "../../include/parser/flex_bison/parser.h"
+#line 3140 "../../include/parser/flex_bison/parser.h"
 
 
 

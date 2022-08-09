@@ -7,7 +7,8 @@ lexer:
 
 parser:
 	~/opt/bison/bin/bison --output=./parser.cc --report=state --defines=../../include/parser/flex_bison/parser.h parser.ypp
-	# ~/opt/bison/bin/bison --output=./parser.cc --report=state --defines=../../include/parser/flex_bison/parser.h parser.ypp
+	#~/opt/bison/bin/bison --output=./parser.cc --report=state -d parser.ypp
+	python3 comment_parser_header.py
 
 test: lexer
 	g++ lexer.cc -o lexer

@@ -197,3 +197,4 @@ static inline NonnullExpr PREFIX_STRING(
 #define DICT_EXPR(key, value, l) std::make_pair(key, value)
 
 #define NAMEDEXPR(x, y, l) pxcompiler::NamedExpr::make_NamedExpr(arena, l, x, y)
+#define STARRED_ARG(e, l) pxcompiler::Starred::make_Starred(arena, l, e)

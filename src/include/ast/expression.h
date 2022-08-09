@@ -476,5 +476,31 @@ private:
     Nonnull<Expression*> target_;
     Nonnull<Expression*> value_;
 };
+
+class Starred: public Expression {
+public:
+    static Nonnull<Starred*> make_Starred(
+        Nonnull<pxcompiler::Arena*> arena,
+        SourceLocation loc,
+        Nonnull<Expression*> value) {
+        return arena->New<Starred>(loc, value);
+    }
+
+    static auto classof(const AstNode* node) {
+        return InheritsFromStarred(node->kind());
+    }
+
+    Starred(pxcompiler::SourceLocation loc,
+            Nonnull<Expression*> value)
+        : Expression(AstNodeKind::Starred, loc),
+        value_(value) {}
+
+    const Nonnull<Expression*> &value() const {
+        return value_;
+    }
+
+private:
+    Nonnull<Expression*> value_;
+};
 } // namespace pxcompiler
 

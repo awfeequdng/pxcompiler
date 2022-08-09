@@ -126,9 +126,9 @@
   YIELD
   ARROW
   AMPERSAND
-  COLON     ":"
+  COLON           ":"
   COLON_BANG
-  COMMA     ","
+  COMMA           ","
   DOUBLE_ARROW
   EQUAL
   COLONEQUAL      ":="
@@ -139,6 +139,7 @@
   MINUS
   PERIOD          "."
   PLUS
+  STAR            "*"
   ELLIPSIS
   RBRACE          "}"
   RPARENT         ")"
@@ -186,6 +187,7 @@
 // Precedence
 
 %precedence ":="
+%left "*"
 %precedence "."
 
 
@@ -384,7 +386,7 @@ expr
    // | KW_YIELD %prec YIELD { $$ = YIELD_01(context.source_loc()); }
    // | KW_YIELD expr %prec YIELD { $$ = YIELD_02($2, context.source_loc()); }
     | id ":=" expr { $$ = NAMEDEXPR($1, $3, context.source_loc()); }
-   // | "*" expr { $$ = STARRED_ARG($2, context.source_loc()); }
+    | "*" expr { $$ = STARRED_ARG($2, context.source_loc()); }
 
    // | expr "+" expr { $$ = BINOP($1, Add, $3, context.source_loc()); }
    // | expr "-" expr { $$ = BINOP($1, Sub, $3, context.source_loc()); }
