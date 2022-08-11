@@ -147,4 +147,58 @@ protected:
     std::vector<Nonnull<Statement*>> orelse_;
 };
 
+class NonLocal: public Statement {
+public:
+    static Nonnull<NonLocal*> make_NonLocal(
+        Nonnull<pxcompiler::Arena*> arena,
+        SourceLocation loc,
+        std::vector<Nonnull<Expression*>> names) {
+        return arena->New<NonLocal>(loc, names);
+    }
+
+    static auto classof(const AstNode* node) {
+        return InheritsFromNonLocal(node->kind());
+    }
+
+    NonLocal(pxcompiler::SourceLocation loc,
+            std::vector<Nonnull<Expression*>> names)
+        : Statement(AstNodeKind::NonLocal, loc),
+        names_(names) {}
+
+    const std::vector<Nonnull<Expression*>> &names() const {
+        return names_;
+    }
+
+private:
+    std::vector<Nonnull<Expression*>> names_;
+};
+
+
+class Global: public Statement {
+public:
+    static Nonnull<Global*> make_Global(
+        Nonnull<pxcompiler::Arena*> arena,
+        SourceLocation loc,
+        std::vector<Nonnull<Expression*>> names) {
+        return arena->New<Global>(loc, names);
+    }
+
+    static auto classof(const AstNode* node) {
+        return InheritsFromGlobal(node->kind());
+    }
+
+    Global(pxcompiler::SourceLocation loc,
+            std::vector<Nonnull<Expression*>> names)
+        : Statement(AstNodeKind::Global, loc),
+        names_(names) {}
+
+    const std::vector<Nonnull<Expression*>> &names() const {
+        return names_;
+    }
+
+private:
+    std::vector<Nonnull<Expression*>> names_;
+};
+
+
 } // namespace pxcompiler

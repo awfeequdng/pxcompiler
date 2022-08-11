@@ -67,6 +67,26 @@ void Statement::PrintDepth(int depth, llvm::raw_ostream& out) const {
           }
         break;
       }
+      case StatementKind::Global: {
+          auto &names = cast<Global>(*this).names();
+          Space(depth, out) << "global ";
+          size_t i = 0;
+          for (; i < names.size() - 1; i++) {
+            out << (*names[i]) << ", ";
+          }
+          out << (*names[i]) << "\n";
+        break;
+      }
+      case StatementKind::NonLocal: {
+          auto &names = cast<NonLocal>(*this).names();
+          Space(depth, out) << "local ";
+          size_t i = 0;
+          for (; i < names.size() - 1; i++) {
+            out << (*names[i]) << ", ";
+          }
+          out << (*names[i]) << "\n";
+        break;
+      }
       default:
         out << "unknown kind: ";
         break;

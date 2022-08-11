@@ -873,6 +873,46 @@ private:
     std::vector<Nonnull<Keyword*>> keywords_;
 };
 
+class IfExp: public Expression {
+public:
+    static Nonnull<IfExp*> make_IfExp(
+        Nonnull<pxcompiler::Arena*> arena,
+        SourceLocation loc,
+        Nonnull<Expression*> test,
+        Nonnull<Expression*> body,
+        Nonnull<Expression*> orelse) {
+        return arena->New<IfExp>(loc, test, body, orelse);
+    }
+
+    static auto classof(const AstNode* node) {
+        return InheritsFromIfExp(node->kind());
+    }
+
+    IfExp(pxcompiler::SourceLocation loc,
+            Nonnull<Expression*> test,
+            Nonnull<Expression*> body,
+            Nonnull<Expression*> orelse)
+        : Expression(AstNodeKind::IfExp, loc),
+        test_(test),
+        body_(body),
+        orelse_(orelse){}
+
+    const Nonnull<Expression*> &test() const {
+        return test_;
+    }
+    const Nonnull<Expression*> &body() const {
+        return body_;
+    }
+    const Nonnull<Expression*> &orelse() const {
+        return orelse_;
+    }
+
+private:
+    Nonnull<Expression*> test_;
+    Nonnull<Expression*> body_;
+    Nonnull<Expression*> orelse_;
+};
+
 } // namespace pxcompiler
 
 

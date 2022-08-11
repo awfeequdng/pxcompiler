@@ -381,3 +381,10 @@ static inline pxcompiler::Nonnull<pxcompiler::Keyword*> CALL_KW(
 #define CALL_03(func, keywords, l) pxcompiler::Call::make_Call(arena, l, \
         func, {}, keywords)
 
+#define TERNARY(test, body, orelse, l) pxcompiler::IfExp::make_IfExp(arena, l, \
+        test, body, orelse)
+
+#define GLOBAL(names, l) pxcompiler::Global::make_Global(arena, l, names)
+
+#define NON_LOCAL(names, l) pxcompiler::NonLocal::make_NonLocal(arena, l, names)
+

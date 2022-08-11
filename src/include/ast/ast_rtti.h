@@ -34,7 +34,7 @@ enum class AstNodeKind {
   Import = 23,
   ImportFrom = 24,
   Global = 25,
-  Nolocal = 26,
+  NonLocal = 26,
   ExprStmt = 27,
   Pass = 28,
   Break = 29,
@@ -162,7 +162,7 @@ enum class StatementKind {
   Import = 23,
   ImportFrom = 24,
   Global = 25,
-  Nolocal = 26,
+  NonLocal = 26,
   ExprStmt = 27,
   Pass = 28,
   Break = 29,
@@ -261,8 +261,8 @@ inline bool InheritsFromGlobal(AstNodeKind kind) {
     return kind == AstNodeKind::Global;
 }
 
-inline bool InheritsFromNolocal(AstNodeKind kind) {
-    return kind == AstNodeKind::Nolocal;
+inline bool InheritsFromNonLocal(AstNodeKind kind) {
+    return kind == AstNodeKind::NonLocal;
 }
 
 inline bool InheritsFromExprStmt(AstNodeKind kind) {

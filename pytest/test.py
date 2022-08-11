@@ -1,4 +1,6 @@
 
+
+
 my_testfile ## hello world
 b
 c
@@ -119,4 +121,15 @@ def hello_world(test = 2, b, /, cc = 2, *ad, **kwarg) -> str:
 
 
 print(a, b = 3, **kwargs)
+
+global gg, cc, dd
+
+def func(test):
+    global a
+    print(a)
+
+    nonlocal b, bc
+    print(f"b = {b}")
+
+a if world else b
 

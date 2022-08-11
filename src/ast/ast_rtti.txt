@@ -32,7 +32,7 @@ abstract class Statement : AstNode;
   class Import : Statement;
   class ImportFrom : Statement;
   class Global : Statement;
-  class Nolocal : Statement;
+  class NonLocal : Statement;
   class ExprStmt : Statement;
   class Pass : Statement;
   class Break : Statement;

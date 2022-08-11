@@ -32,7 +32,7 @@ std::string_view AstNodeKindName(AstNodeKind k) {
     case AstNodeKind::Import: return "import";
     case AstNodeKind::ImportFrom: return "import from";
     case AstNodeKind::Global: return "global";
-    case AstNodeKind::Nolocal: return "nolocal";
+    case AstNodeKind::NonLocal: return "non local";
     case AstNodeKind::ExprStmt: return "expr stmt";
     case AstNodeKind::Pass: return "pass";
     case AstNodeKind::Break: return "break";
@@ -128,7 +128,7 @@ std::string_view StatementKindName(StatementKind k) {
     case StatementKind::Import: return "import";
     case StatementKind::ImportFrom: return "import from";
     case StatementKind::Global: return "global";
-    case StatementKind::Nolocal: return "nolocal";
+    case StatementKind::NonLocal: return "non local";
     case StatementKind::ExprStmt: return "expr stmt";
     case StatementKind::Pass: return "pass";
     case StatementKind::Break: return "break";

@@ -344,6 +344,14 @@ void Expression::PrintID(llvm::raw_ostream& out) const {
       }
       break;
     }
+    case ExpressionKind::IfExp: {
+      const auto &ifexp = cast<IfExp>(*this);
+      auto &test = ifexp.test();
+      auto &body = ifexp.body();
+      auto &orelse = ifexp.orelse();
+      out << *body << " if " << *test << " else " << *orelse;
+      break;
+    }
     default:
       out << "...";
       break;

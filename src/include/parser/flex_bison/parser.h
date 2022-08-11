@@ -640,6 +640,7 @@ namespace  pxcompiler  {
       // parameter_list_opt
       char dummy2[sizeof (Nonnull<Arguments*>)];
 
+      // ternary_if_statement
       // string
       // primary
       // function_call
@@ -666,6 +667,8 @@ namespace  pxcompiler  {
       // single_line_statement
       // multi_line_statement
       // function_def
+      // global_statement
+      // nonlocal_statement
       // if_statement
       // expression_statment
       char dummy9[sizeof (Nonnull<Statement*>)];
@@ -980,22 +983,25 @@ namespace  pxcompiler  {
         S_parameter_list_opt = 111,              // parameter_list_opt
         S_comma_opt = 112,                       // comma_opt
         S_function_def = 113,                    // function_def
-        S_if_statement = 114,                    // if_statement
-        S_expression_statment = 115,             // expression_statment
-        S_string = 116,                          // string
-        S_expr_list_opt = 117,                   // expr_list_opt
-        S_expr_list = 118,                       // expr_list
-        S_dict = 119,                            // dict
-        S_dict_list = 120,                       // dict_list
-        S_call_arguement_list = 121,             // call_arguement_list
-        S_keyword_item = 122,                    // keyword_item
-        S_keyword_items = 123,                   // keyword_items
-        S_primary = 124,                         // primary
-        S_function_call = 125,                   // function_call
-        S_expr = 126,                            // expr
-        S_id = 127,                              // id
-        S_sep = 128,                             // sep
-        S_sep_one = 129                          // sep_one
+        S_global_statement = 114,                // global_statement
+        S_ternary_if_statement = 115,            // ternary_if_statement
+        S_nonlocal_statement = 116,              // nonlocal_statement
+        S_if_statement = 117,                    // if_statement
+        S_expression_statment = 118,             // expression_statment
+        S_string = 119,                          // string
+        S_expr_list_opt = 120,                   // expr_list_opt
+        S_expr_list = 121,                       // expr_list
+        S_dict = 122,                            // dict
+        S_dict_list = 123,                       // dict_list
+        S_call_arguement_list = 124,             // call_arguement_list
+        S_keyword_item = 125,                    // keyword_item
+        S_keyword_items = 126,                   // keyword_items
+        S_primary = 127,                         // primary
+        S_function_call = 128,                   // function_call
+        S_expr = 129,                            // expr
+        S_id = 130,                              // id
+        S_sep = 131,                             // sep
+        S_sep_one = 132                          // sep_one
       };
     };
 
@@ -1040,6 +1046,7 @@ namespace  pxcompiler  {
         value.move< Nonnull<Arguments*> > (std::move (that.value));
         break;
 
+      case symbol_kind::S_ternary_if_statement: // ternary_if_statement
       case symbol_kind::S_string: // string
       case symbol_kind::S_primary: // primary
       case symbol_kind::S_function_call: // function_call
@@ -1072,6 +1079,8 @@ namespace  pxcompiler  {
       case symbol_kind::S_single_line_statement: // single_line_statement
       case symbol_kind::S_multi_line_statement: // multi_line_statement
       case symbol_kind::S_function_def: // function_def
+      case symbol_kind::S_global_statement: // global_statement
+      case symbol_kind::S_nonlocal_statement: // nonlocal_statement
       case symbol_kind::S_if_statement: // if_statement
       case symbol_kind::S_expression_statment: // expression_statment
         value.move< Nonnull<Statement*> > (std::move (that.value));
@@ -1450,6 +1459,7 @@ switch (yykind)
         value.template destroy< Nonnull<Arguments*> > ();
         break;
 
+      case symbol_kind::S_ternary_if_statement: // ternary_if_statement
       case symbol_kind::S_string: // string
       case symbol_kind::S_primary: // primary
       case symbol_kind::S_function_call: // function_call
@@ -1482,6 +1492,8 @@ switch (yykind)
       case symbol_kind::S_single_line_statement: // single_line_statement
       case symbol_kind::S_multi_line_statement: // multi_line_statement
       case symbol_kind::S_function_def: // function_def
+      case symbol_kind::S_global_statement: // global_statement
+      case symbol_kind::S_nonlocal_statement: // nonlocal_statement
       case symbol_kind::S_if_statement: // if_statement
       case symbol_kind::S_expression_statment: // expression_statment
         value.template destroy< Nonnull<Statement*> > ();
@@ -3367,9 +3379,9 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 1150,     ///< Last index in yytable_.
-      yynnts_ = 39,  ///< Number of nonterminal symbols.
-      yyfinal_ = 57 ///< Termination state number.
+      yylast_ = 1356,     ///< Last index in yytable_.
+      yynnts_ = 42,  ///< Number of nonterminal symbols.
+      yyfinal_ = 64 ///< Termination state number.
     };
 
 
@@ -3455,6 +3467,7 @@ switch (yykind)
         value.copy< Nonnull<Arguments*> > (YY_MOVE (that.value));
         break;
 
+      case symbol_kind::S_ternary_if_statement: // ternary_if_statement
       case symbol_kind::S_string: // string
       case symbol_kind::S_primary: // primary
       case symbol_kind::S_function_call: // function_call
@@ -3487,6 +3500,8 @@ switch (yykind)
       case symbol_kind::S_single_line_statement: // single_line_statement
       case symbol_kind::S_multi_line_statement: // multi_line_statement
       case symbol_kind::S_function_def: // function_def
+      case symbol_kind::S_global_statement: // global_statement
+      case symbol_kind::S_nonlocal_statement: // nonlocal_statement
       case symbol_kind::S_if_statement: // if_statement
       case symbol_kind::S_expression_statment: // expression_statment
         value.copy< Nonnull<Statement*> > (YY_MOVE (that.value));
@@ -3583,6 +3598,7 @@ switch (yykind)
         value.move< Nonnull<Arguments*> > (YY_MOVE (s.value));
         break;
 
+      case symbol_kind::S_ternary_if_statement: // ternary_if_statement
       case symbol_kind::S_string: // string
       case symbol_kind::S_primary: // primary
       case symbol_kind::S_function_call: // function_call
@@ -3615,6 +3631,8 @@ switch (yykind)
       case symbol_kind::S_single_line_statement: // single_line_statement
       case symbol_kind::S_multi_line_statement: // multi_line_statement
       case symbol_kind::S_function_def: // function_def
+      case symbol_kind::S_global_statement: // global_statement
+      case symbol_kind::S_nonlocal_statement: // nonlocal_statement
       case symbol_kind::S_if_statement: // if_statement
       case symbol_kind::S_expression_statment: // expression_statment
         value.move< Nonnull<Statement*> > (YY_MOVE (s.value));
@@ -3737,7 +3755,7 @@ switch (yykind)
 
 #line 21 "parser.ypp"
 } //  pxcompiler 
-#line 3741 "../../include/parser/flex_bison/parser.h"
+#line 3759 "../../include/parser/flex_bison/parser.h"
 
 
 

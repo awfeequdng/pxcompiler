@@ -182,6 +182,9 @@
 %type <Nonnull<Statement*>> statement
 %type <Nonnull<Statement*>> expression_statment
 %type <Nonnull<Statement*>> single_line_statement
+%type <Nonnull<Statement*>> global_statement
+%type <Nonnull<Statement*>> nonlocal_statement
+
 %type <Nonnull<Statement*>> multi_line_statement
 %type <Nonnull<Statement*>> if_statement
 %type <Nonnull<Statement*>> function_def
@@ -212,14 +215,15 @@
 %type <Nonnull<Expression*>> string
 %type <Nonnull<Expression*>> primary
 %type <Nonnull<Expression*>> function_call
+%type <Nonnull<Expression*>> ternary_if_statement
 
 %type <std::vector<std::string>> sep
 %type <std::string> sep_one
 
 // Precedence
 
+%left IF ELSE
 %precedence ":="
-
 %left "or"
 %left "and"
 %precedence "not"
@@ -330,9 +334,9 @@ single_line_statement
 //    | break_statement
 //    | continue_statement
 //    | import_statement
-//    | global_statement
+    | global_statement
 //    | if_statement_single
-//    | nonlocal_statement
+    | nonlocal_statement
     ;
 
 multi_line_statement
@@ -425,6 +429,18 @@ function_def
 //    | decorators_opt DEF id "(" parameter_list_opt ")" "->" expr ":"
 //        TYPE_COMMENT NEWLINE statements {
 //            $$ = FUNCTION_04($1, $3, $5, $8, $12, $10, context.source_loc()); }
+    ;
+
+global_statement
+    : GLOBAL expr_list { $$ = GLOBAL($2, context.source_loc()); }
+    ;
+
+ternary_if_statement
+    : expr IF expr ELSE expr { $$ = TERNARY($3, $1, $5, context.source_loc()); }
+    ;
+
+nonlocal_statement
+    : NONLOCAL expr_list { $$ = NON_LOCAL($2, context.source_loc()); }
     ;
 
 if_statement
@@ -597,7 +613,7 @@ expr
    // | "{" expr comp_for_items "}" { $$ = SET_COMP_1($2, $3, context.source_loc()); }
    // | "{" expr ":" expr comp_for_items "}" { $$ = DICT_COMP_1($2, $4, $5, context.source_loc()); }
 
-   // | ternary_if_statement { $$ = $1; }
+    | ternary_if_statement { $$ = $1; }
    // | lambda_expression { $$ = $1; }
     ;
 
