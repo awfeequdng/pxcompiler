@@ -142,6 +142,46 @@ void Expression::Print(llvm::raw_ostream& out) const {
   PrintID(out);
 }
 
+static void PrintArguments(llvm::raw_ostream& out, const Arguments& arguments) {
+    out << "Arguments(";
+    // std::vector<Nonnull<Arg*>> posonlyargs_;
+    // std::vector<Nonnull<Arg*>> args_;
+    // std::vector<Nonnull<Arg*>> varargs_;
+    // std::vector<Nonnull<Arg*>> kwonlyargs_;
+    // std::vector<Nonnull<Expression*>> kw_defaults_;
+    // std::vector<Nonnull<Arg*>> kwarg_;
+    // std::vector<Nonnull<Expression*>> defaults_;
+    if (arguments.posonlyargs_.size()) {
+      for (auto &posonly : arguments.posonlyargs_) {
+        out << *posonly << ",";
+      }
+      out << " / ,";
+    }
+    if (arguments.args_.size()) {
+        for (auto &arg : arguments.args_) {
+        out << *arg << ",";
+      }
+    }
+    if (arguments.varargs_.size()) {
+        for (auto &vararg : arguments.varargs_) {
+          out << "*" << *vararg << ",";
+        }
+    }
+    if (arguments.kwonlyargs_.size()) {
+        out << "* ,";
+        for (auto &kwonlyarg : arguments.kwonlyargs_) {
+            out << *kwonlyarg << ",";
+        }
+    }
+    if (arguments.kwarg_.size()) {
+        for (auto &kwarg : arguments.kwarg_) {
+            out << "**" << *kwarg << ", ";
+        }
+    }
+    out << ")";
+    return;
+}
+
 void Expression::PrintID(llvm::raw_ostream& out) const {
   switch (kind()) {
     case ExpressionKind::Name:
@@ -263,11 +303,22 @@ void Expression::PrintID(llvm::raw_ostream& out) const {
     case ExpressionKind::Starred:
       out << "Starred(*" << *(cast<Starred>(*this).value()) << ")";
       break;
-    case ExpressionKind::Arguments:
-      out << "Arguments(" << ")";
-      // out << "Arguments(" << *(cast<Arugments>(*this).value()) << ")";
+    case ExpressionKind::Arguments: {
+      const auto &arguments = cast<Arguments>(*this);
+      PrintArguments(out, arguments);
       break;
-
+    }
+    case ExpressionKind::Arg: {
+      const auto &arg = cast<Arg>(*this);
+      out << *(arg.arg_);
+      if (arg.annotation_) {
+        out << ": " << **(arg.annotation_);
+      }
+      if (arg.defaults_) {
+        out << " = " << **(arg.defaults_);
+      }
+      break;
+    }
     default:
       out << "...";
       break;

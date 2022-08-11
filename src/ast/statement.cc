@@ -54,6 +54,10 @@ void Statement::PrintDepth(int depth, llvm::raw_ostream& out) const {
           auto &args = cast<FunctionDef>(*this).args_;
           auto &body = cast<FunctionDef>(*this).body_;
           auto &returns = cast<FunctionDef>(*this).returns_;
+          auto &decorator_list = cast<FunctionDef>(*this).decorator_list_;
+          for (auto &d: decorator_list) {
+            Space(depth, out) << "@" << (*d) << "\n";
+          }
           Space(depth, out) << "def " << *name << "("
             << *args << ")";
           if (returns) out << "->" << **returns << ":\n";

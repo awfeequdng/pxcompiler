@@ -93,5 +93,21 @@ c is not ss
 # print(f"hello world {pxc}")
 
 @hello
-def hello_world(test, b):
+@caipengxiang
+def hello_world(test = 2, b, /, cc, d = 4, cs = 2, *abc, **kwarg):
+    "hello world"
+
+@hello
+@caipengxiang
+def hello_world(test = 2, b, /, cc = 2, *,  test1, **kwarg):
+    "hello world"
+
+@hello
+@caipengxiang
+def hello_world(test = 2, b, /, cc = 2, *, **kwarg):
+    "hello world"
+
+@hello
+@caipengxiang
+def hello_world(test = 2, b, /, cc = 2, *ad, **kwarg):
     "hello world"
