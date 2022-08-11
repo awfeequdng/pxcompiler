@@ -831,13 +831,14 @@ namespace  pxcompiler  {
     SEMICOLON = 334,               // ";"
     SLASH = 335,                   // "/"
     UNDERSCORE = 336,              // "_"
-    INDENT = 337,                  // INDENT
-    DEDENT = 338,                  // DEDENT
-    NEWLINE = 339,                 // NEWLINE
-    COMMENT = 340,                 // COMMENT
-    EOLCOMMENT = 341,              // EOLCOMMENT
-    TYPE_COMMENT = 342,            // TYPE_COMMENT
-    UNARY = 344                    // UNARY
+    RARROW = 337,                  // "->"
+    INDENT = 338,                  // INDENT
+    DEDENT = 339,                  // DEDENT
+    NEWLINE = 340,                 // NEWLINE
+    COMMENT = 341,                 // COMMENT
+    EOLCOMMENT = 342,              // EOLCOMMENT
+    TYPE_COMMENT = 343,            // TYPE_COMMENT
+    UNARY = 345                    // UNARY
       };
       /// Backward compatibility alias (Bison 3.6).
       typedef token_kind_type yytokentype;
@@ -854,7 +855,7 @@ namespace  pxcompiler  {
     {
       enum symbol_kind_type
       {
-        YYNTOKENS = 90, ///< Number of tokens.
+        YYNTOKENS = 91, ///< Number of tokens.
         S_YYEMPTY = -2,
         S_YYEOF = 0,                             // END_OF_FILE
         S_YYerror = 1,                           // error
@@ -938,48 +939,49 @@ namespace  pxcompiler  {
         S_SEMICOLON = 79,                        // ";"
         S_SLASH = 80,                            // "/"
         S_UNDERSCORE = 81,                       // "_"
-        S_INDENT = 82,                           // INDENT
-        S_DEDENT = 83,                           // DEDENT
-        S_NEWLINE = 84,                          // NEWLINE
-        S_COMMENT = 85,                          // COMMENT
-        S_EOLCOMMENT = 86,                       // EOLCOMMENT
-        S_TYPE_COMMENT = 87,                     // TYPE_COMMENT
-        S_88_ = 88,                              // "!="
-        S_UNARY = 89,                            // UNARY
-        S_YYACCEPT = 90,                         // $accept
-        S_units = 91,                            // units
-        S_script_unit = 92,                      // script_unit
-        S_statements = 93,                       // statements
-        S_sep_statements = 94,                   // sep_statements
-        S_body_stmts = 95,                       // body_stmts
-        S_statements1 = 96,                      // statements1
-        S_single_line_statements = 97,           // single_line_statements
-        S_single_line_multi_statements = 98,     // single_line_multi_statements
-        S_single_line_multi_statements_opt = 99, // single_line_multi_statements_opt
-        S_statement = 100,                       // statement
-        S_single_line_statement = 101,           // single_line_statement
-        S_multi_line_statement = 102,            // multi_line_statement
-        S_decorators_opt = 103,                  // decorators_opt
-        S_decorators = 104,                      // decorators
-        S_parameter = 105,                       // parameter
-        S_parameter_list = 106,                  // parameter_list
-        S_parameter_list_no_posonly = 107,       // parameter_list_no_posonly
-        S_defparameter_list = 108,               // defparameter_list
-        S_parameter_list_starargs = 109,         // parameter_list_starargs
-        S_parameter_list_opt = 110,              // parameter_list_opt
-        S_comma_opt = 111,                       // comma_opt
-        S_function_def = 112,                    // function_def
-        S_if_statement = 113,                    // if_statement
-        S_expression_statment = 114,             // expression_statment
-        S_string = 115,                          // string
-        S_expr_list_opt = 116,                   // expr_list_opt
-        S_expr_list = 117,                       // expr_list
-        S_dict = 118,                            // dict
-        S_dict_list = 119,                       // dict_list
-        S_expr = 120,                            // expr
-        S_id = 121,                              // id
-        S_sep = 122,                             // sep
-        S_sep_one = 123                          // sep_one
+        S_RARROW = 82,                           // "->"
+        S_INDENT = 83,                           // INDENT
+        S_DEDENT = 84,                           // DEDENT
+        S_NEWLINE = 85,                          // NEWLINE
+        S_COMMENT = 86,                          // COMMENT
+        S_EOLCOMMENT = 87,                       // EOLCOMMENT
+        S_TYPE_COMMENT = 88,                     // TYPE_COMMENT
+        S_89_ = 89,                              // "!="
+        S_UNARY = 90,                            // UNARY
+        S_YYACCEPT = 91,                         // $accept
+        S_units = 92,                            // units
+        S_script_unit = 93,                      // script_unit
+        S_statements = 94,                       // statements
+        S_sep_statements = 95,                   // sep_statements
+        S_body_stmts = 96,                       // body_stmts
+        S_statements1 = 97,                      // statements1
+        S_single_line_statements = 98,           // single_line_statements
+        S_single_line_multi_statements = 99,     // single_line_multi_statements
+        S_single_line_multi_statements_opt = 100, // single_line_multi_statements_opt
+        S_statement = 101,                       // statement
+        S_single_line_statement = 102,           // single_line_statement
+        S_multi_line_statement = 103,            // multi_line_statement
+        S_decorators_opt = 104,                  // decorators_opt
+        S_decorators = 105,                      // decorators
+        S_parameter = 106,                       // parameter
+        S_parameter_list = 107,                  // parameter_list
+        S_parameter_list_no_posonly = 108,       // parameter_list_no_posonly
+        S_defparameter_list = 109,               // defparameter_list
+        S_parameter_list_starargs = 110,         // parameter_list_starargs
+        S_parameter_list_opt = 111,              // parameter_list_opt
+        S_comma_opt = 112,                       // comma_opt
+        S_function_def = 113,                    // function_def
+        S_if_statement = 114,                    // if_statement
+        S_expression_statment = 115,             // expression_statment
+        S_string = 116,                          // string
+        S_expr_list_opt = 117,                   // expr_list_opt
+        S_expr_list = 118,                       // expr_list
+        S_dict = 119,                            // dict
+        S_dict_list = 120,                       // dict_list
+        S_expr = 121,                            // expr
+        S_id = 122,                              // id
+        S_sep = 123,                             // sep
+        S_sep_one = 124                          // sep_one
       };
     };
 
@@ -2880,6 +2882,21 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
+      make_RARROW (location_type l)
+      {
+        return symbol_type (token::RARROW, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_RARROW (const location_type& l)
+      {
+        return symbol_type (token::RARROW, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
       make_INDENT (location_type l)
       {
         return symbol_type (token::INDENT, std::move (l));
@@ -3286,7 +3303,7 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 1016,     ///< Last index in yytable_.
+      yylast_ = 1057,     ///< Last index in yytable_.
       yynnts_ = 34,  ///< Number of nonterminal symbols.
       yyfinal_ = 55 ///< Termination state number.
     };
@@ -3344,10 +3361,10 @@ switch (yykind)
       55,    56,    57,    58,    59,    60,    61,    62,    63,    64,
       65,    66,    67,    68,    69,    70,    71,    72,    73,    74,
       75,    76,    77,    78,    79,    80,    81,    82,    83,    84,
-      85,    86,    87,    88,    89
+      85,    86,    87,    88,    89,    90
     };
     // Last valid token kind.
-    const int code_max = 344;
+    const int code_max = 345;
 
     if (t <= 0)
       return symbol_kind::S_YYEOF;
@@ -3634,7 +3651,7 @@ switch (yykind)
 
 #line 21 "parser.ypp"
 } //  pxcompiler 
-#line 3638 "../../include/parser/flex_bison/parser.h"
+#line 3655 "../../include/parser/flex_bison/parser.h"
 
 
 

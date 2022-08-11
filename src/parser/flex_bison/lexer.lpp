@@ -58,7 +58,7 @@ WHILE                "while"
 WITH                 "with"
 YIELD                "yield"
 
-ARROW                "->"
+RARROW               "->"
 AMPERSAND            "&"
 CARET                "^"
 COLON                ":"
@@ -100,6 +100,7 @@ SELF                 "self"
 SEMICOLON            ";"
 SLASH                "/"
 UNDERSCORE           "_"
+
 /* table-end */
 
 /* This should be kept table-like, but isn't automatic due to spaces. */
@@ -215,7 +216,7 @@ one_line_comment      \#[^\n]*\n
   {WITH}                      { return PXC_TOKEN(WITH);                 }
   {YIELD}                     { return PXC_TOKEN(YIELD);                }
 
-  {ARROW}                     { return PXC_TOKEN(ARROW);                }
+  {RARROW}                    { return PXC_TOKEN(RARROW);                }
   {AMPERSAND}                 { return PXC_TOKEN(AMPERSAND);            }
   {CARET}                     { return PXC_TOKEN(CARET);                }
   {COLON}                     { return PXC_TOKEN(COLON);                }
