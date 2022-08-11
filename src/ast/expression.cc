@@ -263,6 +263,11 @@ void Expression::PrintID(llvm::raw_ostream& out) const {
     case ExpressionKind::Starred:
       out << "Starred(*" << *(cast<Starred>(*this).value()) << ")";
       break;
+    case ExpressionKind::Arguments:
+      out << "Arguments(" << ")";
+      // out << "Arguments(" << *(cast<Arugments>(*this).value()) << ")";
+      break;
+
     default:
       out << "...";
       break;

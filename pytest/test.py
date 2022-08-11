@@ -90,3 +90,8 @@ c in d
 b is a
 c is not ss
 
+# print(f"hello world {pxc}")
+
+@hello
+def hello_world(test, b):
+    "hello world"

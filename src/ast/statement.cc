@@ -49,6 +49,20 @@ void Statement::PrintDepth(int depth, llvm::raw_ostream& out) const {
           }
           break;
       }
+      case StatementKind::FunctionDef: {
+          auto &name = cast<FunctionDef>(*this).name_;
+          auto &args = cast<FunctionDef>(*this).args_;
+          auto &body = cast<FunctionDef>(*this).body_;
+          auto &returns = cast<FunctionDef>(*this).returns_;
+          Space(depth, out) << "def " << *name << "("
+            << *args << ")";
+          if (returns) out << "->" << **returns << ":\n";
+          else out << ":\n";
+          for (auto &b: body) {
+            cast<Statement>(*b).PrintDepth(depth+1, out);
+          }
+        break;
+      }
       default:
         out << "unknown kind: ";
         break;

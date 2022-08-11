@@ -8,8 +8,7 @@
             ],
             "defines": [],
             "cStandard": "c17",
-            "cppStandard": "c++17",
-            "configurationProvider": "ms-vscode.cmake-tools"
+            "cppStandard": "c++17"
         }
     ],
     "version": 4

@@ -75,7 +75,7 @@ public:
         returns_(returns),
         type_comment_(type_comment) {}
 
-protected:
+// protected:
     Nonnull<Expression*> name_;
     Nonnull<Arguments*> args_;
     std::vector<Nonnull<Statement*>> body_;
