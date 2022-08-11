@@ -209,3 +209,159 @@ static inline NonnullExpr PREFIX_STRING(
 #define BOOLOP(x, op, y, l) pxcompiler::BoolOp::make_BoolOp(arena, l, \
         x, boolopType::op, y)
 
+
+static inline pxcompiler::Nonnull<pxcompiler::Arg*>
+    FUNC_ARG(NonnullArena arena,
+             pxcompiler::SourceLocation l,
+             NonnullExpr arg,
+             std::optional<NonnullExpr> annotation,
+             std::optional<NonnullExpr> defaults) {
+    auto r = pxcompiler::Arg::make_Arg(arena, l, arg);
+    r->annotation_ = annotation;
+    r->type_comment_ = std::nullopt;
+    r->defaults_ = defaults;
+    return r;
+}
+
+#define ARGS_01(arg, l) FUNC_ARG(arena, l, \
+        arg, std::nullopt, std::nullopt)
+#define ARGS_02(arg, annotation, l) FUNC_ARG(arena, l, \
+        arg, annotation, std::nullopt)
+#define ARGS_03(arg, defaults, l) FUNC_ARG(arena, l, \
+        arg, std::nullopt, defaults)
+#define ARGS_04(arg, ann, defaults, l) FUNC_ARG(arena, l, \
+        arg, ann, defaults)
+
+static inline pxcompiler::Nonnull<pxcompiler::FnArg*>
+    FN_ARG(NonnullArena arena,
+           std::vector<NonnullArg> posonlyargs,
+           std::optional<pxcompiler::Nonnull<pxcompiler::NoPosOnlyArg*>> args) {
+    auto r = pxcompiler::FnArg::make_FnArg(arena,
+                pxcompiler::SourceLocation("invalid file", 0));
+    r->posonlyargs_ = posonlyargs;
+    r->args_ = args;
+    return r;
+}
+
+#define PARAMETER_LIST_01(posonlyargs, args) \
+        FN_ARG(arena, posonlyargs, args)
+
+#define PARAMETER_LIST_02(args) FN_ARG(arena, {}, args)
+
+
+static inline pxcompiler::Nonnull<pxcompiler::NoPosOnlyArg*>
+    ARGS(NonnullArena arena, std::vector<NonnullArg> args,
+    std::optional<pxcompiler::Nonnull<pxcompiler::StarArg*>> stararg) {
+    auto r = pxcompiler::NoPosOnlyArg::make_NoPosOnlyArg(arena,
+                pxcompiler::SourceLocation("ARGS", 0));
+    r->args_ = args;
+    r->stararg_ = stararg;
+    return r;
+}
+#define PARAMETER_LIST_03(args, stararg) ARGS(arena, args, stararg)
+#define PARAMETER_LIST_04(stararg) ARGS(arena, {}, stararg)
+
+static inline pxcompiler::Nonnull<pxcompiler::StarArg*> STAR_ARG(
+        NonnullArena arena,
+        std::vector<NonnullArg> varargs,
+        std::vector<NonnullArg> kwonlyargs,
+        std::vector<NonnullArg> kwarg) {
+    auto r = pxcompiler::StarArg::make_StarArg(arena,
+                pxcompiler::SourceLocation("STAR_ARG", 0));
+    r->varargs_ = varargs;
+    r->kwonlyargs_ = kwonlyargs;
+    r->kwarg_ = kwarg;
+    return r;
+}
+#define PARAMETER_LIST_05(kwonlyargs) STAR_ARG(arena, {}, \
+        kwonlyargs, {})
+#define PARAMETER_LIST_06(kwarg) STAR_ARG(arena, {}, {}, {kwarg})
+
+#define PARAMETER_LIST_07(kwonlyargs, kwarg) STAR_ARG(arena, {}, \
+        kwonlyargs, {kwarg})
+
+#define PARAMETER_LIST_08(vararg) STAR_ARG(arena, {vararg}, {}, {})
+#define PARAMETER_LIST_09(vararg, kwonlyargs)  STAR_ARG(arena, {vararg}, \
+        kwonlyargs, {})
+#define PARAMETER_LIST_10(vararg, kwarg)  STAR_ARG(arena, {vararg}, {}, {kwarg})
+#define PARAMETER_LIST_11(vararg, kwonlyargs, kwarg) STAR_ARG(arena, {vararg}, \
+        kwonlyargs, {kwarg})
+#define PARAMETER_LIST_12(l) FUNC_ARGS_01(arena, l, std::nullopt)
+
+#define FUNC_ARGS_(x, kw) \
+    for(auto exp : x) { \
+        r->x##_.push_back(exp); \
+        if(exp->defaults_.has_value() && !kw) { \
+            defaults.push_back(*(exp->defaults_)); \
+        } else if (exp->defaults_.has_value()){ \
+            kw_defaults.push_back(*(exp->defaults_)); \
+        } \
+    }
+
+
+static inline pxcompiler::Nonnull<pxcompiler::Arguments*>
+        FUNC_ARGS_01(NonnullArena arena, pxcompiler::SourceLocation l,
+        std::optional<pxcompiler::Nonnull<pxcompiler::FnArg*>> parameters) {
+    auto r = pxcompiler::Arguments::make_Arguments(arena, l);
+    std::vector<NonnullExpr> defaults;
+    defaults.reserve(4);
+    std::vector<NonnullExpr> kw_defaults;
+    kw_defaults.reserve(4);
+
+    if(parameters == std::nullopt) {
+        return r;
+    }
+
+    auto &posonlyargs = (*parameters)->posonlyargs_;
+    FUNC_ARGS_(posonlyargs, false);
+
+    if (!parameters.has_value() || !(*parameters)->args_.has_value()) {
+        r->kw_defaults_ = kw_defaults;
+        r->defaults_ = defaults;
+        return r;
+    }
+
+    auto &noposonlyargs = (*parameters)->args_;
+    if (!noposonlyargs.has_value()) {
+        r->kw_defaults_ = kw_defaults;
+        r->defaults_ = defaults;
+        return r;
+    }
+    auto &args = (*noposonlyargs)->args_;
+    FUNC_ARGS_(args, false);
+
+    auto &stararg = (*noposonlyargs)->stararg_;
+    if (!stararg.has_value()) {
+        r->kw_defaults_ = kw_defaults;
+        r->defaults_ = defaults;
+        return r;
+    }
+
+    auto& varargs = (*stararg)->varargs_;
+    FUNC_ARGS_(varargs, false);
+
+    auto &kwonlyargs = (*stararg)->kwonlyargs_;
+    FUNC_ARGS_(kwonlyargs, true);
+
+    auto &kwarg = (*stararg)->kwarg_;
+    FUNC_ARGS_(kwarg, true);
+
+    r->kw_defaults_ = kw_defaults;
+    r->defaults_ = defaults;
+    return r;
+}
+
+
+#define FUNCTION_01(decorator, id, args, stmts, l) \
+    pxcompiler::FunctionDef::make_FunctionDef(arena, l, \
+        id, args, stmts, decorator, std::nullopt, std::nullopt)
+#define FUNCTION_02(decorator, id, args, returns, stmts, l) \
+    pxcompiler::FunctionDef::make_FunctionDef(arena, l, \
+        id, args, stmts, decorator, returns, std::nullopt)
+#define FUNCTION_03(decorator, id, args, stmts, type_comment, l) \
+    pxcompiler::FunctionDef::make_FunctionDef(arena, l, \
+        id, args, stmts, decorator, std::nullopt, type_comment)
+
+#define FUNCTION_04(decorator, id, args, returns, stmts, type_comment, l) \
+    pxcompiler::FunctionDef::make_FunctionDef(arena, l, \
+        id, args, stmts, decorator, returns, type_comment)

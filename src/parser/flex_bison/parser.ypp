@@ -183,6 +183,7 @@
 %type <Nonnull<Statement*>> single_line_statement
 %type <Nonnull<Statement*>> multi_line_statement
 %type <Nonnull<Statement*>> if_statement
+%type <Nonnull<Statement*>> function_def
 %type <std::vector<Nonnull<Statement*>>> body_stmts
 %type <std::vector<Nonnull<Statement*>>> statements1
 %type <std::vector<Nonnull<Statement*>>> statements
@@ -191,6 +192,14 @@
 %type <std::vector<Nonnull<Statement*>>> single_line_multi_statements
 %type <std::vector<Nonnull<Statement*>>> single_line_multi_statements_opt
 %type <Nonnull<Expression*>> expr
+%type <Nonnull<Arg*>> parameter
+%type <Nonnull<FnArg*>> parameter_list
+%type <Nonnull<Arguments*>> parameter_list_opt
+%type <Nonnull<StarArg*>> parameter_list_starargs
+%type <std::vector<Nonnull<Arg*>>> defparameter_list
+%type <Nonnull<NoPosOnlyArg*>> parameter_list_no_posonly
+%type <std::vector<Nonnull<Expression*>>> decorators
+%type <std::vector<Nonnull<Expression*>>> decorators_opt
 %type <std::vector<Nonnull<Expression*>>> expr_list
 %type <std::vector<Nonnull<Expression*>>> expr_list_opt
 %type <std::vector<PairNonnullExpr>> dict_list
@@ -325,12 +334,91 @@ multi_line_statement
 //    | for_statement
 //    | try_statement
 //    | with_statement
-//    | function_def
+    | function_def
 //    | class_def
 //    | async_func_def
 //    | async_for_stmt
 //    | async_with_stmt
 //    | while_statement
+    ;
+
+decorators_opt
+    : decorators { $$ = $1; }
+    | %empty { LIST_NEW($$); }
+    ;
+
+decorators
+    : decorators "@" expr sep { $$ = $1; LIST_ADD($$, $3); }
+    | "@" expr sep { LIST_NEW($$); LIST_ADD($$, $2); }
+    ;
+
+parameter
+    : id { $$ = ARGS_01($1, context.source_loc()); }
+    | id ":" expr { $$ = ARGS_02($1, $3, context.source_loc()); }
+    | id "=" expr { $$ = ARGS_03($1, $3, context.source_loc()); }
+    | id ":" expr "=" expr { $$ = ARGS_04($1, $3, $5, context.source_loc()); }
+    ;
+
+parameter_list
+    : defparameter_list "," "/" comma_opt {
+        $$ = PARAMETER_LIST_01($1, std::nullopt); }
+    | defparameter_list "," "/" "," parameter_list_no_posonly {
+        $$ = PARAMETER_LIST_01($1, $5); }
+    | parameter_list_no_posonly { $$ = PARAMETER_LIST_02($1); }
+    ;
+
+parameter_list_no_posonly
+    : defparameter_list comma_opt { $$ = PARAMETER_LIST_03($1, std::nullopt); }
+    | defparameter_list "," parameter_list_starargs {
+        $$ = PARAMETER_LIST_03($1, $3); }
+    | parameter_list_starargs { $$ = PARAMETER_LIST_04($1); }
+    ;
+
+defparameter_list
+    : defparameter_list "," parameter { $$ = $1; LIST_ADD($$, $3); }
+    | parameter { LIST_NEW($$); LIST_ADD($$, $1); }
+//    | defparameter_list "," TK_TYPE_COMMENT parameter { $$ = $1;
+//        LIST_ADD($$, $4); ADD_TYPE_COMMENT($1, $3, context.source_loc()); }
+//    | defparameter_list "," TK_TYPE_COMMENT {
+//        $$ = $1; ADD_TYPE_COMMENT($1, $3, context.source_loc()); }
+    ;
+
+parameter_list_starargs
+    : "*" "," defparameter_list comma_opt { $$ = PARAMETER_LIST_05($3); }
+    | "*" "," "**" parameter comma_opt { $$ = PARAMETER_LIST_06($4); }
+    | "*" "," defparameter_list "," "**" parameter comma_opt {
+        $$ = PARAMETER_LIST_07($3, $6); }
+    | "*" parameter comma_opt { $$ = PARAMETER_LIST_08($2); }
+    | "*" parameter "," defparameter_list comma_opt {
+        $$ = PARAMETER_LIST_09($2, $4); }
+    | "*" parameter "," "**" parameter comma_opt {
+        $$ = PARAMETER_LIST_10($2, $5); }
+    | "*" parameter "," defparameter_list "," "**" parameter comma_opt {
+        $$ = PARAMETER_LIST_11($2, $4, $7); }
+    | "**" parameter comma_opt { $$ = PARAMETER_LIST_06($2); }
+    ;
+
+parameter_list_opt
+    : parameter_list { $$ = FUNC_ARGS_01(arena, context.source_loc(), $1); }
+    | %empty { $$ = PARAMETER_LIST_12(context.source_loc()); }
+    ;
+
+comma_opt
+    : ","
+    | %empty
+    ;
+
+function_def
+    : decorators_opt DEF id "(" parameter_list_opt ")" ":"
+        body_stmts { $$ = FUNCTION_01($1, $3, $5, $8, context.source_loc()); }
+//    | decorators_opt KW_DEF id "(" parameter_list_opt ")" "->" expr ":"
+//        body_stmts { $$ = FUNCTION_02($1, $3, $5, $8, $10, context.source_loc()); }
+//    | decorators_opt KW_DEF id "(" parameter_list_opt ")" ":"
+//        TK_TYPE_COMMENT TK_NEWLINE statements {
+//        $$ = FUNCTION_03($1, $3, $5, $10, $8, context.source_loc()); }
+//    | decorators_opt KW_DEF id "(" parameter_list_opt ")" "->" expr ":"
+//        TK_TYPE_COMMENT TK_NEWLINE statements {
+//            $$ = FUNCTION_04($1, $3, $5, $8, $12, $10, context.source_loc()); }
     ;
 
 if_statement
@@ -378,7 +466,7 @@ expr_list
 
 
 dict
-    : expr ":" expr { $$ = DICT_EXPR($1, $3, @$); }
+    : expr ":" expr { $$ = DICT_EXPR($1, $3, context.source_loc()); }
     ;
 
 dict_list

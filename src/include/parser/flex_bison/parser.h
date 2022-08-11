@@ -634,40 +634,61 @@ namespace  pxcompiler  {
     /// An auxiliary type to compute the largest semantic type.
     union union_type
     {
+      // parameter
+      char dummy1[sizeof (Nonnull<Arg*>)];
+
+      // parameter_list_opt
+      char dummy2[sizeof (Nonnull<Arguments*>)];
+
       // string
       // expr
-      char dummy1[sizeof (Nonnull<Expression*>)];
+      char dummy3[sizeof (Nonnull<Expression*>)];
+
+      // parameter_list
+      char dummy4[sizeof (Nonnull<FnArg*>)];
 
       // id
-      char dummy2[sizeof (Nonnull<Name*>)];
+      char dummy5[sizeof (Nonnull<Name*>)];
+
+      // parameter_list_no_posonly
+      char dummy6[sizeof (Nonnull<NoPosOnlyArg*>)];
+
+      // parameter_list_starargs
+      char dummy7[sizeof (Nonnull<StarArg*>)];
 
       // script_unit
       // statement
       // single_line_statement
       // multi_line_statement
+      // function_def
       // if_statement
       // expression_statment
-      char dummy3[sizeof (Nonnull<Statement*>)];
+      char dummy8[sizeof (Nonnull<Statement*>)];
 
       // dict
-      char dummy4[sizeof (PairNonnullExpr)];
+      char dummy9[sizeof (PairNonnullExpr)];
 
       // real_literal
       // image_literal
-      char dummy5[sizeof (double)];
+      char dummy10[sizeof (double)];
 
       // integer_literal
-      char dummy6[sizeof (long long)];
+      char dummy11[sizeof (long long)];
 
       // identifier
       // sized_type_literal
       // string_literal
       // sep_one
-      char dummy7[sizeof (std::string)];
+      char dummy12[sizeof (std::string)];
 
+      // defparameter_list
+      char dummy13[sizeof (std::vector<Nonnull<Arg*>>)];
+
+      // decorators_opt
+      // decorators
       // expr_list_opt
       // expr_list
-      char dummy8[sizeof (std::vector<Nonnull<Expression*>>)];
+      char dummy14[sizeof (std::vector<Nonnull<Expression*>>)];
 
       // statements
       // sep_statements
@@ -676,13 +697,13 @@ namespace  pxcompiler  {
       // single_line_statements
       // single_line_multi_statements
       // single_line_multi_statements_opt
-      char dummy9[sizeof (std::vector<Nonnull<Statement*>>)];
+      char dummy15[sizeof (std::vector<Nonnull<Statement*>>)];
 
       // dict_list
-      char dummy10[sizeof (std::vector<PairNonnullExpr>)];
+      char dummy16[sizeof (std::vector<PairNonnullExpr>)];
 
       // sep
-      char dummy11[sizeof (std::vector<std::string>)];
+      char dummy17[sizeof (std::vector<std::string>)];
     };
 
     /// The size of the largest semantic type.
@@ -938,17 +959,27 @@ namespace  pxcompiler  {
         S_statement = 100,                       // statement
         S_single_line_statement = 101,           // single_line_statement
         S_multi_line_statement = 102,            // multi_line_statement
-        S_if_statement = 103,                    // if_statement
-        S_expression_statment = 104,             // expression_statment
-        S_string = 105,                          // string
-        S_expr_list_opt = 106,                   // expr_list_opt
-        S_expr_list = 107,                       // expr_list
-        S_dict = 108,                            // dict
-        S_dict_list = 109,                       // dict_list
-        S_expr = 110,                            // expr
-        S_id = 111,                              // id
-        S_sep = 112,                             // sep
-        S_sep_one = 113                          // sep_one
+        S_decorators_opt = 103,                  // decorators_opt
+        S_decorators = 104,                      // decorators
+        S_parameter = 105,                       // parameter
+        S_parameter_list = 106,                  // parameter_list
+        S_parameter_list_no_posonly = 107,       // parameter_list_no_posonly
+        S_defparameter_list = 108,               // defparameter_list
+        S_parameter_list_starargs = 109,         // parameter_list_starargs
+        S_parameter_list_opt = 110,              // parameter_list_opt
+        S_comma_opt = 111,                       // comma_opt
+        S_function_def = 112,                    // function_def
+        S_if_statement = 113,                    // if_statement
+        S_expression_statment = 114,             // expression_statment
+        S_string = 115,                          // string
+        S_expr_list_opt = 116,                   // expr_list_opt
+        S_expr_list = 117,                       // expr_list
+        S_dict = 118,                            // dict
+        S_dict_list = 119,                       // dict_list
+        S_expr = 120,                            // expr
+        S_id = 121,                              // id
+        S_sep = 122,                             // sep
+        S_sep_one = 123                          // sep_one
       };
     };
 
@@ -985,19 +1016,40 @@ namespace  pxcompiler  {
       {
         switch (this->kind ())
     {
+      case symbol_kind::S_parameter: // parameter
+        value.move< Nonnull<Arg*> > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_parameter_list_opt: // parameter_list_opt
+        value.move< Nonnull<Arguments*> > (std::move (that.value));
+        break;
+
       case symbol_kind::S_string: // string
       case symbol_kind::S_expr: // expr
         value.move< Nonnull<Expression*> > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_parameter_list: // parameter_list
+        value.move< Nonnull<FnArg*> > (std::move (that.value));
         break;
 
       case symbol_kind::S_id: // id
         value.move< Nonnull<Name*> > (std::move (that.value));
         break;
 
+      case symbol_kind::S_parameter_list_no_posonly: // parameter_list_no_posonly
+        value.move< Nonnull<NoPosOnlyArg*> > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_parameter_list_starargs: // parameter_list_starargs
+        value.move< Nonnull<StarArg*> > (std::move (that.value));
+        break;
+
       case symbol_kind::S_script_unit: // script_unit
       case symbol_kind::S_statement: // statement
       case symbol_kind::S_single_line_statement: // single_line_statement
       case symbol_kind::S_multi_line_statement: // multi_line_statement
+      case symbol_kind::S_function_def: // function_def
       case symbol_kind::S_if_statement: // if_statement
       case symbol_kind::S_expression_statment: // expression_statment
         value.move< Nonnull<Statement*> > (std::move (that.value));
@@ -1023,6 +1075,12 @@ namespace  pxcompiler  {
         value.move< std::string > (std::move (that.value));
         break;
 
+      case symbol_kind::S_defparameter_list: // defparameter_list
+        value.move< std::vector<Nonnull<Arg*>> > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_decorators_opt: // decorators_opt
+      case symbol_kind::S_decorators: // decorators
       case symbol_kind::S_expr_list_opt: // expr_list_opt
       case symbol_kind::S_expr_list: // expr_list
         value.move< std::vector<Nonnull<Expression*>> > (std::move (that.value));
@@ -1070,6 +1128,34 @@ namespace  pxcompiler  {
 #endif
 
 #if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, Nonnull<Arg*>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const Nonnull<Arg*>& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, Nonnull<Arguments*>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const Nonnull<Arguments*>& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
       basic_symbol (typename Base::kind_type t, Nonnull<Expression*>&& v, location_type&& l)
         : Base (t)
         , value (std::move (v))
@@ -1084,6 +1170,20 @@ namespace  pxcompiler  {
 #endif
 
 #if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, Nonnull<FnArg*>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const Nonnull<FnArg*>& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
       basic_symbol (typename Base::kind_type t, Nonnull<Name*>&& v, location_type&& l)
         : Base (t)
         , value (std::move (v))
@@ -1091,6 +1191,34 @@ namespace  pxcompiler  {
       {}
 #else
       basic_symbol (typename Base::kind_type t, const Nonnull<Name*>& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, Nonnull<NoPosOnlyArg*>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const Nonnull<NoPosOnlyArg*>& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, Nonnull<StarArg*>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const Nonnull<StarArg*>& v, const location_type& l)
         : Base (t)
         , value (v)
         , location (l)
@@ -1161,6 +1289,20 @@ namespace  pxcompiler  {
       {}
 #else
       basic_symbol (typename Base::kind_type t, const std::string& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, std::vector<Nonnull<Arg*>>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const std::vector<Nonnull<Arg*>>& v, const location_type& l)
         : Base (t)
         , value (v)
         , location (l)
@@ -1245,19 +1387,40 @@ namespace  pxcompiler  {
         // Value type destructor.
 switch (yykind)
     {
+      case symbol_kind::S_parameter: // parameter
+        value.template destroy< Nonnull<Arg*> > ();
+        break;
+
+      case symbol_kind::S_parameter_list_opt: // parameter_list_opt
+        value.template destroy< Nonnull<Arguments*> > ();
+        break;
+
       case symbol_kind::S_string: // string
       case symbol_kind::S_expr: // expr
         value.template destroy< Nonnull<Expression*> > ();
+        break;
+
+      case symbol_kind::S_parameter_list: // parameter_list
+        value.template destroy< Nonnull<FnArg*> > ();
         break;
 
       case symbol_kind::S_id: // id
         value.template destroy< Nonnull<Name*> > ();
         break;
 
+      case symbol_kind::S_parameter_list_no_posonly: // parameter_list_no_posonly
+        value.template destroy< Nonnull<NoPosOnlyArg*> > ();
+        break;
+
+      case symbol_kind::S_parameter_list_starargs: // parameter_list_starargs
+        value.template destroy< Nonnull<StarArg*> > ();
+        break;
+
       case symbol_kind::S_script_unit: // script_unit
       case symbol_kind::S_statement: // statement
       case symbol_kind::S_single_line_statement: // single_line_statement
       case symbol_kind::S_multi_line_statement: // multi_line_statement
+      case symbol_kind::S_function_def: // function_def
       case symbol_kind::S_if_statement: // if_statement
       case symbol_kind::S_expression_statment: // expression_statment
         value.template destroy< Nonnull<Statement*> > ();
@@ -1283,6 +1446,12 @@ switch (yykind)
         value.template destroy< std::string > ();
         break;
 
+      case symbol_kind::S_defparameter_list: // defparameter_list
+        value.template destroy< std::vector<Nonnull<Arg*>> > ();
+        break;
+
+      case symbol_kind::S_decorators_opt: // decorators_opt
+      case symbol_kind::S_decorators: // decorators
       case symbol_kind::S_expr_list_opt: // expr_list_opt
       case symbol_kind::S_expr_list: // expr_list
         value.template destroy< std::vector<Nonnull<Expression*>> > ();
@@ -3117,9 +3286,9 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 809,     ///< Last index in yytable_.
-      yynnts_ = 24,  ///< Number of nonterminal symbols.
-      yyfinal_ = 50 ///< Termination state number.
+      yylast_ = 1016,     ///< Last index in yytable_.
+      yynnts_ = 34,  ///< Number of nonterminal symbols.
+      yyfinal_ = 55 ///< Termination state number.
     };
 
 
@@ -3197,19 +3366,40 @@ switch (yykind)
   {
     switch (this->kind ())
     {
+      case symbol_kind::S_parameter: // parameter
+        value.copy< Nonnull<Arg*> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_parameter_list_opt: // parameter_list_opt
+        value.copy< Nonnull<Arguments*> > (YY_MOVE (that.value));
+        break;
+
       case symbol_kind::S_string: // string
       case symbol_kind::S_expr: // expr
         value.copy< Nonnull<Expression*> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_parameter_list: // parameter_list
+        value.copy< Nonnull<FnArg*> > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_id: // id
         value.copy< Nonnull<Name*> > (YY_MOVE (that.value));
         break;
 
+      case symbol_kind::S_parameter_list_no_posonly: // parameter_list_no_posonly
+        value.copy< Nonnull<NoPosOnlyArg*> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_parameter_list_starargs: // parameter_list_starargs
+        value.copy< Nonnull<StarArg*> > (YY_MOVE (that.value));
+        break;
+
       case symbol_kind::S_script_unit: // script_unit
       case symbol_kind::S_statement: // statement
       case symbol_kind::S_single_line_statement: // single_line_statement
       case symbol_kind::S_multi_line_statement: // multi_line_statement
+      case symbol_kind::S_function_def: // function_def
       case symbol_kind::S_if_statement: // if_statement
       case symbol_kind::S_expression_statment: // expression_statment
         value.copy< Nonnull<Statement*> > (YY_MOVE (that.value));
@@ -3235,6 +3425,12 @@ switch (yykind)
         value.copy< std::string > (YY_MOVE (that.value));
         break;
 
+      case symbol_kind::S_defparameter_list: // defparameter_list
+        value.copy< std::vector<Nonnull<Arg*>> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_decorators_opt: // decorators_opt
+      case symbol_kind::S_decorators: // decorators
       case symbol_kind::S_expr_list_opt: // expr_list_opt
       case symbol_kind::S_expr_list: // expr_list
         value.copy< std::vector<Nonnull<Expression*>> > (YY_MOVE (that.value));
@@ -3287,19 +3483,40 @@ switch (yykind)
     super_type::move (s);
     switch (this->kind ())
     {
+      case symbol_kind::S_parameter: // parameter
+        value.move< Nonnull<Arg*> > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_parameter_list_opt: // parameter_list_opt
+        value.move< Nonnull<Arguments*> > (YY_MOVE (s.value));
+        break;
+
       case symbol_kind::S_string: // string
       case symbol_kind::S_expr: // expr
         value.move< Nonnull<Expression*> > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_parameter_list: // parameter_list
+        value.move< Nonnull<FnArg*> > (YY_MOVE (s.value));
         break;
 
       case symbol_kind::S_id: // id
         value.move< Nonnull<Name*> > (YY_MOVE (s.value));
         break;
 
+      case symbol_kind::S_parameter_list_no_posonly: // parameter_list_no_posonly
+        value.move< Nonnull<NoPosOnlyArg*> > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_parameter_list_starargs: // parameter_list_starargs
+        value.move< Nonnull<StarArg*> > (YY_MOVE (s.value));
+        break;
+
       case symbol_kind::S_script_unit: // script_unit
       case symbol_kind::S_statement: // statement
       case symbol_kind::S_single_line_statement: // single_line_statement
       case symbol_kind::S_multi_line_statement: // multi_line_statement
+      case symbol_kind::S_function_def: // function_def
       case symbol_kind::S_if_statement: // if_statement
       case symbol_kind::S_expression_statment: // expression_statment
         value.move< Nonnull<Statement*> > (YY_MOVE (s.value));
@@ -3325,6 +3542,12 @@ switch (yykind)
         value.move< std::string > (YY_MOVE (s.value));
         break;
 
+      case symbol_kind::S_defparameter_list: // defparameter_list
+        value.move< std::vector<Nonnull<Arg*>> > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_decorators_opt: // decorators_opt
+      case symbol_kind::S_decorators: // decorators
       case symbol_kind::S_expr_list_opt: // expr_list_opt
       case symbol_kind::S_expr_list: // expr_list
         value.move< std::vector<Nonnull<Expression*>> > (YY_MOVE (s.value));
@@ -3411,7 +3634,7 @@ switch (yykind)
 
 #line 21 "parser.ypp"
 } //  pxcompiler 
-#line 3415 "../../include/parser/flex_bison/parser.h"
+#line 3638 "../../include/parser/flex_bison/parser.h"
 
 
 

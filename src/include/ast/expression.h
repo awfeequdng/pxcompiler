@@ -673,5 +673,134 @@ private:
     Nonnull<Expression*> value_;
 };
 
+class Arg: public Expression {
+public:
+    static Nonnull<Arg*> make_Arg(
+        Nonnull<pxcompiler::Arena*> arena,
+        SourceLocation loc,
+        Nonnull<Expression*> arg) {
+        return arena->New<Arg>(loc, arg);
+    }
+
+    static auto classof(const AstNode* node) {
+        return InheritsFromArg(node->kind());
+    }
+
+    Arg(pxcompiler::SourceLocation loc,
+        Nonnull<Expression*> arg)
+        : Expression(AstNodeKind::Arg, loc),
+          arg_(arg) {}
+
+
+    const Nonnull<Expression*> &arg() const {
+        return arg_;
+    }
+
+public:
+    std::optional<NonnullExpr> defaults_;
+    std::optional<NonnullExpr> annotation_;
+    std::optional<NonnullExpr> type_comment_;
+    NonnullExpr arg_;
+
+// private:
+};
+
+class Arguments: public Expression {
+public:
+    static Nonnull<Arguments*> make_Arguments(
+        Nonnull<pxcompiler::Arena*> arena,
+        SourceLocation loc) {
+        return arena->New<Arguments>(loc);
+    }
+
+    static auto classof(const AstNode* node) {
+        return InheritsFromArguments(node->kind());
+    }
+
+    Arguments(pxcompiler::SourceLocation loc)
+        : Expression(AstNodeKind::Arguments, loc)
+         {}
+
+    // const Nonnull<Expression*> &value() const {
+    //     return value_;
+    // }
+
+    std::vector<Nonnull<Arg*>> posonlyargs_;
+    std::vector<Nonnull<Arg*>> args_;
+    std::vector<Nonnull<Arg*>> varargs_;
+    std::vector<Nonnull<Arg*>> kwonlyargs_;
+    std::vector<Nonnull<Expression*>> kw_defaults_;
+    std::vector<Nonnull<Arg*>> kwarg_;
+    std::vector<Nonnull<Expression*>> defaults_;
+};
+
 } // namespace pxcompiler
+
+using NonnullArg = pxcompiler::Nonnull<pxcompiler::Arg*>;
+
+namespace pxcompiler {
+
+class StarArg: public Expression {
+public:
+    static Nonnull<StarArg*> make_StarArg(
+        Nonnull<pxcompiler::Arena*> arena,
+        SourceLocation loc) {
+        return arena->New<StarArg>(loc);
+    }
+
+    static auto classof(const AstNode* node) {
+        return InheritsFromStarArg(node->kind());
+    }
+
+    StarArg(pxcompiler::SourceLocation loc)
+        : Expression(AstNodeKind::StarArg, loc) {}
+
+public:
+    std::vector<Nonnull<Arg*>> varargs_;
+    std::vector<Nonnull<Arg*>> kwonlyargs_;
+    std::vector<Nonnull<Arg*>> kwarg_;
+};
+
+class NoPosOnlyArg: public Expression {
+public:
+    static Nonnull<NoPosOnlyArg*> make_NoPosOnlyArg(
+        Nonnull<pxcompiler::Arena*> arena,
+        SourceLocation loc) {
+        return arena->New<NoPosOnlyArg>(loc);
+    }
+
+    static auto classof(const AstNode* node) {
+        return InheritsFromNoPosOnlyArg(node->kind());
+    }
+
+    NoPosOnlyArg(pxcompiler::SourceLocation loc)
+        : Expression(AstNodeKind::NoPosOnlyArg, loc) {}
+
+public:
+    std::vector<Nonnull<Arg*>> args_;
+    std::optional<Nonnull<StarArg*>> stararg_;
+};
+
+class FnArg: public Expression {
+public:
+    static Nonnull<FnArg*> make_FnArg(
+        Nonnull<pxcompiler::Arena*> arena,
+        SourceLocation loc) {
+        return arena->New<FnArg>(loc);
+    }
+
+    static auto classof(const AstNode* node) {
+        return InheritsFromFnArg(node->kind());
+    }
+
+    FnArg(pxcompiler::SourceLocation loc)
+        : Expression(AstNodeKind::FnArg, loc) {}
+
+public:
+    std::vector<Nonnull<Arg*>> posonlyargs_;
+    std::optional<Nonnull<NoPosOnlyArg*>> args_;
+};
+
+} // namespace pxcompiler
+
 

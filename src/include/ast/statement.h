@@ -47,38 +47,43 @@ public:
     static pxcompiler::Nonnull<FunctionDef*> make_FunctionDef(
                 pxcompiler::Nonnull<pxcompiler::Arena*> arena,
                 const pxcompiler::SourceLocation& loc,
-                std::string& name,
-                Arguments& args,
-                std::vector<pxcompiler::Nonnull<Statement*>>& body,
-                std::vector<pxcompiler::Nonnull<Expression*>>& decorator_list,
-                pxcompiler::Nonnull<Expression*> returns) {
+                Nonnull<Expression*> name,
+                Nonnull<Arguments*> args,
+                std::vector<pxcompiler::Nonnull<Statement*>> body,
+                std::vector<pxcompiler::Nonnull<Expression*>> decorator_list,
+                std::optional<Nonnull<Expression*>> returns,
+                std::optional<Nonnull<Expression*>> type_comment) {
         return arena->New<FunctionDef>(loc, name, args, body,
-                                      decorator_list, returns);
+                                      decorator_list, returns, type_comment);
     }
     static auto classof(const AstNode* node) -> bool {
         return InheritsFromFunctionDef(node->kind());
     }
 
     FunctionDef(const pxcompiler::SourceLocation& loc,
-                std::string& name,
-                Arguments& args,
-                std::vector<pxcompiler::Nonnull<Statement*>>& body,
-                std::vector<pxcompiler::Nonnull<Expression*>>& decorator_list,
-                pxcompiler::Nonnull<Expression*>& returns)
+                Nonnull<Expression*> name,
+                Nonnull<Arguments*> args,
+                std::vector<pxcompiler::Nonnull<Statement*>> body,
+                std::vector<pxcompiler::Nonnull<Expression*>> decorator_list,
+                std::optional<Nonnull<Expression*>> returns,
+                std::optional<Nonnull<Expression*>> type_comment)
       : Statement(AstNodeKind::FunctionDef, loc),
         name_(name),
         args_(args),
         body_(std::move(body)),
         decorator_list_(std::move(decorator_list)),
-        returns_(returns) {}
+        returns_(returns),
+        type_comment_(type_comment) {}
 
 protected:
-  std::string name_;
-  Arguments args_;
-  std::vector<pxcompiler::Nonnull<Statement*>> body_;
-  std::vector<pxcompiler::Nonnull<Expression*>> decorator_list_;
-  pxcompiler::Nonnull<Expression*> returns_;
+    Nonnull<Expression*> name_;
+    Nonnull<Arguments*> args_;
+    std::vector<Nonnull<Statement*>> body_;
+    std::vector<Nonnull<Expression*>> decorator_list_;
+    std::optional<Nonnull<Expression*>> returns_;
+    std::optional<Nonnull<Expression*>> type_comment_;
 };
+
 class ExprStmt : public Statement {
 public:
     static pxcompiler::Nonnull<ExprStmt*> make_ExprStmt(
