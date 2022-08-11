@@ -69,25 +69,26 @@ enum class AstNodeKind {
   Attribute = 58,
   Subscript = 59,
   Starred = 60,
-  Arg = 61,
-  NoPosOnlyArg = 62,
-  StarArg = 63,
-  FnArg = 64,
-  Arguments = 65,
-  Name = 66,
-  List = 67,
-  Tuple = 68,
-  Slice = 69,
-  ExceptHandler = 70,
-  MatchValue = 71,
-  MatchSingleton = 72,
-  MatchSequence = 73,
-  MatchMapping = 74,
-  MatchClass = 75,
-  MatchStar = 76,
-  MatchAs = 77,
-  MatchOr = 78,
-  TypeIgnore = 79,
+  Keyword = 61,
+  Arg = 62,
+  NoPosOnlyArg = 63,
+  StarArg = 64,
+  FnArg = 65,
+  Arguments = 66,
+  Name = 67,
+  List = 68,
+  Tuple = 69,
+  Slice = 70,
+  ExceptHandler = 71,
+  MatchValue = 72,
+  MatchSingleton = 73,
+  MatchSequence = 74,
+  MatchMapping = 75,
+  MatchClass = 76,
+  MatchStar = 77,
+  MatchAs = 78,
+  MatchOr = 79,
+  TypeIgnore = 80,
 };
 
 std::string_view AstNodeKindName(AstNodeKind k);
@@ -311,15 +312,16 @@ enum class ExpressionKind {
   Attribute = 58,
   Subscript = 59,
   Starred = 60,
-  Arg = 61,
-  NoPosOnlyArg = 62,
-  StarArg = 63,
-  FnArg = 64,
-  Arguments = 65,
-  Name = 66,
-  List = 67,
-  Tuple = 68,
-  Slice = 69,
+  Keyword = 61,
+  Arg = 62,
+  NoPosOnlyArg = 63,
+  StarArg = 64,
+  FnArg = 65,
+  Arguments = 66,
+  Name = 67,
+  List = 68,
+  Tuple = 69,
+  Slice = 70,
 };
 
 std::string_view ExpressionKindName(ExpressionKind k);
@@ -450,6 +452,10 @@ inline bool InheritsFromStarred(AstNodeKind kind) {
     return kind == AstNodeKind::Starred;
 }
 
+inline bool InheritsFromKeyword(AstNodeKind kind) {
+    return kind == AstNodeKind::Keyword;
+}
+
 inline bool InheritsFromArg(AstNodeKind kind) {
     return kind == AstNodeKind::Arg;
 }
@@ -491,14 +497,14 @@ inline bool InheritsFromExceptHandler(AstNodeKind kind) {
 }
 
 enum class PatternKind {
-  MatchValue = 71,
-  MatchSingleton = 72,
-  MatchSequence = 73,
-  MatchMapping = 74,
-  MatchClass = 75,
-  MatchStar = 76,
-  MatchAs = 77,
-  MatchOr = 78,
+  MatchValue = 72,
+  MatchSingleton = 73,
+  MatchSequence = 74,
+  MatchMapping = 75,
+  MatchClass = 76,
+  MatchStar = 77,
+  MatchAs = 78,
+  MatchOr = 79,
 };
 
 std::string_view PatternKindName(PatternKind k);

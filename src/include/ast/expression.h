@@ -801,6 +801,78 @@ public:
     std::optional<Nonnull<NoPosOnlyArg*>> args_;
 };
 
+class Keyword: public Expression {
+public:
+    static Nonnull<Keyword*> make_Keyword(
+        Nonnull<pxcompiler::Arena*> arena,
+        SourceLocation loc,
+        std::optional<Nonnull<Expression*>> arg,
+        Nonnull<Expression*> value) {
+        return arena->New<Keyword>(loc, arg, value);
+    }
+
+    static auto classof(const AstNode* node) {
+        return InheritsFromKeyword(node->kind());
+    }
+
+    Keyword(pxcompiler::SourceLocation loc,
+            std::optional<Nonnull<Expression*>> arg,
+            Nonnull<Expression*> value)
+        : Expression(AstNodeKind::Keyword, loc),
+        arg_(arg),
+        value_(value) {}
+
+    const std::optional<Nonnull<Expression*>> &arg() const {
+        return arg_;
+    }
+
+    const Nonnull<Expression*> &value() const {
+        return value_;
+    }
+
+private:
+    std::optional<Nonnull<Expression*>> arg_;
+    Nonnull<Expression*> value_;
+};
+
+class Call: public Expression {
+public:
+    static Nonnull<Call*> make_Call(
+        Nonnull<pxcompiler::Arena*> arena,
+        SourceLocation loc,
+        Nonnull<Expression*> func,
+        std::vector<Nonnull<Expression*>> args,
+        std::vector<Nonnull<Keyword*>> keywords) {
+        return arena->New<Call>(loc, func, args, keywords);
+    }
+
+    static auto classof(const AstNode* node) {
+        return InheritsFromCall(node->kind());
+    }
+
+    Call(pxcompiler::SourceLocation loc,
+            Nonnull<Expression*> func,
+            std::vector<Nonnull<Expression*>> args,
+            std::vector<Nonnull<Keyword*>> keywords)
+        : Expression(AstNodeKind::Call, loc),
+        func_(func), args_(args), keywords_(keywords) {}
+
+    const Nonnull<Expression*> &func() const {
+        return func_;
+    }
+    const std::vector<Nonnull<Expression*>> &args() const {
+        return args_;
+    }
+    const std::vector<Nonnull<Keyword*>> &keywords() const {
+        return keywords_;
+    }
+
+private:
+    Nonnull<Expression*> func_;
+    std::vector<Nonnull<Expression*>> args_;
+    std::vector<Nonnull<Keyword*>> keywords_;
+};
+
 } // namespace pxcompiler
 
 

@@ -365,3 +365,19 @@ static inline pxcompiler::Nonnull<pxcompiler::Arguments*>
 #define FUNCTION_04(decorator, id, args, returns, stmts, type_comment, l) \
     pxcompiler::FunctionDef::make_FunctionDef(arena, l, \
         id, args, stmts, decorator, returns, type_comment)
+
+static inline pxcompiler::Nonnull<pxcompiler::Keyword*> CALL_KW(
+        NonnullArena arena, pxcompiler::SourceLocation l,
+        std::optional<NonnullExpr> arg, NonnullExpr val) {
+    return pxcompiler::Keyword::make_Keyword(arena, l, arg, val);
+}
+
+#define CALL_KEYWORD_01(arg, val, l) CALL_KW(arena, l, arg, val)
+#define CALL_KEYWORD_02(val, l) CALL_KW(arena, l, std::nullopt, val)
+#define CALL_01(func, args, l) pxcompiler::Call::make_Call(arena, l, \
+        func, args, {})
+#define CALL_02(func, args, keywords, l) pxcompiler::Call::make_Call(arena, l, \
+        func, args, keywords)
+#define CALL_03(func, keywords, l) pxcompiler::Call::make_Call(arena, l, \
+        func, {}, keywords)
+

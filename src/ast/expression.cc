@@ -319,6 +319,31 @@ void Expression::PrintID(llvm::raw_ostream& out) const {
       }
       break;
     }
+    case ExpressionKind::Call: {
+      const auto &call = cast<Call>(*this);
+      out << "Call(" << *call.func() << "(";
+      auto &args = call.args();
+      for (auto &arg : args) {
+        out << *(arg) << ", ";
+      }
+      auto &keywords = call.keywords();
+      for (auto &kw : keywords) {
+        out << *(kw) << ", ";
+      }
+      out << ")";
+      break;
+    }
+    case ExpressionKind::Keyword: {
+      const auto &keyword = cast<Keyword>(*this);
+      auto &arg = keyword.arg();
+      auto &value = keyword.value();
+      if (arg) {
+        out << **arg << "=" << *value;
+      } else {
+        out << "**" << *value;
+      }
+      break;
+    }
     default:
       out << "...";
       break;

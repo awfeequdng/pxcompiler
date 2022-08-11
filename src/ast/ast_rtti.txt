@@ -68,6 +68,7 @@ abstract class Expression : AstNode;
   class Attribute : Expression;
   class Subscript : Expression;
   class Starred : Expression;
+  class Keyword : Expression;
   class Arg : Expression;
   class NoPosOnlyArg : Expression;
   class StarArg : Expression;

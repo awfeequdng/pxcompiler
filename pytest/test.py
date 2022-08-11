@@ -116,3 +116,7 @@ def hello_world(test = 2, b, /, cc = 2, *ad, **kwarg):
 @caipengxiang
 def hello_world(test = 2, b, /, cc = 2, *ad, **kwarg) -> str:
     "hello world"
+
+
+print(a, b = 3, **kwargs)
+

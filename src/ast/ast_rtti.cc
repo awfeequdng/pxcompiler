@@ -67,6 +67,7 @@ std::string_view AstNodeKindName(AstNodeKind k) {
     case AstNodeKind::Attribute: return "attribute";
     case AstNodeKind::Subscript: return "subscript";
     case AstNodeKind::Starred: return "starred";
+    case AstNodeKind::Keyword: return "keyword";
     case AstNodeKind::Arg: return "arg";
     case AstNodeKind::NoPosOnlyArg: return "no pos only arg";
     case AstNodeKind::StarArg: return "star arg";
@@ -167,6 +168,7 @@ std::string_view ExpressionKindName(ExpressionKind k) {
     case ExpressionKind::Attribute: return "attribute";
     case ExpressionKind::Subscript: return "subscript";
     case ExpressionKind::Starred: return "starred";
+    case ExpressionKind::Keyword: return "keyword";
     case ExpressionKind::Arg: return "arg";
     case ExpressionKind::NoPosOnlyArg: return "no pos only arg";
     case ExpressionKind::StarArg: return "star arg";

@@ -8,12 +8,6 @@ namespace pxcompiler
 {
 class Expression;
 
-struct Keyword {
-    // pxcompiler::SourceLocation loc;
-    std::string arg;
-    pxcompiler::Nonnull<Expression*> value;
-};
-
 struct WithItem {
     // pxcompiler::SourceLocation loc;
     pxcompiler::Nonnull<Expression*> context_expr;
