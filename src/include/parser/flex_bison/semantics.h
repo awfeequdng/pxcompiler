@@ -419,7 +419,7 @@ inline int dot_count(int inc = 0) {
 #define IMPORT_02(module, names, l) pxcompiler::ImportFrom::make_ImportFrom(arena, l, \
         module, names, 0)
 #define IMPORT_03(names, l) pxcompiler::ImportFrom::make_ImportFrom(arena, l, \
-        std::nullopt, names, dot_count()); dot_count(-1)
+        {}, names, dot_count()); dot_count(-1)
 #define IMPORT_04(module, names, l)pxcompiler::ImportFrom:: make_ImportFrom(arena, l, \
         module, names, dot_count()); \
         dot_count(-1)

@@ -99,6 +99,31 @@ void Statement::PrintDepth(int depth, llvm::raw_ostream& out) const {
 
         break;
       }
+      case StatementKind::ImportFrom: {
+        auto &impt = cast<ImportFrom>(*this);
+        Space(depth, out) << "from ";
+        size_t i = 0;
+        for (i = 0; i < impt.level(); i++) {
+          out << ".";
+        }
+        auto &mod = impt.mod();
+        for (i = 0; i < mod.size() - 1; i++) {
+          auto &m = mod[i];
+          out << *m << ".";
+        }
+        out << *(mod[i]);
+
+        out << " import ";
+
+        auto &names = impt.names();
+        for (i = 0; i < names.size() - 1; i++) {
+          auto &name = names[i];
+          out << *name << ", ";
+        }
+        out << *(names[i]) << "\n";
+
+        break;
+      }
       case StatementKind::Pass: {
         Space(depth, out) << "pass\n";
         break;

@@ -231,7 +231,7 @@ public:
     static Nonnull<ImportFrom*> make_ImportFrom(
         Nonnull<pxcompiler::Arena*> arena,
         SourceLocation loc,
-        std::optional<Nonnull<Expression*>> module,
+        std::vector<Nonnull<Expression*>> module,
         std::vector<Nonnull<Alias*>> names,
         int level) {
         return arena->New<ImportFrom>(loc, module, names, level);
@@ -242,7 +242,7 @@ public:
     }
 
     ImportFrom(pxcompiler::SourceLocation loc,
-            std::optional<Nonnull<Expression*>> module,
+            std::vector<Nonnull<Expression*>> module,
             std::vector<Nonnull<Alias*>> names,
             int level)
         : Statement(AstNodeKind::ImportFrom, loc),
@@ -250,20 +250,20 @@ public:
         names_(names),
         level_(level) {}
 
-    const std::optional<Nonnull<Expression*>> &module() const {
+    const std::vector<Nonnull<Expression*>> &mod() const {
         return module_;
     }
     const std::vector<Nonnull<Alias*>> &names() const {
         return names_;
     }
-    int level() const {
+    size_t level() const {
         return level_;
     }
 
 private:
-    std::optional<Nonnull<Expression*>> module_;
+    std::vector<Nonnull<Expression*>> module_;
     std::vector<Nonnull<Alias*>> names_;
-    int level_{};
+    size_t level_{};
 };
 
 

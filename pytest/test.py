@@ -145,3 +145,6 @@ if test:
         break
 continue
 
+from a.b import c as b, d, e as f
+
+from .a.b import c

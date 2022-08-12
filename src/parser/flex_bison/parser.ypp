@@ -375,20 +375,27 @@ module_item_list
     | module_as_id { LIST_NEW($$); LIST_ADD($$, $1); }
     ;
 
+dot_list
+    : dot_list "." { DOT_COUNT_01(); }
+    | "." { DOT_COUNT_01(); }
+ //   | dot_list "..." { DOT_COUNT_02(); }
+ //   | "..." { DOT_COUNT_02(); }
+    ;
+
 import_statement
     : IMPORT module_item_list { $$ = IMPORT_01($2, context.source_loc()); }
-//    | KW_FROM module KW_IMPORT module_item_list {
-//        $$ = IMPORT_02($2, $4, context.source_loc()); }
-//    | KW_FROM module KW_IMPORT "(" module_item_list comma_opt ")" {
-//        $$ = IMPORT_02($2, $5, context.source_loc()); }
-//    | KW_FROM dot_list KW_IMPORT module_item_list {
-//        $$ = IMPORT_03($4, context.source_loc()); }
-//    | KW_FROM dot_list module KW_IMPORT module_item_list {
-//        $$ = IMPORT_04($3, $5, context.source_loc()); }
-//    | KW_FROM dot_list KW_IMPORT "(" module_item_list comma_opt ")" {
-//        $$ = IMPORT_03($5, context.source_loc()); }
-//    | KW_FROM dot_list module KW_IMPORT "(" module_item_list comma_opt ")" {
-//        $$ = IMPORT_04($3, $6, context.source_loc()); }
+    | FROM module IMPORT module_item_list {
+        $$ = IMPORT_02($2, $4, context.source_loc()); }
+    | FROM module IMPORT "(" module_item_list comma_opt ")" {
+        $$ = IMPORT_02($2, $5, context.source_loc()); }
+    | FROM dot_list IMPORT module_item_list {
+        $$ = IMPORT_03($4, context.source_loc()); }
+    | FROM dot_list module IMPORT module_item_list {
+        $$ = IMPORT_04($3, $5, context.source_loc()); }
+    | FROM dot_list IMPORT "(" module_item_list comma_opt ")" {
+        $$ = IMPORT_03($5, context.source_loc()); }
+    | FROM dot_list module IMPORT "(" module_item_list comma_opt ")" {
+        $$ = IMPORT_04($3, $6, context.source_loc()); }
     ;
 
 multi_line_statement

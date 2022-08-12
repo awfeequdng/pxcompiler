@@ -989,37 +989,38 @@ namespace  pxcompiler  {
         S_module = 106,                          // module
         S_module_as_id = 107,                    // module_as_id
         S_module_item_list = 108,                // module_item_list
-        S_import_statement = 109,                // import_statement
-        S_multi_line_statement = 110,            // multi_line_statement
-        S_decorators_opt = 111,                  // decorators_opt
-        S_decorators = 112,                      // decorators
-        S_parameter = 113,                       // parameter
-        S_parameter_list = 114,                  // parameter_list
-        S_parameter_list_no_posonly = 115,       // parameter_list_no_posonly
-        S_defparameter_list = 116,               // defparameter_list
-        S_parameter_list_starargs = 117,         // parameter_list_starargs
-        S_parameter_list_opt = 118,              // parameter_list_opt
-        S_comma_opt = 119,                       // comma_opt
-        S_function_def = 120,                    // function_def
-        S_global_statement = 121,                // global_statement
-        S_ternary_if_statement = 122,            // ternary_if_statement
-        S_nonlocal_statement = 123,              // nonlocal_statement
-        S_if_statement = 124,                    // if_statement
-        S_expression_statment = 125,             // expression_statment
-        S_string = 126,                          // string
-        S_expr_list_opt = 127,                   // expr_list_opt
-        S_expr_list = 128,                       // expr_list
-        S_dict = 129,                            // dict
-        S_dict_list = 130,                       // dict_list
-        S_call_arguement_list = 131,             // call_arguement_list
-        S_keyword_item = 132,                    // keyword_item
-        S_keyword_items = 133,                   // keyword_items
-        S_primary = 134,                         // primary
-        S_function_call = 135,                   // function_call
-        S_expr = 136,                            // expr
-        S_id = 137,                              // id
-        S_sep = 138,                             // sep
-        S_sep_one = 139                          // sep_one
+        S_dot_list = 109,                        // dot_list
+        S_import_statement = 110,                // import_statement
+        S_multi_line_statement = 111,            // multi_line_statement
+        S_decorators_opt = 112,                  // decorators_opt
+        S_decorators = 113,                      // decorators
+        S_parameter = 114,                       // parameter
+        S_parameter_list = 115,                  // parameter_list
+        S_parameter_list_no_posonly = 116,       // parameter_list_no_posonly
+        S_defparameter_list = 117,               // defparameter_list
+        S_parameter_list_starargs = 118,         // parameter_list_starargs
+        S_parameter_list_opt = 119,              // parameter_list_opt
+        S_comma_opt = 120,                       // comma_opt
+        S_function_def = 121,                    // function_def
+        S_global_statement = 122,                // global_statement
+        S_ternary_if_statement = 123,            // ternary_if_statement
+        S_nonlocal_statement = 124,              // nonlocal_statement
+        S_if_statement = 125,                    // if_statement
+        S_expression_statment = 126,             // expression_statment
+        S_string = 127,                          // string
+        S_expr_list_opt = 128,                   // expr_list_opt
+        S_expr_list = 129,                       // expr_list
+        S_dict = 130,                            // dict
+        S_dict_list = 131,                       // dict_list
+        S_call_arguement_list = 132,             // call_arguement_list
+        S_keyword_item = 133,                    // keyword_item
+        S_keyword_items = 134,                   // keyword_items
+        S_primary = 135,                         // primary
+        S_function_call = 136,                   // function_call
+        S_expr = 137,                            // expr
+        S_id = 138,                              // id
+        S_sep = 139,                             // sep
+        S_sep_one = 140                          // sep_one
       };
     };
 
@@ -3202,7 +3203,7 @@ switch (yykind)
     static const short yypgoto_[];
 
     // YYDEFGOTO[NTERM-NUM].
-    static const unsigned char yydefgoto_[];
+    static const short yydefgoto_[];
 
     // YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
     // positive, shift that token.  If negative, reduce the rule whose
@@ -3451,9 +3452,9 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 1454,     ///< Last index in yytable_.
-      yynnts_ = 49,  ///< Number of nonterminal symbols.
-      yyfinal_ = 77 ///< Termination state number.
+      yylast_ = 1530,     ///< Last index in yytable_.
+      yynnts_ = 50,  ///< Number of nonterminal symbols.
+      yyfinal_ = 81 ///< Termination state number.
     };
 
 
@@ -3853,7 +3854,7 @@ switch (yykind)
 
 #line 21 "parser.ypp"
 } //  pxcompiler 
-#line 3857 "../../include/parser/flex_bison/parser.h"
+#line 3858 "../../include/parser/flex_bison/parser.h"
 
 
 
