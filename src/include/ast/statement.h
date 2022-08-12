@@ -200,5 +200,70 @@ private:
     std::vector<Nonnull<Expression*>> names_;
 };
 
+class Import: public Statement {
+public:
+    static Nonnull<Import*> make_Import(
+        Nonnull<pxcompiler::Arena*> arena,
+        SourceLocation loc,
+        std::vector<Nonnull<Alias*>> names) {
+        return arena->New<Import>(loc, names);
+    }
+
+    static auto classof(const AstNode* node) {
+        return InheritsFromImport(node->kind());
+    }
+
+    Import(pxcompiler::SourceLocation loc,
+            std::vector<Nonnull<Alias*>> names)
+        : Statement(AstNodeKind::Import, loc),
+        names_(names) {}
+
+    const std::vector<Nonnull<Alias*>> &names() const {
+        return names_;
+    }
+
+private:
+    std::vector<Nonnull<Alias*>> names_;
+};
+
+class ImportFrom: public Statement {
+public:
+    static Nonnull<ImportFrom*> make_ImportFrom(
+        Nonnull<pxcompiler::Arena*> arena,
+        SourceLocation loc,
+        std::optional<Nonnull<Expression*>> module,
+        std::vector<Nonnull<Alias*>> names,
+        int level) {
+        return arena->New<ImportFrom>(loc, module, names, level);
+    }
+
+    static auto classof(const AstNode* node) {
+        return InheritsFromImportFrom(node->kind());
+    }
+
+    ImportFrom(pxcompiler::SourceLocation loc,
+            std::optional<Nonnull<Expression*>> module,
+            std::vector<Nonnull<Alias*>> names,
+            int level)
+        : Statement(AstNodeKind::ImportFrom, loc),
+        module_(module),
+        names_(names),
+        level_(level) {}
+
+    const std::optional<Nonnull<Expression*>> &module() const {
+        return module_;
+    }
+    const std::vector<Nonnull<Alias*>> &names() const {
+        return names_;
+    }
+    int level() const {
+        return level_;
+    }
+
+private:
+    std::optional<Nonnull<Expression*>> module_;
+    std::vector<Nonnull<Alias*>> names_;
+    int level_{};
+};
 
 } // namespace pxcompiler

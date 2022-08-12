@@ -87,6 +87,18 @@ void Statement::PrintDepth(int depth, llvm::raw_ostream& out) const {
           out << (*names[i]) << "\n";
         break;
       }
+      case StatementKind::Import: {
+        auto &impt = cast<Import>(*this);
+        Space(depth, out) << "import ";
+        size_t i = 0;
+        for (; i < impt.names().size() - 1; i++) {
+          auto &alias = impt.names()[i];
+          out << *alias << ", ";
+        }
+        out << *(impt.names()[i]) << "\n";
+
+        break;
+      }
       default:
         out << "unknown kind: ";
         break;

@@ -388,3 +388,40 @@ static inline pxcompiler::Nonnull<pxcompiler::Keyword*> CALL_KW(
 
 #define NON_LOCAL(names, l) pxcompiler::NonLocal::make_NonLocal(arena, l, names)
 
+
+static inline pxcompiler::Nonnull<pxcompiler::Alias*> IMPORT_ALIAS_01(NonnullArena arena,
+    pxcompiler::SourceLocation l,
+    std::vector<NonnullExpr> name,
+    std::optional<NonnullExpr> asname){
+    return pxcompiler::Alias::make_Alias(arena, l, name, asname);
+}
+
+#define MOD_ID_01(module, l) IMPORT_ALIAS_01(arena, l, module, std::nullopt)
+#define MOD_ID_02(module, as_id, l) IMPORT_ALIAS_01(arena, l, module, as_id)
+#define MOD_ID_03(l) IMPORT_ALIAS_01(arena, l, \
+    {pxcompiler::Star::make_Star(arena, l)}, std::nullopt)
+
+inline int dot_count(int inc = 0) {
+    static int dot_count = 0;
+    if (inc > 0) {
+        dot_count += inc;
+    }
+
+    if (inc < 0) {
+        dot_count = 0;
+    }
+    return dot_count;
+}
+#define DOT_COUNT_01() dot_count(1)
+#define DOT_COUNT_02() dot_count(3)
+
+#define IMPORT_01(names, l) pxcompiler::Import::make_Import(arena, l, names)
+#define IMPORT_02(module, names, l) pxcompiler::ImportFrom::make_ImportFrom(arena, l, \
+        module, names, 0)
+#define IMPORT_03(names, l) pxcompiler::ImportFrom::make_ImportFrom(arena, l, \
+        std::nullopt, names, dot_count()); dot_count(-1)
+#define IMPORT_04(module, names, l)pxcompiler::ImportFrom:: make_ImportFrom(arena, l, \
+        module, names, dot_count()); \
+        dot_count(-1)
+
+

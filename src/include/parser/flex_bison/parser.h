@@ -634,73 +634,81 @@ namespace  pxcompiler  {
     /// An auxiliary type to compute the largest semantic type.
     union union_type
     {
+      // module_as_id
+      char dummy1[sizeof (Nonnull<Alias*>)];
+
       // parameter
-      char dummy1[sizeof (Nonnull<Arg*>)];
+      char dummy2[sizeof (Nonnull<Arg*>)];
 
       // parameter_list_opt
-      char dummy2[sizeof (Nonnull<Arguments*>)];
+      char dummy3[sizeof (Nonnull<Arguments*>)];
 
       // ternary_if_statement
       // string
       // primary
       // function_call
       // expr
-      char dummy3[sizeof (Nonnull<Expression*>)];
+      char dummy4[sizeof (Nonnull<Expression*>)];
 
       // parameter_list
-      char dummy4[sizeof (Nonnull<FnArg*>)];
+      char dummy5[sizeof (Nonnull<FnArg*>)];
 
       // keyword_item
-      char dummy5[sizeof (Nonnull<Keyword*>)];
+      char dummy6[sizeof (Nonnull<Keyword*>)];
 
       // id
-      char dummy6[sizeof (Nonnull<Name*>)];
+      char dummy7[sizeof (Nonnull<Name*>)];
 
       // parameter_list_no_posonly
-      char dummy7[sizeof (Nonnull<NoPosOnlyArg*>)];
+      char dummy8[sizeof (Nonnull<NoPosOnlyArg*>)];
 
       // parameter_list_starargs
-      char dummy8[sizeof (Nonnull<StarArg*>)];
+      char dummy9[sizeof (Nonnull<StarArg*>)];
 
       // script_unit
       // statement
       // single_line_statement
+      // import_statement
       // multi_line_statement
       // function_def
       // global_statement
       // nonlocal_statement
       // if_statement
       // expression_statment
-      char dummy9[sizeof (Nonnull<Statement*>)];
+      char dummy10[sizeof (Nonnull<Statement*>)];
 
       // dict
-      char dummy10[sizeof (PairNonnullExpr)];
+      char dummy11[sizeof (PairNonnullExpr)];
 
       // real_literal
       // image_literal
-      char dummy11[sizeof (double)];
+      char dummy12[sizeof (double)];
 
       // integer_literal
-      char dummy12[sizeof (long long)];
+      char dummy13[sizeof (long long)];
 
       // identifier
       // sized_type_literal
       // string_literal
       // sep_one
-      char dummy13[sizeof (std::string)];
+      char dummy14[sizeof (std::string)];
+
+      // module_item_list
+      char dummy15[sizeof (std::vector<Nonnull<Alias*>>)];
 
       // defparameter_list
-      char dummy14[sizeof (std::vector<Nonnull<Arg*>>)];
+      char dummy16[sizeof (std::vector<Nonnull<Arg*>>)];
 
+      // module
       // decorators_opt
       // decorators
       // expr_list_opt
       // expr_list
       // call_arguement_list
-      char dummy15[sizeof (std::vector<Nonnull<Expression*>>)];
+      char dummy17[sizeof (std::vector<Nonnull<Expression*>>)];
 
       // keyword_items
-      char dummy16[sizeof (std::vector<Nonnull<Keyword*>>)];
+      char dummy18[sizeof (std::vector<Nonnull<Keyword*>>)];
 
       // statements
       // sep_statements
@@ -709,13 +717,13 @@ namespace  pxcompiler  {
       // single_line_statements
       // single_line_multi_statements
       // single_line_multi_statements_opt
-      char dummy17[sizeof (std::vector<Nonnull<Statement*>>)];
+      char dummy19[sizeof (std::vector<Nonnull<Statement*>>)];
 
       // dict_list
-      char dummy18[sizeof (std::vector<PairNonnullExpr>)];
+      char dummy20[sizeof (std::vector<PairNonnullExpr>)];
 
       // sep
-      char dummy19[sizeof (std::vector<std::string>)];
+      char dummy21[sizeof (std::vector<std::string>)];
     };
 
     /// The size of the largest semantic type.
@@ -972,36 +980,40 @@ namespace  pxcompiler  {
         S_single_line_multi_statements_opt = 100, // single_line_multi_statements_opt
         S_statement = 101,                       // statement
         S_single_line_statement = 102,           // single_line_statement
-        S_multi_line_statement = 103,            // multi_line_statement
-        S_decorators_opt = 104,                  // decorators_opt
-        S_decorators = 105,                      // decorators
-        S_parameter = 106,                       // parameter
-        S_parameter_list = 107,                  // parameter_list
-        S_parameter_list_no_posonly = 108,       // parameter_list_no_posonly
-        S_defparameter_list = 109,               // defparameter_list
-        S_parameter_list_starargs = 110,         // parameter_list_starargs
-        S_parameter_list_opt = 111,              // parameter_list_opt
-        S_comma_opt = 112,                       // comma_opt
-        S_function_def = 113,                    // function_def
-        S_global_statement = 114,                // global_statement
-        S_ternary_if_statement = 115,            // ternary_if_statement
-        S_nonlocal_statement = 116,              // nonlocal_statement
-        S_if_statement = 117,                    // if_statement
-        S_expression_statment = 118,             // expression_statment
-        S_string = 119,                          // string
-        S_expr_list_opt = 120,                   // expr_list_opt
-        S_expr_list = 121,                       // expr_list
-        S_dict = 122,                            // dict
-        S_dict_list = 123,                       // dict_list
-        S_call_arguement_list = 124,             // call_arguement_list
-        S_keyword_item = 125,                    // keyword_item
-        S_keyword_items = 126,                   // keyword_items
-        S_primary = 127,                         // primary
-        S_function_call = 128,                   // function_call
-        S_expr = 129,                            // expr
-        S_id = 130,                              // id
-        S_sep = 131,                             // sep
-        S_sep_one = 132                          // sep_one
+        S_module = 103,                          // module
+        S_module_as_id = 104,                    // module_as_id
+        S_module_item_list = 105,                // module_item_list
+        S_import_statement = 106,                // import_statement
+        S_multi_line_statement = 107,            // multi_line_statement
+        S_decorators_opt = 108,                  // decorators_opt
+        S_decorators = 109,                      // decorators
+        S_parameter = 110,                       // parameter
+        S_parameter_list = 111,                  // parameter_list
+        S_parameter_list_no_posonly = 112,       // parameter_list_no_posonly
+        S_defparameter_list = 113,               // defparameter_list
+        S_parameter_list_starargs = 114,         // parameter_list_starargs
+        S_parameter_list_opt = 115,              // parameter_list_opt
+        S_comma_opt = 116,                       // comma_opt
+        S_function_def = 117,                    // function_def
+        S_global_statement = 118,                // global_statement
+        S_ternary_if_statement = 119,            // ternary_if_statement
+        S_nonlocal_statement = 120,              // nonlocal_statement
+        S_if_statement = 121,                    // if_statement
+        S_expression_statment = 122,             // expression_statment
+        S_string = 123,                          // string
+        S_expr_list_opt = 124,                   // expr_list_opt
+        S_expr_list = 125,                       // expr_list
+        S_dict = 126,                            // dict
+        S_dict_list = 127,                       // dict_list
+        S_call_arguement_list = 128,             // call_arguement_list
+        S_keyword_item = 129,                    // keyword_item
+        S_keyword_items = 130,                   // keyword_items
+        S_primary = 131,                         // primary
+        S_function_call = 132,                   // function_call
+        S_expr = 133,                            // expr
+        S_id = 134,                              // id
+        S_sep = 135,                             // sep
+        S_sep_one = 136                          // sep_one
       };
     };
 
@@ -1038,6 +1050,10 @@ namespace  pxcompiler  {
       {
         switch (this->kind ())
     {
+      case symbol_kind::S_module_as_id: // module_as_id
+        value.move< Nonnull<Alias*> > (std::move (that.value));
+        break;
+
       case symbol_kind::S_parameter: // parameter
         value.move< Nonnull<Arg*> > (std::move (that.value));
         break;
@@ -1077,6 +1093,7 @@ namespace  pxcompiler  {
       case symbol_kind::S_script_unit: // script_unit
       case symbol_kind::S_statement: // statement
       case symbol_kind::S_single_line_statement: // single_line_statement
+      case symbol_kind::S_import_statement: // import_statement
       case symbol_kind::S_multi_line_statement: // multi_line_statement
       case symbol_kind::S_function_def: // function_def
       case symbol_kind::S_global_statement: // global_statement
@@ -1106,10 +1123,15 @@ namespace  pxcompiler  {
         value.move< std::string > (std::move (that.value));
         break;
 
+      case symbol_kind::S_module_item_list: // module_item_list
+        value.move< std::vector<Nonnull<Alias*>> > (std::move (that.value));
+        break;
+
       case symbol_kind::S_defparameter_list: // defparameter_list
         value.move< std::vector<Nonnull<Arg*>> > (std::move (that.value));
         break;
 
+      case symbol_kind::S_module: // module
       case symbol_kind::S_decorators_opt: // decorators_opt
       case symbol_kind::S_decorators: // decorators
       case symbol_kind::S_expr_list_opt: // expr_list_opt
@@ -1159,6 +1181,20 @@ namespace  pxcompiler  {
 #else
       basic_symbol (typename Base::kind_type t, const location_type& l)
         : Base (t)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, Nonnull<Alias*>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const Nonnull<Alias*>& v, const location_type& l)
+        : Base (t)
+        , value (v)
         , location (l)
       {}
 #endif
@@ -1346,6 +1382,20 @@ namespace  pxcompiler  {
 #endif
 
 #if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, std::vector<Nonnull<Alias*>>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const std::vector<Nonnull<Alias*>>& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
       basic_symbol (typename Base::kind_type t, std::vector<Nonnull<Arg*>>&& v, location_type&& l)
         : Base (t)
         , value (std::move (v))
@@ -1451,6 +1501,10 @@ namespace  pxcompiler  {
         // Value type destructor.
 switch (yykind)
     {
+      case symbol_kind::S_module_as_id: // module_as_id
+        value.template destroy< Nonnull<Alias*> > ();
+        break;
+
       case symbol_kind::S_parameter: // parameter
         value.template destroy< Nonnull<Arg*> > ();
         break;
@@ -1490,6 +1544,7 @@ switch (yykind)
       case symbol_kind::S_script_unit: // script_unit
       case symbol_kind::S_statement: // statement
       case symbol_kind::S_single_line_statement: // single_line_statement
+      case symbol_kind::S_import_statement: // import_statement
       case symbol_kind::S_multi_line_statement: // multi_line_statement
       case symbol_kind::S_function_def: // function_def
       case symbol_kind::S_global_statement: // global_statement
@@ -1519,10 +1574,15 @@ switch (yykind)
         value.template destroy< std::string > ();
         break;
 
+      case symbol_kind::S_module_item_list: // module_item_list
+        value.template destroy< std::vector<Nonnull<Alias*>> > ();
+        break;
+
       case symbol_kind::S_defparameter_list: // defparameter_list
         value.template destroy< std::vector<Nonnull<Arg*>> > ();
         break;
 
+      case symbol_kind::S_module: // module
       case symbol_kind::S_decorators_opt: // decorators_opt
       case symbol_kind::S_decorators: // decorators
       case symbol_kind::S_expr_list_opt: // expr_list_opt
@@ -3379,9 +3439,9 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 1356,     ///< Last index in yytable_.
-      yynnts_ = 42,  ///< Number of nonterminal symbols.
-      yyfinal_ = 64 ///< Termination state number.
+      yylast_ = 1344,     ///< Last index in yytable_.
+      yynnts_ = 46,  ///< Number of nonterminal symbols.
+      yyfinal_ = 71 ///< Termination state number.
     };
 
 
@@ -3459,6 +3519,10 @@ switch (yykind)
   {
     switch (this->kind ())
     {
+      case symbol_kind::S_module_as_id: // module_as_id
+        value.copy< Nonnull<Alias*> > (YY_MOVE (that.value));
+        break;
+
       case symbol_kind::S_parameter: // parameter
         value.copy< Nonnull<Arg*> > (YY_MOVE (that.value));
         break;
@@ -3498,6 +3562,7 @@ switch (yykind)
       case symbol_kind::S_script_unit: // script_unit
       case symbol_kind::S_statement: // statement
       case symbol_kind::S_single_line_statement: // single_line_statement
+      case symbol_kind::S_import_statement: // import_statement
       case symbol_kind::S_multi_line_statement: // multi_line_statement
       case symbol_kind::S_function_def: // function_def
       case symbol_kind::S_global_statement: // global_statement
@@ -3527,10 +3592,15 @@ switch (yykind)
         value.copy< std::string > (YY_MOVE (that.value));
         break;
 
+      case symbol_kind::S_module_item_list: // module_item_list
+        value.copy< std::vector<Nonnull<Alias*>> > (YY_MOVE (that.value));
+        break;
+
       case symbol_kind::S_defparameter_list: // defparameter_list
         value.copy< std::vector<Nonnull<Arg*>> > (YY_MOVE (that.value));
         break;
 
+      case symbol_kind::S_module: // module
       case symbol_kind::S_decorators_opt: // decorators_opt
       case symbol_kind::S_decorators: // decorators
       case symbol_kind::S_expr_list_opt: // expr_list_opt
@@ -3590,6 +3660,10 @@ switch (yykind)
     super_type::move (s);
     switch (this->kind ())
     {
+      case symbol_kind::S_module_as_id: // module_as_id
+        value.move< Nonnull<Alias*> > (YY_MOVE (s.value));
+        break;
+
       case symbol_kind::S_parameter: // parameter
         value.move< Nonnull<Arg*> > (YY_MOVE (s.value));
         break;
@@ -3629,6 +3703,7 @@ switch (yykind)
       case symbol_kind::S_script_unit: // script_unit
       case symbol_kind::S_statement: // statement
       case symbol_kind::S_single_line_statement: // single_line_statement
+      case symbol_kind::S_import_statement: // import_statement
       case symbol_kind::S_multi_line_statement: // multi_line_statement
       case symbol_kind::S_function_def: // function_def
       case symbol_kind::S_global_statement: // global_statement
@@ -3658,10 +3733,15 @@ switch (yykind)
         value.move< std::string > (YY_MOVE (s.value));
         break;
 
+      case symbol_kind::S_module_item_list: // module_item_list
+        value.move< std::vector<Nonnull<Alias*>> > (YY_MOVE (s.value));
+        break;
+
       case symbol_kind::S_defparameter_list: // defparameter_list
         value.move< std::vector<Nonnull<Arg*>> > (YY_MOVE (s.value));
         break;
 
+      case symbol_kind::S_module: // module
       case symbol_kind::S_decorators_opt: // decorators_opt
       case symbol_kind::S_decorators: // decorators
       case symbol_kind::S_expr_list_opt: // expr_list_opt
@@ -3755,7 +3835,7 @@ switch (yykind)
 
 #line 21 "parser.ypp"
 } //  pxcompiler 
-#line 3759 "../../include/parser/flex_bison/parser.h"
+#line 3839 "../../include/parser/flex_bison/parser.h"
 
 
 

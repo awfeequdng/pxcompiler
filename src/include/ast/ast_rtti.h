@@ -69,26 +69,29 @@ enum class AstNodeKind {
   Attribute = 58,
   Subscript = 59,
   Starred = 60,
-  Keyword = 61,
-  Arg = 62,
-  NoPosOnlyArg = 63,
-  StarArg = 64,
-  FnArg = 65,
-  Arguments = 66,
-  Name = 67,
-  List = 68,
-  Tuple = 69,
-  Slice = 70,
-  ExceptHandler = 71,
-  MatchValue = 72,
-  MatchSingleton = 73,
-  MatchSequence = 74,
-  MatchMapping = 75,
-  MatchClass = 76,
-  MatchStar = 77,
-  MatchAs = 78,
-  MatchOr = 79,
-  TypeIgnore = 80,
+  Star = 61,
+  Keyword = 62,
+  Arg = 63,
+  NoPosOnlyArg = 64,
+  StarArg = 65,
+  FnArg = 66,
+  Arguments = 67,
+  Name = 68,
+  List = 69,
+  Tuple = 70,
+  Slice = 71,
+  Alias = 72,
+  WithItem = 73,
+  ExceptHandler = 74,
+  MatchValue = 75,
+  MatchSingleton = 76,
+  MatchSequence = 77,
+  MatchMapping = 78,
+  MatchClass = 79,
+  MatchStar = 80,
+  MatchAs = 81,
+  MatchOr = 82,
+  TypeIgnore = 83,
 };
 
 std::string_view AstNodeKindName(AstNodeKind k);
@@ -312,16 +315,19 @@ enum class ExpressionKind {
   Attribute = 58,
   Subscript = 59,
   Starred = 60,
-  Keyword = 61,
-  Arg = 62,
-  NoPosOnlyArg = 63,
-  StarArg = 64,
-  FnArg = 65,
-  Arguments = 66,
-  Name = 67,
-  List = 68,
-  Tuple = 69,
-  Slice = 70,
+  Star = 61,
+  Keyword = 62,
+  Arg = 63,
+  NoPosOnlyArg = 64,
+  StarArg = 65,
+  FnArg = 66,
+  Arguments = 67,
+  Name = 68,
+  List = 69,
+  Tuple = 70,
+  Slice = 71,
+  Alias = 72,
+  WithItem = 73,
 };
 
 std::string_view ExpressionKindName(ExpressionKind k);
@@ -452,6 +458,10 @@ inline bool InheritsFromStarred(AstNodeKind kind) {
     return kind == AstNodeKind::Starred;
 }
 
+inline bool InheritsFromStar(AstNodeKind kind) {
+    return kind == AstNodeKind::Star;
+}
+
 inline bool InheritsFromKeyword(AstNodeKind kind) {
     return kind == AstNodeKind::Keyword;
 }
@@ -492,19 +502,27 @@ inline bool InheritsFromSlice(AstNodeKind kind) {
     return kind == AstNodeKind::Slice;
 }
 
+inline bool InheritsFromAlias(AstNodeKind kind) {
+    return kind == AstNodeKind::Alias;
+}
+
+inline bool InheritsFromWithItem(AstNodeKind kind) {
+    return kind == AstNodeKind::WithItem;
+}
+
 inline bool InheritsFromExceptHandler(AstNodeKind kind) {
     return kind == AstNodeKind::ExceptHandler;
 }
 
 enum class PatternKind {
-  MatchValue = 72,
-  MatchSingleton = 73,
-  MatchSequence = 74,
-  MatchMapping = 75,
-  MatchClass = 76,
-  MatchStar = 77,
-  MatchAs = 78,
-  MatchOr = 79,
+  MatchValue = 75,
+  MatchSingleton = 76,
+  MatchSequence = 77,
+  MatchMapping = 78,
+  MatchClass = 79,
+  MatchStar = 80,
+  MatchAs = 81,
+  MatchOr = 82,
 };
 
 std::string_view PatternKindName(PatternKind k);

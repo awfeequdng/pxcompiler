@@ -913,6 +913,53 @@ private:
     Nonnull<Expression*> orelse_;
 };
 
-} // namespace pxcompiler
 
+class Alias: public Expression {
+public:
+    static Nonnull<Alias*> make_Alias(
+        Nonnull<pxcompiler::Arena*> arena,
+        SourceLocation loc,
+        std::vector<Nonnull<Expression*>> name,
+        std::optional<Nonnull<Expression*>> asname) {
+        return arena->New<Alias>(loc, name, asname);
+    }
+
+    static auto classof(const AstNode* node) {
+        return InheritsFromAlias(node->kind());
+    }
+
+    Alias(pxcompiler::SourceLocation loc,
+            std::vector<Nonnull<Expression*>> name,
+            std::optional<Nonnull<Expression*>> asname)
+        : Expression(AstNodeKind::Alias, loc),
+        name_(name), asname_(asname) {}
+
+    const std::vector<Nonnull<Expression*>> &name() const {
+        return name_;
+    }
+    const std::optional<Nonnull<Expression*>> &asname() const {
+        return asname_;
+    }
+
+private:
+    std::vector<Nonnull<Expression*>> name_;
+    std::optional<Nonnull<Expression*>> asname_;
+};
+
+class Star: public Expression {
+public:
+    static Nonnull<Star*> make_Star(
+        Nonnull<pxcompiler::Arena*> arena,
+        SourceLocation loc) {
+        return arena->New<Star>(loc);
+    }
+
+    static auto classof(const AstNode* node) {
+        return InheritsFromStar(node->kind());
+    }
+
+    Star(pxcompiler::SourceLocation loc)
+        : Expression(AstNodeKind::Star, loc) {}
+};
+} // namespace pxcompiler
 

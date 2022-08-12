@@ -352,6 +352,20 @@ void Expression::PrintID(llvm::raw_ostream& out) const {
       out << *body << " if " << *test << " else " << *orelse;
       break;
     }
+    case ExpressionKind::Alias: {
+      const auto &alias = cast<Alias>(*this);
+      auto &mod = alias.name();
+      auto &asname = alias.asname();
+      size_t i = 0;
+      for (; i < mod.size() - 1; i++) {
+        out << *mod[i] << ".";
+      }
+      out << *mod[i];
+      if (asname) {
+        out << " as " << **asname;
+      }
+      break;
+    }
     default:
       out << "...";
       break;

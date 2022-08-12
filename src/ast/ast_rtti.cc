@@ -67,6 +67,7 @@ std::string_view AstNodeKindName(AstNodeKind k) {
     case AstNodeKind::Attribute: return "attribute";
     case AstNodeKind::Subscript: return "subscript";
     case AstNodeKind::Starred: return "starred";
+    case AstNodeKind::Star: return "star";
     case AstNodeKind::Keyword: return "keyword";
     case AstNodeKind::Arg: return "arg";
     case AstNodeKind::NoPosOnlyArg: return "no pos only arg";
@@ -77,6 +78,8 @@ std::string_view AstNodeKindName(AstNodeKind k) {
     case AstNodeKind::List: return "list";
     case AstNodeKind::Tuple: return "tuple";
     case AstNodeKind::Slice: return "slice";
+    case AstNodeKind::Alias: return "alias";
+    case AstNodeKind::WithItem: return "with item";
     case AstNodeKind::ExceptHandler: return "except handler";
     case AstNodeKind::MatchValue: return "match value";
     case AstNodeKind::MatchSingleton: return "match singleton";
@@ -168,6 +171,7 @@ std::string_view ExpressionKindName(ExpressionKind k) {
     case ExpressionKind::Attribute: return "attribute";
     case ExpressionKind::Subscript: return "subscript";
     case ExpressionKind::Starred: return "starred";
+    case ExpressionKind::Star: return "star";
     case ExpressionKind::Keyword: return "keyword";
     case ExpressionKind::Arg: return "arg";
     case ExpressionKind::NoPosOnlyArg: return "no pos only arg";
@@ -178,6 +182,8 @@ std::string_view ExpressionKindName(ExpressionKind k) {
     case ExpressionKind::List: return "list";
     case ExpressionKind::Tuple: return "tuple";
     case ExpressionKind::Slice: return "slice";
+    case ExpressionKind::Alias: return "alias";
+    case ExpressionKind::WithItem: return "with item";
   }
 }
 

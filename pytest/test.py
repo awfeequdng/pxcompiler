@@ -133,3 +133,5 @@ def func(test):
 
 a if world else b
 
+import ab.c as b
+import ab.c, c.b as d
