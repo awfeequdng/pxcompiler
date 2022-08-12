@@ -667,6 +667,9 @@ namespace  pxcompiler  {
 
       // script_unit
       // statement
+      // pass_statement
+      // break_statement
+      // continue_statement
       // single_line_statement
       // import_statement
       // multi_line_statement
@@ -979,41 +982,44 @@ namespace  pxcompiler  {
         S_single_line_multi_statements = 99,     // single_line_multi_statements
         S_single_line_multi_statements_opt = 100, // single_line_multi_statements_opt
         S_statement = 101,                       // statement
-        S_single_line_statement = 102,           // single_line_statement
-        S_module = 103,                          // module
-        S_module_as_id = 104,                    // module_as_id
-        S_module_item_list = 105,                // module_item_list
-        S_import_statement = 106,                // import_statement
-        S_multi_line_statement = 107,            // multi_line_statement
-        S_decorators_opt = 108,                  // decorators_opt
-        S_decorators = 109,                      // decorators
-        S_parameter = 110,                       // parameter
-        S_parameter_list = 111,                  // parameter_list
-        S_parameter_list_no_posonly = 112,       // parameter_list_no_posonly
-        S_defparameter_list = 113,               // defparameter_list
-        S_parameter_list_starargs = 114,         // parameter_list_starargs
-        S_parameter_list_opt = 115,              // parameter_list_opt
-        S_comma_opt = 116,                       // comma_opt
-        S_function_def = 117,                    // function_def
-        S_global_statement = 118,                // global_statement
-        S_ternary_if_statement = 119,            // ternary_if_statement
-        S_nonlocal_statement = 120,              // nonlocal_statement
-        S_if_statement = 121,                    // if_statement
-        S_expression_statment = 122,             // expression_statment
-        S_string = 123,                          // string
-        S_expr_list_opt = 124,                   // expr_list_opt
-        S_expr_list = 125,                       // expr_list
-        S_dict = 126,                            // dict
-        S_dict_list = 127,                       // dict_list
-        S_call_arguement_list = 128,             // call_arguement_list
-        S_keyword_item = 129,                    // keyword_item
-        S_keyword_items = 130,                   // keyword_items
-        S_primary = 131,                         // primary
-        S_function_call = 132,                   // function_call
-        S_expr = 133,                            // expr
-        S_id = 134,                              // id
-        S_sep = 135,                             // sep
-        S_sep_one = 136                          // sep_one
+        S_pass_statement = 102,                  // pass_statement
+        S_break_statement = 103,                 // break_statement
+        S_continue_statement = 104,              // continue_statement
+        S_single_line_statement = 105,           // single_line_statement
+        S_module = 106,                          // module
+        S_module_as_id = 107,                    // module_as_id
+        S_module_item_list = 108,                // module_item_list
+        S_import_statement = 109,                // import_statement
+        S_multi_line_statement = 110,            // multi_line_statement
+        S_decorators_opt = 111,                  // decorators_opt
+        S_decorators = 112,                      // decorators
+        S_parameter = 113,                       // parameter
+        S_parameter_list = 114,                  // parameter_list
+        S_parameter_list_no_posonly = 115,       // parameter_list_no_posonly
+        S_defparameter_list = 116,               // defparameter_list
+        S_parameter_list_starargs = 117,         // parameter_list_starargs
+        S_parameter_list_opt = 118,              // parameter_list_opt
+        S_comma_opt = 119,                       // comma_opt
+        S_function_def = 120,                    // function_def
+        S_global_statement = 121,                // global_statement
+        S_ternary_if_statement = 122,            // ternary_if_statement
+        S_nonlocal_statement = 123,              // nonlocal_statement
+        S_if_statement = 124,                    // if_statement
+        S_expression_statment = 125,             // expression_statment
+        S_string = 126,                          // string
+        S_expr_list_opt = 127,                   // expr_list_opt
+        S_expr_list = 128,                       // expr_list
+        S_dict = 129,                            // dict
+        S_dict_list = 130,                       // dict_list
+        S_call_arguement_list = 131,             // call_arguement_list
+        S_keyword_item = 132,                    // keyword_item
+        S_keyword_items = 133,                   // keyword_items
+        S_primary = 134,                         // primary
+        S_function_call = 135,                   // function_call
+        S_expr = 136,                            // expr
+        S_id = 137,                              // id
+        S_sep = 138,                             // sep
+        S_sep_one = 139                          // sep_one
       };
     };
 
@@ -1092,6 +1098,9 @@ namespace  pxcompiler  {
 
       case symbol_kind::S_script_unit: // script_unit
       case symbol_kind::S_statement: // statement
+      case symbol_kind::S_pass_statement: // pass_statement
+      case symbol_kind::S_break_statement: // break_statement
+      case symbol_kind::S_continue_statement: // continue_statement
       case symbol_kind::S_single_line_statement: // single_line_statement
       case symbol_kind::S_import_statement: // import_statement
       case symbol_kind::S_multi_line_statement: // multi_line_statement
@@ -1543,6 +1552,9 @@ switch (yykind)
 
       case symbol_kind::S_script_unit: // script_unit
       case symbol_kind::S_statement: // statement
+      case symbol_kind::S_pass_statement: // pass_statement
+      case symbol_kind::S_break_statement: // break_statement
+      case symbol_kind::S_continue_statement: // continue_statement
       case symbol_kind::S_single_line_statement: // single_line_statement
       case symbol_kind::S_import_statement: // import_statement
       case symbol_kind::S_multi_line_statement: // multi_line_statement
@@ -3439,9 +3451,9 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 1344,     ///< Last index in yytable_.
-      yynnts_ = 46,  ///< Number of nonterminal symbols.
-      yyfinal_ = 71 ///< Termination state number.
+      yylast_ = 1454,     ///< Last index in yytable_.
+      yynnts_ = 49,  ///< Number of nonterminal symbols.
+      yyfinal_ = 77 ///< Termination state number.
     };
 
 
@@ -3561,6 +3573,9 @@ switch (yykind)
 
       case symbol_kind::S_script_unit: // script_unit
       case symbol_kind::S_statement: // statement
+      case symbol_kind::S_pass_statement: // pass_statement
+      case symbol_kind::S_break_statement: // break_statement
+      case symbol_kind::S_continue_statement: // continue_statement
       case symbol_kind::S_single_line_statement: // single_line_statement
       case symbol_kind::S_import_statement: // import_statement
       case symbol_kind::S_multi_line_statement: // multi_line_statement
@@ -3702,6 +3717,9 @@ switch (yykind)
 
       case symbol_kind::S_script_unit: // script_unit
       case symbol_kind::S_statement: // statement
+      case symbol_kind::S_pass_statement: // pass_statement
+      case symbol_kind::S_break_statement: // break_statement
+      case symbol_kind::S_continue_statement: // continue_statement
       case symbol_kind::S_single_line_statement: // single_line_statement
       case symbol_kind::S_import_statement: // import_statement
       case symbol_kind::S_multi_line_statement: // multi_line_statement
@@ -3835,7 +3853,7 @@ switch (yykind)
 
 #line 21 "parser.ypp"
 } //  pxcompiler 
-#line 3839 "../../include/parser/flex_bison/parser.h"
+#line 3857 "../../include/parser/flex_bison/parser.h"
 
 
 

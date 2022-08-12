@@ -99,6 +99,18 @@ void Statement::PrintDepth(int depth, llvm::raw_ostream& out) const {
 
         break;
       }
+      case StatementKind::Pass: {
+        Space(depth, out) << "pass\n";
+        break;
+      }
+      case StatementKind::Continue: {
+        Space(depth, out) << "continue\n";
+        break;
+      }
+      case StatementKind::Break: {
+        Space(depth, out) << "break\n";
+        break;
+      }
       default:
         out << "unknown kind: ";
         break;

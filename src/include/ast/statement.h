@@ -266,4 +266,53 @@ private:
     int level_{};
 };
 
+
+class Break: public Statement {
+public:
+    static Nonnull<Break*> make_Break(
+        Nonnull<pxcompiler::Arena*> arena,
+        SourceLocation loc) {
+        return arena->New<Break>(loc);
+    }
+
+    static auto classof(const AstNode* node) {
+        return InheritsFromBreak(node->kind());
+    }
+
+    Break(pxcompiler::SourceLocation loc)
+        : Statement(AstNodeKind::Break, loc) {}
+};
+
+class Continue: public Statement {
+public:
+    static Nonnull<Continue*> make_Continue(
+        Nonnull<pxcompiler::Arena*> arena,
+        SourceLocation loc) {
+        return arena->New<Continue>(loc);
+    }
+
+    static auto classof(const AstNode* node) {
+        return InheritsFromContinue(node->kind());
+    }
+
+    Continue(pxcompiler::SourceLocation loc)
+        : Statement(AstNodeKind::Continue, loc) {}
+};
+
+class Pass: public Statement {
+public:
+    static Nonnull<Pass*> make_Pass(
+        Nonnull<pxcompiler::Arena*> arena,
+        SourceLocation loc) {
+        return arena->New<Pass>(loc);
+    }
+
+    static auto classof(const AstNode* node) {
+        return InheritsFromPass(node->kind());
+    }
+
+    Pass(pxcompiler::SourceLocation loc)
+        : Statement(AstNodeKind::Pass, loc) {}
+};
+
 } // namespace pxcompiler

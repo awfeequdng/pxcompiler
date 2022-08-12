@@ -220,6 +220,9 @@
 %type <Nonnull<Alias*>> module_as_id
 %type <std::vector<Nonnull<Alias*>>> module_item_list
 %type <Nonnull<Statement*>> import_statement
+%type <Nonnull<Statement*>> pass_statement
+%type <Nonnull<Statement*>> break_statement
+%type <Nonnull<Statement*>> continue_statement
 
 %type <std::vector<std::string>> sep
 %type <std::string> sep_one
@@ -325,18 +328,31 @@ statement
     | multi_line_statement sep { $$ = $1; }
     ;
 
+
+pass_statement
+    : PASS { $$ = PASS(context.source_loc()); }
+    ;
+
+break_statement
+    : BREAK { $$ = BREAK(context.source_loc()); }
+    ;
+
+continue_statement
+    : CONTINUE { $$ = CONTINUE(context.source_loc()); }
+    ;
+
 single_line_statement
     : expression_statment
 //    | assert_statement
 //    | assignment_statement
 //    | augassign_statement
 //    | ann_assignment_statement
-//    | pass_statement
+    | pass_statement
 //    | delete_statement
 //    | return_statement
 //    | raise_statement
-//    | break_statement
-//    | continue_statement
+    | break_statement
+    | continue_statement
     | import_statement
     | global_statement
     | nonlocal_statement

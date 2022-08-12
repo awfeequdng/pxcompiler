@@ -424,4 +424,6 @@ inline int dot_count(int inc = 0) {
         module, names, dot_count()); \
         dot_count(-1)
 
-
+#define PASS(l) pxcompiler::Pass::make_Pass(arena, l)
+#define BREAK(l) pxcompiler::Break::make_Break(arena, l)
+#define CONTINUE(l) pxcompiler::Continue::make_Continue(arena, l)
