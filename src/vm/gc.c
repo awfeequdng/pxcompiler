@@ -221,7 +221,7 @@ pl_mallocptr_t *pl_gc_acquire_buffer(void *b, size_t sz)
 {
     pl_mallocptr_t *mp;
     if (malloc_ptrs_freelist == NULL) {
-        mp = malloc(sizeof(pl_mallocptr_t));
+        mp = (pl_mallocptr_t*)malloc(sizeof(pl_mallocptr_t));
     }
     else {
         mp = malloc_ptrs_freelist;

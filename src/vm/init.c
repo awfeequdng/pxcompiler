@@ -8,21 +8,6 @@
 pl_value_t *pl_true;
 pl_value_t *pl_false;
 
-pl_bits_type_t *pl_bool_type;
-pl_bits_type_t *pl_char_type;
-pl_bits_type_t *pl_int8_type;
-pl_bits_type_t *pl_uint8_type;
-pl_bits_type_t *pl_int16_type;
-pl_bits_type_t *pl_uint16_type;
-pl_bits_type_t *pl_int32_type;
-pl_bits_type_t *pl_uint32_type;
-pl_bits_type_t *pl_int64_type;
-pl_bits_type_t *pl_uint64_type;
-pl_bits_type_t *pl_float32_type;
-pl_bits_type_t *pl_float64_type;
-pl_struct_type_t *pl_weakref_type;
-pl_value_t *pl_nothing;
-pl_tuple_t *pl_null;
 
 pl_struct_type_t *pl_function_type;
 pl_struct_type_t *pl_bits_kind;

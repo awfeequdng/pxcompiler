@@ -14,3 +14,5 @@ static inline pl_value_t *newstruct(pl_struct_type_t *type)
     return pv;
 }
 
+#define TAG_TYPE_NW (NWORDS(sizeof(pl_tag_type_t))-1)
+#define BITS_TYPE_NW (NWORDS(sizeof(pl_bits_type_t))-1)
